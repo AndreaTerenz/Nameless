@@ -1,0 +1,6 @@
+[gd_resource type="OpenSimplexNoise" format=2]
+
+[resource]
+octaves = 8
+persistence = 0.758
+lacunarity = 2.6

@@ -1,0 +1,123 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=2]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Control
+
+export(float, 0.0, 3.5, .05) var max_blur = 2.2
+export(float, 0.01, 1.0, .01) var blur_speed = .15
+
+onready var blur_mat: ShaderMaterial = $TextureRect.material
+
+func _ready() -> void:
+	visible = false
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"pause\"):
+		toggle_pause()
+		
+func toggle_pause() -> void:
+	get_tree().paused = not(get_tree().paused)
+	visible = not(visible)
+	
+	if get_tree().paused:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		
+
+func _process(delta: float) -> void:
+	if get_tree().paused:
+		var value = blur_mat.get_shader_param(\"amount\")
+		if value < max_blur:
+			var new_val = lerp(value, max_blur, blur_speed)
+			
+			blur_mat.set_shader_param(\"amount\", new_val)
+	else:
+		blur_mat.set_shader_param(\"amount\", 0.0)
+	
+
+func _on_Quit_Btn_pressed() -> void:
+	get_tree().quit(0)
+
+
+func _on_Restart_Btn_pressed() -> void:
+	toggle_pause()
+	get_tree().reload_current_scene()
+
+
+func _on_Resume_Btn_pressed() -> void:
+	toggle_pause()
+"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 2 )
+shader_param/amount = 0.0
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[node name="Pause menu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+pause_mode = 2
+material = SubResource( 5 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer"]
+pause_mode = 2
+margin_left = 858.0
+margin_top = 437.0
+margin_right = 1061.0
+margin_bottom = 642.0
+custom_constants/separation = 20
+alignment = 1
+
+[node name="Restart Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+margin_right = 203.0
+margin_bottom = 55.0
+text = "Restart"
+
+[node name="Resume Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+margin_top = 75.0
+margin_right = 203.0
+margin_bottom = 130.0
+text = "Resume"
+
+[node name="Quit Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+margin_top = 150.0
+margin_right = 203.0
+margin_bottom = 205.0
+text = "Quit"
+
+[connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Restart Btn" to="." method="_on_Restart_Btn_pressed"]
+[connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Resume Btn" to="." method="_on_Resume_Btn_pressed"]
+[connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Quit Btn" to="." method="_on_Quit_Btn_pressed"]

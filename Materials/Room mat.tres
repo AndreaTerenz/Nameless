@@ -1,0 +1,17 @@
+[gd_resource type="SpatialMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Materials/Noises/wall_noise.tres" type="OpenSimplexNoise" id=1]
+[ext_resource path="res://Assets/Models/level/UVs/level_albedo.png" type="Texture" id=2]
+
+[sub_resource type="NoiseTexture" id=1]
+width = 4096
+height = 4096
+as_normalmap = true
+noise = ExtResource( 1 )
+
+[resource]
+render_priority = 1
+albedo_texture = ExtResource( 2 )
+normal_enabled = true
+normal_scale = 0.07
+normal_texture = SubResource( 1 )

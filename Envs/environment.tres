@@ -1,0 +1,18 @@
+[gd_resource type="Environment" load_steps=2 format=2]
+
+[ext_resource path="res://sky.tres" type="ProceduralSky" id=1]
+
+[resource]
+background_mode = 2
+background_sky = ExtResource( 1 )
+background_energy = 3.08
+ambient_light_color = Color( 1, 1, 1, 1 )
+tonemap_mode = 3
+auto_exposure_min_luma = 0.0
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/4 = true
+glow_levels/6 = true
+glow_levels/7 = true
+glow_strength = 1.15
+glow_bicubic_upscale = true

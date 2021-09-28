@@ -1,0 +1,609 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Materials/grid_light.tres" type="Material" id=2]
+[ext_resource path="res://Materials/grid_dark.tres" type="Material" id=3]
+[ext_resource path="res://Materials/grid_green.tres" type="Material" id=4]
+[ext_resource path="res://Scripts/EnvElements/LightFlicker.gd" type="Script" id=5]
+[ext_resource path="res://Envs/environment.tres" type="Environment" id=6]
+[ext_resource path="res://Materials/Shaders/monitor.gdshader" type="Shader" id=7]
+[ext_resource path="res://Materials/grid_red.tres" type="Material" id=8]
+[ext_resource path="res://Scripts/EnvElements/Doors/TriggerDoor.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/EnvElements/Doors/DoorSide.gd" type="Script" id=10]
+[ext_resource path="res://Materials/grid_yellow.tres" type="Material" id=11]
+[ext_resource path="res://Scripts/EnvElements/Buttons/TimerButton.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/EnvElements/Doors/BaseDoor.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/EnvElements/Buttons/SwitchButton.gd" type="Script" id=14]
+[ext_resource path="res://Assets/Grids/PNG/Orange/texture_07.png" type="Texture" id=15]
+[ext_resource path="res://Scripts/EnvElements/Buttons/PushButton.gd" type="Script" id=16]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 7.36901, 1, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="CubeMesh" id=4]
+
+[sub_resource type="BoxShape" id=7]
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 1.14912, 0.966269, 2.76544 )
+
+[sub_resource type="BoxShape" id=8]
+
+[sub_resource type="GDScript" id=10]
+script/source = "extends Togglable
+
+export(NodePath) var door_path 
+
+onready var door: BaseDoor = get_node(door_path) as BaseDoor
+onready var mesh: MeshInstance = $MeshInstance
+onready var mat: SpatialMaterial = mesh.get_active_material(0)
+
+func _on_activated():
+	mat.emission = Color.white
+	door.open()
+	
+func _on_deactivated():
+	mat.emission = Color.black
+	door.close()
+"
+
+[sub_resource type="CubeMesh" id=9]
+
+[sub_resource type="CubeMesh" id=11]
+
+[sub_resource type="SpatialMaterial" id=12]
+flags_world_triplanar = true
+albedo_texture = ExtResource( 15 )
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+uv1_triplanar = true
+
+[sub_resource type="SpatialMaterial" id=13]
+flags_world_triplanar = true
+albedo_texture = ExtResource( 15 )
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+uv1_triplanar = true
+
+[sub_resource type="GDScript" id=16]
+script/source = "extends KinematicBody
+
+
+func _physics_process(delta: float) -> void:
+	translation.y += 2.0 * delta
+"
+
+[sub_resource type="BoxShape" id=14]
+
+[sub_resource type="CubeMesh" id=15]
+
+[sub_resource type="GDScript" id=17]
+script/source = "extends KinematicBody
+
+
+func _physics_process(delta: float) -> void:
+	translation.x += 2.0 * delta
+"
+
+[sub_resource type="Curve3D" id=20]
+_data = {
+"points": PoolVector3Array( 0.596813, 0, -4.63758, -0.596813, 0, 4.63758, -4.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -12.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -20.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -28.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -36.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -44.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -52.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -60.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -68.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -76.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -84.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -92.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -100.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -108.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, 35.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, -28.1044, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -108.355, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -12.3548, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -4.3548, 2.31156, -36.1044, 7.77601, -2.49889, -1.03002, -7.77601, 2.49889, 1.03002, -4.3548, 2.31156, -28.1044, 0, 0, 0, 0, 0, 0, -4.3548, 2.31156, 43.8956 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="GDScript" id=19]
+script/source = "extends KinematicBody
+
+
+func _physics_process(delta: float) -> void:
+	get_parent().offset += 4.0 * delta
+"
+
+[sub_resource type="CubeMesh" id=24]
+size = Vector3( 2.2, 0.177, 2.2 )
+
+[sub_resource type="PlaneMesh" id=21]
+
+[sub_resource type="ViewportTexture" id=27]
+viewport_path = NodePath("Env/Monitor test/MeshInstance/Viewport")
+
+[sub_resource type="ShaderMaterial" id=26]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/hue = Color( 0.48165, 0.65, 0.377, 1 )
+shader_param/flip = false
+shader_param/run = true
+shader_param/uv_mult = 3.0
+shader_param/lines_speed = 0.46
+shader_param/line_alpha = 0.47
+shader_param/distortion = 0.67
+shader_param/intensity = 2.0
+shader_param/line_definition = 0.6
+shader_param/min_thickness = 0.26
+shader_param/base_texture = SubResource( 27 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Env" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.663, 0 )
+
+[node name="SpotLight" type="SpotLight" parent="Env"]
+transform = Transform( 0.931482, 0.0630023, -0.358291, 0.363788, -0.161318, 0.917407, -2.98023e-08, -0.98489, -0.173184, 12.3959, 7.77218, -11.303 )
+layers = 3
+light_energy = 5.754
+shadow_enabled = true
+spot_range = 10.0975
+spot_angle = 36.9286
+script = ExtResource( 5 )
+frequency = 0.91
+sequence_str = "00001200302123000123"
+
+[node name="CSGCombiner" type="CSGCombiner" parent="Env"]
+use_collision = true
+
+[node name="Ground" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.127975, 0.208619, -0.347298 )
+use_in_baked_light = true
+width = 91.7349
+height = 0.918695
+depth = 62.4852
+material = ExtResource( 2 )
+
+[node name="Misc" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 0.913375, 0.407119, 0, -0.407119, 0.913375, -0.149619, 1.80764, 14.5741 )
+use_in_baked_light = true
+width = 7.60502
+height = 1.42642
+depth = 19.6382
+material = ExtResource( 3 )
+
+[node name="CSGBox3" type="CSGBox" parent="Env/CSGCombiner/Misc"]
+transform = Transform( 1, 0, -7.10543e-15, 0, 0.913375, -0.407119, 0, 0.407119, 0.913375, -8.42739, -2.24348, 14.017 )
+use_in_baked_light = true
+width = 24.2367
+depth = 10.1186
+material = ExtResource( 3 )
+
+[node name="CSGBox4" type="CSGBox" parent="Env/CSGCombiner/Misc"]
+transform = Transform( -4.37114e-08, 0, 1, 0.407119, 0.913375, 1.77957e-08, -0.913375, 0.407119, -3.99249e-08, -16.043, 8.02006, 1.0284 )
+width = 14.9422
+depth = 10.1186
+material = ExtResource( 3 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="Env/CSGCombiner/Misc/CSGBox4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30345, 0, -1.90735e-06 )
+operation = 2
+radius = 2.64544
+height = 6.14175
+sides = 16
+material = ExtResource( 3 )
+
+[node name="CSGBox5" type="CSGBox" parent="Env/CSGCombiner/Misc"]
+transform = Transform( 1, 0, -7.10543e-15, 0, 0.913375, -0.407119, 0, 0.407119, 0.913375, 9.19838, 20.7579, -19.0789 )
+use_in_baked_light = true
+width = 24.2303
+depth = 26.9968
+material = ExtResource( 3 )
+
+[node name="CSGBox6" type="CSGBox" parent="Env/CSGCombiner/Misc"]
+transform = Transform( 1, 0, -7.10543e-15, 0, 0.913375, -0.407119, 0, 0.407119, 0.913375, 14.1666, 19.5405, -16.3477 )
+operation = 2
+width = 4.93698
+height = 9.18817
+depth = 3.85287
+material = ExtResource( 3 )
+
+[node name="CSGBox8" type="CSGBox" parent="Env/CSGCombiner/Misc"]
+transform = Transform( 1, 0, -7.10543e-15, 0, 0.913375, -0.407119, 0, 0.407119, 0.913375, 14.1666, 23.617, -25.4932 )
+operation = 2
+width = 4.93698
+height = 9.18817
+depth = 3.85287
+material = ExtResource( 3 )
+
+[node name="Stair 1" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 10.2379, -8.31283 )
+use_in_baked_light = true
+width = 2.74093
+height = 21.2704
+depth = 2.97328
+material = ExtResource( 3 )
+
+[node name="Stairs" type="StaticBody" parent="Env/CSGCombiner/Stair 1"]
+transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.04904e-05 )
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stair 1/Stairs"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stair 1/Stairs"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 2 )
+skeleton = NodePath("../../../..")
+material/0 = ExtResource( 4 )
+
+[node name="Stair 2" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 16.839, -18.3257 )
+use_in_baked_light = true
+width = 2.74093
+height = 21.2704
+depth = 2.97328
+material = ExtResource( 3 )
+
+[node name="Stairs" type="StaticBody" parent="Env/CSGCombiner/Stair 2"]
+transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.04904e-05 )
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stair 2/Stairs"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stair 2/Stairs"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 2 )
+skeleton = NodePath("../../../..")
+material/0 = ExtResource( 4 )
+
+[node name="Door 1" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -37.1186, 4.10402, -11.1072 )
+use_in_baked_light = true
+width = 8.22187
+height = 8.52282
+material = ExtResource( 3 )
+script = ExtResource( 9 )
+left_side_path = NodePath("CSGBox/Left Side")
+right_side_path = NodePath("CSGBox/Right Side")
+trigger_path = NodePath("../Area")
+
+[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Door 1"]
+transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+operation = 2
+material = ExtResource( 3 )
+
+[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Door 1/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+script = ExtResource( 10 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 1/CSGBox/Left Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 1/CSGBox/Left Side"]
+shape = SubResource( 7 )
+
+[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 1/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+script = ExtResource( 10 )
+dir = Vector3( 1, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 1/CSGBox/Right Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 1/CSGBox/Right Side"]
+shape = SubResource( 7 )
+
+[node name="Door 2" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -0.692628 )
+use_in_baked_light = true
+width = 8.22187
+height = 8.52282
+material = ExtResource( 3 )
+script = ExtResource( 13 )
+left_side_path = NodePath("CSGBox/Left Side")
+right_side_path = NodePath("CSGBox/Right Side")
+
+[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Door 2"]
+transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+operation = 2
+material = ExtResource( 3 )
+
+[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Door 2/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+script = ExtResource( 10 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 2/CSGBox/Left Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 2/CSGBox/Left Side"]
+shape = SubResource( 7 )
+
+[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 2/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+script = ExtResource( 10 )
+dir = Vector3( 1, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 2/CSGBox/Right Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 2/CSGBox/Right Side"]
+shape = SubResource( 7 )
+
+[node name="Door 3" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -22.2639 )
+use_in_baked_light = true
+width = 8.22187
+height = 8.52282
+material = ExtResource( 3 )
+script = ExtResource( 13 )
+left_side_path = NodePath("CSGBox/Left Side")
+right_side_path = NodePath("CSGBox/Right Side")
+
+[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Door 3"]
+transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+operation = 2
+material = ExtResource( 3 )
+
+[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Door 3/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+script = ExtResource( 10 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 3/CSGBox/Left Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 3/CSGBox/Left Side"]
+shape = SubResource( 7 )
+
+[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 3/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+script = ExtResource( 10 )
+dir = Vector3( 1, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 3/CSGBox/Right Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 3/CSGBox/Right Side"]
+shape = SubResource( 7 )
+
+[node name="Area" type="Area" parent="Env/CSGCombiner"]
+transform = Transform( -1.02722e-07, 0, 1, 0, 2.997, 0, -2.35, 0, -4.37114e-08, -37.1186, 3.60059, -11.1072 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Area"]
+shape = SubResource( 6 )
+
+[node name="Door 4" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -34.8245, 4.10402, 13.079 )
+use_in_baked_light = true
+width = 8.22187
+height = 8.52282
+material = ExtResource( 3 )
+script = ExtResource( 13 )
+left_side_path = NodePath("CSGBox/Left Side")
+right_side_path = NodePath("CSGBox/Right Side")
+
+[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Door 4"]
+transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+operation = 2
+material = ExtResource( 3 )
+
+[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Door 4/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+script = ExtResource( 10 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 4/CSGBox/Left Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 4/CSGBox/Left Side"]
+shape = SubResource( 7 )
+
+[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 4/CSGBox"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+script = ExtResource( 10 )
+dir = Vector3( 1, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 4/CSGBox/Right Side"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+use_in_baked_light = true
+mesh = SubResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 4/CSGBox/Right Side"]
+shape = SubResource( 7 )
+
+[node name="Button" type="StaticBody" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.3013, 3.52434, -7.40865 )
+collision_layer = 9
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+toggle_path = NodePath("Spatial")
+timer_length = 2.0
+
+[node name="Timer" type="Timer" parent="Env/Button"]
+one_shot = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/Button"]
+shape = SubResource( 8 )
+
+[node name="Spatial" type="Spatial" parent="Env/Button"]
+script = SubResource( 10 )
+door_path = NodePath("../../CSGCombiner/Door 2")
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/Button/Spatial"]
+use_in_baked_light = true
+mesh = SubResource( 9 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 11 )
+
+[node name="Button2" type="StaticBody" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26.3013, 3.52434, -28.2013 )
+collision_layer = 9
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+toggle_path = NodePath("Spatial")
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/Button2"]
+shape = SubResource( 8 )
+
+[node name="Spatial" type="Spatial" parent="Env/Button2"]
+script = SubResource( 10 )
+door_path = NodePath("../../CSGCombiner/Door 3")
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/Button2/Spatial"]
+use_in_baked_light = true
+mesh = SubResource( 11 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 12 )
+
+[node name="Button3" type="StaticBody" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5041, 3.52434, 6.36295 )
+collision_layer = 9
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_group_": true
+}
+toggle_path = NodePath("Spatial")
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/Button3"]
+shape = SubResource( 8 )
+
+[node name="Spatial" type="Spatial" parent="Env/Button3"]
+script = SubResource( 10 )
+door_path = NodePath("../../CSGCombiner/Door 4")
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/Button3/Spatial"]
+use_in_baked_light = true
+mesh = SubResource( 9 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 13 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Env"]
+transform = Transform( -0.179935, 0.715093, -0.675474, 0, 0.686682, 0.726958, 0.983679, 0.130805, -0.123558, 0, 6.64957, 0 )
+layers = 3
+light_cull_mask = 4293918723
+shadow_enabled = true
+directional_shadow_blend_splits = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+environment = ExtResource( 6 )
+
+[node name="KinematicBody" type="KinematicBody" parent="Env"]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, 2.27374e-13, -4.67179, -37.4996 )
+script = SubResource( 16 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/KinematicBody"]
+shape = SubResource( 14 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/KinematicBody"]
+mesh = SubResource( 15 )
+material/0 = null
+
+[node name="KinematicBody2" type="KinematicBody" parent="Env"]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, -14.0139, -4.67179, -37.4996 )
+script = SubResource( 17 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/KinematicBody2"]
+shape = SubResource( 14 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/KinematicBody2"]
+mesh = SubResource( 15 )
+material/0 = null
+
+[node name="Path" type="Path" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3548, 0, -3.89563 )
+curve = SubResource( 20 )
+
+[node name="PathFollow" type="PathFollow" parent="Env/Path"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.999999, -4.3548, 2.31156, 43.8956 )
+
+[node name="KinematicBody3" type="KinematicBody" parent="Env/Path/PathFollow"]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0 )
+script = SubResource( 19 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/Path/PathFollow/KinematicBody3"]
+shape = SubResource( 14 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/Path/PathFollow/KinematicBody3"]
+mesh = SubResource( 15 )
+material/0 = null
+
+[node name="Monitor test" type="MeshInstance" parent="Env"]
+transform = Transform( 0.571358, 0.8207, -3.5874e-08, 0, -4.37114e-08, -1, -0.8207, 0.571358, -2.49749e-08, 0.136747, 4.04849, -10.2305 )
+mesh = SubResource( 24 )
+skeleton = NodePath("MeshInstance")
+material/0 = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance" type="MeshInstance" parent="Env/Monitor test"]
+transform = Transform( 0.939159, 8.9407e-08, -7.10543e-15, 0, 1, -2.65943e-09, -3.55271e-15, -2.65945e-09, 0.939159, 1.90735e-06, 0.0916204, 0 )
+cast_shadow = 0
+mesh = SubResource( 21 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 26 )
+
+[node name="Viewport" type="Viewport" parent="Env/Monitor test/MeshInstance"]
+size = Vector2( 1000, 1000 )
+msaa = 3
+fxaa = true
+debanding = true
+render_target_v_flip = true
+shadow_atlas_size = 4096
+
+[node name="Camera" type="Camera" parent="Env/Monitor test/MeshInstance/Viewport"]
+transform = Transform( 0.812409, -0.338294, 0.474919, 0, 0.81449, 0.580177, -0.583088, -0.471341, 0.6617, 9.78, 10.058, 31.867 )
+cull_mask = 1048573
+environment = ExtResource( 6 )
+fov = 79.0
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( -0.689152, 0, -0.724617, 0, 1, 0, 0.724617, 0, -0.689152, 0, 3.77282, 0 )
+collision_layer = 3
+speed_sprint_mult = 1.7
+jump_strength = 10.0
+std_fov = 70.0
+sprint_fov = 90.0
+zoom_fov = 30.0
+
+[connection signal="timeout" from="Env/Button/Timer" to="Env/Button" method="_on_Timer_timeout"]

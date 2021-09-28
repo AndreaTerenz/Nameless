@@ -1,0 +1,343 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "ArrayUtils",
+"language": "GDScript",
+"path": "res://addons/SIsilicon.3d.text/array_utils.gd"
+}, {
+"base": "TimedGameplayEffect",
+"class": "AttributeConsumeGameplayEffect",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/AttributeConsumeGameplayEffect.gd"
+}, {
+"base": "TimedGameplayEffect",
+"class": "AttributeRegenGameplayEffect",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/AttributeRegenGameplayEffect.gd"
+}, {
+"base": "Togglable",
+"class": "BaseDoor",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Doors/BaseDoor.gd"
+}, {
+"base": "LineEdit",
+"class": "BaseInput",
+"language": "GDScript",
+"path": "res://addons/GGS/src/base_classes/base_input.gd"
+}, {
+"base": "Interactable",
+"class": "Base_Button",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Buttons/BaseButton.gd"
+}, {
+"base": "GameplayEffect",
+"class": "DamageGameplayEffect",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/DamageGameplayEffect.gd"
+}, {
+"base": "Spatial",
+"class": "DoorSide",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Doors/DoorSide.gd"
+}, {
+"base": "Node",
+"class": "GGSUtils",
+"language": "GDScript",
+"path": "res://addons/GGS/src/utils.gd"
+}, {
+"base": "Node",
+"class": "GameplayAttribute",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/nodes/GameplayAttribute.gd"
+}, {
+"base": "Node",
+"class": "GameplayAttributeMap",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/nodes/GameplayAttributeMap.gd"
+}, {
+"base": "Node",
+"class": "GameplayEffect",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/nodes/GameplayEffect.gd"
+}, {
+"base": "ResourceFormatLoader",
+"class": "HTerrainDataLoader",
+"language": "GDScript",
+"path": "res://addons/zylann.hterrain/hterrain_resource_loader.gd"
+}, {
+"base": "ResourceFormatSaver",
+"class": "HTerrainDataSaver",
+"language": "GDScript",
+"path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
+}, {
+"base": "Spatial",
+"class": "Interactable",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Interactable.gd"
+}, {
+"base": "Reference",
+"class": "JSONBeautifier",
+"language": "GDScript",
+"path": "res://addons/GGS/_depedencies/json_beautifier/json_beautifier.gd"
+}, {
+"base": "KinematicBody",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Scripts/Player.gd"
+}, {
+"base": "Base_Button",
+"class": "PushButton",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Buttons/PushButton.gd"
+}, {
+"base": "BaseDoor",
+"class": "RemoteDoor",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Doors/RemoteDoor.gd"
+}, {
+"base": "GameplayEffect",
+"class": "RestoreGameplayEffect",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/RestoreGameplayEffect.gd"
+}, {
+"base": "Base_Button",
+"class": "SwitchButton",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Buttons/SwitchButton.gd"
+}, {
+"base": "GameplayEffect",
+"class": "TimedGameplayEffect",
+"language": "GDScript",
+"path": "res://addons/godot-gameplay-attributes/nodes/TimedGameplayEffect.gd"
+}, {
+"base": "Base_Button",
+"class": "TimerButton",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Buttons/TimerButton.gd"
+}, {
+"base": "Spatial",
+"class": "Togglable",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Togglable.gd"
+}, {
+"base": "BaseDoor",
+"class": "TriggerDoor",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Doors/TriggerDoor.gd"
+} ]
+_global_script_class_icons={
+"ArrayUtils": "",
+"AttributeConsumeGameplayEffect": "",
+"AttributeRegenGameplayEffect": "",
+"BaseDoor": "",
+"BaseInput": "",
+"Base_Button": "",
+"DamageGameplayEffect": "",
+"DoorSide": "",
+"GGSUtils": "",
+"GameplayAttribute": "",
+"GameplayAttributeMap": "",
+"GameplayEffect": "",
+"HTerrainDataLoader": "",
+"HTerrainDataSaver": "",
+"Interactable": "",
+"JSONBeautifier": "",
+"Player": "",
+"PushButton": "",
+"RemoteDoor": "",
+"RestoreGameplayEffect": "",
+"SwitchButton": "",
+"TimedGameplayEffect": "",
+"TimerButton": "",
+"Togglable": "",
+"TriggerDoor": ""
+}
+
+[application]
+
+config/name="FPS test"
+run/main_scene="res://Scenes/Sandbox.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+ggsManager="*res://addons/GGS/src/ggs_manager.gd"
+
+[debug]
+
+settings/fps/force_fps=120
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/resizable=false
+window/size/fullscreen=true
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/GGS/plugin.cfg", "res://addons/godot-gameplay-attributes/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg" )
+
+[gui]
+
+theme/use_hidpi=true
+
+[input]
+
+ui_accept={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_select={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_cancel={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_focus_next={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_focus_prev={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_left={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_right={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_up={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_down={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_page_up={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_page_down={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_home={
+"deadzone": 0.5,
+"events": [  ]
+}
+ui_end={
+"deadzone": 0.5,
+"events": [  ]
+}
+quit={
+"deadzone": 0.5,
+"events": [  ]
+}
+move_f={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_b={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_l={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_r={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+sprint={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+crouch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+zoom={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+"show debug"={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+reset={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+fire={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+toggle_vsync={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":86,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+aim={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+interact={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/directional_shadow/size=8192
+quality/shadow_atlas/cubemap_size=2048
+quality/voxel_cone_tracing/high_quality=true
+cpu_lightmapper/quality/low_quality_ray_count=128
+cpu_lightmapper/quality/medium_quality_ray_count=512
+cpu_lightmapper/quality/high_quality_ray_count=1024
+cpu_lightmapper/quality/ultra_quality_ray_count=2048
+quality/filters/msaa=3
+quality/filters/use_fxaa=true
+environment/default_environment="res://Envs/environment.tres"
