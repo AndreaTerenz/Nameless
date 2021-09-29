@@ -40,6 +40,7 @@ onready var grnd_chk = $GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"
+onready var light = $"Head/Flashlight"
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -51,7 +52,10 @@ func _ready() -> void:
 	
 	crouch_delta = abs(head_std.translation.y - head_crouch.translation.y)
 
-func _input(event: InputEvent) -> void:	
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("flashlight"):
+		light.visible = !light.visible
+	
 	if not(on_stairs):
 		if Input.is_action_just_pressed("zoom"):
 			mouse_sensitivity = mouse_sens_std * zoom_mouse_sensitivity_factor

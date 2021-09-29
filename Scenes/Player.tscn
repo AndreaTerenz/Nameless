@@ -104,6 +104,22 @@ script = ExtResource( 7 )
 [node name="CollisionShape" type="CollisionShape" parent="Head/InteractRay"]
 shape = SubResource( 6 )
 
+[node name="Flashlight" type="SpotLight" parent="Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.555745, 0 )
+layers = 3
+light_energy = 7.629
+light_cull_mask = 4294967293
+shadow_enabled = true
+spot_range = 44.5694
+spot_angle = 18.7661
+spot_angle_attenuation = 0.153893
+
+[node name="CSGBox" type="CSGBox" parent="Head/Flashlight"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40.3212 )
+visible = false
+width = 36.0
+height = 42.0
+
 [node name="Body" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453955, 0 )
 shape = SubResource( 4 )

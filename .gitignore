@@ -1,5 +1,6 @@
 # Godot-specific ignores
 *.import
+*.blend1
 export.cfg
 export_presets.cfg
 
