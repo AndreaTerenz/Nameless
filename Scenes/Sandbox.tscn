@@ -513,6 +513,7 @@ transform = Transform( -0.179935, 0.715093, -0.675474, 0, 0.686682, 0.726958, 0.
 layers = 3
 light_cull_mask = 4293918723
 shadow_enabled = true
+directional_shadow_split_3 = 1.0
 directional_shadow_blend_splits = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]

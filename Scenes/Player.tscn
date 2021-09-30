@@ -53,6 +53,7 @@ size = Vector2( 1920, 1080 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
+shadow_atlas_size = 4096
 
 [node name="Gun Camera" type="Camera" parent="Head/Camera/ViewportContainer/Viewport"]
 transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 1.41822, -0.823641 )
@@ -106,6 +107,7 @@ shape = SubResource( 6 )
 
 [node name="Flashlight" type="SpotLight" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.555745, 0 )
+visible = false
 layers = 3
 light_energy = 7.629
 light_cull_mask = 4294967293
