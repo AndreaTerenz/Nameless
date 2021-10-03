@@ -5,8 +5,10 @@ var text := "Text" setget set_text
 var text_size := 1.0 setget set_text_size
 var font: Font setget set_font
 var align := 0 setget set_align
+var layer := 1 setget set_layer
 
 var color := Color(0.6, 0.6, 0.6) setget set_color
+var unshaded := true 
 var metallic := 0.0 setget set_metallic
 var roughness := 0.5 setget set_roughness
 var emission_strength := 0.0 setget set_emission_strength
@@ -30,6 +32,7 @@ func _get_property_list() -> Array:
 		{name="text_size", type=TYPE_REAL},
 		{name="font", type=TYPE_OBJECT, hint=PROPERTY_HINT_RESOURCE_TYPE, hint_string="Font"},
 		{name="align", type=TYPE_INT, hint=PROPERTY_HINT_ENUM, hint_string="Left,Right,Center,Fill"},
+		{name="layer", type=TYPE_INT, hint=PROPERTY_HINT_LAYERS_3D_RENDER},
 
 		{name="Material", type=TYPE_NIL, usage=PROPERTY_USAGE_GROUP},
 		{name="color", type=TYPE_COLOR, hint=PROPERTY_HINT_COLOR_NO_ALPHA},
@@ -56,6 +59,7 @@ func _ready() -> void:
 
 	proxy = MeshInstance.new()
 	proxy.mesh = CubeMesh.new()
+	proxy.layers = layer
 	proxy.material_override = preload("label_3d.material").duplicate()
 	material = proxy.material_override
 	
@@ -67,6 +71,7 @@ func _ready() -> void:
 	set_text(text)
 	set_font(font)
 	set_align(align)
+	set_layer(layer)
 	set_text_size(text_size)
 
 	set_color(color)
@@ -78,6 +83,14 @@ func _ready() -> void:
 	set_extrude(extrude)
 	set_max_steps(max_steps)
 	set_step_size(step_size)
+	
+
+func set_layer(value: int) -> void:
+	layer = value
+	print(layer, " ", value)
+	
+	if proxy:
+		proxy.layers = layer
 
 
 func set_text(value: String) -> void:
@@ -113,6 +126,8 @@ func set_text_size(value: float) -> void:
 		if proxy:
 			proxy.scale.x = size.x * text_size / 200.0
 			proxy.scale.y = size.y * text_size / 200.0
+			
+			#proxy.set_layer_mask_bit(2, true)
 
 
 func set_extrude(value: float) -> void:

@@ -185,7 +185,7 @@ window/size/fullscreen=true
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/GGS/plugin.cfg", "res://addons/godot-gameplay-attributes/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/GGS/plugin.cfg", "res://addons/SIsilicon.3d.text/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg" )
 
 [gui]
 

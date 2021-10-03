@@ -86,7 +86,7 @@ valign = 1
 margin_left = 1687.0
 margin_top = 20.0
 margin_right = 1900.0
-margin_bottom = 212.0
+margin_bottom = 172.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 alignment = 2
@@ -129,15 +129,5 @@ margin_right = 213.0
 margin_bottom = 152.0
 size_flags_horizontal = 8
 text = "FOV: ----"
-align = 2
-valign = 1
-
-[node name="Health Lbl" type="Label" parent="MarginContainer/VBoxContainer2"]
-margin_left = 42.0
-margin_top = 160.0
-margin_right = 213.0
-margin_bottom = 192.0
-size_flags_horizontal = 8
-text = "Health: ----"
 align = 2
 valign = 1

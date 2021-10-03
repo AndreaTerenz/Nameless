@@ -116,7 +116,7 @@ spot_range = 44.5694
 spot_angle = 18.7661
 spot_angle_attenuation = 0.153893
 
-[node name="CSGBox" type="CSGBox" parent="Head/Flashlight"]
+[node name="Light test target" type="CSGBox" parent="Head/Flashlight"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40.3212 )
 visible = false
 width = 36.0

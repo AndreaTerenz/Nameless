@@ -13,7 +13,6 @@ onready var velocityLbl = $"MarginContainer/VBoxContainer2/Velocity Lbl"
 onready var dirLbl = $"MarginContainer/VBoxContainer2/Direction Lbl"
 onready var fpsLbl = $"MarginContainer/VBoxContainer2/FPS Lbl"
 onready var fovLbl = $"MarginContainer/VBoxContainer2/FOV Lbl"
-onready var healthLbl = $"MarginContainer/VBoxContainer2/Health Lbl"
 
 func _ready() -> void:
 	player = get_node(player_path)
@@ -32,16 +31,18 @@ func _process(delta: float) -> void:
 	
 	fpsLbl.text = "FPS: %s [vsync %s]" % [str(Engine.get_frames_per_second()), vsync_stat]
 	fovLbl.text = "FOV: %.3f" % player.camera.fov
-	#healthLbl.text = "Health: %.3f" % player_stat.health
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("show debug"):
 		$MarginContainer.visible = not($MarginContainer.visible)
 	if Input.is_action_just_pressed("toggle_vsync"):
 		OS.vsync_enabled = not(OS.vsync_enabled)
+
+func snapToZero(value: float):
+	return 0.0 if abs(value) < 1e-4 else value
 	
 func printVector3(label: Label, header: String, vector: Vector3):
-	var a = vector.x
-	var b = vector.y
-	var c = vector.z
+	var a = snapToZero(vector.x)
+	var b = snapToZero(vector.y)
+	var c = snapToZero(vector.z)
 	label.text = "%s: (%.3f, %.3f, %.3f)" % [header,a,b,c]
