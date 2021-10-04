@@ -87,8 +87,6 @@ func _ready() -> void:
 
 func set_layer(value: int) -> void:
 	layer = value
-	print(layer, " ", value)
-	
 	if proxy:
 		proxy.layers = layer
 

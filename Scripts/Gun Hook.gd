@@ -1,48 +1,85 @@
 extends Spatial
 
-export(bool) var swaying = false
-export(float, .1, 12.0, .05) var sway_angle = 9.0
-export(NodePath) var aim_pos_node
-export(NodePath) var hide_pos_node
+export(NodePath) var anim_player_node
+export(PoolStringArray) var weapons
+export(int) var slots = 5
 
-var base_rot: float = 0.0
-var base_trans: Vector3 = Vector3.ZERO
-var mouse_motion: Vector2 = Vector2.ZERO
-var hidden: bool = false
-var aiming: bool = false
+var hidden: bool = false setget set_hidden
 
-onready var aiming_pos = get_node(aim_pos_node)
-onready var hidden_pos = get_node(hide_pos_node)
-onready var gun = $Gun
+var current_weapon := 0
+var can_hide := true
+var switching := false
+
+onready var anim_player := get_node(anim_player_node) as AnimationPlayer
+onready var gun : MeshInstance = null
 
 func _ready() -> void:
-	base_rot = rotation.y
-	base_trans = translation
-	translation.z = base_trans.z + .4
+	slots = min(len(weapons), slots)
+	
+	load_gun()
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		mouse_motion = -event.relative
+	if gun.aimable:
+		if Input.is_action_just_pressed("aim"):
+			can_hide = false
+			anim_player.play("Aim")
+		elif Input.is_action_just_released("aim"):
+			anim_player.play("Aim Reverse")
 		
-	if Input.is_action_just_pressed("aim"):
-		aiming = true
-	elif Input.is_action_just_released("aim"):
-		aiming = false
-
-func _physics_process(delta: float) -> void:
-	var target_gun_pos: Vector3 = base_trans
-	
-	if aiming:
-		rotation.y = base_rot
-		target_gun_pos = aiming_pos.translation
-	else:
-		if hidden:
-			target_gun_pos = hidden_pos.translation
-		elif swaying:
-			var angle_delta = deg2rad(sway_angle)*sign(-mouse_motion.x)
+	if can_hide:
+		if Input.is_action_just_pressed("next weapon"):
+			switch_weapon(slots+1)
+		elif Input.is_action_just_pressed("prev weapon"):
+			switch_weapon(-1)
 			
-			rotation.y = lerp(rotation.y, base_rot + angle_delta, .1)
+		for i in range(0, slots):
+			var action := "weapon slot %d" % (i+1)
+			if i != current_weapon and Input.is_action_just_pressed(action):
+				switch_weapon(i)
+
+func set_hidden(value):
+	if (hidden != value):
+		hidden = value
+		if (hidden):
+			anim_player.play("Hide")
+		else:
+			anim_player.play("Hide Reverse")
+
+func load_gun():
+	if len(weapons)>0:
+		if gun:
+			remove_child(gun)
+			gun = null
 		
-	translation = lerp(translation, target_gun_pos, .3)
+		var gunScn : PackedScene = load(weapons[current_weapon])
+		gun = gunScn.instance()
+		add_child(gun)
 		
-	mouse_motion *= 0
+func switch_weapon(switch_to: int = slots):
+	can_hide = false
+	switching = true
+	
+	if not switch_to in range(0, slots):
+		current_weapon += sign(switch_to)
+		if current_weapon >= slots:
+			current_weapon = 0
+		elif current_weapon < 0:
+			current_weapon = slots-1
+	else:
+		current_weapon = switch_to
+	
+	anim_player.play("Hide")
+
+func _on_animation_finished(anim_name: String) -> void:
+	match anim_name:
+		"Aim Reverse", "Hide Reverse": 
+			can_hide = true
+		"Hide": 
+			if switching and len(weapons)>0:
+				load_gun()
+				switching = false
+				anim_player.play("Hide Reverse")
+
+
+func _on_animation_started(anim_name: String) -> void:
+	pass

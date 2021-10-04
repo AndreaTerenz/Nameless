@@ -1,9 +1,8 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/CameraController.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/StairsManager.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/Weapons/Gun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Gun Hook.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Sprites/crosshair.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/InteractCheck.gd" type="Script" id=7]
@@ -12,6 +11,203 @@
 [ext_resource path="res://Envs/Night_Env.tres" type="Environment" id=10]
 
 [sub_resource type="SphereShape" id=5]
+
+[sub_resource type="Animation" id=7]
+resource_name = "Aim"
+length = 0.2
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Gun Hook:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1.19807, -0.097159, 0.0780277, 0.097159, -0.0780277, 0, -0.0780095, -0.040335, 0.0780095, 0.040335 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Gun Hook:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.804665, -0.12217, -0.0273575, 0.12217, 0.0273575, -0.349, -0.0808954, -0.0224441, 0.0808954, 0.0224441 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Gun Hook:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -1.655, -0.121208, -0.0076369, 0.121208, 0.0076369, -0.874, -0.0885912, -0.0442795, 0.0885912, 0.0442795 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "Aim Reverse"
+length = 0.2
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Gun Hook:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.0780095, -0.040335, 0.0780095, 0.040335, 1.19807, -0.097159, 0.0780277, 0.097159, -0.0780277 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Gun Hook:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.349, -0.0808954, -0.0224441, 0.0808954, 0.0224441, -0.804665, -0.12217, -0.0273575, 0.12217, 0.0273575 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Gun Hook:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -0.874, -0.0885912, -0.0442795, 0.0885912, 0.0442795, -1.655, -0.121208, -0.0076369, 0.121208, 0.0076369 ),
+"times": PoolRealArray( 0, 0.2 )
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Hide"
+length = 0.1
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Gun Hook:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1.19807, -0.25, 0, 0.25, 0, 1.19807, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Gun Hook:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.804665, -0.25, 0, 0.25, 0, -0.804665, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Gun Hook:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -1.655, -0.0634901, -0.122945, 0.0634901, 0.122945, 0.345, -0.0433336, -0.0412607, 0.0433336, 0.0412607 ),
+"times": PoolRealArray( 0, 0.1 )
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "Hide Reverse"
+length = 0.1
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Gun Hook:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1.19807, -0.25, 0, 0.25, 0, 1.19807, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Gun Hook:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.804665, -0.25, 0, 0.25, 0, -0.804665, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Gun Hook:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0.345, -0.0433336, -0.0412607, 0.0433336, 0.0412607, -1.655, -0.0634901, -0.122945, 0.0634901, 0.122945 ),
+"times": PoolRealArray( 0, 0.1 )
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun Hook:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1.19807, -0.804665, -1.655 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Gun Hook:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1.19807, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Gun Hook:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.804665, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Gun Hook:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -1.655, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Gun Hook:translation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1.19807, -0.804665, -1.655 ) ]
+}
 
 [sub_resource type="RayShape" id=6]
 length = 5.0
@@ -60,20 +256,23 @@ transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 1.4182
 cull_mask = 2
 environment = ExtResource( 10 )
 
-[node name="Gun Aim Pos" type="Spatial" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera"]
-transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 0, -0.349, -0.874 )
-
-[node name="Gun Hide Pos" type="Spatial" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera"]
-transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 1.19807, -0.804665, 0.345 )
-
 [node name="Gun Hook" type="Spatial" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera"]
 transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 1.19807, -0.804665, -1.655 )
 script = ExtResource( 5 )
-sway_angle = 12.0
-aim_pos_node = NodePath("../Gun Aim Pos")
-hide_pos_node = NodePath("../Gun Hide Pos")
+anim_player_node = NodePath("../AnimationPlayer")
+weapons = PoolStringArray( "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Rifle.tscn" )
 
-[node name="Gun" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" instance=ExtResource( 4 )]
+[node name="Position3D" type="Position3D" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"]
+transform = Transform( 4, -5.0822e-21, 5.68434e-14, 5.0822e-21, 4, 5.68434e-14, -5.68434e-14, -5.68434e-14, 4, 0, 0, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera"]
+autoplay = "Idle"
+anims/Aim = SubResource( 7 )
+"anims/Aim Reverse" = SubResource( 11 )
+anims/Hide = SubResource( 9 )
+"anims/Hide Reverse" = SubResource( 12 )
+anims/Idle = SubResource( 10 )
+anims/RESET = SubResource( 8 )
 
 [node name="CenterContainer" type="CenterContainer" parent="Head/Camera"]
 anchor_right = 1.0
@@ -163,5 +362,7 @@ player_path = NodePath("..")
 
 [node name="Pause menu" parent="." instance=ExtResource( 8 )]
 
+[connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_finished"]
+[connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_started"]
 [connection signal="body_entered" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_entered"]
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
