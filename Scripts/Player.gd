@@ -23,7 +23,7 @@ var h_velocity: Vector3 = Vector3.ZERO
 var h_acceleration: float = 0.0
 var velocity: Vector3 = Vector3.ZERO
 var gravity_vec: Vector3 = Vector3.ZERO
-var full_contact: bool = false
+var bonked_head := false
 var sprinting: bool = false
 var crouching: bool = false
 var crouch_released: bool = false
@@ -135,16 +135,18 @@ func adjust_for_crouch() -> void:
 	head.translation.y = lerp(head.translation.y, head_trgt, crouch_lerp_speed)
 	
 func set_gravity_vec(delta):
-	full_contact = grnd_chk.is_colliding()
-	
 	if not(is_on_floor()):
+		if roof_chk.is_colliding() and not(bonked_head):
+			gravity_vec *= 0.0
+			bonked_head = true
 		h_acceleration = 0.0
 		gravity_vec += Vector3.DOWN * gravity_strength * delta
 	else:
+		bonked_head = false
 		h_acceleration = std_acceleration
 		gravity_vec = -get_floor_normal() * gravity_strength
 		
-	var can_jump = (is_on_floor() or full_contact) and not(crouching)
+	var can_jump = (is_on_floor() or grnd_chk.is_colliding()) and not(crouching)
 	if Input.is_action_just_pressed("jump") and can_jump:
 			gravity_vec = Vector3.UP * jump_strength
 			

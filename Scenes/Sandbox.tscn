@@ -173,7 +173,7 @@ depth = 10.1186
 material = ExtResource( 3 )
 
 [node name="CSGBox4" type="CSGBox" parent="Env/CSGCombiner/Misc"]
-transform = Transform( -4.37114e-08, 0, 1, 0.407119, 0.913375, 1.77957e-08, -0.913375, 0.407119, -3.99249e-08, -16.043, 8.02006, 1.0284 )
+transform = Transform( -4.37114e-08, 0, 1, 0.407119, 0.913375, 1.77957e-08, -0.913375, 0.407119, -3.99249e-08, -16.043, 6.88033, 0.520389 )
 width = 14.9422
 depth = 10.1186
 material = ExtResource( 3 )
