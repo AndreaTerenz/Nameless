@@ -1,18 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Models/gun.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Fonts/Cousine-Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Scripts/Weapons/BaseGun.gd" type="Script" id=3]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=4]
-
-[sub_resource type="SpatialMaterial" id=1]
-resource_name = "None"
-metallic = 0.8
-
-[sub_resource type="SpatialMaterial" id=5]
-resource_name = "None"
-albedo_color = Color( 0.439216, 0.439216, 0.439216, 1 )
-metallic = 0.8
 
 [sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
@@ -21,12 +12,12 @@ font_data = ExtResource( 2 )
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )
-material/0 = SubResource( 1 )
-material/1 = SubResource( 5 )
+material/0 = null
+material/1 = null
 script = ExtResource( 3 )
 
 [node name="Label3D" type="Spatial" parent="."]
-transform = Transform( -2.25999e-07, 1.63062, -0.948964, -1.7431e-14, 4.90639, 0.315384, 5.17026, 7.12765e-08, -4.14805e-08, -3.12164, 1.83107, 1.00432e-08 )
+transform = Transform( -2.25999e-07, 1.63062, -0.948964, -1.7431e-14, 4.90639, 0.315384, 5.17026, 7.12765e-08, -4.14805e-08, -2.45794, 1.4498, 3.90542e-08 )
 script = ExtResource( 4 )
 text = "00"
 text_size = 1.0

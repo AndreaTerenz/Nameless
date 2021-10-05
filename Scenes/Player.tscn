@@ -256,6 +256,13 @@ crouch_anim_mult = 3.0
 transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 1.41822, 0 )
 shape = SubResource( 5 )
 
+[node name="RoofCheck" type="RayCast" parent="Head"]
+transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0.58178, -6.20067e-15 )
+enabled = true
+cast_to = Vector3( 0, 1, 0 )
+collide_with_areas = true
+debug_shape_thickness = 4.0
+
 [node name="Camera" type="Camera" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.823641 )
 cull_mask = 1048573
@@ -287,7 +294,7 @@ environment = ExtResource( 10 )
 transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 1.19807, -0.804665, -1.655 )
 script = ExtResource( 5 )
 anim_player_node = NodePath("../AnimationPlayer")
-weapons = PoolStringArray( "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Rifle.tscn" )
+weapons = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Rifle.tscn", "res://Scenes/Weapons/Laser.tscn" )
 
 [node name="Position3D" type="Position3D" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"]
 transform = Transform( 4, -5.0822e-21, 5.68434e-14, 5.0822e-21, 4, 5.68434e-14, -5.68434e-14, -5.68434e-14, 4, 0, 0, 0 )
@@ -314,13 +321,6 @@ margin_top = 517.0
 margin_right = 982.0
 margin_bottom = 562.0
 texture = ExtResource( 6 )
-
-[node name="RoofCheck" type="RayCast" parent="Head"]
-transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0.58178, -6.20067e-15 )
-enabled = true
-cast_to = Vector3( 0, 1, 0 )
-collide_with_areas = true
-debug_shape_thickness = 4.0
 
 [node name="InteractRay" type="Area" parent="Head"]
 transform = Transform( -1, -1.60933e-21, 1.50996e-07, 0, 1, 1.06581e-14, -1.50996e-07, 1.06581e-14, -1, 0, 0, -0.823641 )

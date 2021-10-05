@@ -118,8 +118,8 @@ viewport_path = NodePath("Env/Monitor test/MeshInstance/Viewport")
 [sub_resource type="ShaderMaterial" id=26]
 resource_local_to_scene = true
 shader = ExtResource( 7 )
-shader_param/hue = Color( 0.48165, 0.65, 0.377, 1 )
-shader_param/flip = false
+shader_param/hue = Color( 0.482353, 0.65098, 0.376471, 1 )
+shader_param/flip = true
 shader_param/run = true
 shader_param/uv_mult = 3.0
 shader_param/lines_speed = 0.46
