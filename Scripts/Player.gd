@@ -4,7 +4,7 @@ extends KinematicBody
 export(float, 8, 30, .5) var h_speed = 10.0
 export(float, 1.1, 3.5, .1) var speed_sprint_mult = 2.0
 export(float, .1, .9, .05) var speed_crouch_mult = .4
-export(float, .01, 1.0, .01) var crouch_lerp_speed = .2
+export(float, .4, 3.0, .1) var crouch_anim_mult = 1.0
 export(float, 10, 20, .5) var gravity_strength = 14.0
 export(float, 5, 10, .5) var jump_strength = 5.0
 export(float, .01, .2, .005) var mouse_sens_std = 0.1
@@ -15,7 +15,6 @@ export(float, 60.0, 80.0, .5) var std_fov = 65.0
 export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
 
-var crouch_delta: float = .0
 var mouse_sensitivity: float = .0
 var current_speed: float = h_speed
 var direction: Vector3 = Vector3.ZERO
@@ -31,8 +30,7 @@ var leaving_stairs: bool = false
 var on_stairs: bool = false
 
 onready var head = $Head
-onready var head_std = $"Head Std Trgt"
-onready var head_crouch = $"Head Crouch Trgt"
+onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
 onready var camera = $Head/Camera
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
@@ -49,8 +47,6 @@ func _ready() -> void:
 	camera.std_fov = std_fov
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
-	
-	crouch_delta = abs(head_std.translation.y - head_crouch.translation.y)
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("flashlight"):
@@ -131,9 +127,6 @@ func std_movement(delta: float):
 func adjust_for_crouch() -> void:
 	current_speed = h_speed*speed_crouch_mult if crouching else h_speed
 	
-	var head_trgt = head_crouch.translation.y if crouching else head_std.translation.y
-	head.translation.y = lerp(head.translation.y, head_trgt, crouch_lerp_speed)
-	
 func set_gravity_vec(delta):
 	if not(is_on_floor()):
 		if roof_chk.is_colliding() and not(bonked_head):
@@ -154,12 +147,14 @@ func check_crouch():
 	if not(sprinting):
 		if Input.is_action_just_pressed("crouch"):
 			crouching = true
+			head_anim.play("Crouch", -1, crouch_anim_mult)
 		elif Input.is_action_just_released("crouch"):
 			crouch_released = true
 			
 		if crouch_released and not(roof_chk.is_colliding()):
 			crouch_released = false
 			crouching = false
+			head_anim.play("Crouch", -1, -crouch_anim_mult, true)
 			
 		adjust_for_crouch()
 
