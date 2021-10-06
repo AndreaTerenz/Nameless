@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=2]
@@ -7,54 +7,63 @@
 script/source = "extends Control
 
 export(float, 0.0, 3.5, .05) var max_blur = 2.2
-export(float, 0.01, 1.0, .01) var blur_speed = .15
+export(float, 1.0, 2.5, .01) var blur_speed_mult = 1.0
 
 onready var blur_mat: ShaderMaterial = $TextureRect.material
+onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
 
 func _ready() -> void:
 	visible = false
+	var fadeIn := anim_player.get_animation(\"FadeIn\")
+	fadeIn.track_set_key_value(0, 1, max_blur)
+	fadeIn.length *= blur_speed_mult
+	
+	var fadeOut := anim_player.get_animation(\"FadeOut\")
+	fadeOut.track_set_key_value(0, 0, max_blur)
+	fadeOut.length *= blur_speed_mult
+	
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed(\"pause\"):
-		toggle_pause()
-		
+		if not(get_tree().paused):
+			toggle_pause()
+			anim_player.play(\"FadeIn\")
+		else:
+			anim_player.play(\"FadeOut\")
+
+
 func toggle_pause() -> void:
 	get_tree().paused = not(get_tree().paused)
 	visible = not(visible)
-	
-	if get_tree().paused:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		
+	set_mouse_mode()
 
-func _process(delta: float) -> void:
-	if get_tree().paused:
-		var value = blur_mat.get_shader_param(\"amount\")
-		if value < max_blur:
-			var new_val = lerp(value, max_blur, blur_speed)
-			
-			blur_mat.set_shader_param(\"amount\", new_val)
-	else:
-		blur_mat.set_shader_param(\"amount\", 0.0)
-	
+
+func set_mouse_mode():
+	var mode = Input.MOUSE_MODE_VISIBLE if get_tree().paused else Input.MOUSE_MODE_CAPTURED
+	Input.set_mouse_mode(mode)
+
 
 func _on_Quit_Btn_pressed() -> void:
 	get_tree().quit(0)
 
 
 func _on_Restart_Btn_pressed() -> void:
-	toggle_pause()
+	anim_player.play(\"FadeOut\")
 	get_tree().reload_current_scene()
 
 
 func _on_Resume_Btn_pressed() -> void:
-	toggle_pause()
+	anim_player.play(\"FadeOut\")
+
+
+func _on_animation_finished(anim_name: String) -> void:
+	if anim_name == \"FadeOut\":
+		toggle_pause()
 "
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 2 )
-shader_param/amount = 0.0
+shader_param/amount = 1.0
 
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
@@ -62,8 +71,92 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
 
+[sub_resource type="Animation" id=6]
+resource_name = "FadeIn"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "FadeOut"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="Pause menu" type="Control"]
 pause_mode = 2
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
@@ -71,6 +164,7 @@ script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+max_blur = 1.6
 
 [node name="TextureRect" type="TextureRect" parent="."]
 pause_mode = 2
@@ -118,6 +212,12 @@ margin_right = 203.0
 margin_bottom = 205.0
 text = "Quit"
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
+anims/FadeIn = SubResource( 6 )
+anims/FadeOut = SubResource( 8 )
+anims/RESET = SubResource( 7 )
+
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Restart Btn" to="." method="_on_Restart_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Resume Btn" to="." method="_on_Resume_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Quit Btn" to="." method="_on_Quit_Btn_pressed"]
+[connection signal="animation_finished" from="TextureRect/AnimationPlayer" to="." method="_on_animation_finished"]
