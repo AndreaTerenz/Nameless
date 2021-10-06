@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/RestoreGameplayEffect.gd"
 }, {
+"base": "Control",
+"class": "ScaleOnHover",
+"language": "GDScript",
+"path": "res://Scripts/UI/ScaleOnHover.gd"
+}, {
 "base": "Base_Button",
 "class": "SwitchButton",
 "language": "GDScript",
@@ -155,6 +160,7 @@ _global_script_class_icons={
 "PushButton": "",
 "RemoteDoor": "",
 "RestoreGameplayEffect": "",
+"ScaleOnHover": "",
 "SwitchButton": "",
 "TimedGameplayEffect": "",
 "TimerButton": "",
