@@ -11,6 +11,7 @@ func _ready() -> void:
 	connect("mouse_exited", self, "_on_exit")
 	
 	rect_pivot_offset = rect_size/2
+	
 	base_scale = rect_scale
 	
 	tween = Tween.new()

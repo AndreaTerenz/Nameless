@@ -8,22 +8,23 @@
 script/source = "extends Control
 
 export(float, 0.0, 3.5, .05) var max_blur = 2.2
-export(float, 1.0, 2.5, .01) var blur_speed_mult = 1.0
+export(float, 1.0, 5.0, .01) var blur_speed_mult = 1.0
 
 onready var blur_mat: ShaderMaterial = $TextureRect.material
 onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
 
-var restarting := false
-
 func _ready() -> void:
-	visible = false
+	toggle_pause(-1)
+	
 	var fadeIn := anim_player.get_animation(\"FadeIn\")
-	fadeIn.track_set_key_value(0, 1, max_blur)
 	fadeIn.length *= blur_speed_mult
+	fadeIn.track_set_key_value(0, 1, max_blur)
+	fadeIn.track_set_key_time(0, 1, fadeIn.length)
 	
 	var fadeOut := anim_player.get_animation(\"FadeOut\")
+	fadeOut.length *= blur_speed_mult/3
 	fadeOut.track_set_key_value(0, 0, max_blur)
-	fadeOut.length *= blur_speed_mult
+	fadeOut.track_set_key_time(0, 0, fadeOut.length)
 	
 
 func _input(event: InputEvent) -> void:
@@ -35,8 +36,12 @@ func _input(event: InputEvent) -> void:
 			anim_player.play(\"FadeOut\")
 
 
-func toggle_pause() -> void:
-	get_tree().paused = not(get_tree().paused)
+func toggle_pause(val = 0) -> void:
+	if val != 0:
+		get_tree().paused = bool(val + 1)
+	else:
+		get_tree().paused = not(get_tree().paused)
+	VisualServer.set_shader_time_scale(0.0 if get_tree().paused else 1.0)
 	visible = not(visible)
 	set_mouse_mode()
 
@@ -44,6 +49,10 @@ func toggle_pause() -> void:
 func set_mouse_mode():
 	var mode = Input.MOUSE_MODE_VISIBLE if get_tree().paused else Input.MOUSE_MODE_CAPTURED
 	Input.set_mouse_mode(mode)
+	
+	if get_tree().paused:
+		var size = get_viewport_rect().size
+		get_viewport().warp_mouse(Vector2(size.x/2, (size.y/2)-200))
 
 
 func _on_Quit_Btn_pressed() -> void:
@@ -51,8 +60,7 @@ func _on_Quit_Btn_pressed() -> void:
 
 
 func _on_Restart_Btn_pressed() -> void:
-	restarting = true
-	anim_player.play(\"FadeOut\")
+	get_tree().reload_current_scene()
 
 
 func _on_Resume_Btn_pressed() -> void:
@@ -62,9 +70,6 @@ func _on_Resume_Btn_pressed() -> void:
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == \"FadeOut\":
 		toggle_pause()
-		if restarting:
-			get_tree().reload_current_scene()
-			restarting = false
 "
 
 [sub_resource type="ShaderMaterial" id=5]
@@ -72,7 +77,8 @@ shader = ExtResource( 2 )
 shader_param/amount = 1.0
 
 [sub_resource type="Gradient" id=3]
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 1 )
 
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
@@ -172,6 +178,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 max_blur = 1.6
+blur_speed_mult = 5.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
 pause_mode = 2
@@ -197,10 +204,10 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer"]
 pause_mode = 2
-margin_left = 858.0
-margin_top = 437.0
-margin_right = 1061.0
-margin_bottom = 642.0
+margin_left = 855.0
+margin_top = 409.0
+margin_right = 1065.0
+margin_bottom = 671.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
@@ -208,10 +215,11 @@ custom_constants/separation = 20
 alignment = 1
 
 [node name="Restart Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
-margin_right = 203.0
-margin_bottom = 55.0
+margin_right = 210.0
+margin_bottom = 74.0
 grow_horizontal = 2
 grow_vertical = 2
+rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Quit Btn")
 focus_neighbour_bottom = NodePath("../Resume Btn")
 focus_next = NodePath("../Resume Btn")
@@ -222,9 +230,10 @@ text = "Restart"
 script = ExtResource( 3 )
 
 [node name="Resume Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
-margin_top = 75.0
-margin_right = 203.0
-margin_bottom = 130.0
+margin_top = 94.0
+margin_right = 210.0
+margin_bottom = 168.0
+rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Restart Btn")
 focus_neighbour_bottom = NodePath("../Quit Btn")
 focus_next = NodePath("../Quit Btn")
@@ -235,9 +244,11 @@ text = "Resume"
 script = ExtResource( 3 )
 
 [node name="Quit Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
-margin_top = 150.0
-margin_right = 203.0
-margin_bottom = 205.0
+show_behind_parent = true
+margin_top = 188.0
+margin_right = 210.0
+margin_bottom = 262.0
+rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Resume Btn")
 focus_neighbour_bottom = NodePath("../Restart Btn")
 focus_next = NodePath("../Restart Btn")
@@ -246,6 +257,9 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Quit"
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
 anims/FadeIn = SubResource( 6 )
