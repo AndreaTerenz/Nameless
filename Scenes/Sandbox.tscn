@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/grid_light.tres" type="Material" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scripts/EnvElements/Buttons/SwitchButton.gd" type="Script" id=14]
 [ext_resource path="res://Assets/Grids/PNG/Orange/texture_07.png" type="Texture" id=15]
 [ext_resource path="res://Scripts/EnvElements/Buttons/PushButton.gd" type="Script" id=16]
+[ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 7.36901, 1, 1 )
@@ -129,6 +130,7 @@ shader_param/intensity = 2.0
 shader_param/line_definition = 0.6
 shader_param/min_thickness = 0.26
 shader_param/base_texture = SubResource( 27 )
+shader_param/overlay_texture = ExtResource( 17 )
 
 [node name="Spatial" type="Spatial"]
 
@@ -509,7 +511,7 @@ skeleton = NodePath("../..")
 material/0 = SubResource( 13 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Env"]
-transform = Transform( -0.179935, 0.715093, -0.675474, 0, 0.686682, 0.726958, 0.983679, 0.130805, -0.123558, 0, 6.64957, 0 )
+transform = Transform( 0.00146544, -0.726957, 0.686681, 0, 0.686682, 0.726958, -0.999999, -0.00106531, 0.00100629, 0, 6.64957, 0 )
 layers = 3
 light_cull_mask = 4293918723
 shadow_enabled = true
@@ -569,7 +571,7 @@ mesh = SubResource( 15 )
 material/0 = null
 
 [node name="Monitor test" type="MeshInstance" parent="Env"]
-transform = Transform( 0.571358, 0.8207, -3.5874e-08, 0, -4.37114e-08, -1, -0.8207, 0.571358, -2.49749e-08, 0.136747, 4.04849, -10.2305 )
+transform = Transform( 0.499259, -0.866452, 3.78738e-08, 0, -4.37114e-08, -1, 0.866452, 0.499259, -2.18233e-08, 0.136747, 4.04849, -10.2305 )
 mesh = SubResource( 24 )
 skeleton = NodePath("MeshInstance")
 material/0 = ExtResource( 3 )

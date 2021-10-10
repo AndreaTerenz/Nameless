@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Fonts/Cousine-Bold.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Scripts/Weapons/BaseGun.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Weapons/BulletGun.gd" type="Script" id=3]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Weapons/Bullet.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
@@ -15,6 +16,9 @@ mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null
 script = ExtResource( 3 )
+aimable = false
+muzze_path = NodePath("Muzzle")
+bullet_scn = ExtResource( 5 )
 
 [node name="Label3D" type="Spatial" parent="."]
 transform = Transform( -2.25999e-07, 1.63062, -0.948964, -1.7431e-14, 4.90639, 0.315384, 5.17026, 7.12765e-08, -4.14805e-08, -2.45794, 1.4498, 3.90542e-08 )
@@ -32,3 +36,6 @@ emission_strength = 1.0
 extrude = 0.0
 max_steps = 256
 step_size = 1.0
+
+[node name="Muzzle" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.58112, 0 )

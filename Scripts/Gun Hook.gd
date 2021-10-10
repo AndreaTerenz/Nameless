@@ -1,21 +1,29 @@
 extends Spatial
 
+enum GUN_STATE {
+	ACTIVE,
+	SWITCHING,
+	INACTIVE
+}
+
 export(NodePath) var anim_player_node
 export(PoolStringArray) var weapons
 export(int) var slots = 5
 
 var hidden: bool = false setget set_hidden
-
 var current_weapon := 0
 var can_hide := true
-var switching := false
+
+var switch_state = GUN_STATE.ACTIVE
+func switching():
+	return (switch_state == GUN_STATE.SWITCHING)
 
 onready var anim_player := get_node(anim_player_node) as AnimationPlayer
-onready var gun : MeshInstance = null
+onready var gun : BaseWeapon = null
 
 func _ready() -> void:
+	switch_state = GUN_STATE.ACTIVE
 	slots = min(len(weapons), slots)
-	
 	load_gun()
 
 func _input(event: InputEvent) -> void:
@@ -25,7 +33,7 @@ func _input(event: InputEvent) -> void:
 			anim_player.play("Aim")
 		elif Input.is_action_just_released("aim"):
 			anim_player.play("Aim Reverse")
-		
+	
 	if can_hide:
 		if Input.is_action_just_pressed("next weapon"):
 			switch_weapon(slots+1)
@@ -57,9 +65,9 @@ func load_gun():
 		
 func switch_weapon(switch_to: int = slots):
 	can_hide = false
-	switching = true
+	switch_state = GUN_STATE.SWITCHING
 	
-	if not switch_to in range(0, slots):
+	if not (switch_to in range(0, slots)):
 		current_weapon += sign(switch_to)
 		if current_weapon >= slots:
 			current_weapon = 0
@@ -72,14 +80,18 @@ func switch_weapon(switch_to: int = slots):
 
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
-		"Aim Reverse", "Hide Reverse": 
+		"Aim Reverse":
 			can_hide = true
+		"Hide Reverse": 
+			can_hide = true
+			if switch_state == GUN_STATE.INACTIVE:
+				switch_state = GUN_STATE.ACTIVE
+				gun.enabled = true
 		"Hide": 
-			if switching and len(weapons)>0:
-				load_gun()
-				switching = false
+			if switching() and len(weapons)>0:
+				switch_state = GUN_STATE.INACTIVE
 				anim_player.play("Hide Reverse")
-
+				load_gun()
 
 func _on_animation_started(anim_name: String) -> void:
 	pass

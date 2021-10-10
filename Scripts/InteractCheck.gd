@@ -15,10 +15,16 @@ func _input(event: InputEvent) -> void:
 
 func _on_body_entered(body: Node) -> void:
 	target = body as Interactable
+	if target:
+		target.entered_range()
 
 
 func _on_body_exited(body: Node) -> void:
-	if (body as Interactable) == target:
-		if target.continuous:
-			target.stop_interaction()
-		target = null
+	var intr = body as Interactable
+	if intr:
+		if intr == target:
+			if target.continuous:
+				target.stop_interaction()
+			target = null
+		else:
+			intr.exited_range()

@@ -1,12 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/rifle/rifle.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Fonts/Cousine-Bold.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Scripts/Weapons/BaseGun.gd" type="Script" id=3]
-[ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=4]
-
-[sub_resource type="DynamicFont" id=6]
-font_data = ExtResource( 2 )
+[ext_resource path="res://Scripts/Weapons/BulletGun.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Weapons/Bullet.tscn" type="PackedScene" id=5]
 
 [node name="Rifle" type="MeshInstance"]
 layers = 2
@@ -15,20 +11,9 @@ mesh = ExtResource( 1 )
 material/0 = null
 script = ExtResource( 3 )
 aimable = false
+muzze_path = NodePath("Muzzle")
+bullet_scn = ExtResource( 5 )
+continuous = true
 
-[node name="Label3D" type="Spatial" parent="."]
-transform = Transform( 7.50714e-07, -5.67969, 0.215993, -1.57974e-06, 1.27199, 0.964451, -5.64497, -1.1113e-06, -2.41177e-07, 7.77784, 2.44337, 1.65582e-06 )
-script = ExtResource( 4 )
-text = "00"
-text_size = 1.0
-font = SubResource( 6 )
-align = 3
-layer = 2
-color = Color( 1, 1, 1, 1 )
-metallic = 0.0
-roughness = 0.5
-emission_color = Color( 1, 1, 1, 1 )
-emission_strength = 1.0
-extrude = 0.0
-max_steps = 256
-step_size = 1.0
+[node name="Muzzle" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.3207, 1.54602, 0 )

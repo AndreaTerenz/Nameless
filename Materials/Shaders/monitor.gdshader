@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode blend_mix,unshaded;
 
 uniform sampler2D base_texture : hint_albedo;
+uniform sampler2D overlay_texture : hint_albedo;
 
 uniform vec4 hue: hint_color;
 uniform bool flip = false;
@@ -57,9 +58,13 @@ void fragment() {
 	
 	float lines_mult = mask + (1.0 - mask)*(1.0 - line_alpha);
 	
-	vec2 base_uv = UV;
-	base_uv.x += (distortion / 100.0)*lines_mult;
-	vec4 albedo_tex = texture(base_texture,base_uv);
+	vec2 _uv = UV;
+	_uv.x = clamp(_uv.x+(distortion / 100.0)*lines_mult-(1.0/200.0), 0.0, 1.0);
 	
-	ALBEDO = albedo_tex.rgb * hue.rgb * lines_mult * intensity;
+	vec4 base_val = texture(base_texture,_uv);
+	vec4 overlay_val = texture(overlay_texture,_uv);
+	vec3 final_mult = hue.rgb * lines_mult * intensity;
+	
+	ALBEDO = (overlay_val.a == 0.0) ? base_val.rgb : overlay_val.rgb;
+	ALBEDO *= final_mult;
 }

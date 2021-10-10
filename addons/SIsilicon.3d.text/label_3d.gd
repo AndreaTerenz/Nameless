@@ -1,4 +1,5 @@
 tool
+class_name Label3D
 extends Spatial
 
 var text := "Text" setget set_text

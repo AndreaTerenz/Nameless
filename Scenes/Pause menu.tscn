@@ -8,7 +8,7 @@
 script/source = "extends Control
 
 export(float, 0.0, 3.5, .05) var max_blur = 2.2
-export(float, 1.0, 5.0, .01) var blur_speed_mult = 1.0
+export(float, .75, 2.5, .01) var blur_speed = 1.0
 
 onready var blur_mat: ShaderMaterial = $TextureRect.material
 onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
@@ -16,15 +16,13 @@ onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
 func _ready() -> void:
 	toggle_pause(-1)
 	
+	anim_player.playback_speed = blur_speed
+	
 	var fadeIn := anim_player.get_animation(\"FadeIn\")
-	fadeIn.length *= blur_speed_mult
 	fadeIn.track_set_key_value(0, 1, max_blur)
-	fadeIn.track_set_key_time(0, 1, fadeIn.length)
 	
 	var fadeOut := anim_player.get_animation(\"FadeOut\")
-	fadeOut.length *= blur_speed_mult/3
 	fadeOut.track_set_key_value(0, 0, max_blur)
-	fadeOut.track_set_key_time(0, 0, fadeOut.length)
 	
 
 func _input(event: InputEvent) -> void:
@@ -178,7 +176,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 max_blur = 1.6
-blur_speed_mult = 5.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
 pause_mode = 2
