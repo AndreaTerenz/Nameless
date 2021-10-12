@@ -14,25 +14,29 @@ var hidden: bool = false setget set_hidden
 var current_weapon := 0
 var can_hide := true
 
-var switch_state = GUN_STATE.ACTIVE
+var gun_stat setget set_gun_state
 func switching():
-	return (switch_state == GUN_STATE.SWITCHING)
+	return (gun_stat == GUN_STATE.SWITCHING)
 
 onready var anim_player := get_node(anim_player_node) as AnimationPlayer
 onready var gun : BaseWeapon = null
 
 func _ready() -> void:
-	switch_state = GUN_STATE.ACTIVE
-	slots = min(len(weapons), slots)
 	load_gun()
+	set_gun_state(GUN_STATE.ACTIVE)
+	slots = min(len(weapons), slots)
 
 func _input(event: InputEvent) -> void:
 	if gun.aimable:
-		if Input.is_action_just_pressed("aim"):
-			can_hide = false
-			anim_player.play("Aim")
-		elif Input.is_action_just_released("aim"):
-			anim_player.play("Aim Reverse")
+		var pressed = Input.is_action_just_pressed("aim")
+		var released = Input.is_action_just_released("aim")
+		if pressed or released:
+			set_gun_state(GUN_STATE.INACTIVE)
+			if pressed:
+				can_hide = false
+				anim_player.play("Aim")
+			elif released:
+				anim_player.play("Aim Reverse")
 	
 	if can_hide:
 		if Input.is_action_just_pressed("next weapon"):
@@ -62,10 +66,10 @@ func load_gun():
 		var gunScn : PackedScene = load(weapons[current_weapon])
 		gun = gunScn.instance()
 		add_child(gun)
+		set_gun_state(GUN_STATE.INACTIVE)
 		
 func switch_weapon(switch_to: int = slots):
-	can_hide = false
-	switch_state = GUN_STATE.SWITCHING
+	set_gun_state(GUN_STATE.SWITCHING)
 	
 	if not (switch_to in range(0, slots)):
 		current_weapon += sign(switch_to)
@@ -80,18 +84,31 @@ func switch_weapon(switch_to: int = slots):
 
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
-		"Aim Reverse":
-			can_hide = true
-		"Hide Reverse": 
-			can_hide = true
-			if switch_state == GUN_STATE.INACTIVE:
-				switch_state = GUN_STATE.ACTIVE
-				gun.enabled = true
+		"Aim", "Aim Reverse", "Hide Reverse": 
+			set_gun_state(GUN_STATE.ACTIVE)
 		"Hide": 
 			if switching() and len(weapons)>0:
-				switch_state = GUN_STATE.INACTIVE
-				anim_player.play("Hide Reverse")
 				load_gun()
+				anim_player.play("Hide Reverse")
 
 func _on_animation_started(anim_name: String) -> void:
 	pass
+	
+func set_gun_state(state):
+	gun_stat = state
+	
+	match gun_stat:
+		GUN_STATE.INACTIVE:
+			gun.enabled = false
+		GUN_STATE.SWITCHING:
+			gun.enabled = false
+			can_hide = false
+		GUN_STATE.ACTIVE:
+			can_hide = true
+			gun.enabled = true
+
+
+
+
+
+

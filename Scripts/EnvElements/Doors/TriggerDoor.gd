@@ -10,6 +10,7 @@ func _ready() -> void:
 	trigger.connect("body_exited", self, "_on_body_exited")
 
 func _on_body_entered(body: Node) -> void:
+	print(body.name)
 	open()
 
 func _on_body_exited(body: Node) -> void:

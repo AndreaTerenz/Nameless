@@ -14,6 +14,7 @@ aimable = false
 muzze_path = NodePath("Muzzle")
 bullet_scn = ExtResource( 5 )
 continuous = true
+cooldown = 0.035
 
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.3207, 1.54602, 0 )
