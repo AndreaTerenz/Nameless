@@ -1,10 +1,31 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Fonts/Cousine-Bold.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Scripts/Weapons/BulletGun.gd" type="Script" id=3]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/Weapons/Bullet.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends BulletGun
+
+func _ready() -> void:
+	set_count()
+
+
+func _on_shot() -> void:
+	set_count()
+
+
+func _on_out_of_ammo() -> void:
+	$Label3D.text = \"--\"
+
+
+func _on_reloaded() -> void:
+	set_count()
+
+
+func set_count():
+	$Label3D.text = \"%02d\" % ammo_count
+"
 
 [sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
@@ -15,9 +36,9 @@ cast_shadow = 0
 mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null
-script = ExtResource( 3 )
+script = SubResource( 7 )
 muzze_path = NodePath("Muzzle")
-bullet_scn = ExtResource( 5 )
+fire_rate = 20
 
 [node name="Label3D" type="Spatial" parent="."]
 transform = Transform( -2.25999e-07, 1.63062, -0.948964, -1.7431e-14, 4.90639, 0.315384, 5.17026, 7.12765e-08, -4.14805e-08, -2.45794, 1.4498, 3.90542e-08 )

@@ -124,7 +124,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Weapons/MeleeWeapon.gd"
 }, {
-"base": "Reference",
+"base": "KinematicBody",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Scripts/Player/Player.gd"
@@ -349,7 +349,7 @@ zoom={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-reset={
+reload={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
@@ -444,4 +444,4 @@ cpu_lightmapper/quality/high_quality_ray_count=1024
 cpu_lightmapper/quality/ultra_quality_ray_count=2048
 quality/filters/msaa=3
 quality/filters/use_fxaa=true
-environment/default_environment="res://Envs/environment.tres"
+environment/default_environment="res://default_env.tres"

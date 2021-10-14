@@ -11,7 +11,7 @@ var target_group := "Enemies"
 func _ready():
 	contact_monitor = true
 	contacts_reported = 512
-	weight = 2.8
+	mass = 1
 	gravity_scale = 0
 	
 	connect("body_entered", self, "_on_collision")

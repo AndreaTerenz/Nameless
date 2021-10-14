@@ -95,7 +95,6 @@ func set_layer(value: int) -> void:
 func set_text(value: String) -> void:
 	text = value
 	if label:
-		print(value)
 		label.text = text
 		label.rect_size = Vector2()
 		label.force_update_transform()

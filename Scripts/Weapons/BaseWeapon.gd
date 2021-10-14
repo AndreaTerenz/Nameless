@@ -17,8 +17,10 @@ func _check_fire():
 
 func attack():
 	if enabled:
-		emit_signal("attacked")
 		_on_attack()
+		#it may change after the attack
+		if enabled:
+			emit_signal("attacked")
 	
 func _on_attack():
 	pass

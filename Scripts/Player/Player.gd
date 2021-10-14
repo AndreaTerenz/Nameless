@@ -1,12 +1,17 @@
 class_name Player
 extends KinematicBody
 
+enum MODE {
+	GAME,
+	CINEMATIC
+}
+
 export(float, 8, 30, .5) var h_speed = 10.0
 export(float, 1.1, 3.5, .1) var speed_sprint_mult = 2.0
 export(float, .1, .9, .05) var speed_crouch_mult = .4
 export(float, .4, 3.0, .1) var crouch_anim_mult = 1.0
-export(float, 10, 20, .5) var gravity_strength = 14.0
-export(float, 5, 10, .5) var jump_strength = 5.0
+export(float, 10, 20, .5) var gravity_strength = 17.0
+export(float, 6, 25, .5) var jump_strength = 10.0
 export(float, .01, .2, .005) var mouse_sens_std = 0.1
 export(float, .01, .9, .005) var zoom_mouse_sensitivity_factor = 0.33
 export(float, 1, 10, .1) var std_acceleration = 6.0
@@ -14,6 +19,7 @@ export(float, .05, .2, .01) var fov_change_rate = .1
 export(float, 60.0, 80.0, .5) var std_fov = 65.0
 export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
+export(MODE) var start_mode = MODE.GAME
 
 var mouse_sensitivity: float = .0
 var current_speed: float = h_speed
@@ -29,10 +35,12 @@ var crouch_released: bool = false
 var leaving_stairs: bool = false
 var on_stairs: bool = false
 
+onready var mode = start_mode setget set_mode
+
 onready var head = $Head
 onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
-onready var camera = $Head/Camera
+onready var camera : Camera = $Head/Camera
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
 onready var grnd_chk = $GroundCheck
 onready var roof_chk = $Head/RoofCheck
@@ -49,6 +57,9 @@ func _ready() -> void:
 	camera.zoom_fov = zoom_fov
 
 func _input(event: InputEvent) -> void:
+	if mode == MODE.CINEMATIC:
+		return
+	
 	if Input.is_action_just_pressed("flashlight"):
 		light.visible = !light.visible
 	
@@ -70,6 +81,9 @@ func _input(event: InputEvent) -> void:
 		head.rotation.x = clamp(head.rotation.x, deg2rad(-90), deg2rad(90))
 		
 func _physics_process(delta: float) -> void:
+	if mode == MODE.CINEMATIC:
+		return
+		
 	gun_camera.global_transform = camera.global_transform
 	check_stairs()
 	
@@ -79,6 +93,18 @@ func _physics_process(delta: float) -> void:
 		velocity = stairs_movement(delta)
 	
 	move_and_slide(velocity, Vector3.UP)
+
+func set_mode(val):
+	mode = val
+	camera.show_ui(mode == MODE.GAME)
+	gun_hook.hidden = (mode != MODE.GAME)
+
+func translate_camera(offset: Vector3):
+	var own_origin = transform.origin
+	var cam_origin = camera.transform.origin
+	
+	var camera_body_delta = own_origin - cam_origin
+	translation = offset - camera_body_delta
 	
 func check_stairs() -> void:
 	if not(on_stairs):

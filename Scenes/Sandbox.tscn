@@ -675,7 +675,6 @@ fov = 79.0
 transform = Transform( 0.0550546, 0, -0.998484, 0, 1, 0, 0.998484, 0, 0.0550546, -15.6631, 9.58962, -48.1014 )
 collision_layer = 3
 speed_sprint_mult = 1.7
-jump_strength = 10.0
 std_fov = 70.0
 sprint_fov = 90.0
 zoom_fov = 30.0

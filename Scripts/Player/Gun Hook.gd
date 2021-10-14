@@ -53,6 +53,7 @@ func set_hidden(value):
 	if (hidden != value):
 		hidden = value
 		if (hidden):
+			set_gun_state(GUN_STATE.INACTIVE)
 			anim_player.play("Hide")
 		else:
 			anim_player.play("Hide Reverse")
