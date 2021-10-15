@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -246,6 +246,10 @@ tracks/0/keys = {
 
 [sub_resource type="CylinderShape" id=4]
 
+[sub_resource type="SphereMesh" id=15]
+radius = 0.2
+height = 0.4
+
 [sub_resource type="CylinderShape" id=3]
 
 [node name="Player" type="KinematicBody"]
@@ -266,7 +270,7 @@ debug_shape_thickness = 4.0
 [node name="Camera" type="Camera" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.823641 )
 cull_mask = 1048573
-fov = 85.0
+fov = 65.0
 far = 8192.0
 script = ExtResource( 2 )
 
@@ -357,6 +361,11 @@ anims/RESET = SubResource( 14 )
 [node name="Body" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453955, 0 )
 shape = SubResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Body"]
+cast_shadow = 0
+mesh = SubResource( 15 )
+material/0 = null
 
 [node name="Foot" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )

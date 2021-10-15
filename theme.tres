@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=2]
+[gd_resource type="Theme" load_steps=10 format=2]
 
 [ext_resource path="res://base font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=2]
@@ -45,8 +45,18 @@ expand_margin_bottom = 5.0
 shadow_color = Color( 0.1617, 0.77, 0.445573, 0.560784 )
 shadow_size = 4
 
+[sub_resource type="StyleBoxEmpty" id=9]
+
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 0.290196 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 5.0
+expand_margin_right = 5.0
 
 [resource]
 default_font = ExtResource( 1 )
@@ -55,4 +65,10 @@ Button/styles/focus = SubResource( 7 )
 Button/styles/hover = SubResource( 5 )
 Button/styles/normal = SubResource( 4 )
 Button/styles/pressed = SubResource( 7 )
+CheckBox/styles/focus = SubResource( 9 )
+CheckBox/styles/hover = SubResource( 9 )
+CheckBox/styles/hover_pressed = SubResource( 9 )
+CheckBox/styles/normal = SubResource( 9 )
+CheckBox/styles/pressed = SubResource( 9 )
 Label/styles/normal = SubResource( 2 )
+PanelContainer/styles/panel = SubResource( 10 )

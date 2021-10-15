@@ -78,7 +78,7 @@ func _input(event: InputEvent) -> void:
 		rotate_y(y_rot)
 		
 		head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
-		head.rotation.x = clamp(head.rotation.x, deg2rad(-90), deg2rad(90))
+		head.rotation.x = clamp(head.rotation.x, deg2rad(-80), deg2rad(80))
 		
 func _physics_process(delta: float) -> void:
 	if mode == MODE.CINEMATIC:

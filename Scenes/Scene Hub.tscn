@@ -1,0 +1,173 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://base font.tres" type="DynamicFont" id=2]
+
+[sub_resource type="DynamicFont" id=8]
+size = 48
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.329412, 0.329412, 0.329412, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 0.3264, 0.96, 0.62208, 0.560784 )
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 0.1617, 0.77, 0.445573, 0.560784 )
+shadow_size = 4
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxFlat" id=10]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="Theme" id=11]
+default_font = ExtResource( 2 )
+Button/fonts/font = SubResource( 8 )
+Button/styles/focus = SubResource( 7 )
+Button/styles/hover = SubResource( 5 )
+Button/styles/normal = SubResource( 4 )
+Button/styles/pressed = SubResource( 7 )
+CheckBox/styles/focus = SubResource( 9 )
+CheckBox/styles/hover = SubResource( 9 )
+CheckBox/styles/hover_pressed = SubResource( 9 )
+CheckBox/styles/normal = SubResource( 9 )
+CheckBox/styles/pressed = SubResource( 9 )
+PanelContainer/styles/panel = SubResource( 10 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Control
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"debug_quit\"):
+		get_tree().quit()
+"
+
+[sub_resource type="ButtonGroup" id=1]
+
+[node name="SceneHub" type="CenterContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 11 )
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 815.0
+margin_top = 426.0
+margin_right = 1105.0
+margin_bottom = 654.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer"]
+margin_right = 290.0
+margin_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/GridContainer"]
+margin_right = 32.0
+margin_bottom = 74.0
+focus_neighbour_top = NodePath("../CheckBox3")
+focus_previous = NodePath("../CheckBox3")
+size_flags_vertical = 3
+pressed = true
+group = SubResource( 1 )
+
+[node name="Label" type="Label" parent="PanelContainer/GridContainer"]
+margin_left = 40.0
+margin_top = 18.0
+margin_right = 290.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+text = "Last scene"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox3" type="CheckBox" parent="PanelContainer/GridContainer"]
+margin_top = 82.0
+margin_right = 32.0
+margin_bottom = 156.0
+focus_neighbour_bottom = NodePath("../CheckBox")
+focus_next = NodePath("../CheckBox")
+size_flags_vertical = 0
+group = SubResource( 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/GridContainer"]
+margin_left = 40.0
+margin_top = 82.0
+margin_right = 290.0
+margin_bottom = 228.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="PanelContainer/GridContainer/VBoxContainer"]
+margin_right = 250.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+text = "Other:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 250.0
+margin_bottom = 146.0
+rect_min_size = Vector2( 250, 100 )
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/GridContainer/VBoxContainer/ScrollContainer"]
+margin_right = 250.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "1", null, false, "2", null, false, "3", null, false ]

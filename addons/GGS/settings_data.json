@@ -1,1 +1,32 @@
-{}
+{
+	"0": {
+		"name": "window_fullscreen",
+		"default": {},
+		"current": {},
+		"logic": ""
+	},
+	"1": {
+		"name": "sfx_volume",
+		"default": {},
+		"current": {},
+		"logic": ""
+	},
+	"2": {
+		"name": "sfx_mute",
+		"default": {},
+		"current": {},
+		"logic": ""
+	},
+	"3": {
+		"name": "music_volume",
+		"default": {},
+		"current": {},
+		"logic": ""
+	},
+	"4": {
+		"name": "music_mute",
+		"default": {},
+		"current": {},
+		"logic": ""
+	}
+}
