@@ -35,11 +35,7 @@ func _input(event: InputEvent) -> void:
 
 
 func toggle_pause(val = 0) -> void:
-	if val != 0:
-		get_tree().paused = bool(val + 1)
-	else:
-		get_tree().paused = not(get_tree().paused)
-	VisualServer.set_shader_time_scale(0.0 if get_tree().paused else 1.0)
+	Globals.toggle_pause(val)
 	visible = not(visible)
 	set_mouse_mode()
 
@@ -68,6 +64,11 @@ func _on_Resume_Btn_pressed() -> void:
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == \"FadeOut\":
 		toggle_pause()
+
+
+func _on_Hub_Btn_pressed() -> void:
+	toggle_pause(-1)
+	get_tree().change_scene(\"res://Scenes/Scene Hub.tscn\")
 "
 
 [sub_resource type="ShaderMaterial" id=5]
@@ -201,10 +202,10 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer"]
 pause_mode = 2
-margin_left = 855.0
-margin_top = 409.0
-margin_right = 1065.0
-margin_bottom = 671.0
+margin_left = 407.0
+margin_top = 122.0
+margin_right = 617.0
+margin_bottom = 478.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
@@ -240,11 +241,29 @@ size_flags_vertical = 5
 text = "Resume"
 script = ExtResource( 3 )
 
-[node name="Quit Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+[node name="Hub Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
 show_behind_parent = true
 margin_top = 188.0
 margin_right = 210.0
 margin_bottom = 262.0
+rect_min_size = Vector2( 210, 0 )
+focus_neighbour_top = NodePath("../Resume Btn")
+focus_neighbour_bottom = NodePath("../Restart Btn")
+focus_next = NodePath("../Restart Btn")
+focus_previous = NodePath("../Resume Btn")
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Hub"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
+show_behind_parent = true
+margin_top = 282.0
+margin_right = 210.0
+margin_bottom = 356.0
 rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Resume Btn")
 focus_neighbour_bottom = NodePath("../Restart Btn")
@@ -265,5 +284,6 @@ anims/RESET = SubResource( 7 )
 
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Restart Btn" to="." method="_on_Restart_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Resume Btn" to="." method="_on_Resume_Btn_pressed"]
+[connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Hub Btn" to="." method="_on_Hub_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Quit Btn" to="." method="_on_Quit_Btn_pressed"]
 [connection signal="animation_finished" from="TextureRect/AnimationPlayer" to="." method="_on_animation_finished"]

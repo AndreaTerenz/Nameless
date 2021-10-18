@@ -19,14 +19,22 @@
 	},
 	"3": {
 		"name": "music_volume",
-		"default": {},
-		"current": {},
+		"default": {
+			"value": null
+		},
+		"current": {
+			"value": null
+		},
 		"logic": ""
 	},
 	"4": {
 		"name": "music_mute",
-		"default": {},
-		"current": {},
+		"default": {
+			"value": null
+		},
+		"current": {
+			"value": null
+		},
 		"logic": ""
 	}
 }

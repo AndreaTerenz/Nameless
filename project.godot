@@ -219,7 +219,8 @@ _global_script_class_icons={
 [application]
 
 config/name="FPS test"
-run/main_scene="res://Scenes/Sandbox.tscn"
+run/main_scene="res://Scenes/Scene Hub.tscn"
+config/use_custom_user_dir=true
 config/icon="res://icon.png"
 
 [autoload]
@@ -233,8 +234,6 @@ settings/fps/force_fps=120
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
 window/size/resizable=false
 window/size/fullscreen=true
 
