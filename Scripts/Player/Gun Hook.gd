@@ -13,6 +13,7 @@ export(int) var slots = 5
 var hidden: bool = false setget set_hidden
 var current_weapon := 0
 var can_hide := true
+var hud : Hud
 
 var gun_stat setget set_gun_state
 func switching():
@@ -22,9 +23,20 @@ onready var anim_player := get_node(anim_player_node) as AnimationPlayer
 onready var gun : BaseWeapon = null
 
 func _ready() -> void:
-	load_gun()
-	set_gun_state(GUN_STATE.ACTIVE)
 	slots = min(len(weapons), slots)
+	
+func setup(h: Hud):
+	hud = h
+	load_gun()
+	set_crosshair()
+	set_gun_state(GUN_STATE.ACTIVE)
+	
+func set_crosshair():
+	var cross : Texture = null
+	if gun is BaseGun:
+		cross = gun.crosshair_text
+		
+	hud.set_crosshair_text(cross)
 
 func _input(event: InputEvent) -> void:
 	if gun.aimable:
@@ -68,6 +80,7 @@ func load_gun():
 		gun = gunScn.instance()
 		add_child(gun)
 		set_gun_state(GUN_STATE.INACTIVE)
+		set_crosshair()
 		
 func switch_weapon(switch_to: int = slots):
 	set_gun_state(GUN_STATE.SWITCHING)

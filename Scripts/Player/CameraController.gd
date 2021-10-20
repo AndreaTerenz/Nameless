@@ -9,7 +9,7 @@ var sprinting: bool = false
 var target_fov: float = std_fov
 
 onready var gun_viewport = $ViewportContainer
-onready var crosshair = $Crosshair
+onready var hud = $Hud
 
 func set_sprinting_fov(sprnt: bool):
 	sprinting = sprnt
@@ -23,7 +23,13 @@ func _process(delta: float) -> void:
 		target_fov = sprint_fov
 	
 	fov = lerp(fov, target_fov, fov_change_rate)
+	
+func check_zoom():
+	if Input.is_action_just_pressed("zoom"):
+		zoomed = true
+	elif Input.is_action_just_released("zoom"):
+		zoomed = false
 
 func show_ui(show: bool):
 	gun_viewport.visible = show
-	crosshair.visible = show
+	hud.visible = show

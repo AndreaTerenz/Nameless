@@ -3,8 +3,8 @@
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Player/StairsManager.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/UI/Hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Player/Gun Hook.gd" type="Script" id=5]
-[ext_resource path="res://Assets/Sprites/crosshair.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/Player/InteractCheck.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/UI/Debug overlay.tscn" type="PackedScene" id=9]
@@ -283,7 +283,7 @@ __meta__ = {
 }
 
 [node name="Viewport" type="Viewport" parent="Head/Camera/ViewportContainer"]
-size = Vector2( 1920, 1080 )
+size = Vector2( 1024, 600 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
@@ -312,19 +312,7 @@ anims/Hide = SubResource( 9 )
 anims/Idle = SubResource( 10 )
 anims/RESET = SubResource( 8 )
 
-[node name="Crosshair" type="CenterContainer" parent="Head/Camera"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="Head/Camera/Crosshair"]
-margin_left = 937.0
-margin_top = 517.0
-margin_right = 982.0
-margin_bottom = 562.0
-texture = ExtResource( 6 )
+[node name="Hud" parent="Head/Camera" instance=ExtResource( 4 )]
 
 [node name="InteractRay" type="Area" parent="Head"]
 transform = Transform( -1, -1.60933e-21, 1.50996e-07, 0, 1, 1.06581e-14, -1.50996e-07, 1.06581e-14, -1, 0, 0, -0.823641 )

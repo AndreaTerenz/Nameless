@@ -7,8 +7,8 @@ export var aimable := true
 
 var target_group := "Enemies"
 var enabled = false
-
-func _input(event: InputEvent) -> void:
+	
+func _physics_process(delta: float) -> void:
 	if _check_fire():
 		attack()
 		

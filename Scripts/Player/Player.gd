@@ -51,10 +51,13 @@ onready var light = $"Head/Flashlight"
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_sensitivity = mouse_sens_std
+	
 	camera.fov_change_rate = fov_change_rate
 	camera.std_fov = std_fov
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
+	
+	gun_hook.setup(camera.hud)
 
 func _input(event: InputEvent) -> void:
 	if mode == MODE.CINEMATIC:
@@ -64,13 +67,13 @@ func _input(event: InputEvent) -> void:
 		light.visible = !light.visible
 	
 	if not(on_stairs):
-		if Input.is_action_just_pressed("zoom"):
-			mouse_sensitivity = mouse_sens_std * zoom_mouse_sensitivity_factor
-		elif Input.is_action_just_released("zoom"):
-			mouse_sensitivity = mouse_sens_std
-			
-		camera.zoomed = (mouse_sensitivity != mouse_sens_std)
-		gun_hook.hidden = (mouse_sensitivity != mouse_sens_std)
+		mouse_sensitivity = mouse_sens_std
+		
+		camera.check_zoom()
+		
+		if camera.zoomed:
+			mouse_sensitivity *= zoom_mouse_sensitivity_factor
+		gun_hook.hidden = camera.zoomed
 		
 	if event is InputEventMouseMotion:
 		var y_rot = deg2rad(-event.relative.x * mouse_sensitivity)

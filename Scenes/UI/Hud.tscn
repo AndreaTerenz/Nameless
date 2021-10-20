@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=1]
+[ext_resource path="res://Scripts/UI/Hud.gd" type="Script" id=2]
+[ext_resource path="res://theme.tres" type="Theme" id=3]
+[ext_resource path="res://Assets/Sprites/crosshair_bg.svg" type="Texture" id=4]
+
+[sub_resource type="Theme" id=1]
+
+[node name="Hud" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 3 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Crosshair" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="Crosshair"]
+margin_left = 477.0
+margin_top = 265.0
+margin_right = 547.0
+margin_bottom = 335.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource( 1 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Crosshair"]
+margin_left = 489.0
+margin_top = 277.0
+margin_right = 534.0
+margin_bottom = 322.0
+theme = SubResource( 1 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

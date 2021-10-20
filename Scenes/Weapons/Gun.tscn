@@ -1,14 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Fonts/Cousine-Bold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=3]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=4]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends BulletGun
 
+onready var mags_mesh : MeshInstance = $MeshInstance2
+onready var mags_mesh_mat : Material
+
 func _ready() -> void:
+	._ready()
+	
 	set_count()
+	mags_mesh_mat = mags_mesh.get_surface_material(0)
+	mags_mesh_mat.set_shader_param(\"uv_scale\", mags_left)
 
 
 func _on_shot() -> void:
@@ -21,6 +29,7 @@ func _on_out_of_ammo() -> void:
 
 func _on_reloaded() -> void:
 	set_count()
+	mags_mesh_mat.set_shader_param(\"mask\", mags_left/float(start_mags-1))
 
 
 func set_count():
@@ -30,7 +39,78 @@ func set_count():
 [sub_resource type="DynamicFont" id=6]
 font_data = ExtResource( 2 )
 
+[sub_resource type="PlaneMesh" id=8]
+
+[sub_resource type="Shader" id=9]
+code = "shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+
+uniform vec4 albedo : hint_color;
+uniform vec4 emission : hint_color;
+uniform float emission_energy;
+
+uniform float uv_scale = 1.0;
+uniform float thickness : hint_range(0.0, 1.0) = .2;
+uniform float mask : hint_range(0.0, 1.0) = 1.0;
+
+bool compare(float val, float ref, float delta)
+{
+	return abs(val-ref) <= delta;
+}
+
+float map(float val, float min1, float max1, float min2, float max2)
+{
+	if (val < min1)
+	{
+		return min2;
+	}
+	
+	if (val > max1)
+	{
+		return max2;
+	}
+	
+	float delta1 = (max1-min1);
+	float delta2 = (max2-min2);
+	
+	float scale = delta2/delta1;
+	float offset = -min1*scale + min2;
+	return val*scale + offset;
+}
+
+float smooth_compare(float val, float ref, float delta, float harhsness)
+{
+	float diff = abs(val-ref);
+	
+	return map(diff, harhsness/2.0, delta/2.0, 0.0, 1.0);
+}
+
+void vertex() {
+	
+}
+
+void fragment() {
+	vec2 base_uv = UV * uv_scale;
+	
+	ALBEDO = albedo.rgb;
+	EMISSION = emission.rgb*emission_energy;
+	
+	float x_fract = fract(base_uv.x);
+	ALPHA = albedo.a * float(compare(x_fract, .5, thickness/2.0) && base_uv.x < mask*uv_scale);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 9 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/emission = Color( 0.0235294, 0.184314, 0.54902, 1 )
+shader_param/emission_energy = 1.369
+shader_param/uv_scale = 1.0
+shader_param/thickness = 0.707
+shader_param/mask = 1.0
+
 [node name="Gun" type="MeshInstance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0024457, 2.38419e-07, -0.00897169 )
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )
@@ -38,6 +118,7 @@ material/0 = null
 material/1 = null
 script = SubResource( 7 )
 muzze_path = NodePath("Muzzle")
+crosshair_text = ExtResource( 3 )
 fire_rate = 20
 
 [node name="Label3D" type="Spatial" parent="."]
@@ -56,6 +137,14 @@ emission_strength = 1.0
 extrude = 0.0
 max_steps = 256
 step_size = 1.0
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( -2.49068e-08, -0.948964, -0.0466526, 6.25013e-08, 0.315384, -0.140374, 0.37669, -1.15075e-07, 2.02064e-08, -2.59922, 1.02471, 6.23986e-08 )
+layers = 2
+cast_shadow = 0
+mesh = SubResource( 8 )
+skeleton = NodePath("../Label3D")
+material/0 = SubResource( 10 )
 
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.58112, 0 )
