@@ -3,7 +3,8 @@ extends KinematicBody
 
 enum MODE {
 	GAME,
-	CINEMATIC
+	CINEMATIC,
+	NOCLIP
 }
 
 export(float, 8, 30, .5) var h_speed = 10.0
@@ -22,12 +23,6 @@ export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
 export(MODE) var start_mode = MODE.GAME
 
 var mouse_sensitivity: float = .0
-var current_speed: float = h_speed
-var direction: Vector3 = Vector3.ZERO
-var h_velocity: Vector3 = Vector3.ZERO
-var h_acceleration: float = 0.0
-var velocity: Vector3 = Vector3.ZERO
-var gravity_vec: Vector3 = Vector3.ZERO
 var bonked_head: bool = false
 var sprinting: bool = false
 var crouching: bool = false
@@ -41,11 +36,14 @@ onready var mode = start_mode setget set_mode
 onready var head = $Head
 onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
-onready var camera : Camera = $Head/Camera
+onready var foot = $Foot
+onready var camera : CameraController = $Head/Camera
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
 onready var grnd_chk = $GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
+onready var interact_chk = $Head/InteractRay
+onready var hitbox = $Hitbox
 onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"
 onready var light = $"Head/Flashlight"
 
@@ -60,52 +58,85 @@ func _ready() -> void:
 	
 	gun_hook.setup(camera.hud)
 	
-	mover = StandardMover.new()
-	mover.setup(self)
+	set_mode(start_mode)
 
 func _input(event: InputEvent) -> void:
 	if mode == MODE.CINEMATIC:
 		return
-	
-	if Input.is_action_just_pressed("flashlight"):
-		light.visible = !light.visible
-	
-	if not(on_stairs):
-		mouse_sensitivity = mouse_sens_std
 		
-		camera.check_zoom()
+	if Input.is_action_just_pressed("noclip_toggle"):
+		set_mode(MODE.NOCLIP if mode != MODE.NOCLIP else MODE.GAME)
+	else:
+		if Input.is_action_just_pressed("flashlight"):
+			light.visible = !light.visible
 		
-		if camera.zoomed:
-			mouse_sensitivity *= zoom_mouse_sensitivity_factor
-		gun_hook.hidden = camera.zoomed
-		
-	if event is InputEventMouseMotion:
-		var y_rot = deg2rad(-event.relative.x * mouse_sensitivity)
-		
-		rotate_y(y_rot)
-		
-		head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
-		head.rotation.x = clamp(head.rotation.x, deg2rad(-80), deg2rad(80))
+		if not(on_stairs):
+			mouse_sensitivity = mouse_sens_std
+			
+			camera.check_zoom()
+			
+			if camera.zoomed:
+				mouse_sensitivity *= zoom_mouse_sensitivity_factor
+			gun_hook.hidden = camera.zoomed
+			
+		if event is InputEventMouseMotion:
+			var y_rot = deg2rad(-event.relative.x * mouse_sensitivity)
+			
+			rotate_y(y_rot)
+			
+			head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
+			head.rotation.x = clamp(head.rotation.x, deg2rad(-80), deg2rad(80))
 		
 func _physics_process(delta: float) -> void:
-	if mode == MODE.CINEMATIC:
-		return
-	
-	gun_camera.global_transform = camera.global_transform
-	
-	move_and_slide(mover.compute_move(delta), Vector3.UP)
-	
-	check_stairs()
-	
-	if not(on_stairs) and mover is StairsMover:
-		change_mover(StandardMover.new())
-	elif on_stairs and mover is StandardMover:
-		change_mover(StairsMover.new())
+	if mode != MODE.CINEMATIC:
+		gun_camera.global_transform = camera.global_transform
+		
+		move_and_slide(mover.compute_move(delta), Vector3.UP)
+		
+		if mode != MODE.NOCLIP:
+			check_stairs()
+			
+			if not(on_stairs) and mover is StairsMover:
+				change_mover(StandardMover.new())
+			elif on_stairs and mover is StandardMover:
+				change_mover(StairsMover.new())
 
 func set_mode(val):
 	mode = val
-	camera.show_ui(mode == MODE.GAME)
-	gun_hook.hidden = (mode != MODE.GAME)
+	
+	match (mode):
+		MODE.GAME:
+			camera.show_ui(true)
+			gun_hook.hidden = false
+			toggle_collisions(true)
+			
+			change_mover(StandardMover.new())
+		MODE.CINEMATIC:
+			camera.show_ui(false)
+			gun_hook.hidden = true
+			toggle_collisions(false)
+		MODE.NOCLIP:
+			camera.show_ui(true)
+			camera.toggle_sprint_fov(false)
+			gun_hook.hidden = false
+			toggle_collisions(false)
+			
+			change_mover(NoClipMover.new())
+			
+func toggle_collisions(stat: bool):
+	head.disabled = not(stat) #diobono
+	body.disabled = not(stat) #diobono
+	foot.disabled = not(stat)
+	
+	roof_chk.enabled = stat
+	grnd_chk.enabled = stat
+	stairs_chk.enabled = stat
+	
+	interact_chk.monitorable = stat
+	interact_chk.monitoring = stat
+	
+	hitbox.monitorable = stat
+	hitbox.monitoring = stat
 
 func translate_camera(offset: Vector3):
 	var own_origin = transform.origin
@@ -120,17 +151,18 @@ func change_mover(new_mover: PlayerMover):
 		mover = new_mover
 	
 func check_stairs() -> void:
-	if not(on_stairs):
-		if is_on_floor() or not(leaving_stairs):
-			stairs_chk.enabled = true
-			on_stairs = stairs_chk.any_collisions()
-			if on_stairs:
-				gun_hook.hidden = true
-				camera.set_sprinting_fov(false)
-				sprinting = false
-	else:
-		if Input.is_action_just_pressed("jump"):
-			gun_hook.hidden = false
-			stairs_chk.enabled = false
-			on_stairs = false
-			leaving_stairs = true
+	if not(on_stairs) and (is_on_floor() or not(leaving_stairs)):
+		stairs_chk.enabled = true
+		on_stairs = stairs_chk.any_collisions()
+		if on_stairs:
+			gun_hook.hidden = true
+			camera.toggle_sprint_fov(false)
+			sprinting = false
+	elif Input.is_action_just_pressed("jump"):
+		gun_hook.hidden = false
+		stairs_chk.enabled = false
+		on_stairs = false
+		leaving_stairs = true
+
+func _on_killed() -> void:
+	get_tree().reload_current_scene()

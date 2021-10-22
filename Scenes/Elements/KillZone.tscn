@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/EnvElements/KillZone.gd" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=34]
+
+[sub_resource type="CubeMesh" id=35]
+
+[sub_resource type="SpatialMaterial" id=36]
+flags_transparent = true
+flags_do_not_receive_shadows = true
+albedo_color = Color( 1, 0.105882, 0.105882, 0.392157 )
+
+[node name="KillZone" type="Area"]
+script = ExtResource( 1 )
+mask = 49
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 34 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+cast_shadow = 0
+mesh = SubResource( 35 )
+material/0 = SubResource( 36 )

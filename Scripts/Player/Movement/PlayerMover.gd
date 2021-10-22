@@ -9,10 +9,12 @@ var h_acceleration: float = 0.0
 var velocity: Vector3 = Vector3.ZERO
 var gravity_vec: Vector3 = Vector3.ZERO
 
+var read_prev_mover := true
+
 func setup(pl) -> void:
 	player = pl
 	
-	if player.mover != null:
+	if read_prev_mover and player.mover != null:
 		var mov = player.mover
 		
 		current_speed = mov.current_speed

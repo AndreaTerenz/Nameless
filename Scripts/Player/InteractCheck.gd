@@ -3,7 +3,7 @@ extends Area
 var target: Interactable = null
 
 func _input(event: InputEvent) -> void:
-	if target:
+	if target and monitoring:
 		if target.continuous:
 			if Input.is_action_pressed("interact"):
 				target.interact()

@@ -24,8 +24,8 @@ func _process(delta: float) -> void:
 	stairsLbl.text = "On stairs: %s" % str(player.on_stairs)
 	floorLbl.text = "On floor: %s" % str(player.is_on_floor())
 	
-	printVector3(velocityLbl, "Velocity", player.velocity)
-	printVector3(dirLbl, "Direction", player.direction)
+	printVector3(velocityLbl, "Velocity", player.mover.velocity)
+	printVector3(dirLbl, "Direction", player.mover.direction)
 	
 	var vsync_stat = "on" if OS.vsync_enabled else "off"
 	

@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Player/StairsManager.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/Hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Player/Gun Hook.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/InteractCheck.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/UI/Debug overlay.tscn" type="PackedScene" id=9]
@@ -252,6 +253,10 @@ height = 0.4
 
 [sub_resource type="CylinderShape" id=3]
 
+[sub_resource type="CapsuleShape" id=16]
+radius = 1.09907
+height = 3.06992
+
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 crouch_anim_mult = 3.0
@@ -392,7 +397,17 @@ player_path = NodePath("..")
 
 [node name="Pause menu" parent="." instance=ExtResource( 8 )]
 
+[node name="Hitbox" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+collision_layer = 128
+collision_mask = 112
+script = ExtResource( 6 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Hitbox"]
+shape = SubResource( 16 )
+
 [connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_finished"]
 [connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_started"]
 [connection signal="body_entered" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_entered"]
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
+[connection signal="killed" from="Hitbox" to="." method="_on_killed"]

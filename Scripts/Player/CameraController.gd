@@ -1,3 +1,4 @@
+class_name CameraController
 extends Camera
 
 var std_fov = 65.0
@@ -11,7 +12,7 @@ var target_fov: float = std_fov
 onready var gun_viewport = $ViewportContainer
 onready var hud = $Hud
 
-func set_sprinting_fov(sprnt: bool):
+func toggle_sprint_fov(sprnt: bool):
 	sprinting = sprnt
 		
 func _process(delta: float) -> void:

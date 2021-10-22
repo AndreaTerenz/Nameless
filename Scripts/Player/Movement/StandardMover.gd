@@ -88,4 +88,4 @@ func check_sprinting():
 			if sprinting:
 				current_speed *= player.speed_sprint_mult 
 			
-			player.camera.set_sprinting_fov(sprinting)
+			player.camera.toggle_sprint_fov(sprinting)
