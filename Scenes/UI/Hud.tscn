@@ -37,10 +37,10 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Crosshair"]
-margin_left = 489.0
-margin_top = 277.0
-margin_right = 534.0
-margin_bottom = 322.0
+margin_left = 486.0
+margin_top = 274.0
+margin_right = 538.0
+margin_bottom = 326.0
 theme = SubResource( 1 )
 texture = ExtResource( 1 )
 __meta__ = {
