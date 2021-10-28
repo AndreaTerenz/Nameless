@@ -1,30 +1,88 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/UI/Debug.gd" type="Script" id=1]
-[ext_resource path="res://theme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://base font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Scenes/UI/ButtonText.tscn" type="PackedScene" id=4]
+
+[sub_resource type="DynamicFont" id=8]
+size = 48
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.329412, 0.329412, 0.329412, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 0.3264, 0.96, 0.62208, 0.560784 )
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 0.1617, 0.77, 0.445573, 0.560784 )
+shadow_size = 4
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 0.290196 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0, 0, 0, 0.290196 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="Theme" id=11]
+default_font = ExtResource( 3 )
+Button/fonts/font = SubResource( 8 )
+Button/styles/focus = SubResource( 7 )
+Button/styles/hover = SubResource( 5 )
+Button/styles/normal = SubResource( 4 )
+Button/styles/pressed = SubResource( 7 )
+CheckBox/styles/focus = SubResource( 9 )
+CheckBox/styles/hover = SubResource( 9 )
+CheckBox/styles/hover_pressed = SubResource( 9 )
+CheckBox/styles/normal = SubResource( 9 )
+CheckBox/styles/pressed = SubResource( 9 )
+Label/styles/normal = SubResource( 2 )
+PanelContainer/styles/panel = SubResource( 10 )
+
+[sub_resource type="StyleBoxEmpty" id=12]
 
 [node name="Debug" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 2 )
+theme = SubResource( 11 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -334.0
-margin_top = -57.0
-margin_right = 334.0
-size_flags_horizontal = 4
-size_flags_vertical = 8
-text = "[Tab to toggle Debug Overlay] [V to toggle vsync]"
-align = 1
-valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -83,9 +141,9 @@ text = "On floor: ----"
 valign = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 845.0
+margin_left = 1741.0
 margin_top = 20.0
-margin_right = 1004.0
+margin_right = 1900.0
 margin_bottom = 196.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -131,3 +189,88 @@ size_flags_horizontal = 8
 text = "FOV: ----"
 align = 2
 valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+custom_constants/separation = 18
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
+margin_left = 753.0
+margin_right = 1004.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer2"]
+margin_right = 251.0
+margin_bottom = 100.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect" parent="HBoxContainer/PanelContainer2/PanelContainer" instance=ExtResource( 4 )]
+margin_top = 15.0
+margin_right = 70.0
+margin_bottom = 85.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+action = "show debug"
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer"]
+margin_left = 70.0
+margin_top = 31.0
+margin_right = 251.0
+margin_bottom = 69.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+custom_styles/normal = SubResource( 12 )
+text = "Debug Overlay"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer3" type="PanelContainer" parent="HBoxContainer"]
+margin_left = 1022.0
+margin_right = 1166.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer3"]
+margin_right = 144.0
+margin_bottom = 100.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect" parent="HBoxContainer/PanelContainer3/PanelContainer" instance=ExtResource( 4 )]
+margin_top = 15.0
+margin_right = 70.0
+margin_bottom = 85.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+action = "toggle_vsync"
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer3/PanelContainer"]
+margin_left = 70.0
+margin_top = 31.0
+margin_right = 144.0
+margin_bottom = 69.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+custom_styles/normal = SubResource( 12 )
+text = "Vsync"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
