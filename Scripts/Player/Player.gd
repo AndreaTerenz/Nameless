@@ -91,7 +91,8 @@ func _physics_process(delta: float) -> void:
 	if mode != MODE.CINEMATIC:
 		gun_camera.global_transform = camera.global_transform
 		
-		move_and_slide(mover.compute_move(delta), Vector3.UP)
+		mover.compute_move(delta)
+		move_and_slide(mover.velocity, Vector3.UP)
 		
 		if mode != MODE.NOCLIP:
 			check_stairs()

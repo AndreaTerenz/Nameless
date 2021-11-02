@@ -2,7 +2,7 @@ class_name StairsMover
 extends PlayerMover
 
 
-func compute_move(delta: float):
+func _compute(delta: float):
 	player.stairs_chk.flipped = sign(player.head.rotation.x) < 0
 	
 	var dir = 0.0

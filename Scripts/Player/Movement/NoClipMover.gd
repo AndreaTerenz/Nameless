@@ -10,7 +10,7 @@ func setup(pl):
 	read_prev_mover = false
 	.setup(pl)
 
-func compute_move(delta: float):
+func _compute(delta: float):
 	set_direction()
 	
 	return direction * player.h_speed * player.speed_sprint_mult

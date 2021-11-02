@@ -2,8 +2,8 @@ extends Control
 
 export(NodePath) var player_path
 
-var player
-var player_stat
+var player: Player
+var mover: PlayerMover = null
 
 onready var sprintLbl = $"MarginContainer/VBoxContainer/Sprint Lbl"
 onready var crouchLbl = $"MarginContainer/VBoxContainer/Crouch Lbl"
@@ -15,17 +15,17 @@ onready var fpsLbl = $"MarginContainer/VBoxContainer2/FPS Lbl"
 onready var fovLbl = $"MarginContainer/VBoxContainer2/FOV Lbl"
 
 func _ready() -> void:
-	player = get_node(player_path)
-	player_stat = player.get_node("Status")
+	player = get_node(player_path) as Player
 
 func _process(delta: float) -> void:
+	mover = player.mover
 	sprintLbl.text = "Sprinting: %s" % str(player.sprinting)
 	crouchLbl.text = "Crouching: %s" % str(player.crouching)
 	stairsLbl.text = "On stairs: %s" % str(player.on_stairs)
 	floorLbl.text = "On floor: %s" % str(player.is_on_floor())
 	
-	printVector3(velocityLbl, "Velocity", player.mover.velocity)
-	printVector3(dirLbl, "Direction", player.mover.direction)
+	printVector3(velocityLbl, "Velocity", mover.velocity)
+	printVector3(dirLbl, "Direction", mover.direction)
 	
 	var vsync_stat = "on" if OS.vsync_enabled else "off"
 	

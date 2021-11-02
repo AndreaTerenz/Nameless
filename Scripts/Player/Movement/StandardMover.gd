@@ -6,7 +6,7 @@ var crouching: bool = false
 var bonked_head: bool = false
 var crouch_released: bool = false
 
-func compute_move(delta: float):
+func _compute(delta: float):
 	set_direction()
 	
 	check_sprinting()

@@ -1,6 +1,5 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Scripts/UI/Debug.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Scenes/UI/ButtonText.tscn" type="PackedScene" id=4]
@@ -76,13 +75,64 @@ CheckBox/styles/pressed = SubResource( 9 )
 Label/styles/normal = SubResource( 2 )
 PanelContainer/styles/panel = SubResource( 10 )
 
+[sub_resource type="GDScript" id=13]
+script/source = "extends Control
+
+export(NodePath) var player_path
+
+var player: Player
+var mover: PlayerMover = null
+
+onready var sprintLbl = $\"MarginContainer/VBoxContainer/Sprint Lbl\"
+onready var crouchLbl = $\"MarginContainer/VBoxContainer/Crouch Lbl\"
+onready var stairsLbl = $\"MarginContainer/VBoxContainer/Stairs Lbl\"
+onready var floorLbl = $\"MarginContainer/VBoxContainer/Floor Lbl\"
+onready var velocityLbl = $\"MarginContainer/VBoxContainer2/Velocity Lbl\"
+onready var dirLbl = $\"MarginContainer/VBoxContainer2/Direction Lbl\"
+onready var fpsLbl = $\"MarginContainer/VBoxContainer2/FPS Lbl\"
+onready var fovLbl = $\"MarginContainer/VBoxContainer2/FOV Lbl\"
+
+func _ready() -> void:
+	player = get_node(player_path) as Player
+
+func _process(delta: float) -> void:
+	mover = player.mover
+	sprintLbl.text = \"Sprinting: %s\" % str(player.sprinting)
+	crouchLbl.text = \"Crouching: %s\" % str(player.crouching)
+	stairsLbl.text = \"On stairs: %s\" % str(player.on_stairs)
+	floorLbl.text = \"On floor: %s\" % str(player.is_on_floor())
+	
+	printVector3(velocityLbl, \"Velocity\", mover.velocity)
+	printVector3(dirLbl, \"Direction\", mover.direction)
+	
+	var vsync_stat = \"on\" if OS.vsync_enabled else \"off\"
+	
+	fpsLbl.text = \"FPS: %s [vsync %s]\" % [str(Engine.get_frames_per_second()), vsync_stat]
+	fovLbl.text = \"FOV: %.3f\" % player.camera.fov
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"show debug\"):
+		$MarginContainer.visible = not($MarginContainer.visible)
+	if Input.is_action_just_pressed(\"toggle_vsync\"):
+		OS.vsync_enabled = not(OS.vsync_enabled)
+
+func snapToZero(value: float):
+	return 0.0 if abs(value) < 1e-4 else value
+	
+func printVector3(label: Label, header: String, vector: Vector3):
+	var a = snapToZero(vector.x)
+	var b = snapToZero(vector.y)
+	var c = snapToZero(vector.z)
+	label.text = \"%s: (%.3f, %.3f, %.3f)\" % [header,a,b,c]
+"
+
 [sub_resource type="StyleBoxEmpty" id=12]
 
 [node name="Debug" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 11 )
-script = ExtResource( 1 )
+script = SubResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

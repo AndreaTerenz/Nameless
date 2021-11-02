@@ -27,4 +27,7 @@ func setup(pl) -> void:
 		current_speed = player.h_speed
 
 func compute_move(delta: float):
-	pass
+	velocity = _compute(delta)
+
+func _compute(delta: float) -> Vector3:
+	return Vector3.ZERO
