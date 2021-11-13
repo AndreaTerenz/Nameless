@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Interactable",
+"class": "AmmoPickup",
+"language": "GDScript",
+"path": "res://Scripts/Weapons/AmmoPickup.gd"
+}, {
 "base": "Reference",
 "class": "ArrayUtils",
 "language": "GDScript",
@@ -114,7 +119,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/UI/Hud.gd"
 }, {
-"base": "Spatial",
+"base": "StaticBody",
 "class": "Interactable",
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Interactable.gd"
@@ -215,6 +220,7 @@ _global_script_classes=[ {
 "path": "res://Scripts/EnvElements/Doors/TriggerDoor.gd"
 } ]
 _global_script_class_icons={
+"AmmoPickup": "",
 "ArrayUtils": "",
 "AttributeConsumeGameplayEffect": "",
 "AttributeRegenGameplayEffect": "",

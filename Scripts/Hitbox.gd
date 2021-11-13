@@ -22,7 +22,6 @@ func set_health(val):
 		emit_signal("hit", abs(tmp - health))
 	
 func _on_collided(body: Node):
-	print(get_parent().name, "-", name, "-", body.name)
 	if body is Bullet:
 		var bullet = body as Bullet
 		set_health(health - bullet.damage)
@@ -31,7 +30,6 @@ func _on_collided(body: Node):
 		set_health(0)
 		
 func _on_area_collided(area: Area):
-	print(get_parent().name, "-", name, "-", area.name)
 	if area is KillZone:
 		set_health(0)
 	

@@ -25,8 +25,6 @@ export(MODE) var start_mode = MODE.GAME
 var mouse_sensitivity: float = .0
 var bonked_head: bool = false
 var sprinting: bool = false
-var crouching: bool = false
-var crouch_released: bool = false
 var leaving_stairs: bool = false
 var on_stairs: bool = false
 
@@ -88,19 +86,18 @@ func _input(event: InputEvent) -> void:
 			head.rotation.x = clamp(head.rotation.x, deg2rad(-80), deg2rad(80))
 		
 func _physics_process(delta: float) -> void:
-	if mode != MODE.CINEMATIC:
-		gun_camera.global_transform = camera.global_transform
+	gun_camera.global_transform = camera.global_transform
+	
+	mover.compute_move(delta)
+	move_and_slide(mover.velocity, Vector3.UP)
+	
+	if mode == MODE.GAME:
+		check_stairs()
 		
-		mover.compute_move(delta)
-		move_and_slide(mover.velocity, Vector3.UP)
-		
-		if mode != MODE.NOCLIP:
-			check_stairs()
-			
-			if not(on_stairs) and mover is StairsMover:
-				change_mover(StandardMover.new())
-			elif on_stairs and mover is StandardMover:
-				change_mover(StairsMover.new())
+		if not(on_stairs) and mover is StairsMover:
+			change_mover(StandardMover.new())
+		elif on_stairs and mover is StandardMover:
+			change_mover(StairsMover.new())
 
 func set_mode(val):
 	mode = val
@@ -116,6 +113,8 @@ func set_mode(val):
 			camera.show_ui(false)
 			gun_hook.hidden = true
 			toggle_collisions(false)
+			
+			change_mover(PlayerMover.new())
 		MODE.NOCLIP:
 			camera.show_ui(true)
 			camera.toggle_sprint_fov(false)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
@@ -17,49 +17,21 @@
 [ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
 [ext_resource path="res://Scripts/EnvElements/Buttons/PushButton.gd" type="Script" id=16]
 [ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
-[ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=19]
 
-[sub_resource type="BoxShape" id=31]
-
-[sub_resource type="CubeMesh" id=30]
-
-[sub_resource type="GDScript" id=33]
-script/source = "extends StaticBody
-
-onready var hitbox : Hitbox = $Hitbox
-
-func _on_Hitbox_hit(damage) -> void:
-	print(damage)
-
-func _on_Hitbox_failed() -> void:
-	queue_free()
-"
-
-[sub_resource type="SphereMesh" id=28]
-material = ExtResource( 8 )
-radius = 2.0
-height = 4.0
-
-[sub_resource type="SphereShape" id=29]
-radius = 2.0
-
-[sub_resource type="SphereShape" id=32]
-radius = 2.14449
-
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="BoxShape" id=35]
 extents = Vector3( 7.36901, 1, 1 )
 
 [sub_resource type="CubeMesh" id=2]
 
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="CubeMesh" id=36]
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape" id=37]
 
-[sub_resource type="BoxShape" id=6]
+[sub_resource type="BoxShape" id=38]
 extents = Vector3( 1.14912, 0.966269, 2.76544 )
 
-[sub_resource type="BoxShape" id=8]
+[sub_resource type="BoxShape" id=39]
 
 [sub_resource type="GDScript" id=10]
 script/source = "extends Togglable
@@ -79,11 +51,11 @@ func _on_deactivated():
 	door.close()
 "
 
-[sub_resource type="CubeMesh" id=9]
+[sub_resource type="CubeMesh" id=40]
 
 [sub_resource type="CubeMesh" id=11]
 
-[sub_resource type="SpatialMaterial" id=12]
+[sub_resource type="SpatialMaterial" id=41]
 flags_world_triplanar = true
 albedo_texture = ExtResource( 15 )
 emission_enabled = true
@@ -177,43 +149,6 @@ script = ExtResource( 5 )
 frequency = 0.91
 sequence_str = "00001200302123000123"
 
-[node name="Gun Range" type="Spatial" parent="Env"]
-transform = Transform( 1, -9.47311e-16, -7.10543e-15, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, -0.149619, 1.80764, 14.5741 )
-
-[node name="Range ground" type="StaticBody" parent="Env/Gun Range"]
-transform = Transform( 42, -1.04204e-15, 1.04907e-06, -3.12648e-14, 1, -8.94069e-07, 1.04907e-06, 2.98023e-08, 30, 8.14961, 4.92735, 36.0941 )
-collision_layer = 4
-collision_mask = 17
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape" type="CollisionShape" parent="Env/Gun Range/Range ground"]
-shape = SubResource( 31 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Env/Gun Range/Range ground"]
-mesh = SubResource( 30 )
-material/0 = ExtResource( 3 )
-
-[node name="Enemy" type="StaticBody" parent="Env/Gun Range"]
-transform = Transform( 1, 9.47311e-16, 7.10543e-15, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, -8.4274, 8.7401, 37.9927 )
-collision_layer = 32
-script = SubResource( 33 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Env/Gun Range/Enemy"]
-mesh = SubResource( 28 )
-skeleton = NodePath("")
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Env/Gun Range/Enemy"]
-shape = SubResource( 29 )
-
-[node name="Hitbox" type="Area" parent="Env/Gun Range/Enemy"]
-script = ExtResource( 18 )
-
-[node name="CollisionShape2" type="CollisionShape" parent="Env/Gun Range/Enemy/Hitbox"]
-shape = SubResource( 32 )
-
 [node name="CSGCombiner" type="CSGCombiner" parent="Env"]
 use_collision = true
 collision_layer = 4
@@ -285,7 +220,7 @@ transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.0490
 collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stair 1/Stairs"]
-shape = SubResource( 1 )
+shape = SubResource( 35 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stair 1/Stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
@@ -307,7 +242,7 @@ transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.0490
 collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stair 2/Stairs"]
-shape = SubResource( 1 )
+shape = SubResource( 35 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stair 2/Stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
@@ -340,12 +275,12 @@ script = ExtResource( 10 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 1/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 1/CSGBox/Left Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 1/CSGBox"]
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
@@ -356,12 +291,12 @@ dir = Vector3( 1, 0, 0 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 1/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 1/CSGBox/Right Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Door 2" type="CSGBox" parent="Env/CSGCombiner"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -0.692628 )
@@ -386,12 +321,12 @@ script = ExtResource( 10 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 2/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 2/CSGBox/Left Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 2/CSGBox"]
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
@@ -402,12 +337,12 @@ dir = Vector3( 1, 0, 0 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 2/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 2/CSGBox/Right Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Door 3" type="CSGBox" parent="Env/CSGCombiner"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -22.2639 )
@@ -432,12 +367,12 @@ script = ExtResource( 10 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 3/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 3/CSGBox/Left Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 3/CSGBox"]
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
@@ -448,19 +383,19 @@ dir = Vector3( 1, 0, 0 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 3/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 3/CSGBox/Right Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Area" type="Area" parent="Env/CSGCombiner"]
 transform = Transform( -1.02722e-07, 0, 1, 0, 2.997, 0, -2.35, 0, -4.37114e-08, -37.1186, 3.60059, -11.1072 )
 collision_layer = 64
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Area"]
-shape = SubResource( 6 )
+shape = SubResource( 38 )
 
 [node name="Door 4" type="CSGBox" parent="Env/CSGCombiner"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -34.8245, 4.10402, 13.079 )
@@ -485,12 +420,12 @@ script = ExtResource( 10 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 4/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 4/CSGBox/Left Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Door 4/CSGBox"]
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
@@ -501,12 +436,12 @@ dir = Vector3( 1, 0, 0 )
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Door 4/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
-mesh = SubResource( 4 )
+mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 4/CSGBox/Right Side"]
-shape = SubResource( 7 )
+shape = SubResource( 37 )
 
 [node name="Spatial" type="Spatial" parent="Env/CSGCombiner"]
 
@@ -524,7 +459,7 @@ timer_length = 2.0
 one_shot = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Button"]
-shape = SubResource( 8 )
+shape = SubResource( 39 )
 
 [node name="Spatial" type="Spatial" parent="Env/Button"]
 script = SubResource( 10 )
@@ -532,7 +467,7 @@ door_path = NodePath("../../CSGCombiner/Door 2")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/Button/Spatial"]
 use_in_baked_light = true
-mesh = SubResource( 9 )
+mesh = SubResource( 40 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 11 )
 
@@ -546,7 +481,7 @@ __meta__ = {
 toggle_path = NodePath("Spatial")
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Button2"]
-shape = SubResource( 8 )
+shape = SubResource( 39 )
 
 [node name="Spatial" type="Spatial" parent="Env/Button2"]
 script = SubResource( 10 )
@@ -556,10 +491,10 @@ door_path = NodePath("../../CSGCombiner/Door 3")
 use_in_baked_light = true
 mesh = SubResource( 11 )
 skeleton = NodePath("../..")
-material/0 = SubResource( 12 )
+material/0 = SubResource( 41 )
 
 [node name="Button3" type="StaticBody" parent="Env"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5041, 3.52434, 6.36295 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 4, 6 )
 collision_layer = 9
 script = ExtResource( 16 )
 __meta__ = {
@@ -568,7 +503,7 @@ __meta__ = {
 toggle_path = NodePath("Spatial")
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/Button3"]
-shape = SubResource( 8 )
+shape = SubResource( 39 )
 
 [node name="Spatial" type="Spatial" parent="Env/Button3"]
 script = SubResource( 10 )
@@ -576,7 +511,7 @@ door_path = NodePath("../../CSGCombiner/Door 4")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/Button3/Spatial"]
 use_in_baked_light = true
-mesh = SubResource( 9 )
+mesh = SubResource( 40 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 13 )
 
@@ -674,12 +609,11 @@ fov = 79.0
 transform = Transform( 285.212, 0, -1.81899e-12, 0, 1, 0, 1.81899e-12, 0, 285.212, 0, -22.1031, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.0550546, 0, -0.998484, 0, 1, 0, 0.998484, 0, 0.0550546, -15.6631, 9.58962, -48.1014 )
+transform = Transform( 0.0550546, 0, -0.998484, 0, 1, 0, 0.998484, 0, 0.0550546, -26.9169, 7.42232, -17.3825 )
 collision_layer = 3
 speed_sprint_mult = 1.7
 std_fov = 70.0
 sprint_fov = 90.0
 zoom_fov = 30.0
 
-[connection signal="hit" from="Env/Gun Range/Enemy/Hitbox" to="Env/Gun Range/Enemy" method="_on_Hitbox_hit"]
 [connection signal="timeout" from="Env/Button/Timer" to="Env/Button" method="_on_Timer_timeout"]

@@ -1,5 +1,5 @@
 class_name Interactable
-extends Spatial
+extends StaticBody
 
 signal interacted_with(sender)
 signal interaction_ended
@@ -13,13 +13,16 @@ func exited_range():
 	_on_exited_range()
 
 func interact(sender: Node = null):
-	_on_interact(sender)
+	var output = _on_interact(sender)
 	emit_signal("interacted_with", sender)
+	
+	return output
 	
 func stop_interaction():
 	if continuous:
-		_on_interact_stop()
+		var output = _on_interact_stop()
 		emit_signal("interaction_ended")
+		return output
 	
 func _on_interact(sender: Node = null):
 	pass
@@ -28,7 +31,7 @@ func _on_interact_stop():
 	pass
 
 func _on_entered_range():
-	print("A")
+	pass
 
 func _on_exited_range():
-	print("B")
+	pass

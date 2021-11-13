@@ -1,5 +1,7 @@
 extends Spatial
 
+signal new_ammo(bllt_scn, amount)
+
 enum GUN_STATE {
 	ACTIVE,
 	SWITCHING,
@@ -7,9 +9,10 @@ enum GUN_STATE {
 }
 
 export(NodePath) var anim_player_node
-export(PoolStringArray) var weapons
+export(PoolStringArray) var weapons_scenes
 export(int) var slots = 5
 
+var weapons: Array = []
 var hidden: bool = false setget set_hidden
 var current_weapon := 0
 var can_hide := true
@@ -23,7 +26,15 @@ onready var anim_player := get_node(anim_player_node) as AnimationPlayer
 onready var gun : BaseWeapon = null
 
 func _ready() -> void:
-	slots = min(len(weapons), slots)
+	slots = min(len(weapons_scenes), slots)
+	
+	for s in range(0, slots):
+		var g = load(weapons_scenes[s]).instance()
+		
+		if g is BulletGun:
+			connect("new_ammo", g, "picked_up_ammo")
+		
+		weapons.append(g)
 	
 func setup(h: Hud):
 	hud = h
@@ -38,7 +49,7 @@ func set_crosshair():
 		
 	hud.set_crosshair_text(cross)
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if gun.aimable:
 		var pressed = Input.is_action_just_pressed("aim")
 		var released = Input.is_action_just_released("aim")
@@ -76,8 +87,7 @@ func load_gun():
 			remove_child(gun)
 			gun = null
 		
-		var gunScn : PackedScene = load(weapons[current_weapon])
-		gun = gunScn.instance()
+		gun = weapons[current_weapon]
 		add_child(gun)
 		set_gun_state(GUN_STATE.INACTIVE)
 		set_crosshair()
@@ -105,9 +115,9 @@ func _on_animation_finished(anim_name: String) -> void:
 				load_gun()
 				anim_player.play("Hide Reverse")
 
-func _on_animation_started(anim_name: String) -> void:
+func _on_animation_started(_anim_name: String) -> void:
 	pass
-	
+
 func set_gun_state(state):
 	gun_stat = state
 	
@@ -121,8 +131,12 @@ func set_gun_state(state):
 			can_hide = true
 			gun.enabled = true
 
-
-
-
-
-
+func _on_interact_data(d) -> void:
+	if d is Dictionary:
+		var data = d as Dictionary
+		
+		if data.get("type") == "ammo":
+			var amount = data["amount"]
+			var bullet = data["bullet"]
+			
+			emit_signal("new_ammo", bullet, amount)

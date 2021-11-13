@@ -16,24 +16,36 @@ func _ready() -> void:
 	
 	set_count()
 	mags_mesh_mat = mags_mesh.get_surface_material(0)
-	mags_mesh_mat.set_shader_param(\"uv_scale\", mags_left)
-
+	mags_mesh_mat.set_shader_param(\"uv_scale\", max_mags)
+	set_mask()
 
 func _on_shot() -> void:
 	set_count()
 
-
 func _on_out_of_ammo() -> void:
-	$Label3D.text = \"--\"
-
+	set_label_text(\"--\")
+	
+func _on_extra_ammo() -> void:
+	set_mask()
 
 func _on_reloaded() -> void:
 	set_count()
-	mags_mesh_mat.set_shader_param(\"mask\", mags_left/float(start_mags-1))
-
+	set_mask()
 
 func set_count():
-	$Label3D.text = \"%02d\" % ammo_count
+	set_label_text(\"%02d\" % ammo_count)
+		
+func set_label_text(txt):
+	if get_tree():
+		$Label3D.text = txt
+
+func set_mask():
+	if is_in_scene():
+		mags_mesh_mat.set_shader_param(\"mask\", mags_left/float(max_mags))
+		
+func is_in_scene():
+	return get_parent() != null
+		
 "
 
 [sub_resource type="DynamicFont" id=6]
@@ -105,7 +117,7 @@ shader = SubResource( 9 )
 shader_param/albedo = Color( 1, 1, 1, 1 )
 shader_param/emission = Color( 0.0235294, 0.184314, 0.54902, 1 )
 shader_param/emission_energy = 1.369
-shader_param/uv_scale = 1.0
+shader_param/uv_scale = 4.0
 shader_param/thickness = 0.707
 shader_param/mask = 1.0
 
