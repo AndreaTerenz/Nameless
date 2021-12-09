@@ -1,0 +1,93 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Sprites/compass_center.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/compass.svg" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+export(float, 10.0, .1, 30.0) var _range = 24.0
+export(bool) var rotateGrid = true
+
+var locations : PoolVector2Array = [Vector2(-6.0, PI), Vector2(6.0, PI), Vector2(20.0, PI/2)]
+var targets : Array = []
+var dots : Array = []
+var origin : Vector2 = Vector2.ZERO
+
+onready var bg = $BG
+onready var center = $CenterDot
+		
+func _process(delta: float) -> void:
+	for i in range(0, len(dots)):
+		var pos = (targets[i] as Spatial).global_transform.origin
+		var playerPos = Globals.player.global_transform.origin
+		var trgtBasisZ = targets[i].get_transform().basis.z
+		var playerBasisZ = Globals.player.get_transform().basis.z
+		
+		var dist = pos.distance_to(playerPos)
+		var angle = -Vector2(playerBasisZ.x,playerBasisZ.z).angle_to(Vector2(trgtBasisZ.x, trgtBasisZ.z))
+		
+		var l = Vector2(dist, angle)
+		
+		dots[i].position = polar_pos_to_scrn_pos(l)
+		
+func add_target(t: Spatial):
+	targets.append(t)
+	var newDot : Sprite = Sprite.new()
+	newDot.texture = center.texture
+	newDot.modulate = Color.red
+	
+	dots.append(newDot)
+	bg.add_child(newDot)
+	
+func remove_target(t: Spatial):
+	var idx = targets.find(t)
+	
+	targets.remove(idx)
+	dots.remove(idx)
+	bg.remove_child(bg.get_child(idx))
+		
+func polar_pos_to_scrn_pos(p: Vector2):
+	var text_size = bg.texture.get_size()
+	var radius = clamp(p.x, -_range, _range)
+	radius = range_lerp(radius, -_range, _range, -.5, .5)
+	
+	var l_cart = polar2cartesian(radius, p.y)
+	
+	return l_cart * text_size
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and rotateGrid:
+		var y_rot = deg2rad(-event.relative.x * .1)
+		bg.rotate(y_rot)
+"
+
+[node name="Compass" type="Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -300.0
+margin_right = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="Sprite" parent="."]
+position = Vector2( 150, 150 )
+texture = ExtResource( 2 )
+
+[node name="CenterDot" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -9.0
+margin_top = -9.0
+margin_right = 9.0
+margin_bottom = 9.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

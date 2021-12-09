@@ -16,6 +16,7 @@ const theme_suffix : Dictionary = {
 	UI_BTN_THEMES.LIGHT : "Light",
 }
 const default_theme = UI_BTN_THEMES.DARK
+var player : Player = null
 
 func toggle_pause(val := 0) -> void:
 	if val != 0:

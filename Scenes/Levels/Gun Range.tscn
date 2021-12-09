@@ -84,6 +84,8 @@ shadow_enabled = true
 
 [node name="Pickup" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 8.83396, 4.02222, 4.84423 )
+amount = 20
+permanent = true
 
 [connection signal="hit" from="Enemy/Hitbox" to="Enemy" method="_on_Hitbox_hit"]
 [connection signal="killed" from="Enemy/Hitbox" to="Enemy" method="_on_Hitbox_failed"]

@@ -9,25 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Interactable",
+"base": "BasePickup",
 "class": "AmmoPickup",
 "language": "GDScript",
-"path": "res://Scripts/Weapons/AmmoPickup.gd"
+"path": "res://Scripts/EnvElements/Pickups/AmmoPickup.gd"
 }, {
 "base": "Reference",
 "class": "ArrayUtils",
 "language": "GDScript",
 "path": "res://addons/SIsilicon.3d.text/array_utils.gd"
-}, {
-"base": "TimedGameplayEffect",
-"class": "AttributeConsumeGameplayEffect",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/AttributeConsumeGameplayEffect.gd"
-}, {
-"base": "TimedGameplayEffect",
-"class": "AttributeRegenGameplayEffect",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/AttributeRegenGameplayEffect.gd"
 }, {
 "base": "Togglable",
 "class": "BaseDoor",
@@ -39,10 +29,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Weapons/BaseGun.gd"
 }, {
-"base": "LineEdit",
-"class": "BaseInput",
+"base": "Interactable",
+"class": "BasePickup",
 "language": "GDScript",
-"path": "res://addons/GGS/src/base_classes/base_input.gd"
+"path": "res://Scripts/EnvElements/Pickups/BasePickup.gd"
 }, {
 "base": "Spatial",
 "class": "BaseWeapon",
@@ -69,65 +59,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Player/CameraController.gd"
 }, {
-"base": "GameplayEffect",
-"class": "DamageGameplayEffect",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/DamageGameplayEffect.gd"
-}, {
 "base": "Spatial",
 "class": "DoorSide",
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Doors/DoorSide.gd"
-}, {
-"base": "Node",
-"class": "GGSUtils",
-"language": "GDScript",
-"path": "res://addons/GGS/src/utils.gd"
-}, {
-"base": "Node",
-"class": "GameplayAttribute",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/nodes/GameplayAttribute.gd"
-}, {
-"base": "Node",
-"class": "GameplayAttributeMap",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/nodes/GameplayAttributeMap.gd"
-}, {
-"base": "Node",
-"class": "GameplayEffect",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/nodes/GameplayEffect.gd"
-}, {
-"base": "ResourceFormatLoader",
-"class": "HTerrainDataLoader",
-"language": "GDScript",
-"path": "res://addons/zylann.hterrain/hterrain_resource_loader.gd"
-}, {
-"base": "ResourceFormatSaver",
-"class": "HTerrainDataSaver",
-"language": "GDScript",
-"path": "res://addons/zylann.hterrain/hterrain_resource_saver.gd"
 }, {
 "base": "Area",
 "class": "Hitbox",
 "language": "GDScript",
 "path": "res://Scripts/Hitbox.gd"
 }, {
-"base": "Control",
-"class": "Hud",
-"language": "GDScript",
-"path": "res://Scripts/UI/Hud.gd"
-}, {
 "base": "StaticBody",
 "class": "Interactable",
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Interactable.gd"
 }, {
-"base": "Reference",
-"class": "JSONBeautifier",
+"base": "Node",
+"class": "Inventory",
 "language": "GDScript",
-"path": "res://addons/GGS/_depedencies/json_beautifier/json_beautifier.gd"
+"path": "res://Scripts/Player/Inventory.gd"
 }, {
 "base": "Area",
 "class": "KillZone",
@@ -174,11 +124,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Doors/RemoteDoor.gd"
 }, {
-"base": "GameplayEffect",
-"class": "RestoreGameplayEffect",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/premade_gameplay_effects/RestoreGameplayEffect.gd"
-}, {
 "base": "Control",
 "class": "ScaleOnHover",
 "language": "GDScript",
@@ -199,11 +144,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Buttons/SwitchButton.gd"
 }, {
-"base": "GameplayEffect",
-"class": "TimedGameplayEffect",
-"language": "GDScript",
-"path": "res://addons/godot-gameplay-attributes/nodes/TimedGameplayEffect.gd"
-}, {
 "base": "Base_Button",
 "class": "TimerButton",
 "language": "GDScript",
@@ -222,28 +162,18 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AmmoPickup": "",
 "ArrayUtils": "",
-"AttributeConsumeGameplayEffect": "",
-"AttributeRegenGameplayEffect": "",
 "BaseDoor": "",
 "BaseGun": "",
-"BaseInput": "",
+"BasePickup": "",
 "BaseWeapon": "",
 "Base_Button": "",
 "Bullet": "",
 "BulletGun": "",
 "CameraController": "",
-"DamageGameplayEffect": "",
 "DoorSide": "",
-"GGSUtils": "",
-"GameplayAttribute": "",
-"GameplayAttributeMap": "",
-"GameplayEffect": "",
-"HTerrainDataLoader": "",
-"HTerrainDataSaver": "",
 "Hitbox": "",
-"Hud": "",
 "Interactable": "",
-"JSONBeautifier": "",
+"Inventory": "",
 "KillZone": "",
 "Label3D": "",
 "MeleeWeapon": "",
@@ -253,12 +183,10 @@ _global_script_class_icons={
 "PushButton": "",
 "RayGun": "",
 "RemoteDoor": "",
-"RestoreGameplayEffect": "",
 "ScaleOnHover": "",
 "StairsMover": "",
 "StandardMover": "",
 "SwitchButton": "",
-"TimedGameplayEffect": "",
 "TimerButton": "",
 "Togglable": "",
 "TriggerDoor": ""
@@ -273,7 +201,6 @@ config/icon="res://icon.png"
 
 [autoload]
 
-ggsManager="*res://addons/GGS/src/ggs_manager.gd"
 Globals="*res://Scripts/Globals.gd"
 
 [debug]
@@ -289,7 +216,7 @@ window/size/fullscreen=true
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/GGS/plugin.cfg", "res://addons/SIsilicon.3d.text/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/SIsilicon.3d.text/plugin.cfg" )
 
 [gui]
 

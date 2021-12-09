@@ -31,11 +31,14 @@ var on_stairs: bool = false
 onready var mover = null
 onready var mode = start_mode setget set_mode
 
+onready var inventory: Inventory = $Inventory
 onready var head = $Head
 onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
 onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
+onready var hud = $Head/Camera/Hud
+onready var compass = $Head/Camera/Hud/Compass
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
 onready var grnd_chk = $GroundCheck
 onready var roof_chk = $Head/RoofCheck
@@ -46,6 +49,7 @@ onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun H
 onready var light = $"Head/Flashlight"
 
 func _ready() -> void:
+	Globals.player = self
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_sensitivity = mouse_sens_std
 	
@@ -54,7 +58,9 @@ func _ready() -> void:
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
 	
-	gun_hook.setup(camera.hud)
+	hud.player_inventory = inventory
+	
+	gun_hook.setup(camera.hud, inventory)
 	
 	set_mode(start_mode)
 
@@ -166,3 +172,15 @@ func check_stairs() -> void:
 
 func _on_killed() -> void:
 	get_tree().reload_current_scene()
+
+
+func _on_enemy_area_entered(area: Area) -> void:
+	pass # Replace with function body.
+	
+
+func _on_enemy_body_entered(body: Node) -> void:
+	compass.add_target(body)
+
+
+func _on_enemy_body_exited(body: Node) -> void:
+	compass.remove_target(body)

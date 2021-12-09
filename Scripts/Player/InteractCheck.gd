@@ -1,5 +1,6 @@
 extends Area
 
+signal pickup_data(data)
 signal interact_data(data)
 
 var target: Interactable = null
@@ -13,11 +14,14 @@ func _input(event: InputEvent) -> void:
 				send_data(target.stop_interaction())
 		elif Input.is_action_just_pressed("interact"):
 			send_data(target.interact())
-				
+
 
 func send_data(data):
 	if data != null:
-		emit_signal("interact_data", data)
+		if target is BasePickup:
+			emit_signal("pickup_data", data)
+		else:
+			emit_signal("interact_data", data)
 
 
 func _on_body_entered(body: Node) -> void:

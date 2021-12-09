@@ -1,7 +1,5 @@
 extends Spatial
 
-signal new_ammo(bllt_scn, amount)
-
 enum GUN_STATE {
 	ACTIVE,
 	SWITCHING,
@@ -16,7 +14,7 @@ var weapons: Array = []
 var hidden: bool = false setget set_hidden
 var current_weapon := 0
 var can_hide := true
-var hud : Hud
+var hud
 
 var gun_stat setget set_gun_state
 func switching():
@@ -28,15 +26,14 @@ onready var gun : BaseWeapon = null
 func _ready() -> void:
 	slots = min(len(weapons_scenes), slots)
 	
+func setup(h, inventory: Inventory):
 	for s in range(0, slots):
-		var g = load(weapons_scenes[s]).instance()
-		
-		if g is BulletGun:
-			connect("new_ammo", g, "picked_up_ammo")
-		
+		var g : BaseWeapon = load(weapons_scenes[s]).instance()
+		g.player_inventory = inventory
+		inventory.connect("new_entry", g, "_on_new_entry")
+		inventory.connect("updated_entry", g, "_on_updated_entry")
 		weapons.append(g)
-	
-func setup(h: Hud):
+		
 	hud = h
 	load_gun()
 	set_crosshair()
@@ -132,11 +129,4 @@ func set_gun_state(state):
 			gun.enabled = true
 
 func _on_interact_data(d) -> void:
-	if d is Dictionary:
-		var data = d as Dictionary
-		
-		if data.get("type") == "ammo":
-			var amount = data["amount"]
-			var bullet = data["bullet"]
-			
-			emit_signal("new_ammo", bullet, amount)
+	pass

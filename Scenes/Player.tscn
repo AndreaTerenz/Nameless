@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Player/InteractCheck.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scripts/Player/Inventory.gd" type="Script" id=9]
 [ext_resource path="res://Envs/Night_Env.tres" type="Environment" id=10]
 
 [sub_resource type="SphereShape" id=5]
@@ -256,6 +257,9 @@ height = 0.4
 radius = 1.09907
 height = 3.06992
 
+[sub_resource type="SphereShape" id=17]
+radius = 24.0
+
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 crouch_anim_mult = 3.0
@@ -302,7 +306,7 @@ environment = ExtResource( 10 )
 transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 1.19807, -0.804665, -1.655 )
 script = ExtResource( 5 )
 anim_player_node = NodePath("../AnimationPlayer")
-weapons_scenes = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Rifle.tscn", "res://Scenes/Weapons/Laser.tscn" )
+weapons_scenes = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Laser.tscn" )
 
 [node name="Position3D" type="Position3D" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"]
 transform = Transform( 4, -5.0822e-21, 5.68434e-14, 5.0822e-21, 4, 5.68434e-14, -5.68434e-14, -5.68434e-14, 4, 0, 0, 0 )
@@ -402,9 +406,24 @@ script = ExtResource( 6 )
 [node name="CollisionShape" type="CollisionShape" parent="Hitbox"]
 shape = SubResource( 16 )
 
+[node name="EnemyDetection" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+collision_layer = 128
+collision_mask = 32
+
+[node name="CollisionShape" type="CollisionShape" parent="EnemyDetection"]
+shape = SubResource( 17 )
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource( 9 )
+
 [connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_finished"]
 [connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_started"]
 [connection signal="body_entered" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_entered"]
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
 [connection signal="interact_data" from="Head/InteractRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_interact_data"]
+[connection signal="pickup_data" from="Head/InteractRay" to="Inventory" method="_on_interact_data"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]
+[connection signal="area_entered" from="EnemyDetection" to="." method="_on_enemy_area_entered"]
+[connection signal="body_entered" from="EnemyDetection" to="." method="_on_enemy_body_entered"]
+[connection signal="body_exited" from="EnemyDetection" to="." method="_on_enemy_body_exited"]
