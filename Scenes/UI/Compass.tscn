@@ -7,9 +7,7 @@
 script/source = "extends Control
 
 export(float, 10.0, .1, 30.0) var _range = 24.0
-export(bool) var rotateGrid = true
 
-var locations : PoolVector2Array = [Vector2(-6.0, PI), Vector2(6.0, PI), Vector2(20.0, PI/2)]
 var targets : Array = []
 var dots : Array = []
 var origin : Vector2 = Vector2.ZERO
@@ -21,15 +19,8 @@ func _process(delta: float) -> void:
 	for i in range(0, len(dots)):
 		var pos = (targets[i] as Spatial).global_transform.origin
 		var playerPos = Globals.player.global_transform.origin
-		var trgtBasisZ = targets[i].get_transform().basis.z
-		var playerBasisZ = Globals.player.get_transform().basis.z
 		
-		var dist = pos.distance_to(playerPos)
-		var angle = -Vector2(playerBasisZ.x,playerBasisZ.z).angle_to(Vector2(trgtBasisZ.x, trgtBasisZ.z))
-		
-		var l = Vector2(dist, angle)
-		
-		dots[i].position = polar_pos_to_scrn_pos(l)
+		dots[i].position = pos_to_scrn_pos(Globals.vec3_horizontal(pos - playerPos))
 		
 func add_target(t: Spatial):
 	targets.append(t)
@@ -47,17 +38,19 @@ func remove_target(t: Spatial):
 	dots.remove(idx)
 	bg.remove_child(bg.get_child(idx))
 		
-func polar_pos_to_scrn_pos(p: Vector2):
+func pos_to_scrn_pos(p: Vector2):
 	var text_size = bg.texture.get_size()
-	var radius = clamp(p.x, -_range, _range)
-	radius = range_lerp(radius, -_range, _range, -.5, .5)
+	var pos := Vector2.ZERO
 	
-	var l_cart = polar2cartesian(radius, p.y)
+	pos.x = clamp(p.x, -_range, _range)
+	pos.x = range_lerp(p.x, -_range, _range, -1, 1)
+	pos.y = clamp(p.y, -_range, _range)
+	pos.y = range_lerp(p.y, -_range, _range, -1, 1)
 	
-	return l_cart * text_size
+	return pos * text_size/2
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and rotateGrid:
+	if event is InputEventMouseMotion:
 		var y_rot = deg2rad(-event.relative.x * .1)
 		bg.rotate(y_rot)
 "

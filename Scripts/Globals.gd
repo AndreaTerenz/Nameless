@@ -18,6 +18,12 @@ const theme_suffix : Dictionary = {
 const default_theme = UI_BTN_THEMES.DARK
 var player : Player = null
 
+func vec3_horizontal(v: Vector3):
+	return Vector2(v.x, v.z)
+	
+func round_vec2(v : Vector2, digits : int = 3):
+	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
+
 func toggle_pause(val := 0) -> void:
 	if val != 0:
 		get_tree().paused = bool(val + 1)
