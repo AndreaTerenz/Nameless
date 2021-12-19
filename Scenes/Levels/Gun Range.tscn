@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=1]
 [ext_resource path="res://Materials/Grids/grid_dark.tres" type="Material" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Envs/environment.tres" type="Environment" id=5]
 [ext_resource path="res://Scenes/Weapons/AmmoPickup.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=7]
 
 [sub_resource type="BoxShape" id=31]
 
@@ -54,9 +55,12 @@ mesh = SubResource( 30 )
 material/0 = ExtResource( 2 )
 
 [node name="Enemy" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, -0.138895, 2.34227, -8.2885 )
-collision_layer = 32
+transform = Transform( -4.37114e-08, 8.79185e-16, -1, 0.00958168, 0.999954, -4.18829e-10, 0.999954, -0.00958168, -4.37094e-08, 10.8611, 2.34227, -22.8437 )
+collision_layer = 256
 script = SubResource( 33 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Enemy"]
 mesh = SubResource( 28 )
@@ -73,9 +77,12 @@ script = ExtResource( 1 )
 shape = SubResource( 32 )
 
 [node name="Enemy2" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, -17.1389, 2.34227, -8.2885 )
+transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, -6.1389, 2.34227, -22.8437 )
 collision_layer = 32
 script = SubResource( 33 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Enemy2"]
 mesh = SubResource( 28 )
@@ -92,9 +99,12 @@ script = ExtResource( 1 )
 shape = SubResource( 32 )
 
 [node name="Enemy3" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, 26.8611, 2.34227, -8.2885 )
-collision_layer = 32
+transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, 10.8611, 2.34227, -4.84366 )
+collision_layer = 512
 script = SubResource( 33 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Enemy3"]
 mesh = SubResource( 28 )
@@ -111,9 +121,12 @@ script = ExtResource( 1 )
 shape = SubResource( 32 )
 
 [node name="Enemy4" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, 9.8611, 2.34227, -8.2885 )
-collision_layer = 32
+transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, -6.1389, 2.34227, -4.84366 )
+collision_layer = 512
 script = SubResource( 33 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Enemy4"]
 mesh = SubResource( 28 )
@@ -130,7 +143,7 @@ script = ExtResource( 1 )
 shape = SubResource( 32 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -0.352167, 5.56832, 29.0741 )
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -0.352167, 5.56832, -11.4795 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 5 )
@@ -143,6 +156,9 @@ shadow_enabled = true
 transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 8.83396, 4.02222, 4.84423 )
 amount = 20
 permanent = true
+
+[node name="KillZone" parent="." instance=ExtResource( 7 )]
+transform = Transform( 217.013, -2.04632e-13, -1.0842e-19, 0, 1, -6.43768e-06, 0, -6.43768e-06, 217.013, -1.89462e-14, -20, -5.96046e-07 )
 
 [connection signal="hit" from="Enemy/Hitbox" to="Enemy" method="_on_Hitbox_hit"]
 [connection signal="killed" from="Enemy/Hitbox" to="Enemy" method="_on_Hitbox_failed"]

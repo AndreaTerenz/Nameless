@@ -17,19 +17,29 @@ onready var center = $CenterDot
 		
 func _process(delta: float) -> void:
 	for i in range(0, len(dots)):
-		var pos = (targets[i] as Spatial).global_transform.origin
 		var playerPos = Globals.player.global_transform.origin
+		var tPos = (targets[i] as Spatial).global_transform.origin
+		var p_delta = tPos - playerPos
 		
-		dots[i].position = pos_to_scrn_pos(Globals.vec3_horizontal(pos - playerPos))
+		dots[i].position = pos_to_scrn_pos(Globals.vec3_horizontal(p_delta))
 		
-func add_target(t: Spatial):
+func add_target(t: Spatial, type = Globals.GROUPS.NEUTRAL):
 	targets.append(t)
 	var newDot : Sprite = Sprite.new()
 	newDot.texture = center.texture
-	newDot.modulate = Color.red
+	newDot.modulate = get_target_color(type)
+	newDot.scale *= .75
 	
 	dots.append(newDot)
 	bg.add_child(newDot)
+	
+func get_target_color(type: int):
+	match type:
+		Globals.GROUPS.FRIENDLY: return Color.limegreen
+		Globals.GROUPS.ENEMIES: return Color.red
+		Globals.GROUPS.NEUTRAL: return Color.gray
+		
+	return Color.gray
 	
 func remove_target(t: Spatial):
 	var idx = targets.find(t)

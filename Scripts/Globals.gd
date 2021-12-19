@@ -3,7 +3,9 @@ extends Node
 enum GROUPS  {
 	ENEMIES,
 	PLAYER,
-	FRIENDLY
+	FRIENDLY,
+	NEUTRAL,
+	SUPPLIES
 }
 
 enum UI_BTN_THEMES {
@@ -17,6 +19,9 @@ const theme_suffix : Dictionary = {
 }
 const default_theme = UI_BTN_THEMES.DARK
 var player : Player = null
+
+var scene_triggers : Array = []
+var scene_killzones : Array = []
 
 func vec3_horizontal(v: Vector3):
 	return Vector2(v.x, v.z)

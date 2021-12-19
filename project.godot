@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Weapons/BaseWeapon.gd"
 }, {
+"base": "Area",
+"class": "BaseZone",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/BaseZone.gd"
+}, {
 "base": "Interactable",
 "class": "Base_Button",
 "language": "GDScript",
@@ -79,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Player/Inventory.gd"
 }, {
-"base": "Area",
+"base": "BaseZone",
 "class": "KillZone",
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/KillZone.gd"
@@ -158,6 +163,11 @@ _global_script_classes=[ {
 "class": "TriggerDoor",
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Doors/TriggerDoor.gd"
+}, {
+"base": "BaseZone",
+"class": "TriggerZone",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/TriggerZone.gd"
 } ]
 _global_script_class_icons={
 "AmmoPickup": "",
@@ -166,6 +176,7 @@ _global_script_class_icons={
 "BaseGun": "",
 "BasePickup": "",
 "BaseWeapon": "",
+"BaseZone": "",
 "Base_Button": "",
 "Bullet": "",
 "BulletGun": "",
@@ -189,7 +200,8 @@ _global_script_class_icons={
 "SwitchButton": "",
 "TimerButton": "",
 "Togglable": "",
-"TriggerDoor": ""
+"TriggerDoor": "",
+"TriggerZone": ""
 }
 
 [application]
@@ -426,6 +438,8 @@ noclip_toggle={
 3d_physics/layer_6="Enemy"
 3d_physics/layer_7="Killzone"
 3d_physics/layer_8="Hitbox"
+3d_physics/layer_9="NPCs"
+3d_physics/layer_10="Friendlies"
 
 [physics]
 

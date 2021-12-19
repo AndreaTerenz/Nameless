@@ -45,6 +45,7 @@ onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var interact_chk = $Head/InteractRay
 onready var hitbox = $Hitbox
+onready var others_detect = $OthersDetection
 onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"
 onready var light = $"Head/Flashlight"
 
@@ -61,6 +62,8 @@ func _ready() -> void:
 	hud.player_inventory = inventory
 	
 	gun_hook.setup(camera.hud, inventory)
+	
+	compass._range = (others_detect.get_child(0) as CollisionShape).shape.radius
 	
 	set_mode(start_mode)
 
@@ -172,15 +175,20 @@ func check_stairs() -> void:
 
 func _on_killed() -> void:
 	get_tree().reload_current_scene()
-
-
-func _on_enemy_area_entered(area: Area) -> void:
-	pass # Replace with function body.
 	
 
-func _on_enemy_body_entered(body: Node) -> void:
-	compass.add_target(body)
+func _on_other_detected(body: Node) -> void:
+	var coll_obj = body as CollisionObject
+	var type = Globals.GROUPS.NEUTRAL
+	if coll_obj:
+		#this function expects a ZERO INDEXED layer id ffs
+		if coll_obj.get_collision_layer_bit(5):
+			type = Globals.GROUPS.ENEMIES
+		if coll_obj.get_collision_layer_bit(9):
+			type = Globals.GROUPS.FRIENDLY
+	
+	compass.add_target(body, type)
 
 
-func _on_enemy_body_exited(body: Node) -> void:
+func _on_other_lost(body: Node) -> void:
 	compass.remove_target(body)

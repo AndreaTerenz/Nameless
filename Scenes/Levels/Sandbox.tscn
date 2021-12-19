@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
@@ -17,7 +17,17 @@
 [ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
 [ext_resource path="res://Scripts/EnvElements/Buttons/PushButton.gd" type="Script" id=16]
 [ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
+[ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=19]
+
+[sub_resource type="GDScript" id=42]
+script/source = "extends Spatial
+
+onready var player = $Player
+
+func _ready() -> void:
+	Globals.player = player
+"
 
 [sub_resource type="BoxShape" id=35]
 extents = Vector3( 7.36901, 1, 1 )
@@ -27,9 +37,6 @@ extents = Vector3( 7.36901, 1, 1 )
 [sub_resource type="CubeMesh" id=36]
 
 [sub_resource type="BoxShape" id=37]
-
-[sub_resource type="BoxShape" id=38]
-extents = Vector3( 1.14912, 0.966269, 2.76544 )
 
 [sub_resource type="BoxShape" id=39]
 
@@ -134,6 +141,7 @@ shader_param/base_texture = SubResource( 27 )
 shader_param/overlay_texture = ExtResource( 17 )
 
 [node name="Spatial" type="Spatial"]
+script = SubResource( 42 )
 
 [node name="Env" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.663, 0 )
@@ -260,7 +268,7 @@ material = ExtResource( 3 )
 script = ExtResource( 9 )
 left_side_path = NodePath("CSGBox/Left Side")
 right_side_path = NodePath("CSGBox/Right Side")
-trigger_path = NodePath("../Area")
+trigger_path = NodePath("../Trigger")
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Door 1"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -390,12 +398,8 @@ material/0 = ExtResource( 8 )
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Door 3/CSGBox/Right Side"]
 shape = SubResource( 37 )
 
-[node name="Area" type="Area" parent="Env/CSGCombiner"]
-transform = Transform( -1.02722e-07, 0, 1, 0, 2.997, 0, -2.35, 0, -4.37114e-08, -37.1186, 3.60059, -11.1072 )
-collision_layer = 64
-
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Area"]
-shape = SubResource( 38 )
+[node name="Trigger" parent="Env/CSGCombiner" instance=ExtResource( 18 )]
+transform = Transform( 2.47936, 0, 0, 0, 3.04592, 0, 0, 0, 2.67057, -37.1186, 3.60059, -11.1072 )
 
 [node name="Door 4" type="CSGBox" parent="Env/CSGCombiner"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -34.8245, 4.10402, 13.079 )
@@ -516,8 +520,9 @@ skeleton = NodePath("../..")
 material/0 = SubResource( 13 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Env"]
-transform = Transform( 0.00146544, -0.726957, 0.686681, 0, 0.686682, 0.726958, -0.999999, -0.00106531, 0.00100629, 0, 6.64957, 0 )
+transform = Transform( 0.215082, -0.726957, 0.65213, 0.226222, 0.686682, 0.690863, -0.950033, -0.0010654, 0.312147, 0, 6.64957, 0 )
 layers = 3
+light_energy = 0.576
 light_cull_mask = 4293918723
 shadow_enabled = true
 directional_shadow_blend_splits = true
