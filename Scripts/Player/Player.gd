@@ -132,6 +132,15 @@ func set_mode(val):
 			
 			change_mover(NoClipMover.new())
 			
+func mode_str():
+	match (mode):
+		MODE.GAME:
+			return "GAME"
+		MODE.CINEMATIC:
+			return "CINEMATIC"
+		MODE.NOCLIP:
+			return "NOCLIP"
+			
 func toggle_collisions(stat: bool):
 	head.disabled = not(stat) #diobono
 	body.disabled = not(stat) #diobono

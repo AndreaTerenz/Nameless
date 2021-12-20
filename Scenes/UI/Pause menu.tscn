@@ -26,12 +26,19 @@ func _ready() -> void:
 	
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed(\"pause\"):
+	var pressed_pause = Input.is_action_just_pressed(\"pause\")
+	var toggled_console = Input.is_action_just_pressed(\"quentincaffeino_console_toggle\")
+	
+	if toggled_console or (pressed_pause and not Console.is_console_shown):
 		if not(get_tree().paused):
 			toggle_pause()
-			anim_player.play(\"FadeIn\")
+			if pressed_pause:
+				anim_player.play(\"FadeIn\")
 		else:
-			anim_player.play(\"FadeOut\")
+			if pressed_pause:
+				anim_player.play(\"FadeOut\")
+			else:
+				toggle_pause()
 
 
 func toggle_pause(val = 0) -> void:
@@ -202,10 +209,10 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer"]
 pause_mode = 2
-margin_left = 407.0
-margin_top = 122.0
-margin_right = 617.0
-margin_bottom = 478.0
+margin_left = 855.0
+margin_top = 362.0
+margin_right = 1065.0
+margin_bottom = 718.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2

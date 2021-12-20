@@ -23,6 +23,65 @@ var player : Player = null
 var scene_triggers : Array = []
 var scene_killzones : Array = []
 
+func _ready() -> void:
+	Console.add_command("show_triggers", self, "show_triggers")\
+	.set_description("toggles triggers visibility")\
+	.add_argument("show", TYPE_INT)\
+	.register()
+	
+	Console.add_command("show_killzones", self, "show_killzones")\
+	.set_description("toggles killzones visibility")\
+	.add_argument("show", TYPE_INT)\
+	.register()
+	
+	Console.add_command("player_info", self, "get_player_info")\
+	.set_description("show info about player")\
+	.register()
+	
+	Console.add_command("kill_player", self, "kill_player")\
+	.set_description("instantly kill player")\
+	.register()
+	
+	Console.add_command("set_vsync", self, "set_vsync")\
+	.set_description("toggle vsync")\
+	.add_argument("show", TYPE_INT)\
+	.register()
+	
+	Console.add_command("get_vsync", self, "get_vsync")\
+	.set_description("show vsync status")\
+	.register()
+	
+func show_triggers(t: int):
+	show_zones(t, scene_triggers)
+		
+func show_killzones(t: int):
+	show_zones(t, scene_killzones)
+		
+func show_zones(t: int, zones: Array):
+	for tr in zones:
+		(tr as BaseZone).show_debug_shape = (t == 1)
+		
+func get_player_info():
+	if player:
+		var origin = player.global_transform.origin
+		Console.write_line("Position: [%f, %f, %f]" % [origin.x, origin.y, origin.z])
+		Console.write_line("Mode: %s [%d]" % [player.mode_str(), player.mode])
+	else:
+		Console.write_line("NO PLAYER IN CURRENT SCENE")
+		
+func kill_player():
+	if player:
+		player._on_killed()
+		Console.toggle_console()
+	else:
+		Console.write_line("NO PLAYER IN CURRENT SCENE")
+		
+func set_vsync(t):
+	OS.vsync_enabled = (t != 0)
+	
+func get_vsync():
+	Console.write_line(OS.vsync_enabled)
+
 func vec3_horizontal(v: Vector3):
 	return Vector2(v.x, v.z)
 	

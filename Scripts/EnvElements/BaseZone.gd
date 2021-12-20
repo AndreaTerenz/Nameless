@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func show_shape(val):
 	show_debug_shape = val
-	(debug_shape).visible = val
+	debug_shape.visible = val
 
 func _set_id():
 	zone_id = -1
