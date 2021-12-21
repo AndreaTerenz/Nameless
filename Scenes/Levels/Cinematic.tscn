@@ -16,7 +16,7 @@ onready var anim_player = $AnimationPlayer
 #onready var cinema_cam = $Camera
 
 func _ready() -> void:
-	Globals.player = player
+	pass
 	#player.mode = player.MODE.CINEMATIC
 
 

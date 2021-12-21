@@ -30,8 +30,6 @@ func setup(h, inventory: Inventory):
 	for s in range(0, slots):
 		var g : BaseWeapon = load(weapons_scenes[s]).instance()
 		g.player_inventory = inventory
-		inventory.connect("new_entry", g, "_on_new_entry")
-		inventory.connect("updated_entry", g, "_on_updated_entry")
 		weapons.append(g)
 		
 	hud = h

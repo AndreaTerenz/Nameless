@@ -17,19 +17,21 @@ class InventoryEntry:
 	var quantity : int = 0
 	var weight: float = 0.0
 	var unique: bool = false
+	var item_scene: PackedScene = null
 	var id: int = -1
 	
 	var total_weight setget , get_tot_w
 	func get_tot_w():
 		return weight * quantity
 	
-	func _init(n: String, t, q: int, w: float, u: bool = false, i: int = -1) -> void:
+	func _init(n: String, t, q: int, w: float, u: bool = false, s: PackedScene = null, i: int = -1) -> void:
 		name = n
 		type = t
 		quantity = q
 		weight = w
 		unique = u
 		id = i
+		item_scene = s
 		
 	func merge_with(other: InventoryEntry) -> void:
 		if self.name == other.name and not (self.unique or other.unique):
@@ -43,6 +45,7 @@ export(bool) var allow_overweight = false
 var current_weight: float = 0.0
 
 var entries: Array = []
+var entry_listeners: Dictionary = {}
 
 func _ready() -> void:
 	pass
@@ -70,13 +73,22 @@ func filter_entries(type) -> Array:
 	
 	return output
 	
+func add_entry_listener(entry_name: String, listener: Object):
+	# Juan please add interfaces to this god forsaken language ffs
+	if listener.has_method("write_to_inventory"):
+		if entry_listeners.has(entry_name):
+			entry_listeners[entry_name].append(listener)
+		else:
+			entry_listeners[entry_name] = [listener]
+	
 func add_from_dict(data: Dictionary) -> bool:
 	var entry : InventoryEntry = InventoryEntry.new(
 		data["name"],
 		data["type"],
 		data.get("quantity", 1.0),
 		data.get("weight", 1.0),
-		data.get("unique", false)
+		data.get("unique", false),
+		data.get("scene", "")
 	)
 	
 	return add_entry(entry)
@@ -91,14 +103,22 @@ func add_entry(entry: InventoryEntry) -> bool:
 		if entry.unique or not existing:
 			entry.id = len(entries)
 			entries.append(entry)
+			Console.write_line("Added inventory entry [%s]" % entry)
 			emit_signal("new_entry", entry)
 		else:
+			if (entry_listeners.has(existing.name)):
+				Console.write_line("Requesting writeback for inventory entry [%s]" % existing)
+				for l in entry_listeners[existing.name]:
+					l.write_to_inventory()
+			
+			Console.write_line("Updated inventory entry [%s] with [%s]" % [existing, entry])
 			existing.merge_with(entry)
 			emit_signal("updated_entry", entry)
 			
 		return true
 		
 	if current_weight >= max_weight:
+		Console.Log.warn("Inventory overweight")
 		emit_signal("overweight")
 	
 	return false
@@ -114,8 +134,6 @@ func entries_as_strings(type_filter = -1) -> PoolStringArray:
 			output.append(entry.to_string())
 	
 	return output
-	
-
 	
 func remove_entry():
 	pass

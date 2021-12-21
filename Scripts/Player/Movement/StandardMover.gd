@@ -89,3 +89,6 @@ func check_sprinting():
 				current_speed *= player.speed_sprint_mult 
 			
 			player.camera.toggle_sprint_fov(sprinting)
+
+func _to_string() -> String:
+	return "STANDARD"

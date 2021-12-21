@@ -6,7 +6,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
-export(float, 10.0, .1, 30.0) var _range = 24.0
+var _range = 24.0
 
 var targets : Array = []
 var dots : Array = []
@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 		var tPos = (targets[i] as Spatial).global_transform.origin
 		var p_delta = tPos - playerPos
 		
-		dots[i].position = pos_to_scrn_pos(Globals.vec3_horizontal(p_delta))
+		dots[i].position = pos_to_scrn_pos(Utils.vec3_horizontal(p_delta))
 		
 func add_target(t: Spatial, type = Globals.GROUPS.NEUTRAL):
 	targets.append(t)

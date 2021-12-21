@@ -7,9 +7,10 @@ func _on_interact(sender: Node = null):
 	if not permanent:
 		queue_free()
 	return {
-		"name": "Std Bullet",
+		"name": item_name,
 		"type": Inventory.InventoryEntry.ENTRY_T.AMMO,
 		"quantity": amount,
 		"weight": 1,
-		"unique": false
+		"unique": false,
+		"scene": bullet_scn
 	}

@@ -27,6 +27,11 @@ var bonked_head: bool = false
 var sprinting: bool = false
 var leaving_stairs: bool = false
 var on_stairs: bool = false
+var others_dict: Dictionary = {
+	Globals.GROUPS.ENEMIES: 0,
+	Globals.GROUPS.FRIENDLY: 0,
+	Globals.GROUPS.NEUTRAL: 0,
+}
 
 onready var mover = null
 onready var mode = start_mode setget set_mode
@@ -63,7 +68,7 @@ func _ready() -> void:
 	
 	gun_hook.setup(camera.hud, inventory)
 	
-	compass._range = (others_detect.get_child(0) as CollisionShape).shape.radius
+	compass._range = (others_detect.get_child(0) as CollisionShape).shape.radius + 5
 	
 	set_mode(start_mode)
 
@@ -184,20 +189,27 @@ func check_stairs() -> void:
 
 func _on_killed() -> void:
 	get_tree().reload_current_scene()
-	
+
+func get_other_type(_other: Node):
+	var other = _other as CollisionObject
+	if other:
+		#this function expects a ZERO INDEXED layer id ffs
+		if other.get_collision_layer_bit(5):
+			return Globals.GROUPS.ENEMIES
+		if other.get_collision_layer_bit(9):
+			return Globals.GROUPS.FRIENDLY
+			
+	return Globals.GROUPS.NEUTRAL
 
 func _on_other_detected(body: Node) -> void:
-	var coll_obj = body as CollisionObject
-	var type = Globals.GROUPS.NEUTRAL
-	if coll_obj:
-		#this function expects a ZERO INDEXED layer id ffs
-		if coll_obj.get_collision_layer_bit(5):
-			type = Globals.GROUPS.ENEMIES
-		if coll_obj.get_collision_layer_bit(9):
-			type = Globals.GROUPS.FRIENDLY
-	
+	var type = get_other_type(body)
+	others_dict[type] += 1
 	compass.add_target(body, type)
 
 
 func _on_other_lost(body: Node) -> void:
+	var type = get_other_type(body)
+	others_dict[type] -= 1
 	compass.remove_target(body)
+
+

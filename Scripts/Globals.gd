@@ -36,57 +36,106 @@ func _ready() -> void:
 	
 	Console.add_command("player_info", self, "get_player_info")\
 	.set_description("show info about player")\
+	.add_argument("mode", TYPE_STRING)\
 	.register()
 	
-	Console.add_command("kill_player", self, "kill_player")\
-	.set_description("instantly kill player")\
+	Console.add_command("restart_scene", self, "restart_scene")\
+	.set_description("reload current scene")\
 	.register()
 	
 	Console.add_command("set_vsync", self, "set_vsync")\
 	.set_description("toggle vsync")\
-	.add_argument("show", TYPE_INT)\
+	.add_argument("use", TYPE_INT)\
 	.register()
 	
 	Console.add_command("get_vsync", self, "get_vsync")\
 	.set_description("show vsync status")\
 	.register()
 	
-func show_triggers(t: int):
-	show_zones(t, scene_triggers)
+	Console.add_command("set_windowed", self, "set_window_mode")\
+	.set_description("Toggle fullscreen (0) or windowed (1)")\
+	.add_argument("mode", TYPE_INT)\
+	.register()
+	
+	Console.add_command("set_resolution", self, "set_resolution")\
+	.set_description("Set window resolution (0 0 for default)")\
+	.add_argument("width", TYPE_INT)\
+	.add_argument("height", TYPE_INT)\
+	.register()
+	
+func show_triggers(t):
+	if not show_zones(t, scene_triggers):
+		Console.Log.warn("No triggers in scene")
 		
-func show_killzones(t: int):
-	show_zones(t, scene_killzones)
+func show_killzones(t):
+	if not show_zones(t, scene_killzones):
+		Console.Log.warn("No killzones in scene")
 		
-func show_zones(t: int, zones: Array):
+func show_zones(t, zones: Array) -> bool:
+	if len(zones) == 0:
+		return false
+	
 	for tr in zones:
-		(tr as BaseZone).show_debug_shape = (t == 1)
+		(tr as BaseZone).show_debug_shape = (t != 0)
+	return true
 		
-func get_player_info():
+func get_player_info(mode: String):
 	if player:
-		var origin = player.global_transform.origin
-		Console.write_line("Position: [%f, %f, %f]" % [origin.x, origin.y, origin.z])
-		Console.write_line("Mode: %s [%d]" % [player.mode_str(), player.mode])
+		if mode == "full":
+			mode = "transform+movement+surroundings+inventory"
+			
+		var infos = mode.split("+", false)
+		for inf in infos:
+			match inf:
+				"transform":
+					var origin = player.global_transform.origin
+					var basis = player.global_transform.basis
+					Console.write_line("Position: %s" % origin)
+					Console.write_line("Basis X: %s" % basis.x)
+					Console.write_line("Basis Y: %s" % basis.y)
+					Console.write_line("Basis Z: %s" % basis.z)
+					Console.write_line("On Floor: %s" % player.is_on_floor())
+				"movement":
+					Console.write_line("Mode: %s [%d]" % [player.mode_str(), player.mode])
+					Console.write_line("On stairs: %s" % (player.mover is StairsMover))
+					Console.write_line("Sprinting: %s" % (player.mover is StandardMover and player.mover.sprinting))
+					Console.write_line("Crouching: %s" % (player.mover is StandardMover and player.mover.crouching))
+				"surroundings":
+					Console.write_line("Hostiles: %d" % (player.others_dict[GROUPS.ENEMIES]))
+					Console.write_line("Friendlies: %d" % (player.others_dict[GROUPS.FRIENDLY]))
+					Console.write_line("Neutrals: %d" % (player.others_dict[GROUPS.NEUTRAL]))
+				"inventory":
+					var inv : Inventory = player.inventory
+					if len(inv.entries) > 0:
+						for e in inv.entries:
+							Console.write_line("%d %s [%d]" % [e.quantity, e.name, e.total_weight])
+					else:
+						Console.write_line("Inventory empty")
+			Console.write_line()
 	else:
-		Console.write_line("NO PLAYER IN CURRENT SCENE")
+		Console.Log.error("NO PLAYER IN SCENE")
 		
-func kill_player():
-	if player:
-		player._on_killed()
-		Console.toggle_console()
-	else:
-		Console.write_line("NO PLAYER IN CURRENT SCENE")
+func restart_scene():
+	Console.toggle_console()
+	get_tree().reload_current_scene()
 		
 func set_vsync(t):
 	OS.vsync_enabled = (t != 0)
 	
 func get_vsync():
 	Console.write_line(OS.vsync_enabled)
-
-func vec3_horizontal(v: Vector3):
-	return Vector2(v.x, v.z)
 	
-func round_vec2(v : Vector2, digits : int = 3):
-	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
+func set_window_mode(mode: int):
+	OS.window_fullscreen = (mode == 0)
+	OS.window_resizable = (mode != 0)
+	
+func set_resolution(w: int, h: int):
+	if (w == 0):
+		w = 1920
+	if (h == 0):
+		h = 1080
+		
+	OS.window_size = Vector2(w, h)
 
 func toggle_pause(val := 0) -> void:
 	if val != 0:

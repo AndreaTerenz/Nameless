@@ -1,42 +1,32 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Fonts/Cousine-Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=3]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=4]
-[ext_resource path="res://base font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=5]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends BulletGun
 
-onready var ammoLbl = $PanelContainer/GridContainer/AmmoLbl
-onready var totalLbl = $PanelContainer/GridContainer/TotalLbl
+onready var ammoPane = $PanelContainer
 
 func _ready() -> void:
 	._ready()
 	
-	set_count()
+	ammoPane.set_count(ammo_count, reserve_ammo)
 
 func _on_shot() -> void:
-	set_count()
+	ammoPane.set_count(ammo_count, reserve_ammo)
 
 func _on_out_of_ammo() -> void:
-	set_count()
+	ammoPane.set_count(ammo_count, reserve_ammo)
 	
 func _on_extra_ammo() -> void:
 	pass
 
 func _on_ammo_updated() -> void:
-	set_count()
-
-func set_count():
-	ammoLbl.text = str(ammo_count)
-	totalLbl.text = str(reserve_ammo)
-		
-func is_in_scene():
-	return get_parent() != null
-		
+	ammoPane.set_count(ammo_count, reserve_ammo)
 "
 
 [sub_resource type="DynamicFont" id=6]
@@ -112,77 +102,6 @@ shader_param/uv_scale = 4.0
 shader_param/thickness = 0.707
 shader_param/mask = 1.0
 
-[sub_resource type="DynamicFont" id=11]
-size = 48
-use_filter = true
-font_data = ExtResource( 6 )
-
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-expand_margin_left = 5.0
-expand_margin_right = 5.0
-expand_margin_top = 5.0
-expand_margin_bottom = 5.0
-
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.329412, 0.329412, 0.329412, 1 )
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-expand_margin_left = 5.0
-expand_margin_right = 5.0
-expand_margin_top = 5.0
-expand_margin_bottom = 5.0
-shadow_color = Color( 0.3264, 0.96, 0.62208, 0.560784 )
-shadow_size = 6
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
-expand_margin_left = 5.0
-expand_margin_right = 5.0
-expand_margin_top = 5.0
-expand_margin_bottom = 5.0
-shadow_color = Color( 0.1617, 0.77, 0.445573, 0.560784 )
-shadow_size = 4
-
-[sub_resource type="StyleBoxEmpty" id=13]
-
-[sub_resource type="StyleBoxFlat" id=14]
-content_margin_left = 40.0
-content_margin_right = 40.0
-content_margin_top = 40.0
-content_margin_bottom = 40.0
-bg_color = Color( 0.231373, 0.231373, 0.231373, 1 )
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="Theme" id=15]
-default_font = ExtResource( 5 )
-Button/fonts/font = SubResource( 11 )
-Button/styles/focus = SubResource( 12 )
-Button/styles/hover = SubResource( 5 )
-Button/styles/normal = SubResource( 4 )
-Button/styles/pressed = SubResource( 12 )
-CheckBox/styles/focus = SubResource( 13 )
-CheckBox/styles/hover = SubResource( 13 )
-CheckBox/styles/hover_pressed = SubResource( 13 )
-CheckBox/styles/normal = SubResource( 13 )
-CheckBox/styles/pressed = SubResource( 13 )
-GridContainer/constants/hseparation = 40
-GridContainer/constants/vseparation = 40
-PanelContainer/styles/panel = SubResource( 14 )
-
 [node name="Gun" type="MeshInstance"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0024457, 2.38419e-07, -0.00897169 )
 layers = 2
@@ -224,55 +143,4 @@ material/0 = SubResource( 10 )
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.58112, 0 )
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -332.0
-margin_top = -268.0
-theme = SubResource( 15 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="GridContainer" type="GridContainer" parent="PanelContainer"]
-margin_left = 40.0
-margin_top = 40.0
-margin_right = 292.0
-margin_bottom = 228.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="PanelContainer/GridContainer"]
-margin_right = 152.0
-margin_bottom = 74.0
-size_flags_horizontal = 4
-text = "Ammo"
-
-[node name="AmmoLbl" type="Label" parent="PanelContainer/GridContainer"]
-margin_left = 192.0
-margin_right = 252.0
-margin_bottom = 74.0
-size_flags_horizontal = 4
-text = "---"
-
-[node name="Label3" type="Label" parent="PanelContainer/GridContainer"]
-margin_left = 17.0
-margin_top = 114.0
-margin_right = 135.0
-margin_bottom = 188.0
-size_flags_horizontal = 4
-text = "Total"
-
-[node name="TotalLbl" type="Label" parent="PanelContainer/GridContainer"]
-margin_left = 192.0
-margin_top = 114.0
-margin_right = 252.0
-margin_bottom = 188.0
-size_flags_horizontal = 4
-text = "---"
+[node name="PanelContainer" parent="." instance=ExtResource( 5 )]

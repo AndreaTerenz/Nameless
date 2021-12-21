@@ -213,8 +213,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Globals="*res://Scripts/Globals.gd"
 Console="*res://addons/quentincaffeino/console/src/Console.tscn"
+Utils="*res://Scripts/Utils.gd"
+Globals="*res://Scripts/Globals.gd"
 
 [debug]
 

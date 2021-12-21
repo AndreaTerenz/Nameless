@@ -5,9 +5,22 @@ signal attacked
 
 export var aimable := true
 
-var player_inventory : Inventory = null
 var target_group := "Enemies"
 var enabled = false setget set_enabled
+
+var player_inventory : Inventory setget set_inv
+func set_inv(inv: Inventory):
+	player_inventory = inv
+	
+	inv.connect("new_entry", self, "_on_new_entry")
+	inv.connect("updated_entry", self, "_on_updated_entry")
+	inv.add_entry_listener(_get_entry_name(), self)
+	
+func _get_entry_name():
+	return ""
+	
+func _get_entry() -> Inventory.InventoryEntry:
+	return player_inventory.find_entry(_get_entry_name())
 
 func set_enabled(value):
 	if value != enabled:

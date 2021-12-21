@@ -26,7 +26,7 @@ script/source = "extends Spatial
 onready var player = $Player
 
 func _ready() -> void:
-	Globals.player = player
+	pass
 "
 
 [sub_resource type="BoxShape" id=35]

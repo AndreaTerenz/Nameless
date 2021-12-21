@@ -143,10 +143,11 @@ func write(message):
 # @param    String  message
 # @returns  void
 func write_line(message = ''):
-	message = str(message)
-	if self.Text:
-		self.Text.append_bbcode(message + '\n')
-	print(self._erase_bb_tags_regex.sub(message, '', true))
+	write(message + '\n')
+	
+
+func error_line(message = ''):
+	write('[color=red][ERROR] ' + message + '\n[/color]')
 
 
 # @returns  void

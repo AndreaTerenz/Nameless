@@ -13,3 +13,6 @@ func _compute(delta: float):
 		dir = -1.0
 	
 	return Vector3.UP * dir * sign(player.head.rotation.x) * player.h_speed
+
+func _to_string() -> String:
+	return "STAIRS"

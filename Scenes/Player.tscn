@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
-[ext_resource path="res://Scripts/Player/StairsManager.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/Hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/Player/Gun Hook.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=6]
@@ -253,6 +252,35 @@ height = 0.4
 
 [sub_resource type="CylinderShape" id=3]
 
+[sub_resource type="GDScript" id=18]
+script/source = "extends Spatial
+
+var enabled: bool = true setget set_enabled
+var flipped: bool = false
+
+onready var check_top = $\"StairsCheck Top\"
+onready var check_mid = $StairsCheck
+onready var check_bottom = $\"StairsCheck Bottom\"
+
+func set_enabled(value):
+	enabled = value
+	check_top.enabled = enabled
+	check_mid.enabled = enabled
+	check_bottom.enabled = enabled
+	if not(enabled):
+		flipped = false
+
+func any_collisions() -> bool:
+	return check_top.is_colliding() or check_mid.is_colliding() or check_bottom.is_colliding()
+	
+func top_collision() -> bool:
+	return check_top.is_colliding() if not(flipped) else check_bottom.is_colliding()
+	
+func bottom_collision() -> bool:
+	return check_bottom.is_colliding() if not(flipped) else check_top.is_colliding()
+	return check_bottom.is_colliding() if not(flipped) else check_top.is_colliding()
+"
+
 [sub_resource type="CapsuleShape" id=16]
 radius = 1.09907
 height = 3.06992
@@ -306,7 +334,7 @@ environment = ExtResource( 10 )
 transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 1.19807, -0.804665, -1.655 )
 script = ExtResource( 5 )
 anim_player_node = NodePath("../AnimationPlayer")
-weapons_scenes = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Laser.tscn" )
+weapons_scenes = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun.tscn", "res://Scenes/Weapons/Rifle.tscn", "res://Scenes/Weapons/Laser.tscn" )
 
 [node name="Position3D" type="Position3D" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"]
 transform = Transform( 4, -5.0822e-21, 5.68434e-14, 5.0822e-21, 4, 5.68434e-14, -5.68434e-14, -5.68434e-14, 4, 0, 0, 0 )
@@ -375,7 +403,7 @@ collide_with_areas = true
 debug_shape_thickness = 5.0
 
 [node name="StairsChecks" type="Spatial" parent="."]
-script = ExtResource( 3 )
+script = SubResource( 18 )
 
 [node name="StairsCheck Top" type="RayCast" parent="StairsChecks"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, -1 )

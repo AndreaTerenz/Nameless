@@ -5,7 +5,6 @@ signal out_of_ammo
 signal ammo_updated
 signal new_ammo(amnt)
 
-export(PackedScene) var bullet_scn = preload("res://Scenes/Weapons/Bullet.tscn")
 export(bool) var continuous = false
 #shots per seconds
 export(int, 1, 1500) var fire_rate = 10
@@ -35,15 +34,11 @@ func _input(event: InputEvent) -> void:
 		reload()
 	
 func get_ammo_from_inventory(e : Inventory.InventoryEntry = null):
-	var ammo_entry : Inventory.InventoryEntry = e if e else player_inventory.first_entry(inv_entry_type)
+	var ammo_entry : Inventory.InventoryEntry = e if e else _get_entry()
 		
 	if ammo_entry:
-		print(int(ammo_entry.quantity))
-		print(max_mags * ammo_per_mag)
-		var new_tot = min(int(ammo_entry.quantity), max_mags * ammo_per_mag)
-		print(new_tot)
-		print("----------------------")
-		
+		var new_tot = min(ammo_entry.quantity, max_mags * ammo_per_mag)
+		Console.write_line("New tot ammo: %d" % new_tot)
 		if reserve_ammo != new_tot:
 			reserve_ammo = new_tot
 			reload(false)
@@ -51,9 +46,12 @@ func get_ammo_from_inventory(e : Inventory.InventoryEntry = null):
 		out_of_ammo()
 	
 func write_ammo_to_inventory():
-	var ammo_entry : Inventory.InventoryEntry = player_inventory.first_entry(inv_entry_type)
+	write_to_inventory()
 	
-	ammo_entry.quantity = reserve_ammo + ammo_count
+func write_to_inventory():
+	var entry : Inventory.InventoryEntry = _get_entry()
+	
+	entry.quantity = reserve_ammo + ammo_count
 	
 func reload(reset_count := true):
 	if reset_count:
@@ -77,19 +75,14 @@ func out_of_ammo() -> void:
 	_on_out_of_ammo()
 	emit_signal("out_of_ammo")
 	
+func _get_entry_name():
+	return "Std Bullet"
+	
 func _on_enabled():
 	get_ammo_from_inventory()
 	
 func _on_disabled():
 	write_ammo_to_inventory()
-	
-func _on_new_entry(entry: Inventory.InventoryEntry):
-	if entry.type == inv_entry_type:
-		get_ammo_from_inventory()
-
-func _on_updated_entry(entry: Inventory.InventoryEntry):
-	if entry.type == inv_entry_type:
-		get_ammo_from_inventory()
 
 func _on_cooldown_over():
 	pass
@@ -105,7 +98,7 @@ func _on_new_ammo() -> void:
 
 func _on_shoot():
 	if timer.is_stopped() and ammo_count > 0:
-		var bullet : Bullet = bullet_scn.instance()
+		var bullet : Bullet = _get_entry().item_scene.instance()
 		get_node("/root").add_child(bullet)
 		bullet.setup(muzzle.global_transform)
 		
@@ -126,3 +119,11 @@ func _check_fire():
 		return Input.is_action_pressed("fire")
 	else:
 		return ._check_fire()
+	
+func _on_new_entry(entry: Inventory.InventoryEntry):
+	if entry.type == inv_entry_type:
+		get_ammo_from_inventory()
+
+func _on_updated_entry(entry: Inventory.InventoryEntry):
+	if entry.type == inv_entry_type:
+		get_ammo_from_inventory()

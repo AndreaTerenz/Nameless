@@ -35,3 +35,6 @@ func set_direction():
 		direction -= basis.y
 		
 	direction = direction.normalized()
+
+func _to_string() -> String:
+	return "NOCLIP"
