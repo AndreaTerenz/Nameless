@@ -63,6 +63,12 @@ func _ready() -> void:
 	.add_argument("height", TYPE_INT)\
 	.register()
 	
+	Console.add_command("give_item", self, "give_item")\
+	.set_description("Add item to player inventory")\
+	.add_argument("name", TYPE_STRING)\
+	.add_argument("quantity", TYPE_INT)\
+	.register()
+	
 func show_triggers(t):
 	if not show_zones(t, scene_triggers):
 		Console.Log.warn("No triggers in scene")

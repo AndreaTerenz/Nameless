@@ -9,21 +9,7 @@ script/source = "extends BulletGun
 
 onready var ammoPane = $PanelContainer
 
-func _ready() -> void:
-	._ready()
-	
-	ammoPane.set_count(ammo_count, reserve_ammo)
-
-func _on_shot() -> void:
-	ammoPane.set_count(ammo_count, reserve_ammo)
-
-func _on_out_of_ammo() -> void:
-	ammoPane.set_count(ammo_count, reserve_ammo)
-	
-func _on_extra_ammo() -> void:
-	pass
-
-func _on_ammo_updated() -> void:
+func _ui():
 	ammoPane.set_count(ammo_count, reserve_ammo)
 "
 

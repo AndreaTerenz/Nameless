@@ -50,14 +50,14 @@ var entry_listeners: Dictionary = {}
 func _ready() -> void:
 	pass
 	
-func find_entry(name: String) -> InventoryEntry:
+func first_entry_by_name(name: String) -> InventoryEntry:
 	for entry in entries:
 		if entry.name == name:
 			return entry
 	
 	return null
 	
-func first_entry(type) -> InventoryEntry:
+func first_entry_by_type(type) -> InventoryEntry:
 	for entry in entries:
 		if entry.type == type:
 			return entry
@@ -75,11 +75,8 @@ func filter_entries(type) -> Array:
 	
 func add_entry_listener(entry_name: String, listener: Object):
 	# Juan please add interfaces to this god forsaken language ffs
-	if listener.has_method("write_to_inventory"):
-		if entry_listeners.has(entry_name):
-			entry_listeners[entry_name].append(listener)
-		else:
-			entry_listeners[entry_name] = [listener]
+	if listener.has_method("write_to_inventory") and not entry_listeners.has(entry_name):
+		entry_listeners[entry_name] = listener
 	
 func add_from_dict(data: Dictionary) -> bool:
 	var entry : InventoryEntry = InventoryEntry.new(
@@ -88,7 +85,7 @@ func add_from_dict(data: Dictionary) -> bool:
 		data.get("quantity", 1.0),
 		data.get("weight", 1.0),
 		data.get("unique", false),
-		data.get("scene", "")
+		data.get("scene", null)
 	)
 	
 	return add_entry(entry)
@@ -98,7 +95,7 @@ func could_carry(extra_weight: float) -> bool:
 
 func add_entry(entry: InventoryEntry) -> bool:
 	if could_carry(entry.total_weight) or allow_overweight:
-		var existing = find_entry(entry.name)
+		var existing = first_entry_by_name(entry.name)
 		
 		if entry.unique or not existing:
 			entry.id = len(entries)
@@ -107,9 +104,8 @@ func add_entry(entry: InventoryEntry) -> bool:
 			emit_signal("new_entry", entry)
 		else:
 			if (entry_listeners.has(existing.name)):
-				Console.write_line("Requesting writeback for inventory entry [%s]" % existing)
-				for l in entry_listeners[existing.name]:
-					l.write_to_inventory()
+				Console.write_line("Requesting writeback for inventory entry [%s]" % existing.name)
+				entry_listeners[existing.name].write_to_inventory()
 			
 			Console.write_line("Updated inventory entry [%s] with [%s]" % [existing, entry])
 			existing.merge_with(entry)
@@ -122,6 +118,12 @@ func add_entry(entry: InventoryEntry) -> bool:
 		emit_signal("overweight")
 	
 	return false
+	
+func update_entry(id: int, new_quant: int, send_update := false):
+	if id in range(0, len(entries)):
+		entries[id].quantity = new_quant
+		if send_update:
+			emit_signal("updated_entry", entries[id])
 	
 func entries_as_strings(type_filter = -1) -> PoolStringArray:
 	var output : PoolStringArray = []
@@ -139,6 +141,6 @@ func remove_entry():
 	pass
 
 func _on_interact_data(data) -> void:
-	if add_from_dict(data):
+	if add_entry(data):
 		emit_signal("updated")
 	

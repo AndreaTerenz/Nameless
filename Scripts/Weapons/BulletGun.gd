@@ -22,7 +22,6 @@ var read_inv := true
 
 func _ready():
 	cooldown = 1.0/fire_rate
-	print(cooldown)
 	
 	timer.connect("timeout", self, "_on_cooldown_over")
 	timer.wait_time = cooldown
@@ -38,7 +37,7 @@ func get_ammo_from_inventory(e : Inventory.InventoryEntry = null):
 		
 	if ammo_entry:
 		var new_tot = min(ammo_entry.quantity, max_mags * ammo_per_mag)
-		Console.write_line("New tot ammo: %d" % new_tot)
+		Console.write_line("[%s] New tot ammo: %d" % [name, new_tot])
 		if reserve_ammo != new_tot:
 			reserve_ammo = new_tot
 			reload(false)
@@ -51,7 +50,8 @@ func write_ammo_to_inventory():
 func write_to_inventory():
 	var entry : Inventory.InventoryEntry = _get_entry()
 	
-	entry.quantity = reserve_ammo + ammo_count
+	#ugly, should work for now
+	player_inventory.update_entry(entry.id, reserve_ammo + ammo_count)
 	
 func reload(reset_count := true):
 	if reset_count:
@@ -88,13 +88,13 @@ func _on_cooldown_over():
 	pass
 	
 func _on_out_of_ammo() -> void:
-	pass
+	update_ui()
 
 func _on_ammo_updated() -> void:
-	pass
+	update_ui()
 	
 func _on_new_ammo() -> void:
-	pass
+	update_ui()
 
 func _on_shoot():
 	if timer.is_stopped() and ammo_count > 0:
@@ -112,7 +112,7 @@ func _on_shoot():
 		timer.start()
 		
 func _on_shot() -> void:
-	pass
+	update_ui()
 
 func _check_fire():
 	if continuous:
@@ -121,9 +121,9 @@ func _check_fire():
 		return ._check_fire()
 	
 func _on_new_entry(entry: Inventory.InventoryEntry):
-	if entry.type == inv_entry_type:
+	if entry.name == _get_entry_name():
 		get_ammo_from_inventory()
 
 func _on_updated_entry(entry: Inventory.InventoryEntry):
-	if entry.type == inv_entry_type:
+	if entry.name == _get_entry_name():
 		get_ammo_from_inventory()

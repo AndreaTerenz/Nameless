@@ -20,7 +20,7 @@ func _get_entry_name():
 	return ""
 	
 func _get_entry() -> Inventory.InventoryEntry:
-	return player_inventory.find_entry(_get_entry_name())
+	return player_inventory.first_entry_by_name(_get_entry_name())
 
 func set_enabled(value):
 	if value != enabled:
@@ -46,7 +46,17 @@ func attack():
 		#it may change after the attack
 		if enabled:
 			emit_signal("attacked")
+
+func update_ui():
+	if is_inside_tree():
+		_ui()
+		
+func _ui():
+	pass
 	
+func _ui_init():
+	pass
+
 func _on_attack():
 	pass
 	
