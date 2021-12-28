@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Assets/Models/weapons/pickups/rifle_ammo.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Assets/Models/weapons/pickups/UV/Rifle_ammo_albedo.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=13]
 script/source = "extends AmmoPickup
@@ -12,8 +13,8 @@ func _ready() -> void:
 	._ready()
 "
 
-[sub_resource type="CapsuleShape" id=14]
-radius = 0.515033
+[sub_resource type="SphereShape" id=17]
+radius = 0.5
 
 [sub_resource type="Shader" id=3]
 code = "shader_type spatial;
@@ -115,121 +116,57 @@ void fragment( )
 }
 "
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=18]
 shader = SubResource( 3 )
-shader_param/outline_color = Color( 0, 0.890196, 1, 1 )
+shader_param/outline_color = Color( 1, 0.866667, 0, 1 )
 shader_param/luma_coef = 0.1
 shader_param/color_coef = 0.1
 shader_param/depth_coef = 2.0
 shader_param/cutoff = 0.01
 
-[sub_resource type="OpenSimplexNoise" id=8]
-
-[sub_resource type="NoiseTexture" id=9]
-width = 2048
-height = 2048
-seamless = true
-noise = SubResource( 8 )
-
-[sub_resource type="SpatialMaterial" id=7]
+[sub_resource type="SpatialMaterial" id=16]
 flags_unshaded = true
 flags_do_not_receive_shadows = true
-albedo_color = Color( 0.137255, 0.137255, 0.92549, 1 )
-albedo_texture = SubResource( 9 )
+albedo_color = Color( 0.92549, 0.172549, 0.137255, 1 )
+albedo_texture = ExtResource( 2 )
 
 [sub_resource type="Animation" id=15]
 resource_name = "Idle"
 length = 2.0
 loop = true
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("CollisionShape/MeshInstance:translation:x")
+tracks/0/path = NodePath("CollisionShape/MeshInstance:material/0:shader_param/depth_coef")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 2 )
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("CollisionShape/MeshInstance:translation:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 2 )
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("CollisionShape/MeshInstance:translation:z")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 0, -0.15, -0.252719, 0.15, 0.252719, 0.5, -0.25, 0, 0.25, 0, 0, -0.1, 0.176979, 0.1, -0.176979, -0.5, -0.25, 0, 0.25, 0, 0, -0.15, -0.247752, 0.15, 0.247752 ),
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 2 )
+"points": PoolRealArray( 2, -0.25, 0, 0.25, 0, 8, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1, 2 )
 }
 
-[sub_resource type="Animation" id=16]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("CollisionShape/MeshInstance:translation:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("CollisionShape/MeshInstance:translation:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("CollisionShape/MeshInstance:translation:z")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-
-[node name="Pickup" type="StaticBody"]
+[node name="RifleAmmo" type="StaticBody"]
 collision_layer = 8
 collision_mask = 8
 script = SubResource( 13 )
+item_name = "Rifle Bullet"
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-shape = SubResource( 14 )
+shape = SubResource( 17 )
 
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
-transform = Transform( 0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0 )
+transform = Transform( -4.37114e-09, 0, -0.0999999, 0, 0.1, 0, 0.1, 0, -4.37114e-09, 0, 0, 0 )
 cast_shadow = 0
 mesh = ExtResource( 1 )
 skeleton = NodePath("../..")
-material/0 = SubResource( 4 )
-material/1 = SubResource( 4 )
+material/0 = SubResource( 18 )
 
 [node name="MeshInstance" type="MeshInstance" parent="CollisionShape/MeshInstance"]
 transform = Transform( 1, 0, 0, 0, 1, 8.47033e-22, 0, -8.47033e-22, 1, 0, 0, 0 )
 cast_shadow = 0
 mesh = ExtResource( 1 )
-material/0 = SubResource( 7 )
-material/1 = SubResource( 7 )
+material/0 = SubResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 anims/Idle = SubResource( 15 )
-anims/RESET = SubResource( 16 )

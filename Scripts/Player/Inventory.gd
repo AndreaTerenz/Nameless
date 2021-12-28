@@ -39,6 +39,8 @@ class InventoryEntry:
 			
 	func _to_string() -> String:
 		return "%s (%d)" % [name, quantity]
+		
+
 
 export var max_weight: float = 100.0
 export(bool) var allow_overweight = false
@@ -100,14 +102,14 @@ func add_entry(entry: InventoryEntry) -> bool:
 		if entry.unique or not existing:
 			entry.id = len(entries)
 			entries.append(entry)
-			Console.write_line("Added inventory entry [%s]" % entry)
+			Utils.log_line(self, "Added inventory entry [%s]" % entry)
 			emit_signal("new_entry", entry)
 		else:
 			if (entry_listeners.has(existing.name)):
-				Console.write_line("Requesting writeback for inventory entry [%s]" % existing.name)
+				Utils.log_line(self, "Requesting writeback for inventory entry [%s]" % existing.name)
 				entry_listeners[existing.name].write_to_inventory()
 			
-			Console.write_line("Updated inventory entry [%s] with [%s]" % [existing, entry])
+			Utils.log_line(self, "Updated inventory entry [%s] with [%s]" % [existing, entry])
 			existing.merge_with(entry)
 			emit_signal("updated_entry", entry)
 			
@@ -124,14 +126,17 @@ func update_entry(id: int, new_quant: int, send_update := false):
 		entries[id].quantity = new_quant
 		if send_update:
 			emit_signal("updated_entry", entries[id])
+			
+func request_total_wb():
+	for e in entries:
+		Utils.log_line(self, "Requesting writeback for inventory entry [%s]" % e.name)
+		entry_listeners[e.name].write_to_inventory()
 	
 func entries_as_strings(type_filter = -1) -> PoolStringArray:
 	var output : PoolStringArray = []
 	
 	for e in entries:
 		var entry := e as InventoryEntry
-		print("AP")
-		print(type_filter, ' ', entry.type)
 		if (type_filter != -1 and entry.type == type_filter) or (type_filter == -1):
 			output.append(entry.to_string())
 	

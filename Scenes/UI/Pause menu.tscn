@@ -3,18 +3,15 @@
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=2]
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=3]
+[ext_resource path="res://Animations/UIFadeIn.tres" type="Animation" id=5]
 
 [sub_resource type="GDScript" id=2]
-script/source = "extends Control
+script/source = "extends GameUI
 
-export(float, 0.0, 3.5, .05) var max_blur = 2.2
-export(float, .75, 2.5, .01) var blur_speed = 1.0
-
-onready var blur_mat: ShaderMaterial = $TextureRect.material
 onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
 
 func _ready() -> void:
-	toggle_pause(-1)
+	._ready()
 	
 	anim_player.playback_speed = blur_speed
 	
@@ -24,37 +21,15 @@ func _ready() -> void:
 	var fadeOut := anim_player.get_animation(\"FadeOut\")
 	fadeOut.track_set_key_value(0, 0, max_blur)
 	
+func _target_action():
+	return \"pause\"
 
-func _input(event: InputEvent) -> void:
-	var pressed_pause = Input.is_action_just_pressed(\"pause\")
-	var toggled_console = Input.is_action_just_pressed(\"quentincaffeino_console_toggle\")
+func _on_pause():
+	set_paused(true)
+	anim_player.play(\"FadeIn\")
 	
-	if toggled_console or (pressed_pause and not Console.is_console_shown):
-		if not(get_tree().paused):
-			toggle_pause()
-			if pressed_pause:
-				anim_player.play(\"FadeIn\")
-		else:
-			if pressed_pause:
-				anim_player.play(\"FadeOut\")
-			else:
-				toggle_pause()
-
-
-func toggle_pause(val = 0) -> void:
-	Globals.toggle_pause(val)
-	visible = not(visible)
-	set_mouse_mode()
-
-
-func set_mouse_mode():
-	var mode = Input.MOUSE_MODE_VISIBLE if get_tree().paused else Input.MOUSE_MODE_CAPTURED
-	Input.set_mouse_mode(mode)
-	
-	if get_tree().paused:
-		var size = get_viewport_rect().size
-		get_viewport().warp_mouse(Vector2(size.x/2, (size.y/2)-200))
-
+func _on_unpause():
+	anim_player.play(\"FadeOut\")
 
 func _on_Quit_Btn_pressed() -> void:
 	get_tree().quit(0)
@@ -65,16 +40,16 @@ func _on_Restart_Btn_pressed() -> void:
 
 
 func _on_Resume_Btn_pressed() -> void:
-	anim_player.play(\"FadeOut\")
+	_on_unpause()
 
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == \"FadeOut\":
-		toggle_pause()
+		set_paused(false)
 
 
 func _on_Hub_Btn_pressed() -> void:
-	toggle_pause(-1)
+	set_paused(false)
 	get_tree().change_scene(\"res://Scenes/Scene Hub.tscn\")
 "
 
@@ -88,34 +63,6 @@ colors = PoolColorArray( 0, 0, 0, 1 )
 
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
-
-[sub_resource type="Animation" id=6]
-resource_name = "FadeIn"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:material:shader_param/amount")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 1.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("..:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
 
 [sub_resource type="Animation" id=8]
 resource_name = "FadeOut"
@@ -171,6 +118,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("..:material:shader_param/amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
 
 [node name="Pause menu" type="Control"]
 pause_mode = 2
@@ -183,7 +142,6 @@ script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-max_blur = 1.6
 
 [node name="TextureRect" type="TextureRect" parent="."]
 pause_mode = 2
@@ -285,9 +243,10 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
-anims/FadeIn = SubResource( 6 )
+anims/FadeIn = ExtResource( 5 )
 anims/FadeOut = SubResource( 8 )
 anims/RESET = SubResource( 7 )
+anims/UIFadeIn = ExtResource( 5 )
 
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Restart Btn" to="." method="_on_Restart_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Resume Btn" to="." method="_on_Resume_Btn_pressed"]

@@ -18,12 +18,19 @@ const theme_suffix : Dictionary = {
 	UI_BTN_THEMES.LIGHT : "Light",
 }
 const default_theme = UI_BTN_THEMES.DARK
+const PAUSE_TOGGLE := 0
+const UNPAUSED := -1
+const PAUSED := 1
+
 var player : Player = null
+var current_ui : GameUI = null
 
 var scene_triggers : Array = []
 var scene_killzones : Array = []
 
 func _ready() -> void:
+	Console.connect("toggled", self, "_on_console_toggled")
+	
 	Console.add_command("show_triggers", self, "show_triggers")\
 	.set_description("toggles triggers visibility")\
 	.add_argument("show", TYPE_INT)\
@@ -58,16 +65,25 @@ func _ready() -> void:
 	.register()
 	
 	Console.add_command("set_resolution", self, "set_resolution")\
-	.set_description("Set window resolution (0 0 for default)")\
+	.set_description("[WIP] Set window resolution (0 0 for default)")\
 	.add_argument("width", TYPE_INT)\
 	.add_argument("height", TYPE_INT)\
 	.register()
 	
-	Console.add_command("give_item", self, "give_item")\
-	.set_description("Add item to player inventory")\
-	.add_argument("name", TYPE_STRING)\
-	.add_argument("quantity", TYPE_INT)\
+	Console.add_command("set_gravity", self, "set_gravity")\
+	.set_description("Set world gravity value (0 for default)")\
+	.add_argument("value", TYPE_REAL)\
 	.register()
+	
+#	Console.add_command("give_item", self, "give_item")\
+#	.set_description("Add item to player inventory")\
+#	.add_argument("name", TYPE_STRING)\
+#	.add_argument("quantity", TYPE_INT)\
+#	.register()
+
+func _on_console_toggled(val: bool):
+	if current_ui == null:
+		set_paused(val)
 	
 func show_triggers(t):
 	if not show_zones(t, scene_triggers):
@@ -80,7 +96,7 @@ func show_killzones(t):
 func show_zones(t, zones: Array) -> bool:
 	if len(zones) == 0:
 		return false
-	
+
 	for tr in zones:
 		(tr as BaseZone).show_debug_shape = (t != 0)
 	return true
@@ -123,6 +139,11 @@ func get_player_info(mode: String):
 		
 func restart_scene():
 	Console.toggle_console()
+	_restart()
+	
+func _restart():
+	scene_triggers.clear()
+	scene_killzones.clear()
 	get_tree().reload_current_scene()
 		
 func set_vsync(t):
@@ -142,13 +163,33 @@ func set_resolution(w: int, h: int):
 		h = 1080
 		
 	OS.window_size = Vector2(w, h)
+	
+func set_gravity(value: float):
+	"""
+	well...maybe this'll be useful one day
+	
+	if value <= 0:
+		value = 9.8
+	PhysicsServer.area_set_param(get_viewport().find_world().get_space(),\\
+	PhysicsServer.AREA_PARAM_GRAVITY, value)"""
+	Console.write_line("This would actually be more complicated than it sounds and I don't feel like it bye")
 
-func toggle_pause(val := 0) -> void:
-	if val != 0:
-		get_tree().paused = bool(val + 1)
-	else:
-		get_tree().paused = not(get_tree().paused)
+func toggle_pause() -> void:
+	set_paused(not(get_tree().paused))
+	
+func set_paused(stat: bool):
+	get_tree().paused = stat
 	VisualServer.set_shader_time_scale(0.0 if get_tree().paused else 1.0)
+	set_mouse_mode()
+
+func set_mouse_mode():
+	var paused = get_tree().paused
+	
+	var mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
+	Input.set_mouse_mode(mode)
+	if paused:
+		var size = get_viewport().size
+		get_viewport().warp_mouse(Vector2(size.x/2, (size.y/2)-200))
 
 func get_key_btn(key, theme = default_theme) -> String:
 	var suffix = theme_suffix[theme]

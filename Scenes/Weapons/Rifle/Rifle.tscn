@@ -9,8 +9,11 @@ script/source = "extends BulletGun
 
 onready var ammoPane = $PanelContainer
 
+func _ready() -> void:
+	ammoPane.gun = self
+
 func _ui():
-	ammoPane.set_count(ammo_count, reserve_ammo)
+	ammoPane.set_count()
 "
 
 [node name="Rifle" type="MeshInstance"]
@@ -19,6 +22,7 @@ cast_shadow = 0
 mesh = ExtResource( 1 )
 material/0 = null
 script = SubResource( 1 )
+entry_name = "Rifle Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 2 )
 continuous = true

@@ -8,13 +8,15 @@ signal new_ammo(amnt)
 export(bool) var continuous = false
 #shots per seconds
 export(int, 1, 1500) var fire_rate = 10
-
 export(int, 1, 75) var ammo_per_mag = 20
 export(int, 1, 8) var max_mags = 4
 
 var timer := Timer.new()
 var ammo_count := 0
 var reserve_ammo := 0
+var tot_ammo : int setget ,get_tot
+func get_tot():
+	return ammo_count + reserve_ammo
 var cooldown : float
 var inv_entry_type = Inventory.InventoryEntry.ENTRY_T.AMMO
 
@@ -37,10 +39,10 @@ func get_ammo_from_inventory(e : Inventory.InventoryEntry = null):
 		
 	if ammo_entry:
 		var new_tot = min(ammo_entry.quantity, max_mags * ammo_per_mag)
-		Console.write_line("[%s] New tot ammo: %d" % [name, new_tot])
-		if reserve_ammo != new_tot:
-			reserve_ammo = new_tot
-			reload(false)
+		Utils.log_line(self, "New tot ammo: %d" % [new_tot])
+		
+		reserve_ammo = new_tot
+		reload(false)
 	else:
 		out_of_ammo()
 	
@@ -51,7 +53,7 @@ func write_to_inventory():
 	var entry : Inventory.InventoryEntry = _get_entry()
 	
 	#ugly, should work for now
-	player_inventory.update_entry(entry.id, reserve_ammo + ammo_count)
+	player_inventory.update_entry(entry.id, get_tot())
 	
 func reload(reset_count := true):
 	if reset_count:
@@ -74,9 +76,6 @@ func out_of_ammo() -> void:
 	enabled = false
 	_on_out_of_ammo()
 	emit_signal("out_of_ammo")
-	
-func _get_entry_name():
-	return "Std Bullet"
 	
 func _on_enabled():
 	get_ammo_from_inventory()
@@ -120,10 +119,10 @@ func _check_fire():
 	else:
 		return ._check_fire()
 	
-func _on_new_entry(entry: Inventory.InventoryEntry):
-	if entry.name == _get_entry_name():
+func _on_new_entry(entry: Inventory.InventoryEntry) -> void:
+	if entry.name == entry_name:
 		get_ammo_from_inventory()
 
-func _on_updated_entry(entry: Inventory.InventoryEntry):
-	if entry.name == _get_entry_name():
+func _on_updated_entry(entry: Inventory.InventoryEntry) -> void:
+	if entry.name == entry_name:
 		get_ammo_from_inventory()

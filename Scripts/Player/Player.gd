@@ -188,7 +188,7 @@ func check_stairs() -> void:
 		leaving_stairs = true
 
 func _on_killed() -> void:
-	get_tree().reload_current_scene()
+	Globals._restart()
 
 func get_other_type(_other: Node):
 	var other = _other as CollisionObject

@@ -9,10 +9,13 @@
 [sub_resource type="GDScript" id=7]
 script/source = "extends BulletGun
 
-onready var ammoPane = get_node(\"PanelContainer\")
+onready var ammoPane = $PanelContainer
+
+func _ready() -> void:
+	ammoPane.gun = self
 		
 func _ui():
-	ammoPane.set_count(ammo_count, reserve_ammo)
+	ammoPane.set_count()
 "
 
 [sub_resource type="DynamicFont" id=6]
@@ -96,6 +99,7 @@ mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null
 script = SubResource( 7 )
+entry_name = "Gun Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 3 )
 fire_rate = 20

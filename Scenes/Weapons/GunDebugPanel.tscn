@@ -81,11 +81,13 @@ onready var ammoLbl = $GridContainer/AmmoLbl
 onready var reserveLbl = $GridContainer/ReserveLbl
 onready var totalLbl = $GridContainer/TotalLbl
 
-func set_count(ammo_count, reserve_ammo):
+var gun : BulletGun = null
+
+func set_count():
 	if is_in_scene():
-		ammoLbl.text = str(ammo_count)
-		reserveLbl.text = str(reserve_ammo)
-		totalLbl.text = str(reserve_ammo + ammo_count)
+		ammoLbl.text = str(gun.ammo_count)
+		reserveLbl.text = str(gun.reserve_ammo)
+		totalLbl.text = str(gun.tot_ammo)
 		
 func is_in_scene():
 	return get_parent() != null

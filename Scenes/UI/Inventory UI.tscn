@@ -1,0 +1,185 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=2]
+[ext_resource path="res://Assets/Sprites/UI/InvUI_bg.svg" type="Texture" id=3]
+[ext_resource path="res://Animations/UIFadeOut.tres" type="Animation" id=4]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends GameUI
+
+onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
+onready var list_cont : VBoxContainer = $TextureRect/NinePatchRect/Panel/VBoxContainer
+
+func _ready() -> void:
+	._ready()
+	
+	anim_player.playback_speed = blur_speed
+	
+	var fadeIn := anim_player.get_animation(\"FadeIn\")
+	fadeIn.track_set_key_value(0, 1, max_blur)
+	
+	var fadeOut := anim_player.get_animation(\"FadeOut\")
+	fadeOut.track_set_key_value(0, 0, max_blur)
+	
+func _target_action():
+	return \"open_inventory\"
+
+func _on_pause():
+	set_list()
+	set_paused(true)
+	anim_player.play(\"FadeIn\")
+	
+func _on_unpause():
+	anim_player.play(\"FadeOut\")
+	
+func set_list():
+	var inv : Inventory = Globals.player.inventory
+	inv.request_total_wb()
+	
+	Utils.delete_children(list_cont)
+	for e in inv.entries:
+		var l := Label.new()
+		l.text = str(e)
+		list_cont.add_child(l)
+
+
+func _on_animation_finished(anim_name: String) -> void:
+	if anim_name == \"FadeOut\":
+		set_paused(false)
+"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 2 )
+shader_param/amount = 1.0
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Animation" id=6]
+resource_name = "FadeIn"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Inventory UI" type="Control"]
+pause_mode = 2
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+theme = ExtResource( 1 )
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+pause_mode = 2
+material = SubResource( 5 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatchRect" type="NinePatchRect" parent="TextureRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -386.0
+margin_top = -324.0
+margin_right = 386.0
+margin_bottom = 323.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="TextureRect/NinePatchRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/NinePatchRect/Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -57.5
+margin_top = -99.5
+margin_right = 57.5
+margin_bottom = 99.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
+anims/FadeIn = SubResource( 6 )
+anims/FadeOut = ExtResource( 4 )
+anims/RESET = SubResource( 7 )
+
+[connection signal="animation_finished" from="TextureRect/AnimationPlayer" to="." method="_on_animation_finished"]

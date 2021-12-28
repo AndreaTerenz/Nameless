@@ -94,7 +94,6 @@ var files : PoolStringArray = []
 var selected := \"\"
 
 func _ready() -> void:
-	Globals.toggle_pause(-1)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	while list.get_item_count() > 0:

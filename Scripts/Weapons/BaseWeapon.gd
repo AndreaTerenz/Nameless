@@ -3,7 +3,8 @@ extends Spatial
 
 signal attacked
 
-export var aimable := true
+export(bool) var aimable := true
+export(String) var entry_name = ""
 
 var target_group := "Enemies"
 var enabled = false setget set_enabled
@@ -14,13 +15,13 @@ func set_inv(inv: Inventory):
 	
 	inv.connect("new_entry", self, "_on_new_entry")
 	inv.connect("updated_entry", self, "_on_updated_entry")
-	inv.add_entry_listener(_get_entry_name(), self)
+	inv.add_entry_listener(entry_name, self)
 	
 func _get_entry_name():
 	return ""
 	
 func _get_entry() -> Inventory.InventoryEntry:
-	return player_inventory.first_entry_by_name(_get_entry_name())
+	return player_inventory.first_entry_by_name(entry_name)
 
 func set_enabled(value):
 	if value != enabled:
