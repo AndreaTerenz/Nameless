@@ -14,7 +14,7 @@ func _ready() -> void:
 "
 
 [sub_resource type="SphereShape" id=17]
-radius = 0.5
+radius = 0.4
 
 [sub_resource type="Shader" id=3]
 code = "shader_type spatial;
@@ -223,6 +223,7 @@ collision_layer = 8
 collision_mask = 8
 script = SubResource( 13 )
 item_name = "Gun Bullet"
+weight = 20.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 0.999591, -0.0286021, -1.25024e-09, 0, -4.37114e-08, 1, -0.0286021, -0.999591, -4.36935e-08, 0, 0, 0 )

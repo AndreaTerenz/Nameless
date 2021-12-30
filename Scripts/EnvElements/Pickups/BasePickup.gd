@@ -3,6 +3,7 @@ extends Interactable
 
 export(String) var item_name = "Std Bullet"
 export(int, 1, 100) var amount = 20
+export(float, 0.0, 100.0, .1) var weight = 0.0
 export(bool) var permanent = false
 
 func _ready() -> void:

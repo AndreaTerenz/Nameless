@@ -8,16 +8,28 @@ enum GROUPS  {
 	SUPPLIES
 }
 
+enum INPUT_TYPE {
+	KEYBOARD,
+	MOUSE,
+	#MF here preparing for console support lol
+	JOYCON,
+	PS_CONTR,
+	XB_CONTR
+}
+
 enum UI_BTN_THEMES {
 	DARK,
 	LIGHT
 }
 
-const theme_suffix : Dictionary = {
+const THEMES_SUFFIX : Dictionary = {
 	UI_BTN_THEMES.DARK : "Dark",
 	UI_BTN_THEMES.LIGHT : "Light",
 }
-const default_theme = UI_BTN_THEMES.DARK
+
+const UI_BTN_THEME := UI_BTN_THEMES.DARK
+const UI_BTN_BASE_DIR := "res://Assets/UI Buttons"
+
 const PAUSE_TOGGLE := 0
 const UNPAUSED := -1
 const PAUSED := 1
@@ -191,15 +203,4 @@ func set_mouse_mode():
 		var size = get_viewport().size
 		get_viewport().warp_mouse(Vector2(size.x/2, (size.y/2)-200))
 
-func get_key_btn(key, theme = default_theme) -> String:
-	var suffix = theme_suffix[theme]
-	return "res://Assets/UI Buttons/Keyboard/%s/%s_Key_%s.png" % [suffix, key, suffix]
-	
-func get_key_btn_texture(key, theme = default_theme) -> Texture:
-	return load(get_key_btn(key, theme)) as Texture
 
-func get_action_btn(action_name, theme = default_theme) -> Texture:
-	var action_list = InputMap.get_action_list(action_name)
-	var action = action_list[0].as_text() if len(action_list) > 0 else "Blank"
-	
-	return get_key_btn_texture(action, theme)

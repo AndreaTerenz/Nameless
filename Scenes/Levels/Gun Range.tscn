@@ -159,6 +159,39 @@ transform = Transform( 217.013, -2.04632e-13, -1.0842e-19, 0, 1, -6.43768e-06, 0
 [node name="GunAmmoPickup" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.15581e-13, 2, 16 )
 
+[node name="GunAmmoPickup2" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.29792e-13, 2, 18 )
+
+[node name="GunAmmoPickup3" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 2, 16 )
+
+[node name="GunAmmoPickup4" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 2, 18 )
+
+[node name="GunAmmoPickup5" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 2, 16 )
+
+[node name="GunAmmoPickup6" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 2, 18 )
+
+[node name="GunAmmoPickup7" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 2, 16 )
+
+[node name="GunAmmoPickup9" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.0137e-13, 2, 14 )
+
+[node name="GunAmmoPickup10" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 2, 14 )
+
+[node name="GunAmmoPickup11" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 2, 14 )
+
+[node name="GunAmmoPickup12" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 2, 14 )
+
+[node name="GunAmmoPickup8" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 2, 18 )
+
 [node name="RifleAmmo" parent="." instance=ExtResource( 8 )]
 transform = Transform( -4.37114e-08, -2.98023e-08, 1, 2.98023e-08, 1, 2.98023e-08, -1, 2.98023e-08, -4.37114e-08, 2, 2, 16 )
 

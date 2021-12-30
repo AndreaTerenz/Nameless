@@ -15,20 +15,20 @@ class InventoryEntry:
 	var name : String = ""
 	var type = ENTRY_T.AMMO
 	var quantity : int = 0
-	var weight: float = 0.0
+	var total_weight : float = 0.0
 	var unique: bool = false
 	var item_scene: PackedScene = null
 	var id: int = -1
 	
-	var total_weight setget , get_tot_w
-	func get_tot_w():
-		return weight * quantity
+	var weight: float setget ,get_weight_each
+	func get_weight_each():
+		return total_weight / quantity
 	
-	func _init(n: String, t, q: int, w: float, u: bool = false, s: PackedScene = null, i: int = -1) -> void:
+	func _init(n: String, t, q: int, tw: float, u: bool = false, s: PackedScene = null, i: int = -1) -> void:
 		name = n
 		type = t
 		quantity = q
-		weight = w
+		total_weight = tw
 		unique = u
 		id = i
 		item_scene = s
@@ -40,14 +40,16 @@ class InventoryEntry:
 	func _to_string() -> String:
 		return "%s (%d)" % [name, quantity]
 		
-
-
 export var max_weight: float = 100.0
 export(bool) var allow_overweight = false
-var current_weight: float = 0.0
 
 var entries: Array = []
 var entry_listeners: Dictionary = {}
+var current_weight: float = 0.0
+var overweight := false setget ,is_overweight
+
+func is_overweight():
+	return current_weight > max_weight
 
 func _ready() -> void:
 	pass
@@ -85,7 +87,7 @@ func add_from_dict(data: Dictionary) -> bool:
 		data["name"],
 		data["type"],
 		data.get("quantity", 1.0),
-		data.get("weight", 1.0),
+		data.get("weight", 0.0),
 		data.get("unique", false),
 		data.get("scene", null)
 	)
@@ -93,16 +95,17 @@ func add_from_dict(data: Dictionary) -> bool:
 	return add_entry(entry)
 	
 func could_carry(extra_weight: float) -> bool:
-	return current_weight + extra_weight <= max_weight
+	return (current_weight + extra_weight <= max_weight) or allow_overweight
 
 func add_entry(entry: InventoryEntry) -> bool:
-	if could_carry(entry.total_weight) or allow_overweight:
+	if could_carry(entry.total_weight):
 		var existing = first_entry_by_name(entry.name)
 		
 		if entry.unique or not existing:
 			entry.id = len(entries)
 			entries.append(entry)
 			Utils.log_line(self, "Added inventory entry [%s]" % entry)
+			current_weight += entry.total_weight
 			emit_signal("new_entry", entry)
 		else:
 			if (entry_listeners.has(existing.name)):
@@ -111,11 +114,12 @@ func add_entry(entry: InventoryEntry) -> bool:
 			
 			Utils.log_line(self, "Updated inventory entry [%s] with [%s]" % [existing, entry])
 			existing.merge_with(entry)
+			current_weight += existing.total_weight
 			emit_signal("updated_entry", entry)
 			
 		return true
 		
-	if current_weight >= max_weight:
+	if is_overweight():
 		Console.Log.warn("Inventory overweight")
 		emit_signal("overweight")
 	

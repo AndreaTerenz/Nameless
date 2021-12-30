@@ -447,6 +447,8 @@ shape = SubResource( 17 )
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource( 9 )
+max_weight = 123.0
+allow_overweight = true
 
 [connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_finished"]
 [connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_started"]

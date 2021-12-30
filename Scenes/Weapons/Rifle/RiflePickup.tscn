@@ -121,7 +121,7 @@ shader = SubResource( 3 )
 shader_param/outline_color = Color( 1, 0.866667, 0, 1 )
 shader_param/luma_coef = 0.1
 shader_param/color_coef = 0.1
-shader_param/depth_coef = 2.0
+shader_param/depth_coef = 2.23873
 shader_param/cutoff = 0.01
 
 [sub_resource type="SpatialMaterial" id=16]
@@ -150,6 +150,7 @@ collision_layer = 8
 collision_mask = 8
 script = SubResource( 13 )
 item_name = "Rifle Bullet"
+weight = 10.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 17 )
