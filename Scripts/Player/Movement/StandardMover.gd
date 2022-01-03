@@ -74,7 +74,7 @@ func check_crouch():
 			current_speed *= player.speed_crouch_mult 
 
 func check_sprinting():
-	if not(crouching):
+	if not(crouching or player.inventory.is_overweight()):
 		if not(player.is_on_floor()):
 			if Input.is_action_just_released("sprint"):
 				sprinting = false 

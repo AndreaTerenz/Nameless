@@ -1,0 +1,162 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Skyboxes/interstellar.tga" type="Texture" id=1]
+[ext_resource path="res://Assets/Models/level 3/level3_room.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Models/level 3/level3_hallway.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends Spatial
+
+onready var manager = $RoomManager
+
+func _ready() -> void:
+	manager.rooms_convert()
+"
+
+[sub_resource type="PanoramaSky" id=7]
+panorama = ExtResource( 1 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 7 )
+background_sky_orientation = Basis( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1 )
+background_energy = 0.26
+ambient_light_color = Color( 0.54902, 0.835294, 0.835294, 1 )
+ambient_light_energy = 0.62
+fog_enabled = true
+fog_color = Color( 0.278431, 0.388235, 0.321569, 1 )
+fog_sun_color = Color( 1, 0.364706, 0, 1 )
+fog_depth_begin = 0.0
+fog_depth_end = 62.2
+fog_depth_curve = 3.03143
+fog_height_enabled = true
+fog_height_min = -0.8
+fog_height_max = -23.6
+fog_height_curve = 0.267944
+tonemap_mode = 4
+auto_exposure_min_luma = 0.0
+ssao_quality = 2
+dof_blur_far_distance = 64.94
+dof_blur_far_transition = 8192.0
+dof_blur_far_quality = 2
+glow_enabled = true
+glow_bloom = 1.0
+glow_bicubic_upscale = true
+glow_high_quality = true
+adjustment_brightness = 0.86
+adjustment_contrast = 1.35
+adjustment_saturation = 0.36
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 60, 0.774, 60 )
+
+[node name="Spatial" type="Spatial"]
+script = SubResource( 9 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.32455, 0 )
+
+[node name="Ground" type="StaticBody" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground"]
+shape = SubResource( 8 )
+
+[node name="KillZone" parent="." instance=ExtResource( 5 )]
+transform = Transform( 213.292, 0, 0, 0, 1, 0, 0, 0, 213.292, 0, -7.50697, 0 )
+collision_layer = 65
+collision_mask = 49
+show = true
+
+[node name="RoomManager" type="RoomManager" parent="."]
+roomlist = NodePath("../RoomList")
+
+[node name="RoomList" type="Spatial" parent="."]
+
+[node name="Room" type="Room" parent="RoomList"]
+points = PoolVector3Array( 8, 7.83898, 8, 8, 7.83898, -7, -8, 7.83898, 8, -8, 7.83898, -7, 8, -0.5, 8, 8, -0.5, -7, -8, -0.5, 8, -8, -0.5, -7 )
+
+[node name="Mesh" type="MeshInstance" parent="RoomList/Room"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+mesh = ExtResource( 2 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Portal" type="Portal" parent="RoomList/Room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -7 )
+linked_room = NodePath("../../Hallway1")
+points = PoolVector2Array( 3, -4, 3, 4, -3, 4, -3, -4 )
+
+[node name="Portal2" type="Portal" parent="RoomList/Room"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8, 4, 0 )
+linked_room = NodePath("../../Room3")
+points = PoolVector2Array( 3, -4, 3, 4, -3, 4, -3, -4 )
+
+[node name="Hallway1" type="Room" parent="RoomList"]
+points = PoolVector3Array( -3.61158, 7.83898, -8, -3.61158, 7.83898, -15, -2.99994, 7.99992, -7, 3.61158, -0.5, -15, -3.54362, 7.85686, -15, 3.61158, -0.5, -8, -3.61158, -0.5, -8, 2.99994, 7.99992, -7, 3.54362, 7.85686, -15, -3.61158, -0.5, -15, 3.61158, 7.83898, -8, -2.99994, 7.99943e-05, -7, 2.99994, 8.03068e-05, -7, 3.61158, 7.83898, -15 )
+
+[node name="Portal2" type="Portal" parent="RoomList/Hallway1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -15 )
+linked_room = NodePath("../../Room2")
+points = PoolVector2Array( 3, -4, 3, 4, -3, 4, -3, -4 )
+
+[node name="Mesh" type="MeshInstance" parent="RoomList/Hallway1"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.24537e-07, 0, -12 )
+mesh = ExtResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Room2" type="Room" parent="RoomList"]
+points = PoolVector3Array( 8, -0.499999, -16, -7, -0.5, -32, 8, 8.35398, -16, -7, 7.87117, -32, 8, 8.35398, -32, 8, -0.5, -32, -2.99994, 7.99992, -15, 2.99994, 8.0196e-05, -15, -7, -0.399985, -15.8, -2.99993, 8.0196e-05, -15, -7, -0.5, -16, 2.99994, 8.19304, -15, -7, 7.87117, -15.8 )
+
+[node name="Portal2" type="Portal" parent="RoomList/Room2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 4, -24 )
+portal_active = false
+linked_room = NodePath("../../Hallway2")
+points = PoolVector2Array( 3, -4, 3, 4, -3, 4, -3, -4 )
+
+[node name="Mesh" type="MeshInstance" parent="RoomList/Room2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.04907e-06, 0, -24 )
+mesh = ExtResource( 2 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Hallway2" type="Room" parent="RoomList"]
+points = PoolVector3Array( -24, -0.500004, -27.6116, -7, 7.99992, -21.0001, -24, 7.83898, -27.6116, -8, 7.83898, -20.3884, -8, 7.83898, -27.6116, -8, -0.5, -27.6116, -7, 7.99943e-05, -26.9999, -8, -0.5, -20.3884, -25, 7.99992, -21.0001, -25, 7.99943e-05, -26.9999, -24, -0.5, -20.3884, -24, 7.83898, -20.3884, -7, 8.03067e-05, -21.0001, -25, 7.99943e-05, -21.0001, -25, 7.99992, -26.9999, -7, 7.99992, -26.9999 )
+
+[node name="Portal3" type="Portal" parent="RoomList/Hallway2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -25, 4, -24 )
+portal_active = false
+linked_room = NodePath("../../Room3")
+points = PoolVector2Array( 3, -4, 3, 4, -3, 4, -3, -4 )
+
+[node name="Mesh" type="MeshInstance" parent="RoomList/Hallway2"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -12, 0, -24 )
+mesh = ExtResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Mesh2" type="MeshInstance" parent="RoomList/Hallway2"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -20, 0, -24 )
+mesh = ExtResource( 4 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Room3" type="Room" parent="RoomList"]
+points = PoolVector3Array( -40, 7.83898, -32, -25, 7.91442, -32, -40, 7.83898, -16, -25, 7.91442, -7.09378, -25, -0.5, -32, -40, -0.5, -16, -40, -0.5, -32, -25, -0.265587, -7.09378 )
+
+[node name="Mesh" type="MeshInstance" parent="RoomList/Room3"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -32, 0, -24 )
+mesh = ExtResource( 2 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.529075, 0.387315, -0.755027, 0, 0.889759, 0.45643, 0.848575, -0.241486, 0.47075, 0, 9.43144, 0 )
+shadow_enabled = true
+shadow_contact = 0.685

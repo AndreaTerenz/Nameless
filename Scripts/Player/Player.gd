@@ -55,7 +55,7 @@ onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun H
 onready var light = $"Head/Flashlight"
 
 func _ready() -> void:
-	Globals.player = self
+	Globals.set_player(self)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_sensitivity = mouse_sens_std
 	

@@ -5,6 +5,7 @@
 [ext_resource path="res://Assets/Sprites/crosshair3.svg" type="Texture" id=3]
 
 [node name="Laser" type="MeshInstance"]
+portal_mode = 2
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )

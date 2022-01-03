@@ -2,16 +2,7 @@
 
 [ext_resource path="res://Assets/Models/weapons/pickups/rifle_ammo.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Models/weapons/pickups/UV/Rifle_ammo_albedo.png" type="Texture" id=2]
-
-[sub_resource type="GDScript" id=13]
-script/source = "extends AmmoPickup
-
-onready var outline_mesh : MeshInstance = $CollisionShape/MeshInstance
-onready var main_mesh : MeshInstance = $CollisionShape/MeshInstance/MeshInstance
-
-func _ready() -> void:
-	._ready()
-"
+[ext_resource path="res://Scripts/EnvElements/Pickups/AmmoPickup.gd" type="Script" id=3]
 
 [sub_resource type="SphereShape" id=17]
 radius = 0.5
@@ -148,9 +139,9 @@ tracks/0/keys = {
 [node name="RifleAmmo" type="StaticBody"]
 collision_layer = 8
 collision_mask = 8
-script = SubResource( 13 )
+script = ExtResource( 3 )
 item_name = "Rifle Bullet"
-weight = 10.0
+weight_each = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 17 )

@@ -39,7 +39,7 @@ func get_ammo_from_inventory(e : Inventory.InventoryEntry = null):
 		
 	if ammo_entry:
 		var new_tot = min(ammo_entry.quantity, max_mags * ammo_per_mag)
-		Utils.log_line(self, "New tot ammo: %d" % [new_tot])
+		#Utils.log_line(self, "New tot ammo: %d" % [new_tot])
 		
 		reserve_ammo = new_tot
 		reload(false)

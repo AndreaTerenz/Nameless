@@ -14,6 +14,9 @@ func _input(event: InputEvent) -> void:
 				send_data(target.stop_interaction())
 		elif Input.is_action_just_pressed("interact"):
 			send_data(target.interact())
+			
+		if target.is_queued_for_deletion():
+			target = null
 
 
 func send_data(data):

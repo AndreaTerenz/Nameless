@@ -12,5 +12,5 @@ static func delete_children(node):
 
 static func log_line(obj: Node, msg: String):
 	var time = OS.get_time()
-	var time_str = "%s:%s:%s" % [str(time.hour), str(time.minute), str(time.second)]
+	var time_str = "%02d:%02d:%02d" % [time.hour, time.minute, time.second]
 	Console.write_line("@%s [%s]: %s" % [time_str, obj.name, msg])

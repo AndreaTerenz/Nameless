@@ -335,7 +335,7 @@ environment = ExtResource( 10 )
 transform = Transform( -4.37114e-09, -4.37114e-09, 0.1, -6.2172e-16, 0.1, 4.37114e-09, -0.1, -4.30651e-16, -4.37114e-09, 1.19807, -0.804665, -1.655 )
 script = ExtResource( 5 )
 anim_player_node = NodePath("../AnimationPlayer")
-weapons_scenes = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun/Gun.tscn", "res://Scenes/Weapons/Rifle/Rifle.tscn", "res://Scenes/Weapons/Laser.tscn" )
+weapons_scenes = PoolStringArray( "res://Scenes/Weapons/Arm.tscn", "res://Scenes/Weapons/Gun/Gun.tscn", "res://Scenes/Weapons/Rifle/Rifle.tscn", "res://Scenes/Weapons/Laser.tscn", "res://Scenes/Weapons/Gauss Shotgun/GaussShotg.tscn" )
 
 [node name="Position3D" type="Position3D" parent="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"]
 transform = Transform( 4, -5.0822e-21, 5.68434e-14, 5.0822e-21, 4, 5.68434e-14, -5.68434e-14, -5.68434e-14, 4, 0, 0, 0 )
@@ -388,6 +388,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453955, 0 )
 shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Body"]
+portal_mode = 2
 cast_shadow = 0
 mesh = SubResource( 15 )
 material/0 = null
@@ -447,8 +448,6 @@ shape = SubResource( 17 )
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource( 9 )
-max_weight = 123.0
-allow_overweight = true
 
 [connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_finished"]
 [connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_started"]

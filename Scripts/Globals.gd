@@ -1,5 +1,7 @@
 extends Node
 
+signal player_set(p)
+
 enum GROUPS  {
 	ENEMIES,
 	PLAYER,
@@ -35,6 +37,7 @@ const UNPAUSED := -1
 const PAUSED := 1
 
 var player : Player = null
+var inventory : Inventory = null
 var current_ui : GameUI = null
 
 var scene_triggers : Array = []
@@ -185,6 +188,12 @@ func set_gravity(value: float):
 	PhysicsServer.area_set_param(get_viewport().find_world().get_space(),\\
 	PhysicsServer.AREA_PARAM_GRAVITY, value)"""
 	Console.write_line("This would actually be more complicated than it sounds and I don't feel like it bye")
+
+func set_player(p: Player):
+	player = p
+	inventory = p.inventory
+	
+	emit_signal("player_set", player)
 
 func toggle_pause() -> void:
 	set_paused(not(get_tree().paused))

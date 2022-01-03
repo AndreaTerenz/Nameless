@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Assets/Models/weapons/rifle/rifle.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Assets/Models/weapons/gauss-shotg/gauss-shotg.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Sprites/crosshair2.svg" type="Texture" id=2]
 [ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=3]
 
@@ -16,20 +16,20 @@ func _ui():
 	ammoPane.set_count()
 "
 
-[node name="Rifle" type="MeshInstance"]
+[node name="GaussShotgun" type="MeshInstance"]
 portal_mode = 2
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )
 material/0 = null
+material/1 = null
 script = SubResource( 1 )
-entry_name = "Rifle Bullet"
+entry_name = "GaussShotg Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 2 )
-continuous = true
-fire_rate = 200
+fire_rate = 8
 
 [node name="Muzzle" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5454, 1.91206, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.56948, 1.91206, 0 )
 
 [node name="PanelContainer" parent="." instance=ExtResource( 3 )]

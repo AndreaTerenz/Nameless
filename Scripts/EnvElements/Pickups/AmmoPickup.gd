@@ -8,7 +8,7 @@ func _get_entry():
 		item_name,
 		Inventory.InventoryEntry.ENTRY_T.AMMO,
 		amount,
-		weight,
+		weight_each,
 		false,
 		bullet_scn
 	)
