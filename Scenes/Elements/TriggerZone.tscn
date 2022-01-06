@@ -10,6 +10,7 @@
 [sub_resource type="SpatialMaterial" id=36]
 flags_transparent = true
 flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
 albedo_texture = ExtResource( 2 )
 
 [node name="Trigger" type="Area"]
@@ -19,6 +20,7 @@ script = ExtResource( 1 )
 shape = SubResource( 34 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+portal_mode = 3
 cast_shadow = 0
 mesh = SubResource( 35 )
 material/0 = SubResource( 36 )

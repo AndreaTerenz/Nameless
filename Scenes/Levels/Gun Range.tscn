@@ -22,7 +22,6 @@ func _on_Hitbox_hit(damage) -> void:
 	print(damage)
 
 func _on_Hitbox_failed() -> void:
-	print(\"AOOO\")
 	queue_free()
 "
 
@@ -72,6 +71,7 @@ material/0 = null
 shape = SubResource( 29 )
 
 [node name="Hitbox" type="Area" parent="Enemy"]
+collision_layer = 32
 script = ExtResource( 1 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="Enemy/Hitbox"]
