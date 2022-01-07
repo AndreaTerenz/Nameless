@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Assets/Sprites/BulletHole.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/SmokePuff.png" type="Texture" id=2]
+
+[sub_resource type="QuadMesh" id=5]
+size = Vector2( 0.2, 0.2 )
+
+[sub_resource type="SpatialMaterial" id=11]
+resource_local_to_scene = true
+flags_transparent = true
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends MeshInstance
+
+export(float, .1, 10.0, .1) var fade_wait = 1.0
+export(float) var fade_length = 0.2
+
+onready var timer := $Timer
+onready var tween := $Tween
+onready var particles := $Particles
+
+func _ready() -> void:
+	particles.emitting = true
+	timer.wait_time = max(particles.lifetime, fade_wait)
+	timer.start()
+
+func _on_timeout() -> void:
+	var mat : SpatialMaterial = get_active_material(0)
+	tween.interpolate_property(mat, \"albedo_color\", mat.albedo_color, Color(0, 0, 0, 0), fade_length)
+	tween.start()
+
+func _on_tween_completed() -> void:
+	queue_free()
+"
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0.580952, 0.866667 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.466667 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+lifetime_randomness = 0.1
+spread = 90.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 6.0
+initial_velocity_random = 0.48
+angle = 434.3
+angle_random = 1.0
+color_ramp = SubResource( 10 )
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 2 )
+
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 8 )
+size = Vector2( 0.1, 0.1 )
+
+[node name="MeshInstance" type="MeshInstance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.02 )
+cast_shadow = 0
+mesh = SubResource( 5 )
+material/0 = SubResource( 11 )
+script = SubResource( 4 )
+fade_wait = 10.0
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+emitting = false
+amount = 60
+lifetime = 0.1
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 6 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_timeout"]
+[connection signal="tween_all_completed" from="Tween" to="." method="_on_tween_completed"]

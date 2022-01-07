@@ -36,6 +36,13 @@ const PAUSE_TOGGLE := 0
 const UNPAUSED := -1
 const PAUSED := 1
 
+var layers : Array = []
+var group_layers : Dictionary = {
+	GROUPS.ENEMIES: "Enemies",
+	GROUPS.FRIENDLY: "Friendlies",
+	GROUPS.NEUTRAL: "NPCs",
+}
+
 var player : Player = null
 var inventory : Inventory = null
 var current_ui : GameUI = null
@@ -44,6 +51,9 @@ var scene_triggers : Array = []
 var scene_killzones : Array = []
 
 func _ready() -> void:
+	for i in range(1, 21):
+		layers.append(ProjectSettings.get_setting("layer_names/3d_physics/layer_%d" % i))
+	
 	Console.connect("toggled", self, "_on_console_toggled")
 	
 	Console.add_command("show_triggers", self, "show_triggers")\
@@ -188,6 +198,11 @@ func set_gravity(value: float):
 	PhysicsServer.area_set_param(get_viewport().find_world().get_space(),\\
 	PhysicsServer.AREA_PARAM_GRAVITY, value)"""
 	Console.write_line("This would actually be more complicated than it sounds and I don't feel like it bye")
+
+########################################################
+
+func get_layer_bit(name: String):
+	return layers.find(name)
 
 func set_player(p: Player):
 	player = p

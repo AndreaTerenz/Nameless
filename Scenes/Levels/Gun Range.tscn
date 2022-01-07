@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=1]
 [ext_resource path="res://Materials/Grids/grid_dark.tres" type="Material" id=2]
@@ -8,22 +8,7 @@
 [ext_resource path="res://Scenes/Weapons/Gun/GunPickup.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Weapons/Rifle/RiflePickup.tscn" type="PackedScene" id=8]
-
-[sub_resource type="BoxShape" id=31]
-
-[sub_resource type="CubeMesh" id=30]
-
-[sub_resource type="GDScript" id=33]
-script/source = "extends StaticBody
-
-onready var hitbox : Hitbox = $Hitbox
-
-func _on_Hitbox_hit(damage) -> void:
-	print(damage)
-
-func _on_Hitbox_failed() -> void:
-	queue_free()
-"
+[ext_resource path="res://Scripts/Characters/BaseCharacter.gd" type="Script" id=9]
 
 [sub_resource type="SphereMesh" id=28]
 material = ExtResource( 3 )
@@ -39,112 +24,148 @@ radius = 2.14449
 [node name="Gun Range" type="Spatial"]
 transform = Transform( 1, -9.47311e-16, -7.10543e-15, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
 
-[node name="Range ground" type="StaticBody" parent="."]
-transform = Transform( -2.88495e-06, 9.47311e-16, -30, -1.2517e-06, 1, 7.81631e-15, 42, 2.98023e-08, -2.62272e-07, -0.138895, -1.47048, 8.2885 )
+[node name="Env" type="CSGCombiner" parent="."]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -9.61377e-16, -1.01485, -3.02448e-08 )
+use_collision = true
 collision_layer = 4
 collision_mask = 17
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="CollisionShape" type="CollisionShape" parent="Range ground"]
-shape = SubResource( 31 )
+[node name="Ground" type="CSGBox" parent="Env"]
+width = 68.0
+depth = 84.0
+material = ExtResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Range ground"]
-mesh = SubResource( 30 )
-material/0 = ExtResource( 2 )
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.80685e-21, 1.90735e-06, 5.68434e-14 )
+use_collision = true
+collision_layer = 5
+collision_mask = 17
 
-[node name="Enemy" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 8.79185e-16, -1, 0.00958168, 0.999954, -4.18829e-10, 0.999954, -0.00958168, -4.37094e-08, 10.8611, 2.34227, -22.8437 )
+[node name="Wall" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -19, 4.98515, -1 )
+width = 6.0
+height = 16.0
+depth = 26.0
+material = ExtResource( 3 )
+
+[node name="Pickups" type="Spatial" parent="."]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -5.21129e-15, 2, -1 )
+
+[node name="GunAmmoPickup" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="GunAmmoPickup2" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.4211e-14, 0, 2 )
+
+[node name="GunAmmoPickup3" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+
+[node name="GunAmmoPickup4" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
+
+[node name="GunAmmoPickup5" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
+
+[node name="GunAmmoPickup6" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2 )
+
+[node name="GunAmmoPickup7" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0 )
+
+[node name="GunAmmoPickup9" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -1.4211e-14, 0, -2 )
+
+[node name="GunAmmoPickup10" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2 )
+
+[node name="GunAmmoPickup11" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2 )
+
+[node name="GunAmmoPickup12" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
+
+[node name="GunAmmoPickup8" parent="Pickups" instance=ExtResource( 6 )]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 0, 2 )
+
+[node name="RifleAmmo" parent="Pickups" instance=ExtResource( 8 )]
+transform = Transform( -4.37114e-08, -2.98023e-08, 1, 2.98023e-08, 1, 2.98023e-08, -1, 2.98023e-08, -4.37114e-08, 2, 0, 0 )
+
+[node name="Fellas" type="Spatial" parent="."]
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0 )
+
+[node name="NPC" type="StaticBody" parent="Fellas"]
+transform = Transform( -4.37114e-08, 8.79185e-16, -1, 0.00958168, 0.999954, -4.18829e-10, 0.999954, -0.00958168, -4.37094e-08, 7.8611, 2.34227, -8.8437 )
 collision_layer = 256
-script = SubResource( 33 )
+script = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="MeshInstance" type="MeshInstance" parent="Enemy"]
+[node name="MeshInstance" type="MeshInstance" parent="Fellas/NPC"]
 mesh = SubResource( 28 )
 skeleton = NodePath("")
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Enemy"]
+[node name="CollisionShape" type="CollisionShape" parent="Fellas/NPC"]
 shape = SubResource( 29 )
 
-[node name="Hitbox" type="Area" parent="Enemy"]
+[node name="Hitbox" type="Area" parent="Fellas/NPC"]
 collision_layer = 32
 script = ExtResource( 1 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="Enemy/Hitbox"]
+[node name="CollisionShape2" type="CollisionShape" parent="Fellas/NPC/Hitbox"]
 shape = SubResource( 32 )
 
-[node name="Enemy2" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, -6.1389, 2.34227, -22.8437 )
+[node name="Enemy" type="StaticBody" parent="Fellas"]
+transform = Transform( -4.37114e-08, 8.79185e-16, -1, 0.00958168, 0.999954, -4.18829e-10, 0.999954, -0.00958168, -4.37094e-08, 7.8611, 2.34227, -0.8437 )
+collision_layer = 256
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+npc_type = 0
+
+[node name="MeshInstance" type="MeshInstance" parent="Fellas/Enemy"]
+mesh = SubResource( 28 )
+skeleton = NodePath("")
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Fellas/Enemy"]
+shape = SubResource( 29 )
+
+[node name="Hitbox" type="Area" parent="Fellas/Enemy"]
 collision_layer = 32
-script = SubResource( 33 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="MeshInstance" type="MeshInstance" parent="Enemy2"]
-mesh = SubResource( 28 )
-skeleton = NodePath("")
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Enemy2"]
-shape = SubResource( 29 )
-
-[node name="Hitbox" type="Area" parent="Enemy2"]
 script = ExtResource( 1 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="Enemy2/Hitbox"]
+[node name="CollisionShape2" type="CollisionShape" parent="Fellas/Enemy/Hitbox"]
 shape = SubResource( 32 )
 
-[node name="Enemy3" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, 10.8611, 2.34227, -4.84366 )
-collision_layer = 512
-script = SubResource( 33 )
+[node name="Friendly" type="StaticBody" parent="Fellas"]
+transform = Transform( -4.37114e-08, 8.79185e-16, -1, 0.00958168, 0.999954, -4.18829e-10, 0.999954, -0.00958168, -4.37094e-08, 7.8611, 2.34227, 7.1563 )
+collision_layer = 256
+script = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
 }
+npc_type = 2
 
-[node name="MeshInstance" type="MeshInstance" parent="Enemy3"]
+[node name="MeshInstance" type="MeshInstance" parent="Fellas/Friendly"]
 mesh = SubResource( 28 )
 skeleton = NodePath("")
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Enemy3"]
+[node name="CollisionShape" type="CollisionShape" parent="Fellas/Friendly"]
 shape = SubResource( 29 )
 
-[node name="Hitbox" type="Area" parent="Enemy3"]
+[node name="Hitbox" type="Area" parent="Fellas/Friendly"]
+collision_layer = 32
 script = ExtResource( 1 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="Enemy3/Hitbox"]
-shape = SubResource( 32 )
-
-[node name="Enemy4" type="StaticBody" parent="."]
-transform = Transform( -4.37114e-08, 9.47311e-16, -1, -2.98023e-08, 1, 1.3027e-15, 1, 2.98023e-08, -4.37114e-08, -6.1389, 2.34227, -4.84366 )
-collision_layer = 512
-script = SubResource( 33 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="MeshInstance" type="MeshInstance" parent="Enemy4"]
-mesh = SubResource( 28 )
-skeleton = NodePath("")
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Enemy4"]
-shape = SubResource( 29 )
-
-[node name="Hitbox" type="Area" parent="Enemy4"]
-script = ExtResource( 1 )
-
-[node name="CollisionShape2" type="CollisionShape" parent="Enemy4/Hitbox"]
+[node name="CollisionShape2" type="CollisionShape" parent="Fellas/Friendly/Hitbox"]
 shape = SubResource( 32 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 0.0614566, 3.30062, 23.4395 )
+transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 0.0614566, 3.30062, 6.4395 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 5 )
@@ -155,51 +176,3 @@ shadow_enabled = true
 
 [node name="KillZone" parent="." instance=ExtResource( 7 )]
 transform = Transform( 217.013, -2.04632e-13, -1.0842e-19, 0, 1, -6.43768e-06, 0, -6.43768e-06, 217.013, -1.89462e-14, -20, -5.96046e-07 )
-
-[node name="GunAmmoPickup" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.15581e-13, 2, 16 )
-
-[node name="GunAmmoPickup2" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.29792e-13, 2, 18 )
-
-[node name="GunAmmoPickup3" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 2, 16 )
-
-[node name="GunAmmoPickup4" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 2, 18 )
-
-[node name="GunAmmoPickup5" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 2, 16 )
-
-[node name="GunAmmoPickup6" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 2, 18 )
-
-[node name="GunAmmoPickup7" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 2, 16 )
-
-[node name="GunAmmoPickup9" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, 1.0137e-13, 2, 14 )
-
-[node name="GunAmmoPickup10" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -2, 2, 14 )
-
-[node name="GunAmmoPickup11" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -4, 2, 14 )
-
-[node name="GunAmmoPickup12" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 2, 14 )
-
-[node name="GunAmmoPickup8" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -6, 2, 18 )
-
-[node name="RifleAmmo" parent="." instance=ExtResource( 8 )]
-transform = Transform( -4.37114e-08, -2.98023e-08, 1, 2.98023e-08, 1, 2.98023e-08, -1, 2.98023e-08, -4.37114e-08, 2, 2, 16 )
-
-[connection signal="hit" from="Enemy/Hitbox" to="Enemy" method="_on_Hitbox_hit"]
-[connection signal="killed" from="Enemy/Hitbox" to="Enemy" method="_on_Hitbox_failed"]
-[connection signal="hit" from="Enemy2/Hitbox" to="Enemy2" method="_on_Hitbox_hit"]
-[connection signal="killed" from="Enemy2/Hitbox" to="Enemy2" method="_on_Hitbox_failed"]
-[connection signal="hit" from="Enemy3/Hitbox" to="Enemy3" method="_on_Hitbox_hit"]
-[connection signal="killed" from="Enemy3/Hitbox" to="Enemy3" method="_on_Hitbox_failed"]
-[connection signal="hit" from="Enemy4/Hitbox" to="Enemy4" method="_on_Hitbox_hit"]
-[connection signal="killed" from="Enemy4/Hitbox" to="Enemy4" method="_on_Hitbox_failed"]

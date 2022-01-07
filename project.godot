@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/SIsilicon.3d.text/array_utils.gd"
 }, {
+"base": "CollisionObject",
+"class": "BaseCharacter",
+"language": "GDScript",
+"path": "res://Scripts/Characters/BaseCharacter.gd"
+}, {
 "base": "Togglable",
 "class": "BaseDoor",
 "language": "GDScript",
@@ -177,6 +182,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AmmoPickup": "",
 "ArrayUtils": "",
+"BaseCharacter": "",
 "BaseDoor": "",
 "BaseGun": "",
 "BasePickup": "",
@@ -478,7 +484,7 @@ select_item={
 3d_physics/layer_3="Env"
 3d_physics/layer_4="Interactables"
 3d_physics/layer_5="Bullet"
-3d_physics/layer_6="Enemy"
+3d_physics/layer_6="Enemies"
 3d_physics/layer_7="Killzone"
 3d_physics/layer_8="Hitbox"
 3d_physics/layer_9="NPCs"

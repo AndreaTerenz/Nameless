@@ -10,18 +10,18 @@ mid_height = 1.765
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true
 emission_enabled = true
-emission = Color( 0.0901961, 0, 1, 1 )
-emission_energy = 4.43
+emission = Color( 0.509804, 0.462745, 1, 1 )
+emission_energy = 3.04
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="CapsuleShape" id=3]
-radius = 0.11701
-height = 1.7782
+[sub_resource type="SphereShape" id=3]
 
 [node name="Bullet" type="RigidBody"]
 collision_layer = 16
 collision_mask = 37
+contacts_reported = 1
+contact_monitor = true
 script = ExtResource( 1 )
 speed = 880.0
 max_dist = 46.5
@@ -33,5 +33,4 @@ mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( -6.44648e-08, 0, -1, 0, 1.47478, 0, 1.47478, 0, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 3 )
