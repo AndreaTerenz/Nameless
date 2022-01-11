@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+var loader : ResourceInteractiveLoader = null
+
+onready var prog_bar := $VBoxContainer/ProgressBar
+
+func _ready() -> void:
+	prog_bar.value = 0
+	if Globals.scene_to_load != \"\":
+		loader = ResourceLoader.load_interactive(Globals.scene_to_load)
+		Globals.scene_to_load = \"\"
+	
+func _process(delta: float) -> void:
+	var stat = loader.poll()
+	
+	match stat:
+		OK:
+			update_progress()
+		ERR_FILE_EOF:
+			get_tree().change_scene_to(loader.get_resource())
+			loader = null
+		
+func update_progress():
+	var progress = float(loader.get_stage()) / loader.get_stage_count()
+	prog_bar.value = progress * 100
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.270588, 1, 0.156863, 1 )
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -247.5
+margin_top = -89.5
+margin_right = 247.5
+margin_bottom = 89.5
+custom_constants/separation = 57
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_left = 167.0
+margin_top = 20.0
+margin_right = 327.0
+margin_bottom = 81.0
+size_flags_horizontal = 4
+text = "Loading"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer"]
+margin_top = 138.0
+margin_right = 495.0
+margin_bottom = 158.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_vertical = 1
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+value = 50.0
+percent_visible = false

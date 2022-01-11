@@ -157,7 +157,8 @@ func _on_item_activated(index: int) -> void:
 
 
 func load_scene(scene_name):
-	get_tree().change_scene(scenes_dir + \"/\" + scene_name)
+	Globals.scene_to_load = scenes_dir + \"/\" + scene_name
+	get_tree().change_scene(\"res://Scenes/LoadingScene.tscn\")
 "
 
 [sub_resource type="DynamicFont" id=13]
