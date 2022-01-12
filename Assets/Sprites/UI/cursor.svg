@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733333 67.733335"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="cursor.svg"
+   inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/cursor.png"
+   inkscape:export-xdpi="9.3800001"
+   inkscape:export-ydpi="9.3800001"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="793.70081px"
+     inkscape:snap-page="true"
+     inkscape:snap-object-midpoints="false"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-edge-midpoints="false"
+     inkscape:bbox-paths="false"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="false"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:bbox-nodes="false"
+     inkscape:snap-center="true"
+     inkscape:snap-global="true"
+     inkscape:zoom="2.5906004"
+     inkscape:cx="113.2942"
+     inkscape:cy="83.571359"
+     inkscape:window-width="1920"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox-midpoints="true" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path2601"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.07493;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 66.695867,20.799452 -9.889255,10.848459 -17.83115,3.671848 -2.921741,19.27636 -10.863635,12.099748 m 0,10e-7 L 1.0373995,1.0374093 66.695868,20.799451"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:transform-center-x="-32.829237"
+       inkscape:transform-center-y="32.829231" />
+    <path
+       id="path4424"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.82322;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 7.1405603,6.5599238 35.427481,32.121117"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/path4424.png"
+       inkscape:export-xdpi="9.3800001"
+       inkscape:export-ydpi="9.3800001" />
+  </g>
+</svg>
