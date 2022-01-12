@@ -43,6 +43,8 @@ var group_layers : Dictionary = {
 	GROUPS.NEUTRAL: "NPCs",
 }
 
+var scene_to_load := ""
+var in_game := true
 var player : Player = null
 var inventory : Inventory = null
 var current_ui : GameUI = null
@@ -107,7 +109,7 @@ func _ready() -> void:
 #	.register()
 
 func _on_console_toggled(val: bool):
-	if current_ui == null:
+	if current_ui == null and in_game:
 		set_paused(val)
 	
 func show_triggers(t):
@@ -178,8 +180,11 @@ func get_vsync():
 	Console.write_line(OS.vsync_enabled)
 	
 func set_window_mode(mode: int):
-	OS.window_fullscreen = (mode == 0)
-	OS.window_resizable = (mode != 0)
+	set_fullscreen(mode == 0)
+	
+func set_fullscreen(full: bool):
+	OS.window_fullscreen = full
+	OS.window_resizable = not full
 	
 func set_resolution(w: int, h: int):
 	if (w == 0):
@@ -227,4 +232,12 @@ func set_mouse_mode():
 		var size = get_viewport().size
 		get_viewport().warp_mouse(Vector2(size.x/2, (size.y/2)-200))
 
-
+func quit():
+	Settings.save_data()
+	get_tree().quit()
+	
+func load_scene(path: String, game := true):
+	Settings.save_data()
+	in_game = game
+	scene_to_load = path
+	get_tree().change_scene("res://Scenes/LoadingScene.tscn")

@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Sprites/BulletHole.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/SmokePuff.png" type="Texture" id=2]
 
-[sub_resource type="QuadMesh" id=5]
+[sub_resource type="QuadMesh" id=12]
 size = Vector2( 0.2, 0.2 )
 
 [sub_resource type="SpatialMaterial" id=11]
@@ -21,11 +21,6 @@ onready var timer := $Timer
 onready var tween := $Tween
 onready var particles := $Particles
 
-func _ready() -> void:
-	particles.emitting = true
-	timer.wait_time = max(particles.lifetime, fade_wait)
-	timer.start()
-
 func _on_timeout() -> void:
 	var mat : SpatialMaterial = get_active_material(0)
 	tween.interpolate_property(mat, \"albedo_color\", mat.albedo_color, Color(0, 0, 0, 0), fade_length)
@@ -33,6 +28,15 @@ func _on_timeout() -> void:
 
 func _on_tween_completed() -> void:
 	queue_free()
+
+func setup(position: Vector3, normal: Vector3):
+	global_transform.origin = position
+	translate_object_local(Vector3.FORWARD * .01)
+	look_at(position + normal, Vector3.UP)
+	rotate_object_local(Vector3.UP, PI)
+	
+	particles.emitting = true
+	timer.start(max(particles.lifetime, fade_wait))
 "
 
 [sub_resource type="Gradient" id=9]
@@ -67,9 +71,8 @@ material = SubResource( 8 )
 size = Vector2( 0.1, 0.1 )
 
 [node name="MeshInstance" type="MeshInstance"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.02 )
 cast_shadow = 0
-mesh = SubResource( 5 )
+mesh = SubResource( 12 )
 material/0 = SubResource( 11 )
 script = SubResource( 4 )
 fade_wait = 10.0

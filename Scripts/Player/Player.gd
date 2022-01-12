@@ -49,6 +49,7 @@ onready var grnd_chk = $GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var interact_chk = $Head/InteractRay
+onready var aim_ray = $Head/AimRay
 onready var hitbox = $Hitbox
 onready var others_detect = $OthersDetection
 onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"

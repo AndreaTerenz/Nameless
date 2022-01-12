@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/pickups/rifle_ammo.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Models/weapons/pickups/UV/Rifle_ammo_albedo.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Models/weapons/pickups/Textures/Rifle_ammo_albedo.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/EnvElements/Pickups/AmmoPickup.gd" type="Script" id=3]
 
 [sub_resource type="SphereShape" id=17]

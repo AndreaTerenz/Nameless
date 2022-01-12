@@ -7,6 +7,8 @@ var text_size := 1.0 setget set_text_size
 var font: Font setget set_font
 var align := 0 setget set_align
 var layer := 1 setget set_layer
+var cast_shadow := true setget set_cast_shadow
+var use_in_baked_light := false setget set_use_in_baked
 
 var color := Color(0.6, 0.6, 0.6) setget set_color
 var unshaded := true 
@@ -33,7 +35,11 @@ func _get_property_list() -> Array:
 		{name="text_size", type=TYPE_REAL},
 		{name="font", type=TYPE_OBJECT, hint=PROPERTY_HINT_RESOURCE_TYPE, hint_string="Font"},
 		{name="align", type=TYPE_INT, hint=PROPERTY_HINT_ENUM, hint_string="Left,Right,Center,Fill"},
+		
+		{name="Mesh", type=TYPE_NIL, usage=PROPERTY_USAGE_GROUP},
 		{name="layer", type=TYPE_INT, hint=PROPERTY_HINT_LAYERS_3D_RENDER},
+		{name="cast_shadow", type=TYPE_BOOL},
+		{name="use_in_baked_light", type=TYPE_BOOL},
 
 		{name="Material", type=TYPE_NIL, usage=PROPERTY_USAGE_GROUP},
 		{name="color", type=TYPE_COLOR, hint=PROPERTY_HINT_COLOR_NO_ALPHA},
@@ -72,8 +78,11 @@ func _ready() -> void:
 	set_text(text)
 	set_font(font)
 	set_align(align)
-	set_layer(layer)
 	set_text_size(text_size)
+	
+	set_layer(layer)
+	set_cast_shadow(cast_shadow)
+	set_use_in_baked(use_in_baked_light)
 
 	set_color(color)
 	set_metallic(metallic)
@@ -90,6 +99,16 @@ func set_layer(value: int) -> void:
 	layer = value
 	if proxy:
 		proxy.layers = layer
+		
+func set_cast_shadow(value: bool):
+	cast_shadow = value
+	if proxy:
+		proxy.cast_shadow = cast_shadow
+		
+func set_use_in_baked(value: bool):
+	use_in_baked_light = value
+	if proxy:
+		proxy.use_in_baked_light = use_in_baked_light
 
 
 func set_text(value: String) -> void:

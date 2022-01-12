@@ -1,7 +1,7 @@
 [gd_resource type="SpatialMaterial" load_steps=4 format=2]
 
 [ext_resource path="res://Materials/Noises/wall_noise.tres" type="OpenSimplexNoise" id=1]
-[ext_resource path="res://Assets/Models/level/UVs/level_albedo.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Models/level/Textures/level_albedo.png" type="Texture" id=2]
 
 [sub_resource type="NoiseTexture" id=1]
 width = 4096

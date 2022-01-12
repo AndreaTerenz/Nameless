@@ -96,17 +96,15 @@ func _on_new_ammo() -> void:
 	update_ui()
 
 func _on_shoot():
-	if timer.is_stopped() and ammo_count > 0:
+	if timer.is_stopped() and ammo_count > 0 :
 		var bullet : Bullet = _get_entry().item_scene.instance()
-		get_node("/root").add_child(bullet)
-		bullet.setup(muzzle.global_transform)
-		
+		muzzle.add_child(bullet)
 		ammo_count -= 1
-		
-		_on_shot()
 		
 		if (ammo_count <= 0):
 			reload()
+		
+		_on_shot()
 			
 		timer.start()
 		

@@ -1,7 +1,7 @@
 [gd_resource type="SpatialMaterial" load_steps=5 format=2]
 
-[ext_resource path="res://Assets/Models/level 2/UV/catwalk_albedo.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Models/level 2/UV/catwalk_metal.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Models/level 2/Textures/catwalk_albedo.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Models/level 2/Textures/catwalk_metal.png" type="Texture" id=2]
 
 [sub_resource type="OpenSimplexNoise" id=1]
 period = 1.5

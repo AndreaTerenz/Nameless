@@ -1,18 +1,33 @@
 tool
 extends TextureRect
 
-export(String) var action = ""
+export(String) var action = "" setget set_action
+export(String) var key_override = "" setget set_override
 export(float, .1, 2.0, .05) var scaling = .6 setget set_scaling
 
 func set_scaling(newVal):
 	scaling = newVal
+	_update_image()
+	
+func set_override(newVal):
+	key_override = newVal
+	_update_image()
+	
+func set_action(newVal):
+	action = newVal
 	_update_image()
 
 func _ready() -> void:
 	_update_image()
 	
 func _update_image():
-	var txt_img : Image = get_action_btn(action)
+	var txt_img : Image = null
+	
+	if key_override == "":
+		txt_img = get_action_btn(action)
+	else:
+		txt_img = get_key_btn_texture(key_override)
+	
 	var size : Vector2 = txt_img.get_size() * scaling
 	txt_img.resize(size.x, size.y)
 	
@@ -49,6 +64,7 @@ func get_action_btn(action_name, theme := Globals.UI_BTN_THEME, idx := 0) -> Ima
 		
 		if target_action is InputEventMouseButton:
 			var btn := "Simple"
+			
 			match target_action.button_index:
 				BUTTON_LEFT:
 					btn = "Left"
@@ -62,10 +78,15 @@ func get_action_btn(action_name, theme := Globals.UI_BTN_THEME, idx := 0) -> Ima
 		elif target_action is InputEventKey:
 			var txt = target_action.as_text()
 			
-			if txt == "<":
-				txt = "Mark_Left"
-			elif txt == ">":
-				txt = "Mark_Right"
+			match txt:
+				"<":
+					txt = "Mark_Left"
+				">":
+					txt = "Mark_Right"
+				"Control":
+					txt = "Ctrl"
+				"Escape":
+					txt = "Esc"
 				
 			return get_key_btn_texture(txt, theme) 
 	

@@ -1,19 +1,36 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/rifle/rifle.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Sprites/crosshair2.svg" type="Texture" id=2]
 [ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Materials/muzzle_flash_outer_mat.tres" type="Material" id=4]
+[ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends BulletGun
 
 onready var ammoPane = $PanelContainer
+onready var muzzle_flash = $Muzzle/Flash
 
 func _ready() -> void:
 	ammoPane.gun = self
 
 func _ui():
 	ammoPane.set_count()
+	
+func _on_shot():
+	._on_shot()
+	
+	muzzle_flash.show()
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends MuzzleFlash
+
+
+func _ready() -> void:
+	pass
 "
 
 [node name="Rifle" type="MeshInstance"]
@@ -30,6 +47,33 @@ continuous = true
 fire_rate = 200
 
 [node name="Muzzle" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5454, 1.91206, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7938, 2.43835, 0 )
+
+[node name="Flash" type="MeshInstance" parent="Muzzle"]
+transform = Transform( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0 )
+layers = 2
+cast_shadow = 0
+mesh = ExtResource( 5 )
+skeleton = NodePath("../Muzzle")
+material/0 = ExtResource( 4 )
+material/1 = ExtResource( 6 )
+script = SubResource( 2 )
+
+[node name="OmniLight2" type="OmniLight" parent="Muzzle/Flash"]
+transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.112119, 0.448411, 0 )
+layers = 2
+light_color = Color( 1, 0.996078, 0.376471, 1 )
+light_energy = 4.337
+light_cull_mask = 4294967294
+omni_range = 2.42258
+omni_attenuation = 0.183011
+
+[node name="OmniLight" type="OmniLight" parent="Muzzle/Flash"]
+transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.3073, 0, 0 )
+light_color = Color( 1, 0.996078, 0.376471, 1 )
+light_energy = 2.058
+light_cull_mask = 4294967293
+omni_range = 12.1562
+omni_attenuation = 3.36359
 
 [node name="PanelContainer" parent="." instance=ExtResource( 3 )]

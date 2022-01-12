@@ -32,7 +32,7 @@ func _on_unpause():
 	anim_player.play(\"FadeOut\")
 
 func _on_Quit_Btn_pressed() -> void:
-	get_tree().quit(0)
+	Globals.quit()
 
 
 func _on_Restart_Btn_pressed() -> void:
@@ -168,9 +168,9 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer"]
 pause_mode = 2
 margin_left = 855.0
-margin_top = 362.0
+margin_top = 366.0
 margin_right = 1065.0
-margin_bottom = 718.0
+margin_bottom = 714.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
@@ -179,7 +179,7 @@ alignment = 1
 
 [node name="Restart Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
 margin_right = 210.0
-margin_bottom = 74.0
+margin_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 210, 0 )
@@ -193,9 +193,9 @@ text = "Restart"
 script = ExtResource( 3 )
 
 [node name="Resume Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
-margin_top = 94.0
+margin_top = 92.0
 margin_right = 210.0
-margin_bottom = 168.0
+margin_bottom = 164.0
 rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Restart Btn")
 focus_neighbour_bottom = NodePath("../Quit Btn")
@@ -208,9 +208,9 @@ script = ExtResource( 3 )
 
 [node name="Hub Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
 show_behind_parent = true
-margin_top = 188.0
+margin_top = 184.0
 margin_right = 210.0
-margin_bottom = 262.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Resume Btn")
 focus_neighbour_bottom = NodePath("../Restart Btn")
@@ -226,9 +226,9 @@ __meta__ = {
 
 [node name="Quit Btn" type="Button" parent="TextureRect/CenterContainer/VBoxContainer"]
 show_behind_parent = true
-margin_top = 282.0
+margin_top = 276.0
 margin_right = 210.0
-margin_bottom = 356.0
+margin_bottom = 348.0
 rect_min_size = Vector2( 210, 0 )
 focus_neighbour_top = NodePath("../Resume Btn")
 focus_neighbour_bottom = NodePath("../Restart Btn")

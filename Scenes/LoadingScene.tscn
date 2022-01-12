@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -29,6 +30,11 @@ func update_progress():
 	var progress = float(loader.get_stage()) / loader.get_stage_count()
 	prog_bar.value = progress * 100
 "
+
+[sub_resource type="DynamicFont" id=4]
+size = 40
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.270588, 1, 0.156863, 1 )
@@ -86,11 +92,12 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_left = 167.0
-margin_top = 20.0
-margin_right = 327.0
+margin_left = 191.0
+margin_top = 21.0
+margin_right = 303.0
 margin_bottom = 81.0
 size_flags_horizontal = 4
+custom_fonts/font = SubResource( 4 )
 text = "Loading"
 align = 1
 valign = 1

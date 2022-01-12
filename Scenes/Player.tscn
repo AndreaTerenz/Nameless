@@ -360,6 +360,14 @@ script = ExtResource( 7 )
 [node name="CollisionShape" type="CollisionShape" parent="Head/InteractRay"]
 shape = SubResource( 6 )
 
+[node name="AimRay" type="RayCast" parent="Head"]
+transform = Transform( -1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, -0.823641 )
+enabled = true
+cast_to = Vector3( 0, -30, 0 )
+collision_mask = 932
+collide_with_areas = true
+debug_shape_custom_color = Color( 1, 0, 0, 1 )
+
 [node name="Flashlight" type="SpotLight" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.555745, 0 )
 visible = false

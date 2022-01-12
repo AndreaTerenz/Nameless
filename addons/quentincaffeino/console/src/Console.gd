@@ -143,7 +143,7 @@ func write(message):
 # @param    String  message
 # @returns  void
 func write_line(message = ''):
-	write(message + '\n')
+	write(str(message) + '\n')
 	
 
 func error_line(message = ''):
