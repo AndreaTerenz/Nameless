@@ -79,10 +79,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/UI/GameUI.gd"
 }, {
-"base": "Area",
+"base": "Reference",
 "class": "Hitbox",
 "language": "GDScript",
-"path": "res://Scripts/Hitbox.gd"
+"path": "res://Scripts/Characters/Hitbox.gd"
 }, {
 "base": "StaticBody",
 "class": "Interactable",
@@ -238,9 +238,10 @@ config/icon="res://icon.png"
 [autoload]
 
 Console="*res://addons/quentincaffeino/console/src/Console.tscn"
-Utils="*res://Scripts/Utils.gd"
-Globals="*res://Scripts/Globals.gd"
-Settings="*res://Scripts/Settings.gd"
+Utils="*res://Scripts/Autoloads/Utils.gd"
+Globals="*res://Scripts/Autoloads/Globals.gd"
+Settings="*res://Scripts/Autoloads/Settings.gd"
+ScreenResolution="*res://Scripts/Autoloads/ScreenResolution.gd"
 
 [debug]
 
@@ -264,6 +265,30 @@ enabled=PoolStringArray( "res://addons/SIsilicon.3d.text/plugin.cfg", "res://add
 theme/use_hidpi=true
 theme/custom="res://theme.tres"
 theme/custom_font="res://base font.tres"
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 2,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": true,
+"flags/filter": false,
+"flags/mipmaps": true,
+"flags/repeat": true,
+"flags/srgb": 1,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
 
 [input]
 
@@ -510,6 +535,7 @@ common/enable_pause_aware_picking=true
 
 quality/directional_shadow/size=8192
 quality/shadow_atlas/cubemap_size=2048
+quality/filters/anisotropic_filter_level=16
 quality/voxel_cone_tracing/high_quality=true
 cpu_lightmapper/quality/low_quality_ray_count=128
 cpu_lightmapper/quality/medium_quality_ray_count=512

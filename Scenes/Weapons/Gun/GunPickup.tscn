@@ -3,112 +3,13 @@
 [ext_resource path="res://Assets/Models/weapons/pickups/gun_ammo.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Models/weapons/pickups/Textures/Gun_ammo_albedo.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/EnvElements/Pickups/AmmoPickup.gd" type="Script" id=3]
+[ext_resource path="res://Materials/Shaders/glow.gdshader" type="Shader" id=4]
 
 [sub_resource type="SphereShape" id=17]
 radius = 0.4
 
-[sub_resource type="Shader" id=3]
-code = "shader_type spatial;
-render_mode unshaded;
-
-const vec3 MONOCHROME_SCALE = vec3( 0.298912, 0.586611, 0.114478 );
-
-uniform vec4 outline_color : hint_color = vec4( 0.0, 0.0, 0.0, 1.0 );
-uniform float luma_coef = 0.1;
-uniform float color_coef = 0.1;
-uniform float depth_coef = 0.8;
-uniform float cutoff = 0.2;
-
-float gaussian3x3( sampler2D tex, vec2 uv, vec2 pixel_size )
-{
-	float p = 0.0;
-	float coef[9] = {
-		0.0625, 0.125, 0.0625,
-		0.125, 0.25, 0.125,
-		0.0625, 0.125, 0.0625
-	};
-
-	for( int y=-1; y<=1; y++ ) {
-		for( int x=-1; x<=1; x ++ ) {
-			p += textureLod( tex, uv + vec2( float( x ), float( y ) ) * pixel_size, 0.0 ).r * coef[(y+1)*3 + (x+1)];
-		}
-	}
-
-	return p;
-}
-
-void fragment( )
-{
-	vec3 color[9];
-	float depth[9];
-	vec2 pixel_size = ( vec2( 1.0, 1.0 ) / VIEWPORT_SIZE ) * 1.15;
-
-	// Gaussian FilterとSobel FilterでColor/Depthで取る
-	for( int y=0; y<3; y ++ ) {
-		for( int x=0; x<3; x ++ ) {
-			vec2 uv = SCREEN_UV + vec2( float( x-1 ), float( y-1 ) ) * pixel_size;
-			vec4 ndc = vec4( uv, gaussian3x3( DEPTH_TEXTURE, uv, pixel_size ), 1.0 ) * 2.0 - 1.0;
-			vec4 screen_pixel_coord = INV_PROJECTION_MATRIX * ndc;
-
-			color[y*3+x] = textureLod( SCREEN_TEXTURE, uv, 0.0 ).rgb;
-			depth[y*3+x] = -( screen_pixel_coord.z / screen_pixel_coord.w );
-		}
-	}
-
-	vec3 color_sobel_src_x = (
-		color[0] * -1.0
-	+	color[3] * -2.0
-	+	color[6] * -1.0
-	+	color[2] * 1.0
-	+	color[5] * 2.0
-	+	color[8] * 1.0
-	);
-	vec3 color_sobel_src_y = (
-		color[0] * -1.0
-	+	color[1] * -2.0
-	+	color[2] * -1.0
-	+	color[6] * 1.0
-	+	color[7] * 2.0
-	+	color[8] * 1.0
-	);
-	vec3 color_sobel = sqrt( color_sobel_src_x * color_sobel_src_x + color_sobel_src_y * color_sobel_src_y );
-
-	vec2 depth_sobel_src = vec2(
-		(
-			depth[0] * -1.0
-		+	depth[3] * -2.0
-		+	depth[6] * -1.0
-		+	depth[2] * 1.0
-		+	depth[5] * 2.0
-		+	depth[8] * 1.0
-		)
-	,	(
-			depth[0] * -1.0
-		+	depth[1] * -2.0
-		+	depth[2] * -1.0
-		+	depth[6] * 1.0
-		+	depth[7] * 2.0
-		+	depth[8] * 1.0
-		)
-	);
-	float depth_sobel = clamp( sqrt( dot( depth_sobel_src, depth_sobel_src ) ), 0.0, 1.0 );
-
-	// 
-	ALBEDO = outline_color.rgb;
-	ALPHA = clamp(
-		depth_sobel * depth_coef
-	+	depth_sobel * dot( color_sobel, MONOCHROME_SCALE ) * luma_coef
-	+	depth_sobel * length( color_sobel ) * color_coef
-	-	cutoff
-	,	0.0
-	,	1.0
-	);
-	DEPTH = 0.0;
-}
-"
-
 [sub_resource type="ShaderMaterial" id=4]
-shader = SubResource( 3 )
+shader = ExtResource( 4 )
 shader_param/outline_color = Color( 0, 0.890196, 1, 1 )
 shader_param/luma_coef = 0.1
 shader_param/color_coef = 0.1
@@ -125,41 +26,43 @@ albedo_texture = ExtResource( 2 )
 resource_name = "Idle"
 length = 2.0
 loop = true
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("CollisionShape/MeshInstance:material/0:shader_param/depth_coef")
+tracks/0/type = "value"
+tracks/0/path = NodePath("CollisionShape/MeshInstance2:material_overlay:shader_param/depth_coef")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 2, -0.25, 0, 0.25, 0, 8, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1, 2 )
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, 8.0, 2.0 ]
 }
 
 [sub_resource type="Animation" id=16]
 length = 0.001
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("CollisionShape/MeshInstance:translation:x")
+tracks/0/path = NodePath("CollisionShape:rotation_degrees:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( -90, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("CollisionShape/MeshInstance:translation:y")
+tracks/1/path = NodePath("CollisionShape:rotation_degrees:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 1.639, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("CollisionShape/MeshInstance:translation:z")
+tracks/2/path = NodePath("CollisionShape:rotation_degrees:z")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -168,45 +71,17 @@ tracks/2/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
-tracks/3/type = "bezier"
-tracks/3/path = NodePath("CollisionShape:rotation_degrees:x")
+tracks/3/type = "value"
+tracks/3/path = NodePath("CollisionShape/MeshInstance2:material_overlay:shader_param/depth_coef")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( -90, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("CollisionShape:rotation_degrees:y")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"points": PoolRealArray( 1.639, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("CollisionShape:rotation_degrees:z")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("CollisionShape/MeshInstance:material/0:shader_param/depth_coef")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 2, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2.0 ]
 }
 
 [node name="GunAmmoPickup" type="StaticBody"]
@@ -220,17 +95,12 @@ weight_each = 1.0
 transform = Transform( 0.999591, -0.0286021, -1.25024e-09, 0, -4.37114e-08, 1, -0.0286021, -0.999591, -4.36935e-08, 0, 0, 0 )
 shape = SubResource( 17 )
 
-[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
-transform = Transform( 0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0 )
+[node name="MeshInstance2" type="MeshInstance" parent="CollisionShape"]
+transform = Transform( 0.1, 4.79445e-18, 2.32831e-10, 2.32831e-10, -4.37114e-09, -0.1, 1.38778e-17, 0.1, -4.37114e-09, 0, 0, 0 )
+material_overlay = SubResource( 4 )
 cast_shadow = 0
 mesh = ExtResource( 1 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 4 )
-
-[node name="MeshInstance" type="MeshInstance" parent="CollisionShape/MeshInstance"]
-transform = Transform( 1, 0, 0, 0, 1, 8.47033e-22, 0, -8.47033e-22, 1, 0, 0, 0 )
-cast_shadow = 0
-mesh = ExtResource( 1 )
+skeleton = NodePath("")
 material/0 = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
