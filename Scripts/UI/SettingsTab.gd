@@ -1,22 +1,21 @@
 class_name SettingsTab
 extends Tabs
 
+signal apply
+signal cancel
+
+export(NodePath) var apply_btn_path = "SettingsPanel/VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn"
+export(NodePath) var cancel_btn_path = "SettingsPanel/VBoxContainer/PanelContainer/HBoxContainer/CancelSettsBtn"
+
 func _ready() -> void:
-	print(get_child_count())
-	Settings.connect("settings_loaded", self, "_on_settings_loaded")
+	var a_b : Button = get_node(apply_btn_path)
+	var c_b : Button = get_node(cancel_btn_path)
 	
-	if not Settings.data_loaded:
-		Settings.load_data()
-	else:
-		_on_settings_loaded(false)
-
-func _on_settings_loaded(defaults):
-	for key in Settings.config.get_section_keys(get_target_section()):
-		var val = Settings.config.get_value(get_target_section(), key)
-		apply_setting(key, val)
+	a_b.connect("apply_settings", self, "_on_apply_settings")
+	c_b.connect("cancel_sett_edits", self, "_on_cancel_edits")
 				
-func apply_setting(key: String, value):
-	pass
+func _on_apply_settings() -> void:
+	emit_signal("apply")
 
-func get_target_section():
-	return ""
+func _on_cancel_edits() -> void:
+	emit_signal("cancel")

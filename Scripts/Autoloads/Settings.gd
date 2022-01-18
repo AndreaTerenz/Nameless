@@ -36,10 +36,13 @@ var config := ConfigFile.new()
 var target_file := "res://settings.cfg"
 var data_loaded := false
 
+######################################
 const CONTROLS := "Controls"
-const GRAPHICS := "Graphics"
-const AUDIO := "Audio"
+const INVERT_Y := "invert_y_axis"
+const MOUSE_SENS := "mouse_sensitivity"
 
+######################################
+const GRAPHICS := "Graphics"
 const USE_VSYNC := "use_vsync"
 const RESOLUTION := "resolution"
 const RESOLUTION_NATIVE := "native"
@@ -48,8 +51,13 @@ const WIN_MODE_FULL := "fullscreen"
 const WIN_MODE_WINDW := "windowed"
 const WIN_MODE_BRDRLESS := "borderless"
 
+######################################
+const AUDIO := "Audio"
+
 const defaults : Dictionary = {
-	CONTROLS : {},
+	CONTROLS : {
+		INVERT_Y: false
+	},
 	GRAPHICS : {
 		USE_VSYNC: true,
 		RESOLUTION: "1920 x 1080",
@@ -57,13 +65,14 @@ const defaults : Dictionary = {
 	},
 	AUDIO : {},
 }
-	
+
+var debug_force_defaults = false
 func _ready():
 	if not data_loaded:
 		var err = config.load(target_file)
 		data_loaded = true
 		
-		if err == ERR_FILE_NOT_FOUND:
+		if debug_force_defaults or err == ERR_FILE_NOT_FOUND:
 			load_defaults()
 			save_data()
 		elif err == OK:

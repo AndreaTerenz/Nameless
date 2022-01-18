@@ -56,7 +56,6 @@ onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun H
 onready var light = $"Head/Flashlight"
 
 func _ready() -> void:
-	Globals.set_player(self)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_sensitivity = mouse_sens_std
 	
@@ -65,13 +64,11 @@ func _ready() -> void:
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
 	
-	hud.player_inventory = inventory
-	
-	gun_hook.setup(camera.hud, inventory)
-	
 	compass._range = (others_detect.get_child(0) as CollisionShape).shape.radius + 5
 	
 	set_mode(start_mode)
+	
+	Globals.set_player(self)
 
 func _input(event: InputEvent) -> void:
 	if mode == MODE.CINEMATIC:
@@ -97,7 +94,9 @@ func _input(event: InputEvent) -> void:
 			
 			rotate_y(y_rot)
 			
-			head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
+			var invert_y = -Utils.bool_to_sign(Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y))
+			
+			head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity * invert_y))
 			head.rotation.x = clamp(head.rotation.x, deg2rad(-80), deg2rad(80))
 		
 func _physics_process(delta: float) -> void:

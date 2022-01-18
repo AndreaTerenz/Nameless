@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=7]
 [ext_resource path="res://Materials/muzzle_flash_outer_mat.tres" type="Material" id=8]
+[ext_resource path="res://Assets/Sprites/UI/item_slots/gun_item_slot.png" type="Texture" id=9]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends BulletGun
@@ -42,9 +43,8 @@ portal_mode = 2
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )
-material/0 = null
-material/1 = null
 script = SubResource( 7 )
+icon = ExtResource( 9 )
 entry_name = "Gun Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 3 )

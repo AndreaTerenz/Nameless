@@ -302,7 +302,7 @@ transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0.5817
 enabled = true
 cast_to = Vector3( 0, 1, 0 )
 collide_with_areas = true
-debug_shape_thickness = 4.0
+debug_shape_thickness = 4
 
 [node name="Camera" type="Camera" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.823641 )
@@ -399,7 +399,6 @@ shape = SubResource( 4 )
 portal_mode = 2
 cast_shadow = 0
 mesh = SubResource( 15 )
-material/0 = null
 
 [node name="Foot" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
@@ -410,7 +409,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
 collide_with_areas = true
-debug_shape_thickness = 5.0
+debug_shape_thickness = 5
 
 [node name="StairsChecks" type="Spatial" parent="."]
 script = SubResource( 18 )

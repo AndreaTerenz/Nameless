@@ -3,6 +3,7 @@ extends Spatial
 
 signal attacked
 
+export(StreamTexture) var icon := preload("res://Assets/Sprites/UI/item_slots/empty_slot.png")
 export(bool) var aimable := true
 export(String) var entry_name = ""
 

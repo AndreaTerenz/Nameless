@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733332 67.733335"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   sodipodi:docname="item_slots.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="256px"
+     inkscape:snap-page="true"
+     inkscape:zoom="0.87249397"
+     inkscape:cx="578.22749"
+     inkscape:cy="315.76149"
+     inkscape:window-width="1920"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-edge-midpoints="false"
+     inkscape:snap-bbox-midpoints="false"
+     inkscape:snap-center="false" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g8404"
+       transform="matrix(1.005711,0,0,1,-0.38682441,0)"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/item_slots/empty_slot.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"
+       inkscape:label="empty">
+      <path
+         id="path3932"
+         style="fill:none;stroke:#c3c3c3;stroke-width:1.0909;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 67.733333,67.733332 -67.3487052,-3e-6 M 0.3846278,0 H 67.733333 M 0.3846278,0 67.733333,67.733333 V 0 L 0.38462781,67.73333 Z"
+         sodipodi:nodetypes="ccccccccc" />
+      <path
+         id="path8050"
+         style="fill:none;stroke:#c3c3c3;stroke-width:2.191;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         d="m 67.733333,67.733332 -67.3487052,-3e-6 V 0 H 67.733333 Z"
+         sodipodi:nodetypes="ccccc" />
+    </g>
+    <g
+       id="g9138"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Scenes/Weapons/Gun/gun_item_slot.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"
+       inkscape:label="gun_slot">
+      <path
+         id="path913"
+         style="fill:none;fill-opacity:1;stroke:#c3c3c3;stroke-width:2.19725;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         d="m 137.66705,67.733332 -67.733335,-3e-6 V 9.9999997e-8 h 67.733335 z"
+         sodipodi:nodetypes="ccccc" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:22.5778px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="78.819283"
+         y="42.085293"
+         id="text7501"><tspan
+           sodipodi:role="line"
+           id="tspan7499"
+           style="font-size:22.5778px;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+           x="78.819283"
+           y="42.085293">GUN</tspan></text>
+    </g>
+    <g
+       id="g17499"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Scenes/Weapons/Gun/rifle_item_slot.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"
+       inkscape:label="rifle_slot"
+       transform="translate(69.930585)">
+      <path
+         id="path17493"
+         style="fill:none;fill-opacity:1;stroke:#c3c3c3;stroke-width:2.19725;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         d="m 137.66705,67.733332 -67.733335,-3e-6 V 9.9999997e-8 h 67.733335 z"
+         sodipodi:nodetypes="ccccc" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:22.5778px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="103.41453"
+         y="42.096317"
+         id="text17497"><tspan
+           sodipodi:role="line"
+           id="tspan17495"
+           style="font-size:22.5778px;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+           x="103.41453"
+           y="42.096317">RIFLE</tspan></text>
+    </g>
+  </g>
+</svg>

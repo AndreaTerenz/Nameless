@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://base font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="DynamicFont" id=11]
@@ -58,8 +58,13 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="DynamicFont" id=17]
+size = 30
+use_filter = true
+font_data = ExtResource( 1 )
+
 [sub_resource type="Theme" id=15]
-default_font = ExtResource( 1 )
+default_font = SubResource( 17 )
 Button/fonts/font = SubResource( 11 )
 Button/styles/focus = SubResource( 12 )
 Button/styles/hover = SubResource( 5 )
@@ -98,8 +103,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -332.0
-margin_top = -343.0
+margin_left = -224.0
+margin_top = -295.0
 theme = SubResource( 15 )
 script = SubResource( 16 )
 __meta__ = {
@@ -107,10 +112,10 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="."]
-margin_left = 53.0
+margin_left = 40.0
 margin_top = 40.0
-margin_right = 279.0
-margin_bottom = 303.0
+margin_right = 184.0
+margin_bottom = 255.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 columns = 2
@@ -119,46 +124,46 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="GridContainer"]
-margin_left = 15.0
-margin_right = 142.0
-margin_bottom = 61.0
+margin_left = 10.0
+margin_right = 78.0
+margin_bottom = 45.0
 size_flags_horizontal = 4
 text = "Ammo"
 
 [node name="AmmoLbl" type="Label" parent="GridContainer"]
-margin_left = 198.0
-margin_right = 226.0
-margin_bottom = 61.0
+margin_left = 128.0
+margin_right = 144.0
+margin_bottom = 45.0
 size_flags_horizontal = 4
 text = "0"
 
 [node name="Label2" type="Label" parent="GridContainer"]
-margin_top = 101.0
-margin_right = 158.0
-margin_bottom = 162.0
+margin_top = 85.0
+margin_right = 88.0
+margin_bottom = 130.0
 size_flags_horizontal = 4
 text = "Reserve"
 
 [node name="ReserveLbl" type="Label" parent="GridContainer"]
-margin_left = 198.0
-margin_top = 101.0
-margin_right = 226.0
-margin_bottom = 162.0
+margin_left = 128.0
+margin_top = 85.0
+margin_right = 144.0
+margin_bottom = 130.0
 size_flags_horizontal = 4
 text = "0"
 
 [node name="Label3" type="Label" parent="GridContainer"]
-margin_left = 30.0
-margin_top = 202.0
-margin_right = 128.0
-margin_bottom = 263.0
+margin_left = 17.0
+margin_top = 170.0
+margin_right = 71.0
+margin_bottom = 215.0
 size_flags_horizontal = 4
 text = "Total"
 
 [node name="TotalLbl" type="Label" parent="GridContainer"]
-margin_left = 198.0
-margin_top = 202.0
-margin_right = 226.0
-margin_bottom = 263.0
+margin_left = 128.0
+margin_top = 170.0
+margin_right = 144.0
+margin_bottom = 215.0
 size_flags_horizontal = 4
 text = "0"

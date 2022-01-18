@@ -6,6 +6,8 @@ enum GUN_STATE {
 	INACTIVE
 }
 
+signal weapon_switched(i)
+
 export(NodePath) var anim_player_node
 export(PoolStringArray) var weapons_scenes
 export(int) var slots = 5
@@ -14,7 +16,6 @@ var weapons: Array = []
 var hidden: bool = false setget set_hidden
 var current_weapon := 0
 var can_hide := true
-var hud
 
 var gun_stat setget set_gun_state
 func switching():
@@ -26,13 +27,14 @@ onready var gun : BaseWeapon = null
 func _ready() -> void:
 	slots = min(len(weapons_scenes), slots)
 	
-func setup(h, inventory: Inventory):
+	Globals.connect("player_set", self, "_on_player_set")
+	
+func _on_player_set(p: Player):
 	for s in range(0, slots):
 		var g : BaseWeapon = load(weapons_scenes[s]).instance()
-		g.player_inventory = inventory
+		g.player_inventory = p.inventory
 		weapons.append(g)
 		
-	hud = h
 	load_gun()
 	set_crosshair()
 	set_gun_state(GUN_STATE.ACTIVE)
@@ -42,7 +44,7 @@ func set_crosshair():
 	if gun is BaseGun:
 		cross = gun.crosshair_text
 		
-	hud.set_crosshair_text(cross)
+	Globals.player.hud.set_crosshair_text(cross)
 
 func _input(_event: InputEvent) -> void:
 	if gun.aimable:
@@ -98,6 +100,8 @@ func switch_weapon(switch_to: int = slots):
 			current_weapon = slots-1
 	else:
 		current_weapon = switch_to
+	
+	emit_signal("weapon_switched", current_weapon)
 	
 	anim_player.play("Hide")
 
