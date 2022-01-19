@@ -10,7 +10,7 @@ var sprinting: bool = false
 var target_fov: float = std_fov
 
 onready var gun_viewport = $ViewportContainer
-onready var hud = $Hud
+#onready var hud = $Hud
 
 func toggle_sprint_fov(sprnt: bool):
 	sprinting = sprnt
@@ -33,4 +33,3 @@ func check_zoom():
 
 func show_ui(show: bool):
 	gun_viewport.visible = show
-	hud.visible = show

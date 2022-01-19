@@ -93,6 +93,8 @@ func _on_player_set(p: Player):
 	p.inventory.connect(\"new_entry\", self, \"_on_new_entry\")
 	p.inventory.connect(\"updated_entry\", self, \"_on_updated_entry\")
 	p.inventory.connect(\"overweight\", self, \"inv_overw_notif\")
+	
+	compass._range = p.compass_range
 
 func set_crosshair_text(text : Texture):
 	$Crosshair/TextureRect.texture = text
@@ -108,6 +110,7 @@ func inv_change_notif(entry: Inventory.InventoryEntry):
 	
 func inv_overw_notif():
 	notif_list.queue_notification(\"Inventory overweight\")
+	
 "
 
 [sub_resource type="Theme" id=1]

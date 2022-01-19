@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Player/Inventory.gd" type="Script" id=9]
 [ext_resource path="res://Envs/Night_Env.tres" type="Environment" id=10]
+[ext_resource path="res://Scenes/UI/DeathScreen.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SphereShape" id=5]
 
@@ -253,6 +254,37 @@ height = 0.4
 
 [sub_resource type="CylinderShape" id=3]
 
+[sub_resource type="GDScript" id=19]
+script/source = "extends RayCast
+
+onready var timer := $FallDamageTimer
+
+var fall_too_high := false 
+var check_fall_time := true setget set_cft
+
+func _process(delta: float) -> void:
+	if check_fall_time or fall_too_high:
+		if not is_colliding():
+			if timer.is_stopped():
+				timer.start()
+		else:
+			if fall_too_high:
+				Globals.player._on_killed()
+			else:
+				timer.stop()
+
+
+func _on_timeout() -> void:
+	check_fall_time = false
+	fall_too_high = true
+
+func set_cft(value: bool):
+	check_fall_time = value
+	fall_too_high = false
+	if not check_fall_time:
+		timer.stop()
+"
+
 [sub_resource type="GDScript" id=18]
 script/source = "extends Spatial
 
@@ -349,7 +381,10 @@ anims/Hide = SubResource( 9 )
 anims/Idle = SubResource( 10 )
 anims/RESET = SubResource( 8 )
 
-[node name="Hud" parent="Head/Camera" instance=ExtResource( 4 )]
+[node name="Hud" parent="Head/Camera/ViewportContainer" instance=ExtResource( 4 )]
+
+[node name="DeathScreen" parent="Head/Camera/ViewportContainer" instance=ExtResource( 11 )]
+visible = false
 
 [node name="InteractRay" type="Area" parent="Head"]
 transform = Transform( -1, -1.60933e-21, 1.50996e-07, 0, 1, 1.06581e-14, -1.50996e-07, 1.06581e-14, -1, 0, 0, -0.823641 )
@@ -404,12 +439,17 @@ mesh = SubResource( 15 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 3 )
 
-[node name="GroundCheck" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0 )
+[node name="GroundCheck" type="RayCast" parent="Foot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
+collision_mask = 804
 collide_with_areas = true
 debug_shape_thickness = 5
+script = SubResource( 19 )
+
+[node name="FallDamageTimer" type="Timer" parent="Foot/GroundCheck"]
+one_shot = true
 
 [node name="StairsChecks" type="Spatial" parent="."]
 script = SubResource( 18 )
@@ -432,10 +472,6 @@ enabled = true
 cast_to = Vector3( 0, -0.5, 0 )
 collision_mask = 2
 
-[node name="Inventory UI" parent="." instance=ExtResource( 3 )]
-
-[node name="Pause menu" parent="." instance=ExtResource( 8 )]
-
 [node name="Hitbox" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 collision_layer = 128
@@ -456,12 +492,19 @@ shape = SubResource( 17 )
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource( 9 )
 
+[node name="UI" type="Node" parent="."]
+
+[node name="Inventory UI" parent="UI" instance=ExtResource( 3 )]
+
+[node name="Pause menu" parent="UI" instance=ExtResource( 8 )]
+
 [connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_finished"]
 [connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/Gun Camera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_animation_started"]
 [connection signal="body_entered" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_entered"]
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
 [connection signal="interact_data" from="Head/InteractRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_interact_data"]
 [connection signal="pickup_data" from="Head/InteractRay" to="Inventory" method="_on_interact_data"]
+[connection signal="timeout" from="Foot/GroundCheck/FallDamageTimer" to="Foot/GroundCheck" method="_on_timeout"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]
 [connection signal="body_entered" from="OthersDetection" to="." method="_on_other_detected"]
 [connection signal="body_exited" from="OthersDetection" to="." method="_on_other_lost"]

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="512"
+   viewBox="0 0 67.733332 135.46667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   sodipodi:docname="UI elements.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     inkscape:snap-page="true"
+     inkscape:zoom="0.64765011"
+     inkscape:cx="-57.901635"
+     inkscape:cy="298.77243"
+     inkscape:window-width="1920"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="bend_path"
+       id="path-effect5694" />
+  </defs>
+  <g
+     inkscape:label="slider grabber"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect1874"
+       style="fill:#c3c3c3;fill-opacity:1;stroke:#1e1e1e;stroke-width:3.96875;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 0,0 H 16.933334 L 33.866666,4.1592555 50.799996,0 h 16.933337 v 21.60212 l -6.837377,21.602121 v 24.529092 24.529096 l 6.837377,21.602121 v 21.60212 H 50.799996 l -16.93333,-4.15926 -16.933332,4.15926 H 0 V 113.86455 L 6.8373791,92.262429 V 67.733333 43.204241 L 0,21.60212 Z"
+       sodipodi:nodetypes="ccccccccccccccccccccc"
+       inkscape:label="grabber"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber.png"
+       inkscape:export-xdpi="6.3763838"
+       inkscape:export-ydpi="6.3763838" />
+    <path
+       id="path8269"
+       style="fill:#94ff77;fill-opacity:1;stroke:#1e1e1e;stroke-width:3.96875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 78.143748,0 H 95.077082 L 112.01041,4.1592555 128.94374,0 h 16.93334 v 21.60212 l -6.83738,21.602121 v 24.529092 24.529096 l 6.83738,21.602121 v 21.60212 h -16.93334 l -16.93333,-4.15926 -16.933328,4.15926 H 78.143748 V 113.86455 L 84.981127,92.262429 V 67.733333 43.204241 L 78.143748,21.60212 Z"
+       sodipodi:nodetypes="ccccccccccccccccccccc"
+       inkscape:label="grabber_highlight"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber_highlight.png"
+       inkscape:export-xdpi="6.3763838"
+       inkscape:export-ydpi="6.3763838" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 6.8373791,43.204241 H 60.895954 V 57.711964 H 6.8373791 Z"
+       id="path5678" />
+    <image
+       width="42.597916"
+       height="104.24583"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,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
+yn5toYvKMgAAAABJRU5ErkJggg==
+"
+       id="image5692"
+       x="-13.94545"
+       y="-8.818924" />
+    <image
+       width="42.597916"
+       height="104.24583"
+       preserveAspectRatio="none"
+       xlink:href="data:image/png;base64,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
+yn5toYvKMgAAAABJRU5ErkJggg==
+"
+       id="image5688"
+       x="-13.94545"
+       y="-8.818924" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="checks">
+    <g
+       id="g3778"
+       transform="matrix(6.2968423,0,0,6.2968423,33.32079,180.45981)"
+       inkscape:label="radio_unchecked"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/radio_unchecked.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
+         id="rect3774"
+         width="5.2916665"
+         height="5.2916665"
+         x="0"
+         y="0"
+         ry="1.5" />
+      <rect
+         style="fill:#1b1b1b;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3776"
+         width="4.0338912"
+         height="4.0338912"
+         x="0.62888759"
+         y="0.62888759"
+         ry="1.5" />
+    </g>
+    <g
+       id="g3373"
+       transform="matrix(6.2968423,0,0,6.2968423,33.32079,147.13906)"
+       inkscape:label="radio_checked"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/radio_checked.png"
+       inkscape:export-xdpi="95.989998"
+       inkscape:export-ydpi="95.989998">
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
+         id="rect3369"
+         width="5.2919998"
+         height="5.2916665"
+         x="0"
+         y="0"
+         ry="1.5" />
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3371"
+         width="4.0338912"
+         height="4.0338912"
+         x="0.62888759"
+         y="0.62888759"
+         ry="1.5" />
+    </g>
+    <g
+       id="g1014"
+       transform="matrix(6.2968423,0,0,6.2968423,0,180.45981)"
+       style="fill:#bbbbbb;fill-opacity:1"
+       inkscape:label="unchecked"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/unchecked.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192">
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
+         id="rect1010"
+         width="5.2916665"
+         height="5.2916665"
+         x="0"
+         y="0" />
+      <rect
+         style="fill:#1b1b1b;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect1012"
+         width="4.0338912"
+         height="4.0338912"
+         x="0.62888759"
+         y="0.62888759" />
+    </g>
+    <g
+       id="g1008"
+       inkscape:label="checked"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/checked.png"
+       inkscape:export-xdpi="192"
+       inkscape:export-ydpi="192"
+       transform="matrix(6.2968423,0,0,6.2968423,0,147.13906)">
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
+         id="rect846"
+         width="5.2916665"
+         height="5.2916665"
+         x="0"
+         y="0" />
+      <rect
+         style="fill:#94ff77;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect950"
+         width="4.0338912"
+         height="4.0338912"
+         x="0.62888759"
+         y="0.62888759" />
+    </g>
+  </g>
+  <g
+     inkscape:label="screen ratios"
+     id="layer1-3"
+     transform="matrix(7.7254091,0,0,7.7254091,81.03193,150.55352)">
+    <g
+       id="g1063"
+       inkscape:label="16_9"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_169_icon.png"
+       inkscape:export-xdpi="12.43"
+       inkscape:export-ydpi="12.43">
+      <rect
+         style="fill:#ffffff;stroke:none;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
+         id="rect8072"
+         width="8.4666662"
+         height="4.7624998"
+         x="0"
+         y="0"
+         inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_169_icon.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:3.86668px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0966671"
+         x="4.156868"
+         y="3.7887743"
+         id="text10466"
+         inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_169_icon.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96"><tspan
+           sodipodi:role="line"
+           id="tspan10464"
+           style="text-align:center;text-anchor:middle;stroke-width:0.0966671"
+           x="4.1568675"
+           y="3.7887743">16:9</tspan></text>
+    </g>
+    <g
+       id="g1069"
+       inkscape:label="4_3"
+       inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
+       inkscape:export-xdpi="12.43"
+       inkscape:export-ydpi="12.43">
+      <rect
+         style="fill:#000000;stroke:none;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
+         id="rect8178"
+         width="8.4666662"
+         height="4.7624998"
+         x="2.3841858e-07"
+         y="5.3365941"
+         inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <rect
+         style="fill:#ffffff;stroke:none;stroke-width:2.11768;stroke-linecap:round;stroke-linejoin:round"
+         id="rect8176"
+         width="6.3499999"
+         height="4.7624998"
+         x="1.0583334"
+         y="5.3365941"
+         inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:3.86668px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0966671"
+         x="4.2937503"
+         y="9.1253681"
+         id="text13118"
+         inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96"><tspan
+           sodipodi:role="line"
+           id="tspan13116"
+           style="text-align:center;text-anchor:middle;stroke-width:0.0966671"
+           x="4.2937503"
+           y="9.1253681">4:3</tspan></text>
+    </g>
+  </g>
+</svg>

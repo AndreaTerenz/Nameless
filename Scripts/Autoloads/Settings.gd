@@ -13,15 +13,13 @@ enum SECTIONS {
 }
 
 class SettingsEdit:
-	var section
-	var key
+	var section_key
 	var original_value
 	var current_value
 	
-	func _init(s, k) -> void:
-		section = s
-		key = k
-		original_value = Settings.get_value(s, k)
+	func _init(sect_k) -> void:
+		section_key = sect_k
+		original_value = Settings.get_value(section_key)
 		current_value = original_value
 				
 	func reset():
@@ -29,7 +27,7 @@ class SettingsEdit:
 		
 	func apply():
 		if current_value != original_value:
-			Settings.set_value(section, key, current_value)
+			Settings.set_value(section_key, current_value)
 			original_value = current_value
 
 var config := ConfigFile.new()
@@ -38,15 +36,15 @@ var data_loaded := false
 
 ######################################
 const CONTROLS := "Controls"
-const INVERT_Y := "invert_y_axis"
-const MOUSE_SENS := "mouse_sensitivity"
+const INVERT_Y := CONTROLS + ".invert_y_axis"
+const MOUSE_SENS := CONTROLS + ".mouse_sensitivity"
 
 ######################################
 const GRAPHICS := "Graphics"
-const USE_VSYNC := "use_vsync"
-const RESOLUTION := "resolution"
+const USE_VSYNC := GRAPHICS + ".use_vsync"
+const RESOLUTION := GRAPHICS + ".resolution"
 const RESOLUTION_NATIVE := "native"
-const WIN_MODE := "window_mode"
+const WIN_MODE := GRAPHICS + ".window_mode"
 const WIN_MODE_FULL := "fullscreen"
 const WIN_MODE_WINDW := "windowed"
 const WIN_MODE_BRDRLESS := "borderless"
@@ -56,6 +54,7 @@ const AUDIO := "Audio"
 
 const defaults : Dictionary = {
 	CONTROLS : {
+		MOUSE_SENS: 1.0,
 		INVERT_Y: false
 	},
 	GRAPHICS : {
@@ -74,7 +73,8 @@ func _ready():
 		
 		if debug_force_defaults or err == ERR_FILE_NOT_FOUND:
 			load_defaults()
-			save_data()
+			if err == ERR_FILE_NOT_FOUND:
+				save_data()
 		elif err == OK:
 			emit_signal("settings_loaded", false)
 		else:
@@ -95,14 +95,21 @@ func save_data():
 func load_defaults():
 	for section in defaults.keys():
 		for key in defaults[section].keys():
-			set_value(section, key, defaults[section][key], false, false)
+			set_value(get_section_key_str(section, key), defaults[section][key], false, false)
 			
 	emit_signal("settings_loaded", true)
 	
-func get_value(section: String, key: String, default = null):
+func get_value(sect_k: String, default = null):
+	var tmp = section_key_from_str(sect_k)
+	var section: String = tmp[0]
+	var key: String = tmp[1]
 	return config.get_value(section, key, default)
 	
-func set_value(section: String, key: String, value, apply := true, emit_change := true):
+func set_value(sect_k: String, value, apply := true, emit_change := true):
+	var tmp = section_key_from_str(sect_k)
+	var section: String = tmp[0]
+	var key: String = tmp[1]
+	
 	config.set_value(section, key, value)
 	apply_setting(section, key, value)
 	
@@ -146,7 +153,8 @@ func apply_all():
 func get_section_key_str(section: String, key: String):
 	return "%s.%s" % [section, key]
 	
-	
+func section_key_from_str(string: String):
+	return string.split(".", true, 1)
 	
 	
 	

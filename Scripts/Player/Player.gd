@@ -15,6 +15,7 @@ export(float, 10, 20, .5) var gravity_strength = 17.0
 export(float, 6, 25, .5) var jump_strength = 10.0
 export(float, .01, .2, .005) var mouse_sens_std = 0.1
 export(float, .01, .9, .005) var zoom_mouse_sensitivity_factor = 0.33
+export(float, 10.0, 90.0, .01) var head_rot_limit = 80.0
 export(float, 1, 10, .1) var std_acceleration = 6.0
 export(float, .05, .2, .01) var fov_change_rate = .1
 export(float, 60.0, 80.0, .5) var std_fov = 65.0
@@ -32,6 +33,7 @@ var others_dict: Dictionary = {
 	Globals.GROUPS.FRIENDLY: 0,
 	Globals.GROUPS.NEUTRAL: 0,
 }
+var compass_range := 0.0
 
 onready var mover = null
 onready var mode = start_mode setget set_mode
@@ -42,10 +44,10 @@ onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
 onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
-onready var hud = $Head/Camera/Hud
-onready var compass = $Head/Camera/Hud/Compass
+onready var hud = $Head/Camera/ViewportContainer/Hud
+onready var compass = $Head/Camera/ViewportContainer/Hud/Compass
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
-onready var grnd_chk = $GroundCheck
+onready var grnd_chk = $Foot/GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var interact_chk = $Head/InteractRay
@@ -57,6 +59,8 @@ onready var light = $"Head/Flashlight"
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	mouse_sens_std *= Settings.get_value(Settings.MOUSE_SENS)
 	mouse_sensitivity = mouse_sens_std
 	
 	camera.fov_change_rate = fov_change_rate
@@ -64,7 +68,7 @@ func _ready() -> void:
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
 	
-	compass._range = (others_detect.get_child(0) as CollisionShape).shape.radius + 5
+	compass_range = (others_detect.get_child(0) as CollisionShape).shape.radius + 5
 	
 	set_mode(start_mode)
 	
@@ -90,14 +94,15 @@ func _input(event: InputEvent) -> void:
 			gun_hook.hidden = camera.zoomed
 			
 		if event is InputEventMouseMotion:
-			var y_rot = deg2rad(-event.relative.x * mouse_sensitivity)
+			var event_rel : Vector2 = -event.relative * mouse_sensitivity
+			var invert_y = -Utils.bool_to_sign(Settings.get_value(Settings.INVERT_Y))
+			var y_rot = deg2rad(event_rel.x)
 			
 			rotate_y(y_rot)
+			head.rotate_x(deg2rad(event_rel.y * invert_y))
 			
-			var invert_y = -Utils.bool_to_sign(Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y))
-			
-			head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity * invert_y))
-			head.rotation.x = clamp(head.rotation.x, deg2rad(-80), deg2rad(80))
+			var hrl = deg2rad(head_rot_limit)
+			head.rotation.x = clamp(head.rotation.x, -hrl, hrl)
 		
 func _physics_process(delta: float) -> void:
 	gun_camera.global_transform = camera.global_transform
@@ -109,8 +114,10 @@ func _physics_process(delta: float) -> void:
 		check_stairs()
 		
 		if not(on_stairs) and mover is StairsMover:
+			grnd_chk.check_fall_time = true
 			change_mover(StandardMover.new())
 		elif on_stairs and mover is StandardMover:
+			grnd_chk.check_fall_time = false
 			change_mover(StairsMover.new())
 
 func set_mode(val):
@@ -153,6 +160,7 @@ func toggle_collisions(stat: bool):
 	
 	roof_chk.enabled = stat
 	grnd_chk.enabled = stat
+	grnd_chk.check_fall_time = stat
 	stairs_chk.enabled = stat
 	
 	interact_chk.monitorable = stat
