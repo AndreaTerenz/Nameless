@@ -1,0 +1,666 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_unchecked.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_checked.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=582]
+size = 30
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=583]
+default_font = SubResource( 582 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.176471, 0.176471, 0.176471, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 8.0
+expand_margin_bottom = 8.0
+shadow_color = Color( 0, 0, 0, 0.278431 )
+shadow_size = 10
+
+[sub_resource type="GDScript" id=60]
+script/source = "extends PanelContainer
+
+onready var apply_btn : Button = $VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn
+onready var tab_cont : TabContainer = $VBoxContainer/TabContainer
+
+func _ready() -> void:
+	visible = false
+
+func _on_hide_visible_panels() -> void:
+	visible = false
+
+func _on_apply_settings() -> void:
+	Settings.save_data()
+
+
+func _on_cancel_edits() -> void:
+	visible = false
+	tab_cont.current_tab = 0
+"
+
+[sub_resource type="DynamicFont" id=55]
+size = 40
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=581]
+size = 40
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=313]
+size = 25
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=529]
+content_margin_left = 60.0
+content_margin_right = 60.0
+bg_color = Color( 0.505882, 0.505882, 0.505882, 1 )
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color( 1, 1, 1, 1 )
+border_blend = true
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 8.0
+expand_margin_bottom = 8.0
+shadow_color = Color( 0, 0, 0, 0.278431 )
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id=493]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+shadow_color = Color( 0.737255, 0.737255, 0.737255, 0.6 )
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id=511]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_top = 6.0
+expand_margin_bottom = 3.0
+shadow_color = Color( 1, 1, 1, 0.6 )
+shadow_offset = Vector2( 0, -2 )
+
+[sub_resource type="Theme" id=314]
+Label/colors/font_color = Color( 0, 0, 0, 1 )
+Label/fonts/font = SubResource( 581 )
+PopupMenu/fonts/font = SubResource( 313 )
+PopupMenu/icons/radio_checked = ExtResource( 3 )
+PopupMenu/icons/radio_unchecked = ExtResource( 2 )
+TabContainer/styles/panel = SubResource( 529 )
+TabContainer/styles/tab_bg = SubResource( 493 )
+TabContainer/styles/tab_fg = SubResource( 511 )
+
+[sub_resource type="GDScript" id=438]
+script/source = "extends SettingsTab
+"
+
+[sub_resource type="GDScript" id=475]
+script/source = "extends HSlider
+
+export(float) var equivalent_min = .5
+export(float) var equivalent_max = 3.0
+
+var edit : Settings.SettingsEdit
+
+func _ready() -> void:
+	edit = Settings.SettingsEdit.new(Settings.MOUSE_SENS)
+	value = range_lerp(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
+
+func _on_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		edit.current_value = range_lerp(value, min_value, max_value, equivalent_min, equivalent_max)
+
+func _on_apply_settings() -> void:
+	edit.apply()
+
+func _on_cancel_edits() -> void:
+	edit.reset()
+	value = range_lerp(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
+"
+
+[sub_resource type="GDScript" id=420]
+script/source = "extends CheckBox
+
+var edit : Settings.SettingsEdit
+
+func _ready() -> void:
+	edit = Settings.SettingsEdit.new(Settings.INVERT_Y)
+	set_pressed_no_signal(edit.current_value)
+
+func _on_toggled(button_pressed: bool) -> void:
+	edit.current_value = button_pressed
+
+func _on_apply_settings() -> void:
+	edit.apply()
+
+func _on_cancel_edits() -> void:
+	edit.reset()
+	set_pressed_no_signal(edit.current_value)
+"
+
+[sub_resource type="GDScript" id=456]
+script/source = "extends SettingsTab
+"
+
+[sub_resource type="GDScript" id=225]
+script/source = "extends CheckBox
+
+var edit : Settings.SettingsEdit
+
+func _ready() -> void:
+	edit = Settings.SettingsEdit.new(Settings.USE_VSYNC)
+	set_pressed_no_signal(edit.current_value)
+
+func _on_toggled(button_pressed: bool) -> void:
+	edit.current_value = button_pressed
+
+func _on_apply_settings() -> void:
+	edit.apply()
+
+func _on_cancel_edits() -> void:
+	edit.reset()
+	set_pressed_no_signal(edit.current_value)
+"
+
+[sub_resource type="GDScript" id=295]
+script/source = "extends OptionButton
+
+const RATIO_16_9_ICON = preload(\"res://Assets/Sprites/UI/screen_ratio_169_icon.png\")
+const RATIO_4_3_ICON = preload(\"res://Assets/Sprites/UI/screen_ratio_43_icon.png\")
+
+#https://www.teamfortress.tv/11687/common-game-resolutions#6
+var resolutions := {
+	\"800 x 600\": RATIO_4_3_ICON,
+	\"1024 x 600\": RATIO_16_9_ICON,
+	\"1024 x 768\": RATIO_4_3_ICON,
+	\"1280 x 720\": RATIO_16_9_ICON,
+	\"1366 x 768\": RATIO_16_9_ICON,
+	\"1600 x 900\": RATIO_16_9_ICON,
+	\"1920 x 1080\": RATIO_16_9_ICON,
+	\"2560 x 1440\": RATIO_16_9_ICON,
+}
+
+var edit : Settings.SettingsEdit
+var start_idx := 0
+
+func _ready() -> void:
+	clear()
+	
+	for res in resolutions.keys():
+		add_icon_item(resolutions[res], res)
+		
+	edit = Settings.SettingsEdit.new(Settings.RESOLUTION)
+	start_idx = max(0, resolutions.keys().find(edit.current_value))
+	select(start_idx)
+
+
+func _on_apply_settings() -> void:
+	edit.apply()
+
+func _on_item_selected(index: int) -> void:
+	edit.current_value = get_item_text(index)
+
+
+func _on_cancel_edits() -> void:
+	edit.reset()
+	select(start_idx)
+"
+
+[sub_resource type="GDScript" id=368]
+script/source = "extends OptionButton
+
+var edit : Settings.SettingsEdit
+var start_idx := 0
+
+func _ready() -> void:
+	edit = Settings.SettingsEdit.new(Settings.WIN_MODE)
+	print(edit.current_value)
+	
+	clear()
+	
+	#sweet mother of hard coded shit and magic numbers
+	
+	add_item(Settings.WIN_MODE_FULL)
+	add_item(Settings.WIN_MODE_WINDW)
+	
+	if edit.current_value == Settings.WIN_MODE_FULL:
+		select(0)
+	else:
+		select(1)
+		
+	start_idx = get_selected_id()
+		
+	#^^^ this is ugly
+
+func _on_apply_settings() -> void:
+	edit.apply()
+
+
+func _on_item_selected(index: int) -> void:
+	edit.current_value = get_item_text(index)
+
+
+func _on_cancel_edits() -> void:
+	edit.reset()
+	select(start_idx)
+"
+
+[sub_resource type="GDScript" id=457]
+script/source = "extends SettingsTab
+"
+
+[sub_resource type="StyleBoxEmpty" id=57]
+content_margin_left = 12.0
+content_margin_right = 12.0
+
+[sub_resource type="GDScript" id=207]
+script/source = "extends Button
+
+signal apply_settings
+
+func _ready() -> void:
+	Settings.connect(\"changed_setting\", self, \"on_setting_changed\")
+
+
+func _on_pressed() -> void:
+	emit_signal(\"apply_settings\")
+"
+
+[sub_resource type="GDScript" id=277]
+script/source = "extends Button
+
+signal cancel_sett_edits
+
+func _ready() -> void:
+	pass
+
+
+func _on_pressed() -> void:
+	emit_signal(\"cancel_sett_edits\")
+"
+
+[node name="SettingsPanel" type="PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -558.0
+margin_top = -374.0
+margin_right = 558.0
+margin_bottom = 374.0
+theme = SubResource( 583 )
+custom_styles/panel = SubResource( 10 )
+script = SubResource( 60 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 1112.0
+margin_bottom = 744.0
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+margin_right = 1108.0
+margin_bottom = 60.0
+custom_fonts/font = SubResource( 55 )
+text = "Settings"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+margin_top = 68.0
+margin_right = 1108.0
+margin_bottom = 632.0
+size_flags_vertical = 3
+theme = SubResource( 314 )
+tab_align = 0
+use_hidden_tabs_for_min_size = true
+
+[node name="Controls" type="Tabs" parent="VBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 60.0
+margin_top = 69.0
+margin_right = -60.0
+margin_bottom = -4.0
+script = SubResource( 438 )
+apply_btn_path = NodePath("../../PanelContainer/HBoxContainer/ApplySettsBtn")
+cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Controls"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Controls/VBoxContainer"]
+margin_top = 90.0
+margin_right = 988.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_vertical = 6
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer"]
+margin_right = 490.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+text = "Mouse Sensitivity"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer"]
+margin_left = 498.0
+margin_right = 988.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 1.0
+max_value = 15.0
+value = 5.0
+scrollable = false
+tick_count = 15
+ticks_on_borders = true
+script = SubResource( 475 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Controls/VBoxContainer"]
+margin_top = 340.0
+margin_right = 988.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_vertical = 6
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2"]
+margin_right = 490.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+text = "Invert Y axis"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2"]
+margin_left = 498.0
+margin_right = 988.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+script = SubResource( 420 )
+
+[node name="Graphics" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 60.0
+margin_top = 69.0
+margin_right = -60.0
+margin_bottom = -4.0
+script = SubResource( 456 )
+apply_btn_path = NodePath("../../PanelContainer/HBoxContainer/ApplySettsBtn")
+cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Graphics"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
+margin_top = 54.0
+margin_right = 988.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_vertical = 6
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer"]
+margin_top = 2.0
+margin_right = 630.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "Use vsync"
+
+[node name="VsyncBtn" type="CheckBox" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer"]
+margin_left = 638.0
+margin_right = 988.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 350, 0 )
+flat = true
+align = 1
+script = SubResource( 225 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
+margin_top = 220.0
+margin_right = 988.0
+margin_bottom = 270.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_vertical = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2"]
+margin_top = 2.0
+margin_right = 630.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "Resolution"
+
+[node name="ResolutionsList" type="OptionButton" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2"]
+margin_left = 638.0
+margin_right = 988.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 350, 50 )
+align = 1
+script = SubResource( 295 )
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
+margin_top = 386.0
+margin_right = 988.0
+margin_bottom = 436.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_vertical = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
+margin_top = 2.0
+margin_right = 630.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+text = "Window mode"
+
+[node name="WinModeList" type="OptionButton" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
+margin_left = 638.0
+margin_right = 988.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 350, 50 )
+text = "fullscreen"
+align = 1
+items = [ "fullscreen", null, false, 3, null ]
+selected = 0
+script = SubResource( 368 )
+
+[node name="Audio" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 81.0
+margin_right = -8.0
+margin_bottom = -8.0
+script = SubResource( 457 )
+apply_btn_path = NodePath("../../PanelContainer/HBoxContainer/ApplySettsBtn")
+cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/TabContainer/Audio"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
+margin_top = 57.0
+margin_right = 502.0
+margin_bottom = 102.0
+size_flags_vertical = 6
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
+margin_left = 510.0
+margin_top = 63.0
+margin_right = 1012.0
+margin_bottom = 95.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
+margin_top = 224.0
+margin_right = 502.0
+margin_bottom = 269.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "SFX Volume"
+
+[node name="HSlider2" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
+margin_left = 510.0
+margin_top = 230.0
+margin_right = 1012.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
+margin_top = 391.0
+margin_right = 502.0
+margin_bottom = 436.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Music Volume"
+
+[node name="HSlider3" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
+margin_left = 510.0
+margin_top = 397.0
+margin_right = 1012.0
+margin_bottom = 429.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 640.0
+margin_right = 1108.0
+margin_bottom = 740.0
+rect_min_size = Vector2( 0, 100 )
+custom_styles/panel = SubResource( 57 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+margin_left = 12.0
+margin_right = 1096.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 80 )
+custom_constants/separation = 55
+alignment = 1
+
+[node name="ResetSettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+margin_top = 27.0
+margin_right = 324.0
+margin_bottom = 72.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+text = "Defaults"
+
+[node name="ScaleOnHover2" type="Control" parent="VBoxContainer/PanelContainer/HBoxContainer/ResetSettsBtn"]
+show_behind_parent = true
+margin_left = 379.0
+margin_right = 379.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+target_node_path = NodePath("..")
+
+[node name="ApplySettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 379.0
+margin_top = 27.0
+margin_right = 704.0
+margin_bottom = 72.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+text = "Apply"
+script = SubResource( 207 )
+
+[node name="ScaleOnHover" type="Control" parent="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn"]
+show_behind_parent = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+target_node_path = NodePath("..")
+
+[node name="CancelSettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 759.0
+margin_top = 27.0
+margin_right = 1084.0
+margin_bottom = 72.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+text = "Cancel"
+script = SubResource( 277 )
+
+[node name="ScaleOnHover2" type="Control" parent="VBoxContainer/PanelContainer/HBoxContainer/CancelSettsBtn"]
+show_behind_parent = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+target_node_path = NodePath("..")
+
+[connection signal="apply" from="VBoxContainer/TabContainer/Controls" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer/HSlider" method="_on_apply_settings"]
+[connection signal="apply" from="VBoxContainer/TabContainer/Controls" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" method="_on_apply_settings"]
+[connection signal="cancel" from="VBoxContainer/TabContainer/Controls" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer/HSlider" method="_on_cancel_edits"]
+[connection signal="cancel" from="VBoxContainer/TabContainer/Controls" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" method="_on_cancel_edits"]
+[connection signal="drag_ended" from="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer/HSlider" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer/HSlider" method="_on_drag_ended"]
+[connection signal="toggled" from="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" method="_on_toggled"]
+[connection signal="apply" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" method="_on_apply_settings"]
+[connection signal="apply" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" method="_on_apply_settings"]
+[connection signal="apply" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" method="_on_apply_settings"]
+[connection signal="cancel" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" method="_on_cancel_edits"]
+[connection signal="cancel" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" method="_on_cancel_edits"]
+[connection signal="cancel" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" method="_on_cancel_edits"]
+[connection signal="toggled" from="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" method="_on_toggled"]
+[connection signal="item_selected" from="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" method="_on_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" method="_on_item_selected"]
+[connection signal="apply_settings" from="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn" to="." method="_on_apply_settings"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn" to="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn" method="_on_pressed"]
+[connection signal="cancel_sett_edits" from="VBoxContainer/PanelContainer/HBoxContainer/CancelSettsBtn" to="." method="_on_cancel_edits"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/CancelSettsBtn" to="VBoxContainer/PanelContainer/HBoxContainer/CancelSettsBtn" method="_on_pressed"]

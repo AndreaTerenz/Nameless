@@ -10,6 +10,12 @@ enum GROUPS  {
 	SUPPLIES
 }
 
+enum PLAYER_STATE {
+	GAME,
+	CINEMATIC,
+	NOCLIP
+}
+
 enum INPUT_TYPE {
 	KEYBOARD,
 	MOUSE,
@@ -210,6 +216,12 @@ func set_gravity(value: float):
 
 func get_layer_bit(name: String):
 	return layers.find(name)
+	
+func get_layer_bit_in_object(obj: CollisionObject, name: String):
+	return obj.get_collision_layer_bit(get_layer_bit(name))
+	
+func get_mask_bit_in_object(obj: CollisionObject, name: String):
+	return obj.get_collision_mask_bit(get_layer_bit(name))
 
 func set_player(p: Player):
 	player = p

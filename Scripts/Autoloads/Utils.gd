@@ -8,12 +8,42 @@ enum TERNARY {
 
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
+	
+static func map(v: float, i_start: float, i_end: float, f_start: float, f_end: float, clamped := false) -> float:
+	var output := range_lerp(v, i_start, i_end, f_start, f_end)
+	
+	return clamp(output, f_start, f_end) if clamped else output
 
-static func vec3_horizontal(v: Vector3):
-	return Vector2(v.x, v.z)
+static func vec3_horizontal(v: Vector3) -> Vector2:
+	return vec3_remove_axis(v, Vector3.AXIS_Y)
+	
+static func vec3_remove_axis(v: Vector3, axis : int = Vector3.AXIS_Y) -> Vector2:
+	match axis:
+		Vector3.AXIS_X: return Vector2(v.y, v.z)
+		Vector3.AXIS_Y: return Vector2(v.x, v.z)
+		Vector3.AXIS_Z: return Vector2(v.x, v.y)
+		
+	return Vector2.ZERO
+	
+static func vec3_deg2rad(v: Vector3):
+	return Vector3(deg2rad(v.x), deg2rad(v.y), deg2rad(v.z))
+	
+static func vec2_deg2rad(v: Vector2):
+	return Vector2(deg2rad(v.x), deg2rad(v.y))
 	
 static func round_vec2(v : Vector2, digits : int = 3):
 	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
+	
+static func get_global_pos(obj: Spatial) -> Vector3:
+	return obj.global_transform.origin
+	
+static func get_dir_vector(obj: Spatial, axis := Vector3.AXIS_Z) -> Vector3:
+	match axis:
+		Vector3.AXIS_X: return obj.transform.basis.x
+		Vector3.AXIS_Y: return obj.transform.basis.y
+		Vector3.AXIS_Z: return obj.transform.basis.z
+		
+	return Vector3.ZERO
 	
 static func delete_children(node):
 	for n in node.get_children():

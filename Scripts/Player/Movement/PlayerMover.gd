@@ -25,9 +25,18 @@ func setup(pl) -> void:
 		gravity_vec = mov.gravity_vec
 	else:
 		current_speed = player.h_speed
+		
+	_setup()
+	
+func _setup():
+	pass
 
-func compute_move(delta: float):
+func get_next_mover():
+	return null
+
+func get_velocity(delta: float):
 	velocity = _compute(delta)
-
+	return velocity
+	
 func _compute(delta: float) -> Vector3:
 	return Vector3.ZERO

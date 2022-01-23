@@ -6,6 +6,8 @@ var crouching: bool = false
 var bonked_head: bool = false
 var crouch_released: bool = false
 
+var stairs_mover_class = load("res://Scripts/Player/Movement/StairsMover.gd")
+
 func _compute(delta: float):
 	set_direction()
 	
@@ -21,6 +23,15 @@ func _compute(delta: float):
 	set_gravity_vec(delta)
 	
 	return gravity_vec + h_velocity*Vector3(1,0,1)
+	
+func get_next_mover():
+	if player.mode == player.MODE.GAME:
+		player.check_stairs()
+		
+		if player.on_stairs:
+			return stairs_mover_class.new()
+			
+	return null
 	
 func set_direction():
 	direction *= 0.0
@@ -46,7 +57,8 @@ func set_gravity_vec(delta):
 			gravity_vec *= 0.0
 			bonked_head = true
 		h_acceleration = 0.0
-		gravity_vec += Vector3.DOWN * player.gravity_strength * delta
+		var grav_delta : Vector3 = Vector3.DOWN * player.gravity_strength * delta
+		gravity_vec += grav_delta
 	else:
 		bonked_head = false
 		h_acceleration = player.std_acceleration
@@ -74,7 +86,8 @@ func check_crouch():
 			current_speed *= player.speed_crouch_mult 
 
 func check_sprinting():
-	if not(crouching or player.inventory.is_overweight()):
+	if not(crouching or \
+			player.inventory.is_overweight()):
 		if not(player.is_on_floor()):
 			if Input.is_action_just_released("sprint"):
 				sprinting = false 
@@ -88,7 +101,7 @@ func check_sprinting():
 			if sprinting:
 				current_speed *= player.speed_sprint_mult 
 			
-			player.camera.toggle_sprint_fov(sprinting)
+		player.camera.toggle_sprint_fov(sprinting)
 
 func _to_string() -> String:
 	return "STANDARD"

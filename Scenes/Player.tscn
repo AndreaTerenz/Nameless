@@ -257,32 +257,38 @@ height = 0.4
 [sub_resource type="GDScript" id=19]
 script/source = "extends RayCast
 
-onready var timer := $FallDamageTimer
-
-var fall_too_high := false 
-var check_fall_time := true setget set_cft
+#new system
+#there should be a way of computing this from a 'lethal height'
+export(float) var min_dmg_speed := 10.0
+export(float) var lethal_speed := 80.0
+var old_pos := Vector3.ZERO
+var v_speed := 0.0
+var is_falling := true
 
 func _process(delta: float) -> void:
-	if check_fall_time or fall_too_high:
+	if enabled:
 		if not is_colliding():
-			if timer.is_stopped():
-				timer.start()
-		else:
-			if fall_too_high:
-				Globals.player._on_killed()
+			var new_pos : Vector3 = Utils.get_global_pos(Globals.player)
+			if not is_falling:
+				is_falling = true
+				old_pos = new_pos
 			else:
-				timer.stop()
-
-
-func _on_timeout() -> void:
-	check_fall_time = false
-	fall_too_high = true
-
-func set_cft(value: bool):
-	check_fall_time = value
-	fall_too_high = false
-	if not check_fall_time:
-		timer.stop()
+				var v_dist = (new_pos - old_pos).y
+				#solves skipped frames
+				if abs(v_dist) > 0.0:
+					v_speed = min(abs(v_dist / delta), lethal_speed)
+					#Console.write_line(abs(v_dist / delta))
+					old_pos = new_pos
+				
+		else:
+			if is_falling:
+				var max_dmg = Globals.player.hitbox_start_hp
+				var dmg : float = Utils.map(v_speed, min_dmg_speed, lethal_speed, 0, max_dmg, true)
+				Globals.player.hitbox.decrease_hp(dmg)
+				Console.write_line(dmg)
+				
+				v_speed = 0
+				is_falling = false
 "
 
 [sub_resource type="GDScript" id=18]
@@ -324,6 +330,7 @@ radius = 20.0
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 crouch_anim_mult = 3.0
+zoom_fov = 20.0
 
 [node name="Head" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 1.41822, 0 )
@@ -342,6 +349,8 @@ cull_mask = 1048573
 fov = 65.0
 far = 8192.0
 script = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="Head/Camera"]
 
 [node name="ViewportContainer" type="ViewportContainer" parent="Head/Camera"]
 anchor_right = 1.0
@@ -448,9 +457,6 @@ collide_with_areas = true
 debug_shape_thickness = 5
 script = SubResource( 19 )
 
-[node name="FallDamageTimer" type="Timer" parent="Foot/GroundCheck"]
-one_shot = true
-
 [node name="StairsChecks" type="Spatial" parent="."]
 script = SubResource( 18 )
 
@@ -504,7 +510,6 @@ script = ExtResource( 9 )
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
 [connection signal="interact_data" from="Head/InteractRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_interact_data"]
 [connection signal="pickup_data" from="Head/InteractRay" to="Inventory" method="_on_interact_data"]
-[connection signal="timeout" from="Foot/GroundCheck/FallDamageTimer" to="Foot/GroundCheck" method="_on_timeout"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]
 [connection signal="body_entered" from="OthersDetection" to="." method="_on_other_detected"]
 [connection signal="body_exited" from="OthersDetection" to="." method="_on_other_lost"]

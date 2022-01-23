@@ -1,6 +1,7 @@
 class_name StairsMover
 extends PlayerMover
 
+var std_mover_class = load("res://Scripts/Player/Movement/StandardMover.gd")
 
 func _compute(delta: float):
 	player.stairs_chk.flipped = sign(player.head.rotation.x) < 0
@@ -17,6 +18,15 @@ func _compute(delta: float):
 		dir = Vector3.DOWN
 	
 	return dir * mult
+	
+func get_next_mover():
+	if player.mode == player.MODE.GAME:
+		player.check_stairs()
+		
+		if not player.on_stairs:
+			return std_mover_class.new()
+			
+	return null
 
 func _to_string() -> String:
 	return "STAIRS"

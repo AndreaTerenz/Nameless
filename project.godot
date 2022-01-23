@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/UI/GameUI.gd"
 }, {
-"base": "Reference",
+"base": "Area",
 "class": "Hitbox",
 "language": "GDScript",
 "path": "res://Scripts/Characters/Hitbox.gd"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/compass_center.svg" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Scenes/UI/Weapon Slot.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Sprites/compass.svg" type="Texture" id=7]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=8]
 
 [sub_resource type="DynamicFont" id=8]
 size = 48
@@ -279,6 +280,75 @@ func _on_timeout() -> void:
 bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
 corner_radius_top_left = 8
 corner_radius_top_right = 8
+shadow_color = Color( 0.87451, 0.87451, 0.87451, 0.6 )
+shadow_size = 4
+
+[sub_resource type="GDScript" id=28]
+script/source = "extends Control
+
+onready var bar := $Panel/VBoxContainer/ProgressBar
+onready var dmg_lbl := $DamageLabel
+onready var dmg_timer := $Timer
+
+func _ready() -> void:
+	Globals.connect(\"player_set\", self, \"_on_player_set\")
+	dmg_lbl.visible = false
+	
+func _on_player_set(pl: Player):
+	bar.max_value = pl.hitbox.initial_health
+	bar.value = bar.max_value
+	
+	pl.hitbox.connect(\"changed\", self, \"_on_hp_change\")
+	
+func _on_hp_change(amount):
+	bar.value += amount
+	dmg_lbl.text = \"%.2f\" % abs(amount)
+	dmg_lbl.visible = true
+	dmg_timer.start()
+
+
+func _on_timeout() -> void:
+	dmg_lbl.visible = false
+"
+
+[sub_resource type="StyleBoxFlat" id=24]
+content_margin_left = 40.0
+content_margin_right = 40.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color( 0.87451, 0.87451, 0.87451, 0.6 )
+shadow_size = 4
+
+[sub_resource type="DynamicFont" id=27]
+size = 5
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0.270588, 1, 0.156863, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id=26]
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
 
 [node name="Hud" type="Control"]
 anchor_right = 1.0
@@ -414,5 +484,56 @@ one_shot = true
 
 [node name="Tween" type="Tween" parent="Weapon Wheel"]
 
+[node name="HP Bar" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+script = SubResource( 28 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="PanelContainer" parent="HP Bar"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -394.0
+margin_right = 394.0
+margin_bottom = 62.0
+custom_styles/panel = SubResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HP Bar/Panel"]
+margin_left = 40.0
+margin_top = 8.0
+margin_right = 748.0
+margin_bottom = 54.0
+alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="HP Bar/Panel/VBoxContainer"]
+margin_top = 15.0
+margin_right = 708.0
+margin_bottom = 31.0
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_fonts/font = SubResource( 27 )
+custom_styles/fg = SubResource( 25 )
+custom_styles/bg = SubResource( 26 )
+value = 50.0
+
+[node name="DamageLabel" type="Label" parent="HP Bar"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_top = 72.6679
+margin_right = 20.0
+margin_bottom = 102.668
+text = "000"
+align = 1
+valign = 1
+
+[node name="Timer" type="Timer" parent="HP Bar"]
+one_shot = true
+
 [connection signal="timeout" from="Notifications/Timer" to="Notifications" method="_on_timeout"]
 [connection signal="timeout" from="Weapon Wheel/Timer" to="Weapon Wheel" method="_on_timeout"]
+[connection signal="timeout" from="HP Bar/Timer" to="HP Bar" method="_on_timeout"]

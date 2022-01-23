@@ -1,6 +1,9 @@
 class_name Player
 extends KinematicBody
 
+signal mode_changed(new_mode)
+signal mover_changed(new_mov)
+
 enum MODE {
 	GAME,
 	CINEMATIC,
@@ -17,10 +20,11 @@ export(float, .01, .2, .005) var mouse_sens_std = 0.1
 export(float, .01, .9, .005) var zoom_mouse_sensitivity_factor = 0.33
 export(float, 10.0, 90.0, .01) var head_rot_limit = 80.0
 export(float, 1, 10, .1) var std_acceleration = 6.0
-export(float, .05, .2, .01) var fov_change_rate = .1
+export(float, .05, .2, .01) var fov_tween_speed = .1
 export(float, 60.0, 80.0, .5) var std_fov = 65.0
 export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
+export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
 
 var mouse_sensitivity: float = .0
@@ -36,7 +40,7 @@ var others_dict: Dictionary = {
 var compass_range := 0.0
 
 onready var mover = null
-onready var mode = start_mode setget set_mode
+onready var mode = -1 setget set_mode
 
 onready var inventory: Inventory = $Inventory
 onready var head = $Head
@@ -52,8 +56,8 @@ onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var interact_chk = $Head/InteractRay
 onready var aim_ray = $Head/AimRay
-onready var hitbox = $Hitbox
-onready var others_detect = $OthersDetection
+onready var hitbox : Hitbox = $Hitbox
+onready var others_chck = $OthersDetection
 onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"
 onready var light = $"Head/Flashlight"
 
@@ -63,12 +67,14 @@ func _ready() -> void:
 	mouse_sens_std *= Settings.get_value(Settings.MOUSE_SENS)
 	mouse_sensitivity = mouse_sens_std
 	
-	camera.fov_change_rate = fov_change_rate
+	camera.fov_tween_speed = fov_tween_speed
 	camera.std_fov = std_fov
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
 	
-	compass_range = (others_detect.get_child(0) as CollisionShape).shape.radius + 5
+	compass_range = (others_chck.get_child(0) as CollisionShape).shape.radius + 5
+	
+	hitbox.health = hitbox_start_hp
 	
 	set_mode(start_mode)
 	
@@ -94,12 +100,12 @@ func _input(event: InputEvent) -> void:
 			gun_hook.hidden = camera.zoomed
 			
 		if event is InputEventMouseMotion:
-			var event_rel : Vector2 = -event.relative * mouse_sensitivity
+			var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * mouse_sensitivity)
 			var invert_y = -Utils.bool_to_sign(Settings.get_value(Settings.INVERT_Y))
-			var y_rot = deg2rad(event_rel.x)
+			var y_rot = event_rel.x
 			
 			rotate_y(y_rot)
-			head.rotate_x(deg2rad(event_rel.y * invert_y))
+			head.rotate_x(event_rel.y * invert_y)
 			
 			var hrl = deg2rad(head_rot_limit)
 			head.rotation.x = clamp(head.rotation.x, -hrl, hrl)
@@ -107,42 +113,37 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	gun_camera.global_transform = camera.global_transform
 	
-	mover.compute_move(delta)
-	move_and_slide(mover.velocity, Vector3.UP)
+	move_and_slide(mover.get_velocity(delta), Vector3.UP)
 	
-	if mode == MODE.GAME:
-		check_stairs()
-		
-		if not(on_stairs) and mover is StairsMover:
-			grnd_chk.check_fall_time = true
-			change_mover(StandardMover.new())
-		elif on_stairs and mover is StandardMover:
-			grnd_chk.check_fall_time = false
-			change_mover(StairsMover.new())
+	change_mover(mover.get_next_mover())
 
 func set_mode(val):
-	mode = val
+	if mode != val:
+		mode = val
 	
-	match (mode):
-		MODE.GAME:
-			camera.show_ui(true)
-			gun_hook.hidden = false
-			toggle_collisions(true)
-			
-			change_mover(StandardMover.new())
-		MODE.CINEMATIC:
-			camera.show_ui(false)
-			gun_hook.hidden = true
-			toggle_collisions(false)
-			
-			change_mover(PlayerMover.new())
-		MODE.NOCLIP:
-			camera.show_ui(true)
-			camera.toggle_sprint_fov(false)
-			gun_hook.hidden = false
-			toggle_collisions(false)
-			
-			change_mover(NoClipMover.new())
+		emit_signal("mode_changed", mode)
+		
+		match (mode):
+			MODE.GAME:
+				camera.show_ui(true)
+				gun_hook.hidden = false
+				toggle_collisions(true)
+				
+				change_mover(StandardMover.new())
+			MODE.CINEMATIC:
+				camera.show_ui(false)
+				camera.toggle_sprint_fov(false)
+				gun_hook.hidden = true
+				toggle_collisions(false)
+				
+				change_mover(PlayerMover.new())
+			MODE.NOCLIP:
+				camera.show_ui(true)
+				camera.toggle_sprint_fov(false)
+				gun_hook.hidden = false
+				toggle_collisions(false)
+				
+				change_mover(NoClipMover.new())
 			
 func mode_str():
 	match (mode):
@@ -156,11 +157,10 @@ func mode_str():
 func toggle_collisions(stat: bool):
 	head.disabled = not(stat) #diobono
 	body.disabled = not(stat) #diobono
-	foot.disabled = not(stat)
+	foot.disabled = not(stat) #diobono
 	
 	roof_chk.enabled = stat
 	grnd_chk.enabled = stat
-	grnd_chk.check_fall_time = stat
 	stairs_chk.enabled = stat
 	
 	interact_chk.monitorable = stat
@@ -168,18 +168,19 @@ func toggle_collisions(stat: bool):
 	
 	hitbox.monitorable = stat
 	hitbox.monitoring = stat
+	
+	others_chck.monitoring = stat
+	others_chck.monitorable = stat
+	
+	aim_ray.enabled = stat
 
-func translate_camera(offset: Vector3):
-	var own_origin = transform.origin
-	var cam_origin = camera.transform.origin
-	
-	var camera_body_delta = own_origin - cam_origin
-	translation = offset - camera_body_delta
-	
 func change_mover(new_mover: PlayerMover):
+	if new_mover == null:
+		return
 	if new_mover != mover:
 		new_mover.setup(self)
 		mover = new_mover
+		emit_signal("mover_changed", mover)
 	
 func check_stairs() -> void:
 	if not(on_stairs) and (is_on_floor() or not(leaving_stairs)):
@@ -201,11 +202,11 @@ func _on_killed() -> void:
 func get_other_type(_other: Node):
 	var other = _other as CollisionObject
 	if other:
-		#this function expects a ZERO INDEXED layer id ffs
-		if other.get_collision_layer_bit(5):
-			return Globals.GROUPS.ENEMIES
-		if other.get_collision_layer_bit(9):
-			return Globals.GROUPS.FRIENDLY
+		var ls = [Globals.GROUPS.ENEMIES, Globals.GROUPS.FRIENDLY]
+		
+		for l in ls:
+			if Globals.get_layer_bit_in_object(other, Globals.group_layers[l]):
+				return l
 			
 	return Globals.GROUPS.NEUTRAL
 

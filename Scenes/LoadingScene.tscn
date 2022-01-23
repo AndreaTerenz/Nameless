@@ -36,7 +36,7 @@ size = 40
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.270588, 1, 0.156863, 1 )
 border_width_top = 2
 border_width_right = 2
@@ -44,7 +44,7 @@ border_width_bottom = 2
 border_color = Color( 0, 0, 0, 0 )
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0, 0, 0, 1 )
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -71,7 +71,7 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.117647, 0.117647, 0.117647, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -111,7 +111,7 @@ margin_right = 495.0
 margin_bottom = 158.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_vertical = 1
-custom_styles/fg = SubResource( 2 )
+custom_styles/fg = SubResource( 5 )
 custom_styles/bg = SubResource( 3 )
 value = 50.0
 percent_visible = false
