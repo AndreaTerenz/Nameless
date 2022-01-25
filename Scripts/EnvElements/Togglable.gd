@@ -5,7 +5,7 @@ signal activated
 signal deactivated
 signal changed
 
-var active: bool = true setget set_active
+var active: bool = false setget set_active
 
 func set_active(value):
 	active = value

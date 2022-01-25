@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/compass_center.svg" type="Texture" id=2]
@@ -115,6 +115,92 @@ func inv_overw_notif():
 "
 
 [sub_resource type="Theme" id=1]
+
+[sub_resource type="Shader" id=29]
+code = "shader_type canvas_item;
+
+const float PI = 3.14159265358979323846;
+
+uniform float radius = 1.0;
+uniform float thickness = .1;
+uniform float edge_highlight = .015;
+uniform int slices = 8;
+uniform vec4 slice_color : hint_color = vec4(1, .2, .0, 1.0);
+uniform float slice_min_alpha : hint_range(0.0, 1.0, .01) = 0.0;
+uniform float slices_sep = .1;
+
+uniform float target_angle = 0.0;
+
+bool approx_equal(float v, float target, float delta) {
+	return v >= target - delta/2.0 && v <= target + delta/2.0;
+}
+
+float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
+    return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
+}
+
+void fragment() {
+	COLOR = slice_color;
+	COLOR.a = 0.0;
+	
+	vec2 pos = UV * 2.0 - vec2(1.0);
+	float len = length(pos);
+	float r = radius - thickness;
+	
+	float a = atan(pos.y , pos.x);
+	a = remap_range(a, -PI, PI, 0.0, 1.0);
+	a *= float(slices);
+	a = fract(a);
+	
+	if (approx_equal(a, .5, slices_sep) || !approx_equal(len, r, thickness)) {
+		COLOR.rgb = vec3(.2, .0, .0);
+	}
+	
+	if (approx_equal(len, r, thickness + .1)) {
+		COLOR.a = remap_range(len, r - thickness/2.0, r + thickness, 1.0, slice_min_alpha);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=30]
+shader = SubResource( 29 )
+shader_param/radius = 1.0
+shader_param/thickness = 0.1
+shader_param/edge_highlight = 0.009
+shader_param/slices = 8
+shader_param/slice_color = Color( 1, 0, 0, 1 )
+shader_param/slice_min_alpha = 0.13
+shader_param/slices_sep = 0.1
+shader_param/target_angle = 0.0
+
+[sub_resource type="Gradient" id=31]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture2D" id=32]
+gradient = SubResource( 31 )
+width = 256
+height = 256
+
+[sub_resource type="GDScript" id=33]
+script/source = "extends TextureRect
+
+onready var tween : Tween = $Tween
+
+func _ready() -> void:
+	modulate.a = 0.0
+	
+	Globals.connect(\"player_set\", self, \"_on_player_set\")
+	
+func _on_player_set(pl: Player):
+	pl.hitbox.connect(\"hit\", self, \"_on_damage\")
+
+func _on_damage(amount):
+	modulate.a = 1.0
+	tween.interpolate_property(self, \"modulate:a\", \\
+		null, 0.0, .2, \\
+		Tween.TRANS_LINEAR, Tween.EASE_IN, 1.5)
+	tween.start()
+"
 
 [sub_resource type="GDScript" id=15]
 script/source = "extends Control
@@ -363,7 +449,6 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
-"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -390,6 +475,20 @@ texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="DamageDir" type="TextureRect" parent="Crosshair"]
+material = SubResource( 30 )
+margin_left = 832.0
+margin_top = 412.0
+margin_right = 1088.0
+margin_bottom = 668.0
+texture = SubResource( 32 )
+script = SubResource( 33 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Crosshair/DamageDir"]
 
 [node name="Notifications" type="Control" parent="."]
 margin_left = 40.0

@@ -284,6 +284,7 @@ func _process(delta: float) -> void:
 			if is_falling:
 				var max_dmg = Globals.player.hitbox_start_hp
 				var dmg : float = Utils.map(v_speed, min_dmg_speed, lethal_speed, 0, max_dmg, true)
+				dmg = round(dmg)
 				Globals.player.hitbox.decrease_hp(dmg)
 				Console.write_line(dmg)
 				

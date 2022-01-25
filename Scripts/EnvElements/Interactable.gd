@@ -14,15 +14,21 @@ func exited_range():
 
 func interact(sender: Node = null):
 	var output = _on_interact(sender)
-	emit_signal("interacted_with", sender)
+	emit_interacted(sender)
 	
 	return output
 	
 func stop_interaction():
 	if continuous:
 		var output = _on_interact_stop()
-		emit_signal("interaction_ended")
+		emit_interact_end()
 		return output
+		
+func emit_interacted(sender: Node = null):
+	emit_signal("interacted_with", sender)
+	
+func emit_interact_end():
+	emit_signal("interaction_ended")
 	
 func _on_interact(sender: Node = null):
 	pass

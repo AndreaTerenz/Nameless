@@ -2,6 +2,7 @@ class_name Hitbox
 extends Area
 
 signal killed
+signal no_change
 signal hit(damage)
 signal changed(amnt)
 signal healed(amnt)
@@ -24,16 +25,19 @@ func increase_hp(delta = health):
 	set_health(health - delta)
 	
 func set_health(val, quiet := false):
-	var tmp = health
-	health = max(0.0, val)
-		
-	if health == 0.0:
-		if not quiet:
-			emit_signal("killed")
-		monitoring = false
-		monitorable = false
-	elif not quiet:
-		emit_change(health - tmp)
+	if val != health:
+		var tmp = health
+		health = max(0.0, val)
+			
+		if health == 0.0:
+			if not quiet:
+				emit_signal("killed")
+			monitoring = false
+			monitorable = false
+		elif not quiet:
+			emit_change(health - tmp)
+	else:
+		emit_signal("no_change")
 			
 func emit_change(amount):
 	emit_signal("changed", amount)
