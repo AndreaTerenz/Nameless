@@ -30,6 +30,11 @@ func _on_pause():
 	
 func _on_unpause():
 	anim_player.play(\"FadeOut\")
+	
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT and not visible:
+		set_paused(true)
+		anim_player.play(\"FadeIn\")
 
 func _on_Quit_Btn_pressed() -> void:
 	Globals.quit()
