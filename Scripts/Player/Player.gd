@@ -64,7 +64,7 @@ onready var light = $"Head/Flashlight"
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	mouse_sens_std *= Settings.get_value(Settings.MOUSE_SENS)
+	mouse_sens_std *= Settings.get_value(Settings.CONTROLS, Settings.MOUSE_SENS)
 	mouse_sensitivity = mouse_sens_std
 	
 	camera.fov_tween_speed = fov_tween_speed
@@ -101,7 +101,7 @@ func _input(event: InputEvent) -> void:
 			
 		if event is InputEventMouseMotion:
 			var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * mouse_sensitivity)
-			var invert_y = -Utils.bool_to_sign(Settings.get_value(Settings.INVERT_Y))
+			var invert_y = -Utils.bool_to_sign(Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y))
 			var y_rot = event_rel.x
 			
 			rotate_y(y_rot)

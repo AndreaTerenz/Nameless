@@ -1,61 +1,53 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=2]
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=3]
-[ext_resource path="res://Animations/UIFadeIn.tres" type="Animation" id=5]
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends GameUI
 
-onready var anim_player: AnimationPlayer = $TextureRect/AnimationPlayer
-
-func _ready() -> void:
-	._ready()
-	
-	anim_player.playback_speed = blur_speed
-	
-	var fadeIn := anim_player.get_animation(\"FadeIn\")
-	fadeIn.track_set_key_value(0, 1, max_blur)
-	
-	var fadeOut := anim_player.get_animation(\"FadeOut\")
-	fadeOut.track_set_key_value(0, 0, max_blur)
+onready var text_rect = $TextureRect
 	
 func _target_action():
 	return \"pause\"
 
 func _on_pause():
 	set_paused(true)
-	anim_player.play(\"FadeIn\")
+	tween_ui(true)
 	
 func _on_unpause():
-	anim_player.play(\"FadeOut\")
+	set_paused(false)
+	tween_ui(false)
 	
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT and not visible:
-		set_paused(true)
-		anim_player.play(\"FadeIn\")
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT and not visible and not Console.is_console_shown:
+		_on_pause()
 
 func _on_Quit_Btn_pressed() -> void:
 	Globals.quit()
 
-
 func _on_Restart_Btn_pressed() -> void:
 	get_tree().reload_current_scene()
-
 
 func _on_Resume_Btn_pressed() -> void:
 	_on_unpause()
 
-
-func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == \"FadeOut\":
-		set_paused(false)
-
-
 func _on_Hub_Btn_pressed() -> void:
 	set_paused(false)
 	get_tree().change_scene(\"res://Scenes/Scene Hub.tscn\")
+
+func tween_ui(fade_in : bool):
+	var trgt_mod_alpha := float(fade_in)
+	var trgt_shader_amnt : float = float(fade_in) * max_blur
+	
+	tween.interpolate_property(self, \"modulate:a\", \\
+		null, trgt_mod_alpha, blur_speed, \\
+		Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.interpolate_property(text_rect.material, \"shader_param/amount\", \\
+		null, trgt_shader_amnt, blur_speed, \\
+		Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.start()
 "
 
 [sub_resource type="ShaderMaterial" id=5]
@@ -69,76 +61,8 @@ colors = PoolColorArray( 0, 0, 0, 1 )
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
 
-[sub_resource type="Animation" id=8]
-resource_name = "FadeOut"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:material:shader_param/amount")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("..:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=7]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:material:shader_param/amount")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("..:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("..:material:shader_param/amount")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
-}
-
 [node name="Pause menu" type="Control"]
 pause_mode = 2
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 2
@@ -247,14 +171,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
-anims/FadeIn = ExtResource( 5 )
-anims/FadeOut = SubResource( 8 )
-anims/RESET = SubResource( 7 )
-anims/UIFadeIn = ExtResource( 5 )
-
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Restart Btn" to="." method="_on_Restart_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Resume Btn" to="." method="_on_Resume_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Hub Btn" to="." method="_on_Hub_Btn_pressed"]
 [connection signal="pressed" from="TextureRect/CenterContainer/VBoxContainer/Quit Btn" to="." method="_on_Quit_Btn_pressed"]
-[connection signal="animation_finished" from="TextureRect/AnimationPlayer" to="." method="_on_animation_finished"]

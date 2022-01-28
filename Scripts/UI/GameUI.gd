@@ -4,9 +4,14 @@ extends Control
 export(float, 0.0, 3.5, .05) var max_blur = 2.2
 export(float, .05, 2.5, .01) var blur_speed = 1.0
 
+var tween : Tween = null
+
 func _ready() -> void:
 	Console.connect("toggled", self, "_on_console_toggle")
 	set_paused(false)
+	
+	tween = Tween.new()
+	add_child(tween)
 	
 func _target_action():
 	return ""
@@ -24,14 +29,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_on_unpause()
 		
 		accept_event()
-		
-func _on_console_toggle(t):
-	if t:
-		mouse_filter = MOUSE_FILTER_IGNORE
-		release_focus()
-	else:
-		mouse_filter = MOUSE_FILTER_STOP
-		grab_focus()
 		
 func _on_pause():
 	set_paused(true)

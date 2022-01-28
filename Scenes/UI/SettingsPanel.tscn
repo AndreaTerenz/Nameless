@@ -132,7 +132,7 @@ export(float) var equivalent_max = 3.0
 var edit : Settings.SettingsEdit
 
 func _ready() -> void:
-	edit = Settings.SettingsEdit.new(Settings.MOUSE_SENS)
+	edit = Settings.SettingsEdit.new(Settings.CONTROLS, Settings.MOUSE_SENS)
 	value = range_lerp(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
 
 func _on_drag_ended(value_changed: bool) -> void:
@@ -153,7 +153,7 @@ script/source = "extends CheckBox
 var edit : Settings.SettingsEdit
 
 func _ready() -> void:
-	edit = Settings.SettingsEdit.new(Settings.INVERT_Y)
+	edit = Settings.SettingsEdit.new(Settings.CONTROLS, Settings.INVERT_Y)
 	set_pressed_no_signal(edit.current_value)
 
 func _on_toggled(button_pressed: bool) -> void:
@@ -177,7 +177,7 @@ script/source = "extends CheckBox
 var edit : Settings.SettingsEdit
 
 func _ready() -> void:
-	edit = Settings.SettingsEdit.new(Settings.USE_VSYNC)
+	edit = Settings.SettingsEdit.new(Settings.GRAPHICS, Settings.USE_VSYNC)
 	set_pressed_no_signal(edit.current_value)
 
 func _on_toggled(button_pressed: bool) -> void:
@@ -197,37 +197,43 @@ script/source = "extends OptionButton
 const RATIO_16_9_ICON = preload(\"res://Assets/Sprites/UI/screen_ratio_169_icon.png\")
 const RATIO_4_3_ICON = preload(\"res://Assets/Sprites/UI/screen_ratio_43_icon.png\")
 
-#https://www.teamfortress.tv/11687/common-game-resolutions#6
-var resolutions := {
-	\"800 x 600\": RATIO_4_3_ICON,
-	\"1024 x 600\": RATIO_16_9_ICON,
-	\"1024 x 768\": RATIO_4_3_ICON,
-	\"1280 x 720\": RATIO_16_9_ICON,
-	\"1366 x 768\": RATIO_16_9_ICON,
-	\"1600 x 900\": RATIO_16_9_ICON,
-	\"1920 x 1080\": RATIO_16_9_ICON,
-	\"2560 x 1440\": RATIO_16_9_ICON,
-}
-
 var edit : Settings.SettingsEdit
 var start_idx := 0
 
 func _ready() -> void:
 	clear()
 	
-	for res in resolutions.keys():
-		add_icon_item(resolutions[res], res)
+	add_item(\"Native\")
+	add_separator()
+	for res in Settings.STD_RESS:
+		var tmp = Settings.split_resolution_str(res)
+		var w = float(tmp[0])
+		var h = float(tmp[1])
+		var icon_txt : Texture = null
 		
-	edit = Settings.SettingsEdit.new(Settings.RESOLUTION)
-	start_idx = max(0, resolutions.keys().find(edit.current_value))
+		if abs(w/h - 16.0/9.0) <= abs(w/h - 4.0/3.0):
+			icon_txt = RATIO_16_9_ICON
+		else:
+			icon_txt = RATIO_4_3_ICON
+		
+		add_icon_item(icon_txt, res)
+		
+	edit = Settings.SettingsEdit.new(Settings.GRAPHICS, Settings.RESOLUTION)
+	
+	if edit.current_value == Settings.NATIVE_RES:
+		start_idx = 0
+	else:
+		start_idx = max(0, Settings.STD_RESS.find(edit.current_value)) + 2
+	
 	select(start_idx)
+	print(start_idx, \" \", get_selected_id(), \" \", edit.current_value)
 
 
 func _on_apply_settings() -> void:
 	edit.apply()
 
 func _on_item_selected(index: int) -> void:
-	edit.current_value = get_item_text(index)
+	edit.current_value = get_item_text(index).to_lower()
 
 
 func _on_cancel_edits() -> void:
@@ -242,7 +248,7 @@ var edit : Settings.SettingsEdit
 var start_idx := 0
 
 func _ready() -> void:
-	edit = Settings.SettingsEdit.new(Settings.WIN_MODE)
+	edit = Settings.SettingsEdit.new(Settings.GRAPHICS, Settings.WIN_MODE)
 	print(edit.current_value)
 	
 	clear()

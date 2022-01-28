@@ -13,13 +13,15 @@ enum SECTIONS {
 }
 
 class SettingsEdit:
-	var section_key
+	var section : String
+	var key : String
 	var original_value
 	var current_value
 	
-	func _init(sect_k) -> void:
-		section_key = sect_k
-		original_value = Settings.get_value(section_key)
+	func _init(s: String, k: String) -> void:
+		section = s
+		key = k
+		original_value = Settings.get_value(section, key)
 		current_value = original_value
 				
 	func reset():
@@ -27,7 +29,7 @@ class SettingsEdit:
 		
 	func apply():
 		if current_value != original_value:
-			Settings.set_value(section_key, current_value)
+			Settings.set_value(section, key, current_value)
 			original_value = current_value
 
 var config := ConfigFile.new()
@@ -36,15 +38,29 @@ var data_loaded := false
 
 ######################################
 const CONTROLS := "Controls"
-const INVERT_Y := CONTROLS + ".invert_y_axis"
-const MOUSE_SENS := CONTROLS + ".mouse_sensitivity"
+const INVERT_Y := "invert_y_axis"
+const MOUSE_SENS := "mouse_sensitivity"
 
 ######################################
 const GRAPHICS := "Graphics"
-const USE_VSYNC := GRAPHICS + ".use_vsync"
-const RESOLUTION := GRAPHICS + ".resolution"
-const RESOLUTION_NATIVE := "native"
-const WIN_MODE := GRAPHICS + ".window_mode"
+const USE_VSYNC := "use_vsync"
+const RESOLUTION := "resolution"
+
+const NATIVE_RES := "native"
+const STD_RESS := [
+	"800 x 600",
+	"1024 x 600",
+	"1024 x 768",
+	"1280 x 720",
+	"1280 x 960",
+	"1366 x 768",
+	"1400 x 1050",
+	"1600 x 900",
+	"1920 x 1080",
+	"2560 x 1440",
+]
+
+const WIN_MODE := "window_mode"
 const WIN_MODE_FULL := "fullscreen"
 const WIN_MODE_WINDW := "windowed"
 const WIN_MODE_BRDRLESS := "borderless"
@@ -59,7 +75,7 @@ const defaults : Dictionary = {
 	},
 	GRAPHICS : {
 		USE_VSYNC: true,
-		RESOLUTION: "1920 x 1080",
+		RESOLUTION: NATIVE_RES,
 		WIN_MODE: WIN_MODE_FULL
 	},
 	AUDIO : {},
@@ -95,21 +111,14 @@ func save_data():
 func load_defaults():
 	for section in defaults.keys():
 		for key in defaults[section].keys():
-			set_value(get_section_key_str(section, key), defaults[section][key], false, false)
+			set_value(section, key, defaults[section][key], false, false)
 			
 	emit_signal("settings_loaded", true)
 	
-func get_value(sect_k: String, default = null):
-	var tmp = section_key_from_str(sect_k)
-	var section: String = tmp[0]
-	var key: String = tmp[1]
+func get_value(section: String, key: String, default = null):
 	return config.get_value(section, key, default)
 	
-func set_value(sect_k: String, value, apply := true, emit_change := true):
-	var tmp = section_key_from_str(sect_k)
-	var section: String = tmp[0]
-	var key: String = tmp[1]
-	
+func set_value(section: String, key: String, value, apply := true, emit_change := true):
 	config.set_value(section, key, value)
 	apply_setting(section, key, value)
 	
@@ -125,16 +134,27 @@ func apply_setting(section: String, key: String, value):
 				OS.vsync_enabled = bool(value)
 			RESOLUTION: 
 				#OBVIOUSLY MAKE SURE TO BRIEFLY RESET TO THE NATIVE RESOLUTION EVERY TIME
-				Globals.set_resolution()
+				#Globals.set_resolution()
 				
 				var str_v := str(value)
 				
-				if str_v != RESOLUTION_NATIVE:
-					var tmp = str_v.replace(" ", "").split("x")
+				if str_v != NATIVE_RES:
+					var tmp = split_resolution_str(str_v)
 					var w = int(tmp[0])
 					var h = int(tmp[1])
-
-					Globals.set_resolution(w, h)
+					
+					Globals.set_resolution()
+					
+					if w != OS.get_screen_size().x and h != OS.get_screen_size().y:
+						Globals.set_resolution(w, h)
+						"""
+						var window_size := OS.get_screen_size()
+						var ratio = window_size.x / window_size.y
+						var minsize = Vector2(w * ratio, h)
+						get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_VIEWPORT, SceneTree.STRETCH_ASPECT_KEEP_WIDTH, minsize)
+						"""
+				else:
+					Globals.set_resolution()
 			WIN_MODE:
 				match str(value).to_lower():
 					WIN_MODE_FULL:
@@ -156,7 +176,8 @@ func get_section_key_str(section: String, key: String):
 func section_key_from_str(string: String):
 	return string.split(".", true, 1)
 	
-	
+func split_resolution_str(res: String):
+	return res.replace(" ", "").split("x")
 	
 	
 	
