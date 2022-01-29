@@ -3,6 +3,13 @@ extends KinematicBody
 
 signal mode_changed(new_mode)
 signal mover_changed(new_mov)
+signal env_changed(new_env)
+
+enum ENVIRONMENT {
+	NONE,
+	NORMAL,
+	WATER
+}
 
 enum MODE {
 	GAME,
@@ -26,6 +33,7 @@ export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
 export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
+export(bool) var get_fall_damage = true
 
 var mouse_sensitivity: float = .0
 var bonked_head: bool = false
@@ -41,6 +49,7 @@ var compass_range := 0.0
 
 onready var mover = null
 onready var mode = -1 setget set_mode
+onready var environment = ENVIRONMENT.NONE setget set_env
 
 onready var inventory: Inventory = $Inventory
 onready var head = $Head
@@ -48,6 +57,7 @@ onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
 onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
+onready var env_chk = $"Head/Env Check"
 onready var hud = $Head/Camera/ViewportContainer/Hud
 onready var compass = $Head/Camera/ViewportContainer/Hud/Compass
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
@@ -75,6 +85,8 @@ func _ready() -> void:
 	compass_range = (others_chck.get_child(0) as CollisionShape).shape.radius + 5
 	
 	hitbox.health = hitbox_start_hp
+	
+	grnd_chk.debug_ignore_dmg = not get_fall_damage
 	
 	set_mode(start_mode)
 	
@@ -136,6 +148,7 @@ func set_mode(val):
 				gun_hook.hidden = true
 				toggle_collisions(false)
 				
+				set_env(ENVIRONMENT.NONE)
 				change_mover(PlayerMover.new())
 			MODE.NOCLIP:
 				camera.show_ui(true)
@@ -144,6 +157,11 @@ func set_mode(val):
 				toggle_collisions(false)
 				
 				change_mover(NoClipMover.new())
+				
+func set_env(val):
+	if environment != val:
+		environment = val
+		emit_signal("env_changed", environment)
 			
 func mode_str():
 	match (mode):
@@ -222,3 +240,12 @@ func _on_other_lost(body: Node) -> void:
 	compass.remove_target(body)
 
 
+
+
+func _on_entered_env(area: Area) -> void:
+	#for now, all other envs are water
+	set_env(ENVIRONMENT.WATER)
+
+
+func _on_exited_env(area: Area) -> void:
+	set_env(ENVIRONMENT.NORMAL)

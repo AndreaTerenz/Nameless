@@ -8,6 +8,7 @@ script/source = "extends GameUI
 	
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT and not visible and not Console.is_console_shown:
+		print(name + \" lost focus\")
 		_on_pause()
 
 func _on_Quit_Btn_pressed() -> void:
@@ -22,10 +23,6 @@ func _on_Resume_Btn_pressed() -> void:
 func _on_Hub_Btn_pressed() -> void:
 	set_paused(false)
 	get_tree().change_scene(\"res://Scenes/Scene Hub.tscn\")
-	
-func _on_tween_done():
-	if not fading_in:
-		set_paused(false)
 "
 
 [node name="Pause menu" type="Control"]

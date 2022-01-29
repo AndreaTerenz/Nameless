@@ -527,6 +527,7 @@ select_item={
 3d_physics/layer_8="Hitbox"
 3d_physics/layer_9="NPCs"
 3d_physics/layer_10="Friendlies"
+3d_physics/layer_11="Water"
 
 [physics]
 

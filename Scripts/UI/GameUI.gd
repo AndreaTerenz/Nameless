@@ -28,9 +28,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	var action_pressed = Input.is_action_just_pressed(action)
 	var console_shown = Console.is_console_shown
 	#TEMPORARY
-	var is_current_ui = Globals.current_ui in [self, null]
+	var no_other_ui = Globals.current_ui in [self, null]
 	
-	if action_pressed and not console_shown and is_current_ui:
+	if action_pressed and not console_shown and no_other_ui:
 		if not(get_tree().paused):
 			_on_pause()
 		else:
@@ -39,14 +39,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		accept_event()
 		
 func _on_pause():
+	print(name + " pausing")
 	set_paused(true)
 	tween_ui(true)
 	
 func _on_unpause():
+	print(name + " unpausing")
 	tween_ui(false)
 	
 func _on_tween_done():
-	pass
+	if not fading_in:
+		set_paused(false)
 	
 func tween_ui(fade_in : bool):
 	if not tween.is_active() and text_rect != null:

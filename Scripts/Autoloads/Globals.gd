@@ -228,6 +228,12 @@ func set_player(p: Player):
 	inventory = p.inventory
 	
 	emit_signal("player_set", player)
+	
+func connect_to_player_set(obj: Node, method: String):
+	if player == null:
+		connect("player_set", obj, method)
+	else:
+		obj.call(method, player)
 
 func toggle_pause() -> void:
 	set_paused(not(get_tree().paused))

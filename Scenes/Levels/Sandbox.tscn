@@ -192,7 +192,7 @@ height = 6.14175
 sides = 16
 material = ExtResource( 3 )
 
-[node name="Ramps" type="Spatial" parent="Env/CSGCombiner"]
+[node name="Ramps" type="CSGCombiner" parent="Env/CSGCombiner"]
 
 [node name="Ramp" type="CSGBox" parent="Env/CSGCombiner/Ramps"]
 transform = Transform( 1, -3.55271e-15, 0, 0, 0.913375, 0.407119, 0, -0.407119, 0.913375, -0.149619, 1.80764, 11.8123 )
@@ -234,7 +234,7 @@ height = 1.42642
 depth = 19.6382
 material = ExtResource( 3 )
 
-[node name="Doors" type="Spatial" parent="Env/CSGCombiner"]
+[node name="Doors" type="CSGCombiner" parent="Env/CSGCombiner"]
 
 [node name="Door 1" type="CSGBox" parent="Env/CSGCombiner/Doors"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -37.1186, 4.10402, -11.1072 )
@@ -479,7 +479,7 @@ mesh = SubResource( 40 )
 material/0 = SubResource( 13 )
 script = SubResource( 44 )
 
-[node name="Stairs" type="Spatial" parent="Env/CSGCombiner"]
+[node name="Stairs" type="CSGCombiner" parent="Env/CSGCombiner"]
 
 [node name="CSGBox5" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.04876, 13, -11.303 )
@@ -640,7 +640,7 @@ fov = 79.0
 transform = Transform( 285.212, 0, -1.81899e-12, 0, 1, 0, 1.81899e-12, 0, 285.212, 0, -22.1031, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.9227, 31.1812, 0 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.51057, 17.001, 0 )
 collision_layer = 3
 speed_sprint_mult = 1.7
 std_fov = 70.0

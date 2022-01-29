@@ -1,0 +1,201 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Materials/Shaders/water.gdshader" type="Shader" id=1]
+[ext_resource path="res://Assets/Skyboxes/iceflats.tga" type="Texture" id=2]
+[ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=3]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Materials/Grids/grid_red.tres" type="Material" id=6]
+[ext_resource path="res://Materials/Grids/grid_green.tres" type="Material" id=7]
+[ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=8]
+
+[sub_resource type="CylinderMesh" id=19]
+bottom_radius = 2.875
+height = 3.187
+
+[sub_resource type="BoxShape" id=20]
+extents = Vector3( 6, 9, 8 )
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 12, 18 )
+subdivide_width = 128
+subdivide_depth = 128
+
+[sub_resource type="OpenSimplexNoise" id=13]
+lacunarity = 4.0
+
+[sub_resource type="NoiseTexture" id=14]
+seamless = true
+noise = SubResource( 13 )
+
+[sub_resource type="OpenSimplexNoise" id=15]
+
+[sub_resource type="NoiseTexture" id=16]
+seamless = true
+noise = SubResource( 15 )
+
+[sub_resource type="OpenSimplexNoise" id=17]
+
+[sub_resource type="NoiseTexture" id=18]
+seamless = true
+as_normalmap = true
+bump_strength = 1.0
+noise = SubResource( 17 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/speed = 0.043
+shader_param/height_scale = 0.135
+shader_param/height_oscill_speed = 4.0
+shader_param/fresnel_scale = 0.05
+shader_param/refraction_dampen = 5.0
+shader_param/realistic_murkiness = true
+shader_param/murkiness = 0.173
+shader_param/enable_edge = true
+shader_param/edge_scale = 1.0
+shader_param/smooth_edge = true
+shader_param/edge_harshness = 0.229
+shader_param/tint = Color( 0.1053, 0.20969, 0.39, 1 )
+shader_param/edge_tint = Color( 1, 1, 1, 1 )
+shader_param/noise_a = SubResource( 14 )
+shader_param/noise_b = SubResource( 16 )
+shader_param/noise_normal = SubResource( 18 )
+
+[sub_resource type="PanoramaSky" id=2]
+panorama = ExtResource( 2 )
+
+[sub_resource type="Environment" id=21]
+background_mode = 2
+background_sky = SubResource( 2 )
+background_sky_orientation = Basis( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1 )
+background_energy = 0.26
+ambient_light_color = Color( 0.54902, 0.835294, 0.835294, 1 )
+ambient_light_energy = 0.62
+fog_color = Color( 0.224, 0.32, 0.264, 1 )
+fog_depth_end = 237.6
+fog_depth_curve = 1.51572
+fog_transmit_enabled = true
+fog_height_min = 3.0
+fog_height_max = -4.0
+fog_height_curve = 3.4822
+tonemap_mode = 3
+tonemap_exposure = 0.58
+tonemap_white = 0.33
+auto_exposure_min_luma = 0.0
+ssao_quality = 2
+dof_blur_far_distance = 64.94
+dof_blur_far_transition = 8192.0
+dof_blur_far_quality = 2
+glow_bloom = 1.0
+glow_bicubic_upscale = true
+adjustment_brightness = 0.86
+adjustment_contrast = 1.35
+adjustment_saturation = 0.36
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Env" type="Spatial" parent="."]
+
+[node name="KillZone" parent="Env" instance=ExtResource( 5 )]
+transform = Transform( 60.3277, 0, 0, 0, 1, 0, 0, 0, 60.3277, 0, -42.2348, 0 )
+
+[node name="CSGCombiner" type="CSGCombiner" parent="Env"]
+use_collision = true
+collision_layer = 4
+collision_mask = 817
+
+[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.5194, 0 )
+width = 30.0
+height = 20.0
+depth = 30.0
+material = ExtResource( 3 )
+
+[node name="CSGBox3" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.74584, -5.5 )
+operation = 2
+width = 6.0
+height = 8.0
+depth = 3.0
+material = ExtResource( 3 )
+
+[node name="CSGBox4" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.74584, -7.5 )
+operation = 2
+width = 6.0
+height = 8.0
+depth = 3.0
+material = ExtResource( 3 )
+
+[node name="CSGBox5" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.74584, -9.5 )
+operation = 2
+width = 6.0
+height = 8.0
+depth = 3.0
+material = ExtResource( 3 )
+
+[node name="Hole" type="CSGBox" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.74584, 0 )
+operation = 2
+width = 10.0
+height = 41.371
+depth = 10.0
+material = ExtResource( 3 )
+
+[node name="CSGSphere" type="CSGSphere" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.358587, -5.86005, -1.69359 )
+radial_segments = 24
+rings = 12
+material = ExtResource( 6 )
+
+[node name="CSGSphere3" type="CSGSphere" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95542, -13.86, 0.675066 )
+radius = 2.858
+radial_segments = 24
+rings = 12
+material = ExtResource( 8 )
+
+[node name="CSGSphere2" type="CSGSphere" parent="Env/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.93337, -4.81862, 2.11725 )
+radial_segments = 24
+rings = 12
+material = ExtResource( 6 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Env"]
+transform = Transform( 0.0955852, 0.8784, 0, -0.17568, 0.477925, 0, 0, 0, 0.2, -1.80236, -4.27572, -2.66212 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../CSGCombiner")
+material/0 = ExtResource( 7 )
+
+[node name="SpotLight" type="SpotLight" parent="Env"]
+transform = Transform( -8.74228e-09, 0.154687, -0.126775, 0, 0.633877, 0.773434, 0.2, 6.76157e-09, -5.54153e-09, -1.27305, 2.4854, -0.733805 )
+visible = false
+light_energy = 2.083
+shadow_enabled = true
+spot_range = 22.9606
+spot_angle = 30.5677
+
+[node name="Water" type="Area" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.14091, -1.58923 )
+collision_layer = 1028
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/Water"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, 0 )
+shape = SubResource( 20 )
+
+[node name="Water Surf" type="MeshInstance" parent="Env/Water"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.0914 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 3 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 21 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10.2625, -0.401917, 4.09291 )
+get_fall_damage = false
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.969177, 0.117495, -0.216541, -0.0285522, 0.926594, 0.374979, 0.244704, -0.357238, 0.901388, 0, 0, 0 )

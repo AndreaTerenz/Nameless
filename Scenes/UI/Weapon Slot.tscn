@@ -51,6 +51,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 137.0
 margin_bottom = 176.0
+alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
 margin_right = 129.0
