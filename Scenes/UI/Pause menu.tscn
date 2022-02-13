@@ -15,14 +15,14 @@ func _on_Quit_Btn_pressed() -> void:
 	Globals.quit()
 
 func _on_Restart_Btn_pressed() -> void:
-	get_tree().reload_current_scene()
+	Globals.restart_scene()
 
 func _on_Resume_Btn_pressed() -> void:
 	_on_unpause()
 
 func _on_Hub_Btn_pressed() -> void:
 	set_paused(false)
-	get_tree().change_scene(\"res://Scenes/Scene Hub.tscn\")
+	Globals.load_hub()
 "
 
 [node name="Pause menu" type="Control"]

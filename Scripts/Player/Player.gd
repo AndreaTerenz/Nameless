@@ -57,6 +57,7 @@ onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
 onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
+onready var water_hemisphere = $"Head/Camera/Water Effect 3D"
 onready var env_chk = $"Head/Env Check"
 onready var hud = $Head/Camera/ViewportContainer/Hud
 onready var compass = $Head/Camera/ViewportContainer/Hud/Compass
@@ -238,9 +239,6 @@ func _on_other_lost(body: Node) -> void:
 	var type = get_other_type(body)
 	others_dict[type] -= 1
 	compass.remove_target(body)
-
-
-
 
 func _on_entered_env(area: Area) -> void:
 	#for now, all other envs are water

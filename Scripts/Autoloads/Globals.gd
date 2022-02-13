@@ -52,6 +52,7 @@ var group_layers : Dictionary = {
 var scene_to_load := ""
 var in_game := true
 var player : Player = null
+var player_set := false
 var inventory : Inventory = null
 var current_ui : GameUI = null
 
@@ -171,13 +172,9 @@ func get_player_info(mode: String):
 		Console.Log.error("NO PLAYER IN SCENE")
 		
 func restart_scene():
-	Console.toggle_console()
+	if Console.is_console_shown:
+		Console.toggle_console()
 	_restart()
-	
-func _restart():
-	scene_triggers.clear()
-	scene_killzones.clear()
-	get_tree().reload_current_scene()
 		
 func set_vsync(t):
 	OS.vsync_enabled = (t != 0)
@@ -225,12 +222,14 @@ func get_mask_bit_in_object(obj: CollisionObject, name: String):
 
 func set_player(p: Player):
 	player = p
-	inventory = p.inventory
+	player_set = (p != null)
+	inventory = p.inventory if (p != null) else null
 	
-	emit_signal("player_set", player)
+	if player:
+		emit_signal("player_set", player)
 	
 func connect_to_player_set(obj: Node, method: String):
-	if player == null:
+	if not player_set:
 		connect("player_set", obj, method)
 	else:
 		obj.call(method, player)
@@ -256,8 +255,26 @@ func quit():
 	Settings.save_data()
 	get_tree().quit()
 	
-func load_scene(path: String, game := true):
+func _restart():
+	reset_state()
+	get_tree().reload_current_scene()
+	
+func reset_state():
+	scene_triggers.clear()
+	scene_killzones.clear()
+	set_player(null)
+	
+func load_scene(path: String, game := true, skip_loading := false):
 	Settings.save_data()
 	in_game = game
-	scene_to_load = path
-	get_tree().change_scene("res://Scenes/LoadingScene.tscn")
+	
+	reset_state()
+	
+	if not skip_loading:
+		scene_to_load = path
+		get_tree().change_scene("res://Scenes/LoadingScene.tscn")
+	else:
+		get_tree().change_scene(path)
+	
+func load_hub():
+	load_scene("res://Scenes/Scene Hub.tscn", false, true)

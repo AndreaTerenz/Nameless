@@ -1,11 +1,12 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform float speed : hint_range(-2.0, 2.0) = .1;
+uniform float wave_speed : hint_range(0.0, 4.0) = .1;
+uniform float wave_frequency : hint_range(.5, 80.0) = 1.0;
 uniform float height_scale : hint_range(0.0, 6.0) = 1.0;
 uniform float height_oscill_speed : hint_range(0.0, 6.0) = 4.0;
 uniform float fresnel_scale : hint_range(0.0, 2.0) = .05;
-uniform float refraction_dampen : hint_range(0.1, 8.0) = 3.0;
+uniform float refraction_dampen : hint_range(0.1, 10.0) = 3.0;
 uniform bool realistic_murkiness = true;
 uniform float murkiness : hint_range(.0, .5) = .2;
 
@@ -55,9 +56,10 @@ float noise_sum(vec2 uv, float time) {
 
 float height(vec2 position, float time) {
 	float t = (time * height_oscill_speed);
-	vec2 offset = 0.1 * vec2(cos(t), sin(t));
+	float x = 80.0;
+	vec2 offset = .1 * vec2(cos(t), sin(t));
 	
-	return noise_sum(position, time) * height_scale - height_scale/2.0;
+	return noise_sum((position + offset) / wave_frequency, t);
 }
 
 vec3 edge_color(sampler2D depth_txt, vec2 uv_pos, vec4 fragcoord) {
@@ -99,11 +101,11 @@ void vertex() {
 	float noise_x = remap_range(VERTEX.x, -1.0, 1.0, 0.0, 1.0);
 	float noise_y = remap_range(VERTEX.z, -1.0, 1.0, 0.0, 1.0);
 	
-	VERTEX.y += height(vec2(noise_x, noise_y), TIME * speed);
+	VERTEX.y += height(vec2(noise_x, noise_y), TIME * wave_speed);
 }
 
 void fragment() {
-	float time = TIME * speed;
+	float time = TIME * wave_speed;
 	float fresnel = sqrt(1.0 - dot(NORMAL, VIEW));
 	
 	vec2 refract_uv = SCREEN_UV + refraction_vec(UV, TIME);
