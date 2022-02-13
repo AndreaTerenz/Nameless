@@ -370,9 +370,10 @@ transform = Transform( 1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 1.4182
 shape = SubResource( 5 )
 
 [node name="RoofCheck" type="RayCast" parent="Head"]
-transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0.58178, -6.20067e-15 )
+transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0.925081, -9.85961e-15 )
 enabled = true
 cast_to = Vector3( 0, 1, 0 )
+collision_mask = 4
 collide_with_areas = true
 debug_shape_thickness = 4
 

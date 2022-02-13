@@ -53,7 +53,7 @@ func set_direction():
 		
 func set_gravity_vec(delta):
 	if not(player.is_on_floor()):
-		if player.roof_chk.is_colliding() and not(bonked_head):
+		if not(bonked_head) and player.roof_chk.is_colliding():
 			gravity_vec *= 0.0
 			bonked_head = true
 		h_acceleration = 0.0
