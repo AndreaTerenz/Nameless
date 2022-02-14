@@ -1,0 +1,86 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type spatial;
+
+uniform sampler2D noise_text;
+uniform sampler2D noise_text_b;
+uniform vec4 tint : hint_color = vec4(.1, .2, .9, 1.0);
+uniform float energy : hint_range(0.0, 10.0) = .8;
+uniform float threshold : hint_range(0.0, 1.0) = .8;
+uniform float fuzziness = 1.4;
+uniform float speed : hint_range(0.0, 4.0) = .8;
+
+float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
+    return (value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
+}
+
+void fragment() {
+	float time = TIME * speed;
+	vec2 pos = UV*2.0 - 1.0;
+	float noise_a = texture(noise_text, pos).r;
+	float noise_b = texture(noise_text_b, pos + time).r;
+	float noise = (noise_a + noise_b) / 2.0;
+	
+	noise = smoothstep(threshold, threshold * fuzziness, noise);
+	
+	EMISSION = vec3(noise) * tint.rgb * energy;
+	//SPECULAR = noise * energy;
+	//ANISOTROPY = noise * energy;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=4]
+
+[sub_resource type="NoiseTexture" id=5]
+seamless = true
+noise = SubResource( 4 )
+
+[sub_resource type="OpenSimplexNoise" id=6]
+seed = 5
+
+[sub_resource type="NoiseTexture" id=7]
+seamless = true
+noise = SubResource( 6 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/tint = Color( 0.027451, 0.894118, 0.905882, 1 )
+shader_param/energy = 6.617
+shader_param/threshold = 0.534
+shader_param/fuzziness = 1.305
+shader_param/speed = 0.167
+shader_param/noise_text = SubResource( 5 )
+shader_param/noise_text_b = SubResource( 7 )
+
+[sub_resource type="SphereMesh" id=1]
+
+[sub_resource type="ProceduralSky" id=8]
+
+[sub_resource type="Environment" id=9]
+background_mode = 3
+background_sky = SubResource( 8 )
+background_color = Color( 0.172549, 0.172549, 0.172549, 1 )
+tonemap_mode = 4
+ss_reflections_fade_in = 0.204906
+ssao_intensity = 68.37
+glow_enabled = true
+glow_intensity = 6.07
+glow_strength = 0.76
+glow_bicubic_upscale = true
+glow_high_quality = true
+
+[node name="Spatial" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+material_overlay = SubResource( 3 )
+mesh = SubResource( 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 9 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.647587, -0.342429, 0.680715, 0, 0.893337, 0.449387, -0.761992, 0.291017, -0.578514, 1.77022, 1.22198, -1.49977 )
+
+[node name="Pause menu" parent="." instance=ExtResource( 1 )]

@@ -241,8 +241,8 @@ func _on_other_lost(body: Node) -> void:
 	compass.remove_target(body)
 
 func _on_entered_env(area: Area) -> void:
-	#for now, all other envs are water
-	set_env(ENVIRONMENT.WATER)
+	if (Globals.get_layer_bit_in_object(area, "Water")):
+		set_env(ENVIRONMENT.WATER)
 
 
 func _on_exited_env(area: Area) -> void:
