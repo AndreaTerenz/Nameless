@@ -104,9 +104,13 @@ void vertex() {
 	VERTEX.y += height(vec2(noise_x, noise_y), TIME * wave_speed);
 }
 
+float fresnel(vec3 normal, vec3 view) {
+	return sqrt(1.0 - dot(normal, view));
+}
+
 void fragment() {
 	float time = TIME * wave_speed;
-	float fresnel = sqrt(1.0 - dot(NORMAL, VIEW));
+	float fr = fresnel(NORMAL, VIEW);
 	
 	vec2 refract_uv = SCREEN_UV + refraction_vec(UV, TIME);
 	vec3 edge_color = edge_color(DEPTH_TEXTURE, SCREEN_UV, FRAGCOORD);
@@ -120,8 +124,8 @@ void fragment() {
 	METALLIC = 0.0;
 	RIM = .1;
 	NORMALMAP = texture(noise_normal, (UV + time)).rgb;
-	ROUGHNESS = .01 * (1.0 - fresnel);
-	ALBEDO.rgb = color + (fresnel_scale * fresnel);
+	ROUGHNESS = .01 * (1.0 - fr);
+	ALBEDO.rgb = color + (fresnel_scale * fr);
 	SPECULAR = 1.0;
 	TRANSMISSION = tint.rgb;
 	

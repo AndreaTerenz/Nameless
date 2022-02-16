@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=1]
+
+[sub_resource type="ProceduralSky" id=8]
+
+[sub_resource type="Environment" id=9]
+resource_local_to_scene = true
+background_mode = 3
+background_sky = SubResource( 8 )
+background_color = Color( 0.172549, 0.172549, 0.172549, 1 )
+tonemap_mode = 4
+ss_reflections_fade_in = 0.204906
+ssao_intensity = 68.37
+glow_enabled = true
+glow_intensity = 6.07
+glow_strength = 0.76
+glow_bicubic_upscale = true
+glow_high_quality = true
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 9 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.647587, -0.342429, 0.680715, 0, 0.893337, 0.449387, -0.761992, 0.291017, -0.578514, 1.77022, 1.22198, -1.49977 )
+
+[node name="Pause menu" parent="." instance=ExtResource( 1 )]

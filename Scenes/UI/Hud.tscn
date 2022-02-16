@@ -318,6 +318,12 @@ func tween_pos(up := true):
 	if not up or current != visible_pos:
 		var dir = -1 if up else 1
 		
+		var dest: float
+		if up:
+			visible_pos
+		else:
+			max(current + tween_amount*dir, visible_pos)
+		
 		tween.interpolate_property(self, \"rect_position:y\", \\
 			current, current + tween_amount*dir, .2, \\
 			Tween.TRANS_EXPO, Tween.EASE_OUT)
