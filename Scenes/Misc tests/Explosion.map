@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Explosion test"
+description=""
+scene_file="res://Scenes/Misc tests/Explosion.tscn"

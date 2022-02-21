@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Pool"
+description=""
+scene_file="res://Scenes/Levels/Pool.tscn"

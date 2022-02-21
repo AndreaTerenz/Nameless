@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Level test"
+description=""
+scene_file="res://Scenes/Levels/Level test.tscn"

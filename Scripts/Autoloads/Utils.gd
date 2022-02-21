@@ -53,3 +53,24 @@ static func log_line(obj: Node, msg: String):
 	var time = OS.get_time()
 	var time_str = "%02d:%02d:%02d" % [time.hour, time.minute, time.second]
 	Console.write_line("@%s [%s]: %s" % [time_str, obj.name, msg])
+
+static func list_files_in_directory(path, extensions = [], include_hidden = false) -> PoolStringArray:
+	var files : PoolStringArray = []
+	var dir = Directory.new()
+	dir.open(path)
+	dir.list_dir_begin()
+
+	var done = false
+	while not done:
+		var file : String = dir.get_next()
+		done = (file == "")
+		
+		var is_visible = (not file.begins_with(".") or include_hidden)
+		var correct_ext = (len(extensions) == 0 or file.get_extension() in extensions)
+		
+		if is_visible and correct_ext:
+			files.append(file)
+
+	dir.list_dir_end()
+
+	return files

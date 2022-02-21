@@ -254,15 +254,16 @@ func set_mouse_mode():
 func quit():
 	Settings.save_data()
 	get_tree().quit()
-	
-func _restart():
-	reset_state()
-	get_tree().reload_current_scene()
+
 	
 func reset_state():
 	scene_triggers.clear()
 	scene_killzones.clear()
 	set_player(null)
+	
+func _restart():
+	reset_state()
+	get_tree().reload_current_scene()
 	
 func load_scene(path: String, game := true, skip_loading := false):
 	Settings.save_data()
@@ -272,6 +273,7 @@ func load_scene(path: String, game := true, skip_loading := false):
 	
 	if not skip_loading:
 		scene_to_load = path
+		print(scene_to_load)
 		get_tree().change_scene("res://Scenes/LoadingScene.tscn")
 	else:
 		get_tree().change_scene(path)

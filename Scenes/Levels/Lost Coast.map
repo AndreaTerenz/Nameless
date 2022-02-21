@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Lost Coast"
+description=""
+scene_file="res://Scenes/Levels/Lost Coast clone.tscn"

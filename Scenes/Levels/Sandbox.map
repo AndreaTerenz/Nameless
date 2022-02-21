@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Sandbox"
+description=""
+scene_file="res://Scenes/Levels/Sandbox.tscn"

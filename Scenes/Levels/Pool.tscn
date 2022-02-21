@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Materials/Shaders/water.gdshader" type="Shader" id=1]
 [ext_resource path="res://Assets/Skyboxes/iceflats.tga" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Materials/Grids/grid_red.tres" type="Material" id=6]
 [ext_resource path="res://Materials/Grids/grid_green.tres" type="Material" id=7]
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=8]
+[ext_resource path="res://Materials/water.tres" type="Material" id=9]
 
 [sub_resource type="CylinderMesh" id=19]
 bottom_radius = 2.875
@@ -66,40 +67,6 @@ extents = Vector3( 6, 9, 8 )
 size = Vector2( 12, 18 )
 subdivide_width = 128
 subdivide_depth = 128
-
-[sub_resource type="NoiseTexture" id=14]
-seamless = true
-noise = SubResource( 13 )
-
-[sub_resource type="NoiseTexture" id=16]
-seamless = true
-noise = SubResource( 15 )
-
-[sub_resource type="NoiseTexture" id=18]
-seamless = true
-as_normalmap = true
-bump_strength = 1.0
-noise = SubResource( 17 )
-
-[sub_resource type="ShaderMaterial" id=3]
-shader = ExtResource( 1 )
-shader_param/wave_speed = 0.032
-shader_param/wave_frequency = 80.0
-shader_param/height_scale = 1.0
-shader_param/height_oscill_speed = 0.521
-shader_param/fresnel_scale = 0.05
-shader_param/refraction_dampen = 10.0
-shader_param/realistic_murkiness = true
-shader_param/murkiness = 0.173
-shader_param/enable_edge = true
-shader_param/edge_scale = 1.0
-shader_param/smooth_edge = true
-shader_param/edge_harshness = 0.229
-shader_param/tint = Color( 0.1053, 0.20969, 0.39, 1 )
-shader_param/edge_tint = Color( 1, 1, 1, 1 )
-shader_param/noise_a = SubResource( 14 )
-shader_param/noise_b = SubResource( 16 )
-shader_param/noise_normal = SubResource( 18 )
 
 [sub_resource type="PanoramaSky" id=2]
 panorama = ExtResource( 2 )
@@ -241,7 +208,7 @@ shape = SubResource( 20 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.0914 )
 mesh = SubResource( 1 )
 skeleton = NodePath("../..")
-material/0 = SubResource( 3 )
+material/0 = ExtResource( 9 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 21 )

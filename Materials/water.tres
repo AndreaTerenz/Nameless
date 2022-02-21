@@ -1,0 +1,44 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=2]
+
+[ext_resource path="res://Materials/Shaders/water.gdshader" type="Shader" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=13]
+lacunarity = 4.0
+
+[sub_resource type="NoiseTexture" id=14]
+seamless = true
+noise = SubResource( 13 )
+
+[sub_resource type="OpenSimplexNoise" id=15]
+
+[sub_resource type="NoiseTexture" id=16]
+seamless = true
+noise = SubResource( 15 )
+
+[sub_resource type="OpenSimplexNoise" id=17]
+
+[sub_resource type="NoiseTexture" id=18]
+seamless = true
+as_normalmap = true
+bump_strength = 1.0
+noise = SubResource( 17 )
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/wave_speed = 0.032
+shader_param/wave_frequency = 80.0
+shader_param/height_scale = 1.0
+shader_param/height_oscill_speed = 0.521
+shader_param/fresnel_scale = 0.05
+shader_param/refraction_dampen = 10.0
+shader_param/realistic_murkiness = true
+shader_param/murkiness = 0.173
+shader_param/enable_edge = true
+shader_param/edge_scale = 1.0
+shader_param/smooth_edge = true
+shader_param/edge_harshness = 0.229
+shader_param/tint = Color( 0.1053, 0.20969, 0.39, 1 )
+shader_param/edge_tint = Color( 1, 1, 1, 1 )
+shader_param/noise_a = SubResource( 14 )
+shader_param/noise_b = SubResource( 16 )
+shader_param/noise_normal = SubResource( 18 )

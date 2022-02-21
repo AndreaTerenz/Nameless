@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Level 2"
+description=""
+scene_file="res://Scenes/Levels/Level 2.tscn"

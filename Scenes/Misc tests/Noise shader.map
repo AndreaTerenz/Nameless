@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Noise shader thing"
+description=""
+scene_file="res://Scenes/Misc tests/Noise shader.tscn"

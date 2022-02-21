@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Gun Range"
+description=""
+scene_file="res://Scenes/Levels/Gun Range.tscn"
