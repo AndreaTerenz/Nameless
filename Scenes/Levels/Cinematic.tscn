@@ -313,8 +313,7 @@ transform = Transform( -4.37114e-08, 0.274748, -0.961516, 0, 0.961516, 0.274748,
 fov = 34.6
 
 [node name="KillZone" parent="." instance=ExtResource( 4 )]
-transform = Transform( 213.8, 0, 0, 0, 1, 0, 0, 0, 213.8, 0, -15, 0 )
-show = true
+transform = Transform( 213.8, 0, 0, 0, 1, 0, 0, 0, 213.8, 0, -37.7263, 0 )
 
 [node name="Trigger" parent="." instance=ExtResource( 5 )]
 transform = Transform( -1.64239e-07, 0, 3.19097, 0, 6.48877, 0, -14.0757, 0, -5.22523e-07, 27.0511, 4.11285, -26.1172 )

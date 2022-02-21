@@ -143,6 +143,8 @@ func set_mode(val):
 				toggle_collisions(true)
 				
 				change_mover(StandardMover.new())
+				
+				restore_env()
 			MODE.CINEMATIC:
 				camera.show_ui(false)
 				camera.toggle_sprint_fov(false)
@@ -159,10 +161,25 @@ func set_mode(val):
 				
 				change_mover(NoClipMover.new())
 				
+				restore_env()
+				
 func set_env(val):
 	if environment != val:
+		if environment != -1:
+			emit_signal("env_changed", val)
+			
 		environment = val
-		emit_signal("env_changed", environment)
+		
+		match(environment):
+			ENVIRONMENT.WATER:
+				grnd_chk.enabled = false
+			ENVIRONMENT.NORMAL:
+				grnd_chk.enabled = true
+				
+func restore_env():
+	var old = environment
+	environment = -1
+	set_env(old)
 			
 func mode_str():
 	match (mode):

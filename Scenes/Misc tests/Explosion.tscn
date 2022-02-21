@@ -1,6 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=15]
+script/source = "extends Spatial
+
+onready var tween := $Tween
+onready var mesh : MeshInstance = $MeshInstance
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"interact\"):
+		tween.interpolate_property(mesh.get_active_material(0), \"shader_param/dissolve_step\", null, 1.0, .3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		tween.start()
+"
 
 [sub_resource type="ProceduralSky" id=8]
 
@@ -13,16 +25,15 @@ tonemap_mode = 4
 ss_reflections_fade_in = 0.204906
 ssao_intensity = 68.37
 glow_enabled = true
-glow_intensity = 6.07
-glow_strength = 0.76
 glow_bicubic_upscale = true
 glow_high_quality = true
+adjustment_brightness = 7.62
 
 [sub_resource type="SphereMesh" id=10]
 
 [sub_resource type="Shader" id=11]
 code = "shader_type spatial;
-render_mode diffuse_toon, specular_toon;
+render_mode diffuse_toon, specular_toon, unshaded,shadows_disabled,ambient_light_disabled;
 
 uniform float fresnel_thickness : hint_range(0.0, 1.0) = .8;
 uniform float fresnel_strength : hint_range(0.0, 8.0) = 4.0;
@@ -31,6 +42,10 @@ uniform bool fresnel_normalize = false;
 
 uniform vec4 rim : hint_color;
 uniform vec4 inner : hint_color;
+
+uniform sampler2D noise;
+uniform float speed;
+uniform float dissolve_step : hint_range(0.0, 1.0) = 0.0;
 
 float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
     return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
@@ -41,8 +56,15 @@ float fresnel(vec3 normal, vec3 view) {
 }
 
 float fresnel_mask(vec3 normal, vec3 view, bool reverse) {
-	float fr_val = (fresnel(normal, view) - (1.0 - fresnel_thickness)) * fresnel_strength;
-	fr_val = clamp(fr_val, 0.0, fresnel_strength);
+	float fr_val = (fresnel(normal, view) - (1.0 - fresnel_thickness));
+	fr_val = clamp(fr_val, 0.0, 1.0);
+	
+	if (reverse) {
+		//why??
+		fr_val = .5 - fr_val;
+	}
+	
+	fr_val *= fresnel_strength;
 	
 	if (fresnel_clamp) {
 		float new_fr = (fresnel_normalize) ?
@@ -54,23 +76,39 @@ float fresnel_mask(vec3 normal, vec3 view, bool reverse) {
 	if (fr_val < 0.0)
 		fr_val = 0.0;
 	
-	return (reverse) ? 1.0 - fr_val : fr_val;
+	return fr_val;
 }
 
 void fragment() {
 	ALBEDO = mix(rim, inner, fresnel_mask(NORMAL, VIEW, true)).rgb;
+	
+	float time = TIME * speed;
+	float noise_val = texture(noise, UV + time).r;
+	
+	ALPHA = step(dissolve_step, noise_val);
 }"
 
+[sub_resource type="OpenSimplexNoise" id=13]
+
+[sub_resource type="NoiseTexture" id=14]
+seamless = true
+noise = SubResource( 13 )
+
 [sub_resource type="ShaderMaterial" id=12]
+resource_local_to_scene = true
 shader = SubResource( 11 )
-shader_param/fresnel_thickness = 0.476
-shader_param/fresnel_strength = 2.837
-shader_param/fresnel_clamp = true
+shader_param/fresnel_thickness = 0.754
+shader_param/fresnel_strength = 8.0
+shader_param/fresnel_clamp = false
 shader_param/fresnel_normalize = false
-shader_param/rim = Color( 0.247059, 0.176471, 0.0235294, 1 )
+shader_param/rim = Color( 0.0901961, 0.0627451, 0, 1 )
 shader_param/inner = Color( 1, 0.870667, 0.03, 1 )
+shader_param/speed = 0.1
+shader_param/dissolve_step = 0.0
+shader_param/noise = SubResource( 14 )
 
 [node name="Spatial" type="Spatial"]
+script = SubResource( 15 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 9 )
@@ -83,3 +121,5 @@ transform = Transform( -0.647587, -0.342429, 0.680715, 0, 0.893337, 0.449387, -0
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 10 )
 material/0 = SubResource( 12 )
+
+[node name="Tween" type="Tween" parent="."]

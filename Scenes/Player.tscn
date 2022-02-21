@@ -306,22 +306,31 @@ func _process(delta: float) -> void:
 				old_pos = new_pos
 			else:
 				var v_dist = (new_pos - old_pos).y
-				#solves skipped frames
+				
 				if abs(v_dist) > 0.0:
 					v_speed = min(abs(v_dist / delta), lethal_speed)
-					#Console.write_line(abs(v_dist / delta))
 					old_pos = new_pos
 				
-		else:
-			if is_falling:
-				var max_dmg = Globals.player.hitbox_start_hp
-				var dmg : float = Utils.map(v_speed, min_dmg_speed, lethal_speed, 0, max_dmg, true)
-				dmg = round(dmg) * (1 - int(debug_ignore_dmg))
-				Globals.player.hitbox.decrease_hp(dmg)
-				Console.write_line(dmg)
-				
-				v_speed = 0
-				is_falling = false
+		elif is_falling and not debug_ignore_dmg:
+			var dmg := get_damage()
+			Globals.player.hitbox.decrease_hp(dmg)
+			
+			v_speed = 0
+			is_falling = false
+	else:
+		v_speed = 0
+		is_falling = false
+
+func get_damage() -> float:
+	var max_dmg = Globals.player.hitbox_start_hp
+	
+	var other : CollisionObject = get_collider() as CollisionObject
+	if (other and Globals.get_layer_bit_in_object(other, \"Water\")):
+		max_dmg = 0.0
+
+	var dmg : float = Utils.map(v_speed, min_dmg_speed, lethal_speed, 0, max_dmg, true)
+	
+	return round(dmg)
 "
 
 [sub_resource type="GDScript" id=18]

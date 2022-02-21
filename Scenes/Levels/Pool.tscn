@@ -248,7 +248,6 @@ environment = SubResource( 21 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10.2625, -0.401917, 4.09291 )
-get_fall_damage = false
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.969177, 0.117495, -0.216541, -0.0285522, 0.926594, 0.374979, 0.244704, -0.357238, 0.901388, 0, 0, 0 )
