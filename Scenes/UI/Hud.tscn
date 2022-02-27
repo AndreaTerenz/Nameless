@@ -349,7 +349,7 @@ onready var dmg_timer := $Timer
 onready var bar_tween := $Panel/VBoxContainer/ProgressBar/Tween
 
 func _ready() -> void:
-	Globals.connect(\"player_set\", self, \"_on_player_set\")
+	Globals.connect_to_player_set(self, \"_on_player_set\")
 	dmg_lbl.visible = false
 	
 func _on_player_set(pl: Player):

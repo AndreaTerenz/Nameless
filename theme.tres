@@ -127,7 +127,18 @@ expand_margin_left = 5.0
 expand_margin_right = 5.0
 
 [sub_resource type="StyleBoxFlat" id=66]
-bg_color = Color( 0.6, 0.6, 0.6, 0.470588 )
+content_margin_left = 4.0
+content_margin_right = 4.0
+bg_color = Color( 0.501961, 0.501961, 0.501961, 0.819608 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.109804, 0.109804, 0.109804, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxLine" id=54]
 color = Color( 0, 0.74902, 0.12549, 1 )
@@ -177,7 +188,7 @@ OptionButton/styles/hover = SubResource( 5 )
 OptionButton/styles/normal = SubResource( 4 )
 OptionButton/styles/pressed = SubResource( 62 )
 PanelContainer/styles/panel = SubResource( 10 )
-TooltipLabel/colors/font_color = Color( 1, 0, 0, 1 )
+TooltipLabel/colors/font_color = Color( 0.988235, 0.952941, 0.952941, 1 )
 TooltipLabel/fonts/font = null
 TooltipPanel/styles/panel = SubResource( 66 )
 VScrollBar/styles/grabber = SubResource( 54 )

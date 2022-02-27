@@ -1,11 +1,5 @@
 extends Node
 
-enum TERNARY {
-	TRUE,
-	FALSE,
-	NONE
-}
-
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
 	

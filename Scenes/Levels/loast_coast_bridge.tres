@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Materials/Shaders/Cobblestone.gdshader" type="Shader" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=32]
+
+[sub_resource type="NoiseTexture" id=33]
+seamless = true
+as_normalmap = true
+noise = SubResource( 32 )
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/uv_scale = 24.062
+shader_param/randomness = 1.0
+shader_param/show_border = false
+shader_param/thickness = 0.5
+shader_param/border_thickness = 0.05
+shader_param/harshness = 0.5
+shader_param/tint = Color( 0.309804, 0.309804, 0.309804, 1 )
+shader_param/mortar_tint = Color( 0.976471, 0.976471, 0.976471, 1 )
+shader_param/ridge_normal_strength = 2.398
+shader_param/noise_normal_text = SubResource( 33 )

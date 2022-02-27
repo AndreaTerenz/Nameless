@@ -297,6 +297,13 @@ var old_pos := Vector3.ZERO
 var v_speed := 0.0
 var is_falling := true
 
+func _ready() -> void:
+	reset()
+
+func reset():
+	v_speed = 0
+	is_falling = false
+
 func _process(delta: float) -> void:
 	if enabled:
 		if not is_colliding():
@@ -314,12 +321,9 @@ func _process(delta: float) -> void:
 		elif is_falling and not debug_ignore_dmg:
 			var dmg := get_damage()
 			Globals.player.hitbox.decrease_hp(dmg)
-			
-			v_speed = 0
-			is_falling = false
+			reset()
 	else:
-		v_speed = 0
-		is_falling = false
+		reset()
 
 func get_damage() -> float:
 	var max_dmg = Globals.player.hitbox_start_hp

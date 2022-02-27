@@ -28,7 +28,7 @@ height = 3.0
 [node name="Bullet" type="RigidBody"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 collision_layer = 16
-collision_mask = 37
+collision_mask = 36
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 1 )

@@ -27,12 +27,13 @@ func _ready():
 
 	start = global_transform.origin
 	
-	var aim_ray : RayCast = Globals.player.aim_ray
-	
-	if aim_ray.is_colliding():
-		coll_point = aim_ray.get_collision_point()
-		coll_normal = aim_ray.get_collision_normal()
-		look_at(coll_point, Vector3.UP)
+	if Globals.player:
+		var aim_ray : RayCast = Globals.player.aim_ray
+		
+		if aim_ray.is_colliding():
+			coll_point = aim_ray.get_collision_point()
+			coll_normal = aim_ray.get_collision_normal()
+			look_at(coll_point, Vector3.UP)
 	
 	apply_impulse(Vector3.ZERO, -transform.basis.z * speed)
 
@@ -48,6 +49,7 @@ func _integrate_forces(state: PhysicsDirectBodyState) -> void:
 			phys_state = null
 
 func _on_collision(body: Node):
+	print(body.name)
 	var hitmark : MeshInstance = hitmark_scn.instance()
 	body.add_child(hitmark)
 	
