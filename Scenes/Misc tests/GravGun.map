@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="'Gravity Gun' test"
+description=""
+scene_file="res://Scenes/Misc tests/GravGun.tscn"

@@ -8,7 +8,6 @@ script/source = "extends GameUI
 	
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT and not visible and not Console.is_console_shown:
-		print(name + \" lost focus\")
 		_on_pause()
 
 func _on_Quit_Btn_pressed() -> void:

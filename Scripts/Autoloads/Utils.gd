@@ -39,9 +39,23 @@ static func get_dir_vector(obj: Spatial, axis := Vector3.AXIS_Z) -> Vector3:
 		
 	return Vector3.ZERO
 	
+static func rotate_with_mouse(event: InputEventMouseMotion, node: Spatial, x_rot_node : Spatial, sensitivity := .1 , head_rot_lim := 80.0, invert_y := false):
+	var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * sensitivity)
+	var y_rot = event_rel.x
+
+	node.rotate_y(y_rot)
+	x_rot_node.rotate_x(event_rel.y * -bool_to_sign(invert_y))
+
+	var hrl = deg2rad(head_rot_lim)
+	x_rot_node.rotation.x = clamp(x_rot_node.rotation.x, -hrl, hrl)
+	
 static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
+		
+static func transfer_node(obj: Node, new_parent: Node):
+	obj.get_parent().remove_child(obj)
+	new_parent.add_child(obj)
 
 static func log_line(obj: Node, msg: String):
 	var time = OS.get_time()

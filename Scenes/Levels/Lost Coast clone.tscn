@@ -160,7 +160,7 @@ light_energy = 8.711
 omni_range = 16.4069
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.35452, -0.145175, -3 )
+transform = Transform( 1.71138, 0, 0, 0, 1, 0, 0, 0, 1, 11.9408, -0.145175, -3 )
 mesh = ExtResource( 7 )
 material/0 = ExtResource( 8 )
 
