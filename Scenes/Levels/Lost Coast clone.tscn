@@ -5,7 +5,7 @@
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Materials/Shaders/water.gdshader" type="Shader" id=4]
 [ext_resource path="res://Assets/Models/lost coast/rock.obj" type="ArrayMesh" id=5]
-[ext_resource path="res://Assets/Skyboxes/AllSkyFree_Sky_ClearBlueSky_Equirect.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Skyboxes/starfield.tga" type="Texture" id=6]
 [ext_resource path="res://Assets/Models/lost coast/path.obj" type="ArrayMesh" id=7]
 [ext_resource path="res://Scenes/Levels/loast_coast_bridge.tres" type="Material" id=8]
 
