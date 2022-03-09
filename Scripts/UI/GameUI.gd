@@ -39,12 +39,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		accept_event()
 		
 func _on_pause():
-	print(name + " pausing")
 	set_paused(true)
 	tween_ui(true)
 	
 func _on_unpause():
-	print(name + " unpausing")
 	tween_ui(false)
 	
 func _on_tween_done():

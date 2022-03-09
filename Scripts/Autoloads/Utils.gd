@@ -1,5 +1,54 @@
 extends Node
 
+var layers = []
+
+func _ready() -> void:
+	for i in range(1, 21):
+		layers.append(ProjectSettings.get_setting("layer_names/3d_physics/layer_%d" % i))
+
+func get_layer_bit(name: String):
+	return layers.find(name)
+	
+func get_layer_bit_in_object(obj: CollisionObject, name: String):
+	return obj.get_collision_layer_bit(get_layer_bit(name))
+	
+func get_mask_bit_in_object(obj: CollisionObject, name: String):
+	return obj.get_collision_mask_bit(get_layer_bit(name))
+	
+func set_layer_bit_in_object(obj: CollisionObject, name: String, value := true):
+	var bit = get_layer_bit(name)
+	obj.set_collision_layer_bit(bit, value)
+	
+func set_mask_bit_in_object(obj: CollisionObject, name: String, value := true):
+	var bit = get_layer_bit(name)
+	obj.set_collision_mask_bit(bit, value)
+	
+func set_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray, value := true):
+	for n in names:
+		set_layer_bit_in_object(obj, n, value)
+		
+func set_mask_bits_in_object(obj: CollisionObject, names: PoolStringArray, value := true):
+	for n in names:
+		set_mask_bit_in_object(obj, n, value)
+	
+func toggle_layer_bit_in_object(obj: CollisionObject, name: String):
+	var bit = get_layer_bit(name)
+	var current = get_layer_bit_in_object(obj, name)
+	set_layer_bit_in_object(obj, name, not current)
+	
+func toggle_mask_bit_in_object(obj: CollisionObject, name: String):
+	var bit = get_layer_bit(name)
+	var current = get_mask_bit_in_object(obj, name)
+	set_mask_bit_in_object(obj, name, not current)
+	
+func toggle_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray):
+	for n in names:
+		toggle_layer_bit_in_object(obj, n)
+		
+func toggle_mask_bits_in_object(obj: CollisionObject, names: PoolStringArray):
+	for n in names:
+		toggle_mask_bit_in_object(obj, n)
+
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
 	
@@ -33,9 +82,9 @@ static func get_global_pos(obj: Spatial) -> Vector3:
 	
 static func get_dir_vector(obj: Spatial, axis := Vector3.AXIS_Z) -> Vector3:
 	match axis:
-		Vector3.AXIS_X: return obj.transform.basis.x
-		Vector3.AXIS_Y: return obj.transform.basis.y
-		Vector3.AXIS_Z: return obj.transform.basis.z
+		Vector3.AXIS_X: return obj.global_transform.basis.x
+		Vector3.AXIS_Y: return obj.global_transform.basis.y
+		Vector3.AXIS_Z: return obj.global_transform.basis.z
 		
 	return Vector3.ZERO
 	

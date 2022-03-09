@@ -2,4 +2,4 @@
 
 display_name="'Gravity Gun' test"
 description=""
-scene_file="res://Scenes/Misc tests/GravGun.tscn"
+scene_file="res://Scenes/Levels/GravGun.tscn"

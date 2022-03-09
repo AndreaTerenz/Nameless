@@ -1,5 +1,8 @@
 extends Node
 
+signal paused
+signal unpaused
+signal pause_changed(state)
 signal player_set(p)
 
 enum GROUPS  {
@@ -247,6 +250,13 @@ func set_paused(stat: bool):
 	get_tree().paused = stat
 	VisualServer.set_shader_time_scale(0.0 if get_tree().paused else 1.0)
 	set_mouse_mode()
+	
+	if stat:
+		emit_signal("paused")
+	else:
+		emit_signal("unpaused")
+		
+	emit_signal("pause_changed", stat)
 
 func set_mouse_mode():
 	var paused = get_tree().paused

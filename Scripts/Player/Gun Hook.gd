@@ -14,6 +14,7 @@ export(int) var slots = 5
 
 var weapons: Array = []
 var hidden: bool = false setget set_hidden
+var keep_hidden_state := false
 var current_weapon := 0
 var can_hide := true
 
@@ -70,7 +71,7 @@ func _input(_event: InputEvent) -> void:
 				switch_weapon(i)
 
 func set_hidden(value):
-	if (hidden != value):
+	if hidden != value and not keep_hidden_state:
 		hidden = value
 		if (hidden):
 			set_gun_state(GUN_STATE.INACTIVE)
@@ -110,12 +111,19 @@ func _on_animation_finished(anim_name: String) -> void:
 		"Aim", "Aim Reverse", "Hide Reverse": 
 			set_gun_state(GUN_STATE.ACTIVE)
 		"Hide": 
+			Console.write_line("Finished hide anim")
 			if switching() and len(weapons)>0:
 				load_gun()
 				anim_player.play("Hide Reverse")
+		"Hide Reverse": 
+			Console.write_line("Finished hide reverse anim")
 
-func _on_animation_started(_anim_name: String) -> void:
-	pass
+func _on_animation_started(anim_name: String) -> void:
+	match anim_name:
+		"Hide": 
+			Console.write_line("Started hide anim")
+		"Hide Reverse": 
+			Console.write_line("Started hide reverse anim")
 
 func set_gun_state(state):
 	gun_stat = state
@@ -132,3 +140,15 @@ func set_gun_state(state):
 
 func _on_interact_data(d) -> void:
 	pass
+
+
+func _on_grabbed_rb_pickup(obj) -> void:
+	Console.write_line("grabbd pickup so gun hid")
+	set_hidden(true)
+	keep_hidden_state = true
+
+
+func _on_released_rb_pickup(obj, was_launched) -> void:
+	Console.write_line("droppd pickup so gun show")
+	keep_hidden_state = false
+	set_hidden(false)

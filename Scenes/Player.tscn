@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -245,6 +245,53 @@ func _on_env_changed(env):
 [sub_resource type="RayShape" id=6]
 length = 5.0
 
+[sub_resource type="GDScript" id=26]
+script/source = "extends RayCast
+
+signal picked_up(obj)
+signal released(obj, was_launched)
+
+export(float, 1.0, 8.0, .1) var hold_distance = 2.0
+export(float, 1.0, 40.0, .5) var throw_strength = 25.0
+
+var held_obj : RigidBodyPickup = null
+
+func _ready() -> void:
+	Globals.connect(\"unpaused\", self, \"on_unpaused\")
+	
+func on_unpaused():
+	if held_obj:
+		release()
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"throw\"):
+		if held_obj:
+			release(true)
+	else:
+		var coll = get_collider() as RigidBodyPickup
+		
+		if coll:
+			if Input.is_action_just_pressed(\"grab_drop\"):
+				if not held_obj:
+					held_obj = coll
+					held_obj.picked_up(self, hold_distance)
+					emit_signal(\"picked_up\", held_obj)
+			elif Input.is_action_just_released(\"grab_drop\"):
+				if held_obj:
+					release()
+
+
+func release(launch = false):
+	if launch:
+		held_obj.launched(throw_strength)
+	else:
+		held_obj.dropped()
+	
+	emit_signal(\"released\", held_obj, launch)
+	
+	held_obj = null
+"
+
 [sub_resource type="Animation" id=13]
 resource_name = "Crouch"
 length = 0.15
@@ -472,6 +519,14 @@ collision_mask = 932
 collide_with_areas = true
 debug_shape_custom_color = Color( 1, 0, 0, 1 )
 
+[node name="PhysPickUpRay" type="RayCast" parent="Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.823641 )
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+collision_mask = 2048
+script = SubResource( 26 )
+hold_distance = 3.0
+
 [node name="Flashlight" type="SpotLight" parent="Head"]
 visible = false
 layers = 3
@@ -571,6 +626,8 @@ script = ExtResource( 9 )
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
 [connection signal="interact_data" from="Head/InteractRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_interact_data"]
 [connection signal="pickup_data" from="Head/InteractRay" to="Inventory" method="_on_interact_data"]
+[connection signal="picked_up" from="Head/PhysPickUpRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_grabbed_rb_pickup"]
+[connection signal="released" from="Head/PhysPickUpRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_released_rb_pickup"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]
 [connection signal="body_entered" from="OthersDetection" to="." method="_on_other_detected"]
 [connection signal="body_exited" from="OthersDetection" to="." method="_on_other_lost"]

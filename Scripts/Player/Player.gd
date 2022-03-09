@@ -114,18 +114,7 @@ func _input(event: InputEvent) -> void:
 			
 		if event is InputEventMouseMotion:
 			var invert_y = Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y)
-			print(invert_y)
-			"""
-			var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * mouse_sensitivity)
 			
-			var y_rot = event_rel.x
-			
-			rotate_y(y_rot)
-			head.rotate_x(event_rel.y * invert_y)
-			
-			var hrl = deg2rad(head_rot_limit)
-			head.rotation.x = clamp(head.rotation.x, -hrl, hrl)
-			"""
 			Utils.rotate_with_mouse(event, self, head, mouse_sensitivity, head_rot_limit, invert_y)
 		
 func _physics_process(delta: float) -> void:
