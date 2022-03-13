@@ -6,8 +6,8 @@ signal dropped(by)
 signal launched(by, strength)
 
 var enabled := true
-
-var holder : Node = null
+var tween : Tween = Tween.new()
+var holder : Spatial = null
 var initial_parent : Node
 
 func _ready() -> void:
@@ -16,6 +16,8 @@ func _ready() -> void:
 	collision_mask = 0
 	Utils.set_layer_bit_in_object(self, "RBPickups")
 	Utils.set_mask_bits_in_object(self, ["RBPickups", "Env", "Player"])
+	
+	add_child(tween)
 
 func picked_up(by: Node, distance := 1.0):
 	emit_signal("picked_up", by)
@@ -24,35 +26,40 @@ func picked_up(by: Node, distance := 1.0):
 	#Console.write_line("RBPickup " + name + " switched to MODE_KINEMATIC")
 	holder = by
 	
+	var old_pos := Utils.get_global_pos(self)
 	Utils.transfer_node(self, holder)
 	Utils.toggle_mask_bit_in_object(self, "Player")
 	
-	transform.origin *= 0.0
-	rotation *= 0.0
-	
-	if distance > 0.0:
-		translate(Vector3.FORWARD * distance)
+	var d = old_pos.distance_to(Utils.get_global_pos(holder))
+	var start_pos : Vector3 = holder.to_local(old_pos)
+	var end_pos := Vector3.FORWARD * min(d, distance)
+		
+	tween.interpolate_property(self, "transform:origin", start_pos, end_pos, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.interpolate_property(self, "rotation", null, 0.0, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.start()
 	
 func dropped():
 	emit_signal("dropped", holder)
 	#Console.write_line("Dropped RBPickup " + name)
 	_release()
 
-func launched(strength, forward_origin: Spatial = null):
+func launched(strength, forward_origin: Spatial = holder):
+	_release(false)
+	
 	emit_signal("launched", holder, strength) 
-	if not forward_origin:
-		forward_origin = holder
-		
-	_release()
+	#holder = null
 	apply_central_impulse(-Utils.get_dir_vector(forward_origin, Vector3.AXIS_Z) * strength)
 
-func _release():
+func _release(wipe_holder := true):
 	mode = RigidBody.MODE_RIGID
 	sleeping = false
 	#Console.write_line("RBPickup " + name + " switched to MODE_RIGID")
-	holder = null
+	if wipe_holder:
+		pass#holder = null
+	
+	tween.stop_all()
 	
 	var old_pos = Utils.get_global_pos(self)
 	Utils.transfer_node(self, initial_parent)
 	Utils.toggle_mask_bit_in_object(self, "Player")
-	self.transform.origin = old_pos
+	transform.origin = old_pos

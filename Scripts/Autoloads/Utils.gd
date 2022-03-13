@@ -9,45 +9,57 @@ func _ready() -> void:
 func get_layer_bit(name: String):
 	return layers.find(name)
 	
-func get_layer_bit_in_object(obj: CollisionObject, name: String):
-	return obj.get_collision_layer_bit(get_layer_bit(name))
+func get_layer_bit_in_object(obj: Spatial, name: String) -> bool:
+	if obj is CollisionObject or obj is RayCast:
+		return obj.get_collision_layer_bit(get_layer_bit(name))
+	return false
 	
-func get_mask_bit_in_object(obj: CollisionObject, name: String):
-	return obj.get_collision_mask_bit(get_layer_bit(name))
+func get_mask_bit_in_object(obj: Spatial, name: String) -> bool:
+	if obj is CollisionObject or obj is RayCast:
+		return obj.get_collision_mask_bit(get_layer_bit(name))
+	return false
 	
-func set_layer_bit_in_object(obj: CollisionObject, name: String, value := true):
-	var bit = get_layer_bit(name)
-	obj.set_collision_layer_bit(bit, value)
+func set_layer_bit_in_object(obj: Spatial, name: String, value := true):
+	if obj is CollisionObject or obj is RayCast:
+		var bit = get_layer_bit(name)
+		obj.set_collision_layer_bit(bit, value)
 	
-func set_mask_bit_in_object(obj: CollisionObject, name: String, value := true):
-	var bit = get_layer_bit(name)
-	obj.set_collision_mask_bit(bit, value)
+func set_mask_bit_in_object(obj: Spatial, name: String, value := true):
+	if obj is CollisionObject or obj is RayCast:
+		var bit = get_layer_bit(name)
+		obj.set_collision_mask_bit(bit, value)
 	
-func set_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray, value := true):
-	for n in names:
-		set_layer_bit_in_object(obj, n, value)
+func set_layer_bits_in_object(obj: Spatial, names: PoolStringArray, value := true):
+	if obj is CollisionObject or obj is RayCast:
+		for n in names:
+			set_layer_bit_in_object(obj, n, value)
 		
-func set_mask_bits_in_object(obj: CollisionObject, names: PoolStringArray, value := true):
-	for n in names:
-		set_mask_bit_in_object(obj, n, value)
+func set_mask_bits_in_object(obj: Spatial, names: PoolStringArray, value := true):
+	if obj is CollisionObject or obj is RayCast:
+		for n in names:
+			set_mask_bit_in_object(obj, n, value)
 	
-func toggle_layer_bit_in_object(obj: CollisionObject, name: String):
-	var bit = get_layer_bit(name)
-	var current = get_layer_bit_in_object(obj, name)
-	set_layer_bit_in_object(obj, name, not current)
+func toggle_layer_bit_in_object(obj: Spatial, name: String):
+	if obj is CollisionObject or obj is RayCast:
+		var bit = get_layer_bit(name)
+		var current = get_layer_bit_in_object(obj, name)
+		set_layer_bit_in_object(obj, name, not current)
 	
-func toggle_mask_bit_in_object(obj: CollisionObject, name: String):
-	var bit = get_layer_bit(name)
-	var current = get_mask_bit_in_object(obj, name)
-	set_mask_bit_in_object(obj, name, not current)
+func toggle_mask_bit_in_object(obj: Spatial, name: String):
+	if obj is CollisionObject or obj is RayCast:
+		var bit = get_layer_bit(name)
+		var current = get_mask_bit_in_object(obj, name)
+		set_mask_bit_in_object(obj, name, not current)
 	
-func toggle_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray):
-	for n in names:
-		toggle_layer_bit_in_object(obj, n)
+func toggle_layer_bits_in_object(obj: Spatial, names: PoolStringArray):
+	if obj is CollisionObject or obj is RayCast:
+		for n in names:
+			toggle_layer_bit_in_object(obj, n)
 		
-func toggle_mask_bits_in_object(obj: CollisionObject, names: PoolStringArray):
-	for n in names:
-		toggle_mask_bit_in_object(obj, n)
+func toggle_mask_bits_in_object(obj: Spatial, names: PoolStringArray):
+	if obj is CollisionObject or obj is RayCast:
+		for n in names:
+			toggle_mask_bit_in_object(obj, n)
 
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
