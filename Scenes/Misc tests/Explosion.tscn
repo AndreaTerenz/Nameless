@@ -1,9 +1,11 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Grids/grid_dark.tres" type="Material" id=2]
 [ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=3]
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=4]
+[ext_resource path="res://Scenes/Elements/Explosion_elem.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scripts/EnvElements/Prop.gd" type="Script" id=6]
 
 [sub_resource type="ProceduralSky" id=8]
 
@@ -20,17 +22,6 @@ glow_high_quality = true
 adjustment_contrast = 0.91
 adjustment_saturation = 2.69
 
-[sub_resource type="GDScript" id=21]
-script/source = "extends RigidBody
-
-func _ready() -> void:
-	add_to_group(\"props\")
-
-func push(from: Vector3, force: float):
-	var dir = from.direction_to(Utils.get_global_pos(self))
-	add_central_force(dir * force)
-"
-
 [sub_resource type="SphereMesh" id=16]
 material = ExtResource( 3 )
 
@@ -45,70 +36,6 @@ material = ExtResource( 4 )
 
 [sub_resource type="ConvexPolygonShape" id=25]
 points = PoolVector3Array( -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1 )
-
-[sub_resource type="SphereMesh" id=20]
-radius = 0.4
-height = 0.8
-
-[sub_resource type="SpatialMaterial" id=19]
-albedo_color = Color( 1, 0, 0, 1 )
-
-[sub_resource type="GDScript" id=22]
-script/source = "extends MeshInstance
-
-export var max_dist := 10.0
-export var min_force := .5
-export var max_force := 100.0
-
-var ray : RayCast = RayCast.new()
-var explode := false
-
-func _ready() -> void:
-	add_child(ray)
-	ray.enabled = true
-	ray.cast_to = Vector3.FORWARD * max_dist
-
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed(\"jump\"):
-		explode = true
-					
-func _physics_process(delta: float) -> void:
-	if explode:
-		var props = get_tree().get_nodes_in_group(\"props\")
-		var here = Utils.get_global_pos(self)
-		
-		for p in props:
-			var p_pos = Utils.get_global_pos(p)
-			var d = here.distance_to(p_pos)
-			if d <= max_dist:
-				ray.look_at(p_pos, Vector3.UP)
-				ray.force_raycast_update()
-				
-				if ray.get_collider() == p:
-					
-					var factor = 1.0 - smoothstep(0.0, max_dist, d)
-					p.push(here, max(max_force * factor, min_force) * 10.0)
-		
-		explode = false
-
-func _process(delta: float) -> void:
-	var dir_fb := Vector3.ZERO
-	var dir_lr := Vector3.ZERO
-	
-	if Input.is_action_pressed(\"move_f\"):
-		dir_fb = (Vector3.FORWARD)
-	elif Input.is_action_pressed(\"move_b\"):
-		dir_fb = (Vector3.BACK)
-		
-	if Input.is_action_pressed(\"move_l\"):
-		dir_lr = (Vector3.LEFT)
-	elif Input.is_action_pressed(\"move_r\"):
-		dir_lr = (Vector3.RIGHT)
-		
-	var dir = (dir_fb + dir_lr).normalized()
-		
-	transform.origin += dir * delta * 4.0
-"
 
 [node name="Spatial" type="Spatial"]
 
@@ -128,11 +55,12 @@ shadow_enabled = true
 [node name="CSGCombiner" type="CSGCombiner" parent="."]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 use_collision = true
+collision_layer = 4096
 
 [node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.73607, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.52268, 0 )
 width = 30.0
-height = 15.0
+height = 18.736
 depth = 30.0
 material = ExtResource( 2 )
 
@@ -158,13 +86,21 @@ width = 9.367
 height = 5.752
 material = ExtResource( 2 )
 
+[node name="CSGBox5" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79083, -2.23739, -3.75766 )
+operation = 2
+width = 4.0
+height = 3.257
+depth = 4.0
+material = ExtResource( 2 )
+
 [node name="Props" type="Spatial" parent="."]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 
 [node name="RigidBody6" type="RigidBody" parent="Props"]
-transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, 5.02571, 0.762411, -5.15153 )
+transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, 5.02571, -0.61235, -5.15153 )
 mass = 0.6
-script = SubResource( 21 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -178,9 +114,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = SubResource( 17 )
 
 [node name="RigidBody10" type="RigidBody" parent="Props"]
-transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, 0.999011, 0.762411, -11.538 )
+transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, 0.999011, -0.61235, -11.538 )
 mass = 0.6
-script = SubResource( 21 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -194,9 +130,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = SubResource( 17 )
 
 [node name="RigidBody7" type="RigidBody" parent="Props"]
-transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, -2.52058, 0.762411, 5.77209 )
+transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, -2.52058, -0.61235, 5.77209 )
 mass = 0.6
-script = SubResource( 21 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -210,9 +146,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = SubResource( 17 )
 
 [node name="RigidBody8" type="RigidBody" parent="Props"]
-transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, 5.59888, 0.762411, 3.62204 )
+transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, 5.59888, -0.634167, 3.62204 )
 mass = 0.6
-script = SubResource( 21 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -226,9 +162,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = SubResource( 23 )
 
 [node name="RigidBody9" type="RigidBody" parent="Props"]
-transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, -4.44758, 0.76241, -3.48787 )
+transform = Transform( 0.869797, 0, 0.493411, 0, 1, 0, -0.493411, 0, 0.869797, -5.23249, -3.86589, -3.4507 )
 mass = 0.6
-script = SubResource( 21 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -242,8 +178,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = SubResource( 17 )
 
 [node name="RigidBody3" type="RigidBody" parent="Props"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.490144, 0 )
-script = SubResource( 21 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.38765, 0 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -256,8 +192,8 @@ skeleton = NodePath("../..")
 shape = SubResource( 25 )
 
 [node name="RigidBody4" type="RigidBody" parent="Props"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.490144, -2 )
-script = SubResource( 21 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.38765, -2 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -270,8 +206,8 @@ skeleton = NodePath("../..")
 shape = SubResource( 25 )
 
 [node name="RigidBody5" type="RigidBody" parent="Props"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.490144, -2 )
-script = SubResource( 21 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38765, -2 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -283,9 +219,23 @@ skeleton = NodePath("../..")
 [node name="CollisionShape" type="CollisionShape" parent="Props/RigidBody5"]
 shape = SubResource( 25 )
 
+[node name="RigidBody13" type="RigidBody" parent="Props"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38765, -2 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance" type="MeshInstance" parent="Props/RigidBody13"]
+mesh = SubResource( 24 )
+skeleton = NodePath("../..")
+
+[node name="CollisionShape" type="CollisionShape" parent="Props/RigidBody13"]
+shape = SubResource( 25 )
+
 [node name="RigidBody11" type="RigidBody" parent="Props"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.490144, -2 )
-script = SubResource( 21 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.38765, -2 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -298,8 +248,8 @@ skeleton = NodePath("../..")
 shape = SubResource( 25 )
 
 [node name="RigidBody12" type="RigidBody" parent="Props"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.490144, 0 )
-script = SubResource( 21 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.38765, 0 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -311,10 +261,4 @@ skeleton = NodePath("../..")
 [node name="CollisionShape" type="CollisionShape" parent="Props/RigidBody12"]
 shape = SubResource( 25 )
 
-[node name="Boomboom" type="MeshInstance" parent="."]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.168614, 0 )
-mesh = SubResource( 20 )
-material/0 = SubResource( 19 )
-script = SubResource( 22 )
-max_dist = 15.0
-max_force = 80.0
+[node name="Explosion" parent="." instance=ExtResource( 5 )]

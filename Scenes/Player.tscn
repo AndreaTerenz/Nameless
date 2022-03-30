@@ -379,7 +379,8 @@ func get_damage() -> float:
 	if (other and Globals.get_layer_bit_in_object(other, \"Water\")):
 		max_dmg = 0.0
 
-	var dmg : float = Utils.map(v_speed, min_dmg_speed, lethal_speed, 0, max_dmg, true)
+	var dmg := range_lerp(v_speed, min_dmg_speed, lethal_speed, 0, max_dmg)
+	dmg = clamp(dmg, 0, max_dmg)
 	
 	return round(dmg)
 "

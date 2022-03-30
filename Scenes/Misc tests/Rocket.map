@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="RPG"
+description=""
+scene_file="res://Scenes/Misc tests/Rocket.tscn"

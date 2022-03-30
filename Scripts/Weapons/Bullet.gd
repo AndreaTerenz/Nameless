@@ -38,8 +38,18 @@ func _ready():
 	apply_impulse(Vector3.ZERO, -transform.basis.z * speed)
 
 func _physics_process(delta: float) -> void:
-	if translation.distance_to(start) >= max_dist:
-		queue_free()
+	if is_too_far():
+		delete()
+		
+func is_too_far() -> bool:
+	return translation.distance_to(start) >= max_dist
+
+func _on_delete():
+	pass
+	
+func delete():
+	_on_delete()
+	queue_free()
 
 func _integrate_forces(state: PhysicsDirectBodyState) -> void:
 	if not coll_point:
@@ -49,7 +59,6 @@ func _integrate_forces(state: PhysicsDirectBodyState) -> void:
 			phys_state = null
 
 func _on_collision(body: Node):
-	print(body.name)
 	var hitmark : MeshInstance = hitmark_scn.instance()
 	body.add_child(hitmark)
 	

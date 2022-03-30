@@ -60,6 +60,7 @@ func _release(wipe_holder := true):
 	tween.stop_all()
 	
 	var old_pos = Utils.get_global_pos(self)
+	var old_rot = self.global_transform
 	Utils.transfer_node(self, initial_parent)
 	Utils.toggle_mask_bit_in_object(self, "Player")
 	transform.origin = old_pos

@@ -9,41 +9,36 @@ func _ready() -> void:
 func get_layer_bit(name: String):
 	return layers.find(name)
 	
-func get_layer_bit_in_object(obj: Spatial, name: String) -> bool:
-	if obj is CollisionObject or obj is RayCast:
-		return obj.get_collision_layer_bit(get_layer_bit(name))
-	return false
+func get_layer_bit_in_object(obj: CollisionObject, name: String) -> bool:
+	return obj.get_collision_layer_bit(get_layer_bit(name))
 	
 func get_mask_bit_in_object(obj: Spatial, name: String) -> bool:
 	if obj is CollisionObject or obj is RayCast:
 		return obj.get_collision_mask_bit(get_layer_bit(name))
 	return false
 	
-func set_layer_bit_in_object(obj: Spatial, name: String, value := true):
-	if obj is CollisionObject or obj is RayCast:
-		var bit = get_layer_bit(name)
-		obj.set_collision_layer_bit(bit, value)
+func set_layer_bit_in_object(obj: CollisionObject, name: String, value := true):
+	var bit = get_layer_bit(name)
+	obj.set_collision_layer_bit(bit, value)
 	
 func set_mask_bit_in_object(obj: Spatial, name: String, value := true):
 	if obj is CollisionObject or obj is RayCast:
 		var bit = get_layer_bit(name)
 		obj.set_collision_mask_bit(bit, value)
 	
-func set_layer_bits_in_object(obj: Spatial, names: PoolStringArray, value := true):
-	if obj is CollisionObject or obj is RayCast:
-		for n in names:
-			set_layer_bit_in_object(obj, n, value)
+func set_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray, value := true):
+	for n in names:
+		set_layer_bit_in_object(obj, n, value)
 		
 func set_mask_bits_in_object(obj: Spatial, names: PoolStringArray, value := true):
 	if obj is CollisionObject or obj is RayCast:
 		for n in names:
 			set_mask_bit_in_object(obj, n, value)
 	
-func toggle_layer_bit_in_object(obj: Spatial, name: String):
-	if obj is CollisionObject or obj is RayCast:
-		var bit = get_layer_bit(name)
-		var current = get_layer_bit_in_object(obj, name)
-		set_layer_bit_in_object(obj, name, not current)
+func toggle_layer_bit_in_object(obj: CollisionObject, name: String):
+	var bit = get_layer_bit(name)
+	var current = get_layer_bit_in_object(obj, name)
+	set_layer_bit_in_object(obj, name, not current)
 	
 func toggle_mask_bit_in_object(obj: Spatial, name: String):
 	if obj is CollisionObject or obj is RayCast:
@@ -51,10 +46,9 @@ func toggle_mask_bit_in_object(obj: Spatial, name: String):
 		var current = get_mask_bit_in_object(obj, name)
 		set_mask_bit_in_object(obj, name, not current)
 	
-func toggle_layer_bits_in_object(obj: Spatial, names: PoolStringArray):
-	if obj is CollisionObject or obj is RayCast:
-		for n in names:
-			toggle_layer_bit_in_object(obj, n)
+func toggle_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray):
+	for n in names:
+		toggle_layer_bit_in_object(obj, n)
 		
 func toggle_mask_bits_in_object(obj: Spatial, names: PoolStringArray):
 	if obj is CollisionObject or obj is RayCast:
@@ -63,11 +57,6 @@ func toggle_mask_bits_in_object(obj: Spatial, names: PoolStringArray):
 
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
-	
-static func map(v: float, i_start: float, i_end: float, f_start: float, f_end: float, clamped := false) -> float:
-	var output := range_lerp(v, i_start, i_end, f_start, f_end)
-	
-	return clamp(output, f_start, f_end) if clamped else output
 
 static func vec3_horizontal(v: Vector3) -> Vector2:
 	return vec3_remove_axis(v, Vector3.AXIS_Y)
@@ -88,15 +77,42 @@ static func vec2_deg2rad(v: Vector2):
 	
 static func round_vec2(v : Vector2, digits : int = 3):
 	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
+
+func root_origin() -> Vector3:
+	var root = get_tree().current_scene
 	
-static func get_global_pos(obj: Spatial) -> Vector3:
-	return obj.global_transform.origin
+	if root is Spatial:
+		return root.global_transform.origin
+	
+	return Vector3.ZERO
+	
+func get_global_pos(obj: Spatial, relative_to_root := true) -> Vector3:
+	return obj.global_transform.origin - (root_origin() * float(relative_to_root))
+	
+func set_global_pos(obj: Spatial, origin: Vector3, relative_to_root := true):
+	obj.global_transform.origin = origin + (root_origin() * float(relative_to_root))
+	
+static func copy_global_pos(source: Spatial, dest: Spatial):
+	dest.global_transform.origin = source.global_transform.origin
 	
 static func get_dir_vector(obj: Spatial, axis := Vector3.AXIS_Z) -> Vector3:
 	match axis:
 		Vector3.AXIS_X: return obj.global_transform.basis.x
 		Vector3.AXIS_Y: return obj.global_transform.basis.y
 		Vector3.AXIS_Z: return obj.global_transform.basis.z
+		
+	return Vector3.ZERO
+	
+static func local_direction(obj: Spatial, direction : Vector3) -> Vector3:
+	match direction:
+		Vector3.BACK: return -obj.global_transform.basis.z
+		Vector3.FORWARD: return obj.global_transform.basis.z
+		
+		Vector3.UP: return obj.global_transform.basis.y
+		Vector3.DOWN: return -obj.global_transform.basis.y
+		
+		Vector3.RIGHT: return -obj.global_transform.basis.x
+		Vector3.LEFT: return obj.global_transform.basis.x
 		
 	return Vector3.ZERO
 	
