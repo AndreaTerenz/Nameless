@@ -33,9 +33,9 @@ func picked_up(by: Node, distance := 1.0):
 	var d = old_pos.distance_to(Utils.get_global_pos(holder))
 	var start_pos : Vector3 = holder.to_local(old_pos)
 	var end_pos := Vector3.FORWARD * min(d, distance)
-		
+	
 	tween.interpolate_property(self, "transform:origin", start_pos, end_pos, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
-	tween.interpolate_property(self, "rotation", null, 0.0, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.interpolate_property(self, "rotation", null, Vector3.ZERO, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
 	tween.start()
 	
 func dropped():
@@ -60,7 +60,8 @@ func _release(wipe_holder := true):
 	tween.stop_all()
 	
 	var old_pos = Utils.get_global_pos(self)
-	var old_rot = self.global_transform
+	var old_rot = Utils.get_global_rotation(self)
 	Utils.transfer_node(self, initial_parent)
 	Utils.toggle_mask_bit_in_object(self, "Player")
-	transform.origin = old_pos
+	Utils.set_global_pos(self, old_pos)
+	transform.basis = old_rot

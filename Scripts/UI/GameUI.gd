@@ -24,6 +24,8 @@ func _ready() -> void:
 	add_child(text_rect)
 	move_child(text_rect, 0)
 	
+	grab_focus()
+	
 func _unhandled_input(event: InputEvent) -> void:
 	var action_pressed = Input.is_action_just_pressed(action)
 	var console_shown = Console.is_console_shown

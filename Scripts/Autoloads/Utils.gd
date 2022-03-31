@@ -86,6 +86,9 @@ func root_origin() -> Vector3:
 	
 	return Vector3.ZERO
 	
+func get_global_rotation(obj: Spatial):
+	return obj.global_transform.basis
+	
 func get_global_pos(obj: Spatial, relative_to_root := true) -> Vector3:
 	return obj.global_transform.origin - (root_origin() * float(relative_to_root))
 	
@@ -107,7 +110,7 @@ static func local_direction(obj: Spatial, direction : Vector3) -> Vector3:
 	match direction:
 		Vector3.BACK: return -obj.global_transform.basis.z
 		Vector3.FORWARD: return obj.global_transform.basis.z
-		
+			
 		Vector3.UP: return obj.global_transform.basis.y
 		Vector3.DOWN: return -obj.global_transform.basis.y
 		
@@ -130,9 +133,13 @@ static func delete_children(node):
 	for n in node.get_children():
 		n.queue_free()
 		
-static func transfer_node(obj: Node, new_parent: Node):
+func transfer_node(obj: Node, new_parent: Node = null):
 	obj.get_parent().remove_child(obj)
-	new_parent.add_child(obj)
+	
+	if new_parent:
+		new_parent.add_child(obj)
+	else:
+		get_tree().root.add_child(obj)
 
 static func log_line(obj: Node, msg: String):
 	var time = OS.get_time()

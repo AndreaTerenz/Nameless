@@ -28,12 +28,13 @@ func _on_Hub_Btn_pressed() -> void:
 pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_neighbour_top = NodePath("CenterContainer/VBoxContainer/Quit Btn")
+focus_neighbour_bottom = NodePath("CenterContainer/VBoxContainer/Restart Btn")
+focus_next = NodePath("CenterContainer/VBoxContainer/Restart Btn")
+focus_previous = NodePath("CenterContainer/VBoxContainer/Quit Btn")
 focus_mode = 2
 theme = ExtResource( 1 )
 script = SubResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 action = "pause"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -62,8 +63,6 @@ margin_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 210, 0 )
-focus_neighbour_top = NodePath("../Quit Btn")
-focus_neighbour_bottom = NodePath("../Resume Btn")
 focus_next = NodePath("../Resume Btn")
 focus_previous = NodePath("../Quit Btn")
 size_flags_horizontal = 5
@@ -76,8 +75,6 @@ margin_top = 92.0
 margin_right = 210.0
 margin_bottom = 164.0
 rect_min_size = Vector2( 210, 0 )
-focus_neighbour_top = NodePath("../Restart Btn")
-focus_neighbour_bottom = NodePath("../Quit Btn")
 focus_next = NodePath("../Quit Btn")
 focus_previous = NodePath("../Restart Btn")
 size_flags_horizontal = 5
@@ -91,8 +88,6 @@ margin_top = 184.0
 margin_right = 210.0
 margin_bottom = 256.0
 rect_min_size = Vector2( 210, 0 )
-focus_neighbour_top = NodePath("../Resume Btn")
-focus_neighbour_bottom = NodePath("../Restart Btn")
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
 size_flags_horizontal = 5
@@ -109,8 +104,6 @@ margin_top = 276.0
 margin_right = 210.0
 margin_bottom = 348.0
 rect_min_size = Vector2( 210, 0 )
-focus_neighbour_top = NodePath("../Resume Btn")
-focus_neighbour_bottom = NodePath("../Restart Btn")
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
 size_flags_horizontal = 5

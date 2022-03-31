@@ -28,19 +28,6 @@ expand_margin_bottom = 5.0
 shadow_color = Color( 1, 1, 1, 0.560784 )
 shadow_size = 2
 
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 5.0
-expand_margin_right = 5.0
-expand_margin_top = 5.0
-expand_margin_bottom = 5.0
-shadow_color = Color( 1, 1, 1, 0.560784 )
-shadow_size = 4
-
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
 corner_radius_top_left = 5
@@ -53,6 +40,19 @@ expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 shadow_color = Color( 0.32549, 0.960784, 0.623529, 0.560784 )
 shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 1, 1, 1, 0.560784 )
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id=63]
 bg_color = Color( 0, 0, 0, 1 )
@@ -161,7 +161,7 @@ vertical = true
 default_font = ExtResource( 1 )
 Button/fonts/font = SubResource( 8 )
 Button/styles/disabled = SubResource( 60 )
-Button/styles/focus = SubResource( 4 )
+Button/styles/focus = SubResource( 5 )
 Button/styles/hover = SubResource( 5 )
 Button/styles/normal = SubResource( 4 )
 Button/styles/pressed = SubResource( 63 )

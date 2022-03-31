@@ -254,9 +254,12 @@ _global_script_class_icons={
 
 [application]
 
-config/name="FPS test"
+config/name="Nameless"
+config/description="Idk man"
 run/main_scene="res://Scenes/Scene Hub.tscn"
 config/use_custom_user_dir=true
+boot_splash/show_image=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 
 [autoload]
