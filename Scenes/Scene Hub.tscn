@@ -27,6 +27,7 @@ script/source = "extends Control
 
 signal hide_visible_panels
 
+onready var main_pan = $MainPanel
 onready var scene_hub_pan = $SceneHubPanel
 onready var settings_pan = $SettingsPanel
 onready var help_pan = $HelpPanel
@@ -43,6 +44,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed(\"debug_quit\"):
 		set_current_panel(null)
+	
+	if Input.is_action_just_pressed(\"ui_focus_next\") and has_focus():
+		main_pan._on_mouse_entered()
 
 func _on_QuitBtn_pressed() -> void:
 	Globals.quit()
@@ -505,6 +509,7 @@ onready var pos := $Position2D
 var width : float
 var width_bord : float
 var d : float
+var entered := false
 
 func _ready() -> void:
 	width = $MarginContainer.rect_size.x
@@ -518,8 +523,10 @@ func _process(delta: float) -> void:
 	
 	if mp.x <= pos.global_position.x:
 		_on_mouse_entered()
-	else:
+		entered = true
+	elif entered:
 		_on_mouse_exited()
+		entered = false
 
 func _on_mouse_entered() -> void:
 	tween.stop_all()
@@ -582,7 +589,7 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Label:custom_constants/shadow_offset_y")
-tracks/3/interp = 1
+tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
@@ -594,7 +601,7 @@ tracks/3/keys = {
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Label:custom_constants/shadow_offset_x")
-tracks/4/interp = 1
+tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
@@ -853,8 +860,8 @@ anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -573.0
 margin_top = -166.0
-margin_right = 416.0
-margin_bottom = 92.0
+margin_right = 407.0
+margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50
 __meta__ = {
@@ -862,9 +869,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="MarginContainer"]
-margin_top = 50.0
-margin_right = 939.0
-margin_bottom = 258.0
+margin_top = 63.0
+margin_right = 930.0
+margin_bottom = 271.0
 custom_colors/font_color_shadow = Color( 0.603922, 0.603922, 0.603922, 1 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6

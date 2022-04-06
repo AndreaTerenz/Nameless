@@ -256,9 +256,10 @@ _global_script_class_icons={
 
 config/name="Nameless"
 config/description="Idk man"
-run/main_scene="res://Scenes/Scene Hub.tscn"
+run/main_scene="res://Scenes/SplashScrn.tscn"
 config/use_custom_user_dir=true
 boot_splash/show_image=false
+boot_splash/image="res://WaterMonke.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 

@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Models/gltf test/alarm.glb" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Audio/SFX/alarm.ogg" type="AudioStream" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Spatial
+
+onready var audio := $AudioStreamPlayer3D
+onready var lights := $Lights
+
+var rot := false
+
+func _ready() -> void:
+	audio.playing = false
+	lights.visible = false
+
+func _physics_process(delta: float) -> void:
+	if rot:
+		rotate_object_local(Vector3.UP, 2.0 * delta)
+
+func start():
+	audio.playing = true
+	lights.visible = true
+	rot = true
+"
+
+[node name="alarm" instance=ExtResource( 1 )]
+script = SubResource( 1 )
+
+[node name="Lights" type="Spatial" parent="." index="1"]
+
+[node name="SpotLight" type="SpotLight" parent="Lights" index="0"]
+transform = Transform( -4.34519e-08, -0.108797, 0.994064, -4.75569e-09, 0.994064, 0.108797, -1, -2.35367e-14, -4.37114e-08, -1.2, 0.212, 0 )
+light_color = Color( 1, 0.219608, 0.0392157, 1 )
+light_energy = 6.0
+shadow_enabled = true
+spot_range = 15.0
+spot_angle = 40.0
+
+[node name="OmniLight" type="OmniLight" parent="Lights/SpotLight" index="0"]
+light_color = Color( 1, 0.219608, 0.0392157, 1 )
+omni_range = 1.14693
+
+[node name="SpotLight2" type="SpotLight" parent="Lights" index="1"]
+transform = Transform( -5.96046e-08, 0.108797, -0.994064, -4.75569e-09, 0.994064, 0.108797, 1, 1.12123e-08, -5.87334e-08, 1.2, 0.212, 0 )
+light_color = Color( 1, 0.219608, 0.0392157, 1 )
+light_energy = 6.0
+shadow_enabled = true
+spot_range = 15.0
+spot_angle = 40.0
+
+[node name="OmniLight2" type="OmniLight" parent="Lights/SpotLight2" index="0"]
+light_color = Color( 1, 0.219608, 0.0392157, 1 )
+omni_range = 1.14693
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="2"]
+stream = ExtResource( 2 )
+unit_db = 30.0

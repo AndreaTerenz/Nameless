@@ -78,6 +78,11 @@ func _ready() -> void:
 	.add_argument("show", TYPE_INT)\
 	.register()
 	
+	Console.add_command("show_colliders", self, "show_colliders")\
+	.set_description("toggles collision shapes visibility")\
+	.add_argument("show", TYPE_INT)\
+	.register()
+	
 	Console.add_command("player_info", self, "get_player_info")\
 	.set_description("show info about player")\
 	.add_argument("mode", TYPE_STRING)\
@@ -129,6 +134,9 @@ func show_triggers(t):
 func show_killzones(t):
 	if not show_zones(t, scene_killzones):
 		Console.Log.warn("No killzones in scene")
+		
+func show_colliders(t):
+	get_tree().debug_collisions_hint = bool(t)
 		
 func show_zones(t, zones: Array) -> bool:
 	if len(zones) == 0:

@@ -180,7 +180,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0393524, 0, 0 )
 use_in_baked_light = true
 mesh = ExtResource( 9 )
 skeleton = NodePath("../../..")
-material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Path/PathFollow/Cart/MeshInstance2/Doors/Door R"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035759, 1.30571, -1.31547 )
@@ -199,7 +198,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0393524, 0, 0 )
 use_in_baked_light = true
 mesh = ExtResource( 4 )
 skeleton = NodePath("../../..")
-material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Path/PathFollow/Cart/MeshInstance2/Doors/Door L"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035759, 1.30571, 1.31904 )
