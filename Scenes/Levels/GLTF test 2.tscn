@@ -34,11 +34,8 @@ script/source = "extends OmniLight
 
 func _ready() -> void:
 	visible = false
-	
 
-
-
-func _on_LookTriger_target_entered(id) -> void:
+func _on_LookTriger_target_entered(zone: BaseZone, target) -> void:
 	visible = true
 "
 

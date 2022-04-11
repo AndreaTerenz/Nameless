@@ -12,6 +12,7 @@ flags_transparent = true
 flags_unshaded = true
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true
+albedo_color = Color( 1, 1, 1, 0.705882 )
 albedo_texture = ExtResource( 2 )
 
 [node name="Trigger" type="Area"]

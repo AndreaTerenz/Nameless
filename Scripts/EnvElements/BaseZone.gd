@@ -7,23 +7,28 @@ enum TARGET_STATE {
 	WAS_IN
 }
 
-signal target_entered(id)
-signal target_exited(id)
+signal target_entered(zone, target)
+signal target_exited(zone, target)
+signal state_changed(zone)
+signal deactivated(zone)
+signal reactivated(zone)
 
 export(bool) var oneshot = true setget set_oneshot
 export(bool) var show = false
 export(int, LAYERS_3D_PHYSICS) var mask = 1
+export(NodePath) var debug_shape_path = "MeshInstance"
 
 var contains_player : bool = false
 var zone_id := -1
 var show_debug_shape : bool setget show_shape
 var state = TARGET_STATE.NEVER_IN
-
-onready var debug_shape : MeshInstance = $MeshInstance
+var debug_shape : MeshInstance
 
 func _ready() -> void:
+	debug_shape = get_node(debug_shape_path) as MeshInstance
 	if debug_shape:
 		show_shape(show)
+		
 	set_collision_layer_bit(6, true)
 	collision_mask = mask
 	
@@ -57,6 +62,7 @@ func set_oneshot(value):
 	
 	if not oneshot:
 		Utils.toggle_area(self, true)
+		emit_signal("reactivated", self)
 	
 func _on_body_entered(body: Node):
 	if body in get_targets() and (not oneshot or state == TARGET_STATE.NEVER_IN):
@@ -65,16 +71,21 @@ func _on_body_entered(body: Node):
 			# If the target was detected and this is a oneshot zone,
 			# disable all collision detection
 			Utils.toggle_area(self, false)
+			emit_signal("deactivated", self)
 			
-		state = TARGET_STATE.IS_IN
+		set_state(TARGET_STATE.IS_IN)
 		contains_player = true
-		emit_signal("target_entered", zone_id)
+		emit_signal("target_entered", self, body)
 
 func _on_body_exited(body: Node):
 	if body in get_targets():
-		state = TARGET_STATE.WAS_IN
+		set_state(TARGET_STATE.WAS_IN)
 		contains_player = false
-		emit_signal("target_exited", zone_id)
+		emit_signal("target_exited", self, body)
+		
+func set_state(value):
+	state = value
+	emit_signal("state_changed", self)
 	
 func _on_area_entered(area: Area):
 	_on_body_entered(area)

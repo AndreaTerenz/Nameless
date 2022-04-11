@@ -25,12 +25,12 @@ func _on_animation_finished(anim_name: String) -> void:
 	pass #player.mode = player.MODE.GAME
 
 
-func _on_Trigger_target_entered(id) -> void:
+func _on_Trigger_target_entered(zone: BaseZone, target) -> void:
 	print(\"player entered\")
 	anim_player.play(\"trigger test\")
 
 
-func _on_Trigger_target_exited(id) -> void:
+func _on_Trigger_target_exited(zone: BaseZone, target) -> void:
 	print(\"player exited\")
 "
 

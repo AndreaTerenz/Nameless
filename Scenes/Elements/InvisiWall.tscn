@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Textures/Missing.jpg" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends StaticBody
@@ -25,10 +27,15 @@ func show_shape(val):
 [sub_resource type="CubeMesh" id=2]
 
 [sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
 flags_unshaded = true
+flags_world_triplanar = true
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true
-albedo_color = Color( 0.803922, 0, 1, 1 )
+albedo_color = Color( 1, 1, 1, 0.705882 )
+albedo_texture = ExtResource( 1 )
+uv1_scale = Vector3( 0.5, 0.5, 0.5 )
+uv1_triplanar = true
 
 [node name="Wall" type="StaticBody"]
 script = SubResource( 4 )
@@ -37,6 +44,6 @@ script = SubResource( 4 )
 shape = SubResource( 1 )
 
 [node name="DebugMesh" type="MeshInstance" parent="."]
-visible = false
+cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
