@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -244,6 +244,9 @@ func _on_env_changed(env):
 
 [sub_resource type="RayShape" id=6]
 length = 5.0
+
+[sub_resource type="RayShape" id=27]
+length = 50.0
 
 [sub_resource type="GDScript" id=26]
 script/source = "extends RayCast
@@ -511,6 +514,12 @@ script = ExtResource( 7 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Head/InteractRay"]
 shape = SubResource( 6 )
+
+[node name="LookRay" type="Area" parent="Head"]
+transform = Transform( -1, -9.31761e-22, -8.74228e-08, 9.31761e-22, 1, -2.13162e-14, 8.74228e-08, -2.13162e-14, -1, 0, 0, -0.823641 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Head/LookRay"]
+shape = SubResource( 27 )
 
 [node name="AimRay" type="RayCast" parent="Head"]
 transform = Transform( -1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, -0.823641 )

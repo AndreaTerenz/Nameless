@@ -25,12 +25,12 @@ func _on_animation_finished(anim_name: String) -> void:
 	pass #player.mode = player.MODE.GAME
 
 
-func _on_Trigger_player_entered(id) -> void:
+func _on_Trigger_target_entered(id) -> void:
 	print(\"player entered\")
 	anim_player.play(\"trigger test\")
 
 
-func _on_Trigger_player_exited(id) -> void:
+func _on_Trigger_target_exited(id) -> void:
 	print(\"player exited\")
 "
 
@@ -326,5 +326,5 @@ interior = true
 data = SubResource( 6 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
-[connection signal="player_entered" from="Trigger" to="." method="_on_Trigger_player_entered"]
-[connection signal="player_exited" from="Trigger" to="." method="_on_Trigger_player_exited"]
+[connection signal="target_entered" from="Trigger" to="." method="_on_Trigger_target_entered"]
+[connection signal="target_exited" from="Trigger" to="." method="_on_Trigger_target_exited"]

@@ -38,6 +38,10 @@ const THEMES_SUFFIX : Dictionary = {
 	UI_BTN_THEMES.LIGHT : "Light",
 }
 
+const KILL_ZN_GRP = "KillZones"
+const TRGGR_ZN_GRP = "Triggers"
+const WALL_GRP = "Walls"
+
 const UI_BTN_THEME := UI_BTN_THEMES.DARK
 const UI_BTN_BASE_DIR := "res://Assets/UI Buttons"
 
@@ -59,9 +63,6 @@ var player_set := false
 var inventory : Inventory = null
 var current_ui : GameUI = null
 
-var scene_triggers : Array = []
-var scene_killzones : Array = []
-
 func _ready() -> void:
 	for i in range(1, 21):
 		layers.append(ProjectSettings.get_setting("layer_names/3d_physics/layer_%d" % i))
@@ -80,6 +81,11 @@ func _ready() -> void:
 	
 	Console.add_command("show_colliders", self, "show_colliders")\
 	.set_description("toggles collision shapes visibility")\
+	.add_argument("show", TYPE_INT)\
+	.register()
+	
+	Console.add_command("show_walls", self, "show_walls")\
+	.set_description("toggles walls visibility")\
 	.add_argument("show", TYPE_INT)\
 	.register()
 	
@@ -128,22 +134,29 @@ func _on_console_toggled(val: bool):
 		set_paused(val)
 	
 func show_triggers(t):
-	if not show_zones(t, scene_triggers):
+	if not show_group(t, TRGGR_ZN_GRP):
 		Console.Log.warn("No triggers in scene")
 		
 func show_killzones(t):
-	if not show_zones(t, scene_killzones):
+	if not show_group(t, KILL_ZN_GRP):
 		Console.Log.warn("No killzones in scene")
 		
 func show_colliders(t):
-	get_tree().debug_collisions_hint = bool(t)
+	# kinda broken
+	# get_tree().debug_collisions_hint = bool(t)
+	pass
 		
-func show_zones(t, zones: Array) -> bool:
-	if len(zones) == 0:
+func show_walls(t):
+	if not show_group(t, WALL_GRP):
+		Console.Log.warn("No invisible walls in scene")
+	
+func show_group(t, group: String, method := "show_shape") -> bool:
+	var tree := get_tree()
+	if len(tree.get_nodes_in_group(group)) == 0:
 		return false
+	
+	tree.call_group(group, method, t)
 
-	for tr in zones:
-		(tr as BaseZone).show_debug_shape = (t != 0)
 	return true
 		
 func get_player_info(mode: String):
@@ -225,8 +238,13 @@ func set_gravity(value: float):
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("screenshot"):
 		var image = get_viewport().get_texture().get_data()
+		var usr_dir = OS.get_user_data_dir()
+		var now = Time.get_datetime_string_from_system()
+		var filename = "%s/screenshot_%s.png" % [usr_dir, now]
+		
 		image.flip_y()
-		image.save_png("screenshot.png")
+		image.save_png(filename)
+		Console.write_line("Screenshot saved @ '%s'" % filename)
 
 func get_layer_bit(name: String):
 	return layers.find(name)
@@ -281,8 +299,6 @@ func quit():
 
 	
 func reset_state():
-	scene_triggers.clear()
-	scene_killzones.clear()
 	set_player(null)
 	
 func _restart():

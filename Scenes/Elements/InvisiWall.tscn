@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends StaticBody
+
+export(bool) var show = false
+
+onready var debug_shape := $DebugMesh
+
+var show_debug_shape : bool setget show_shape
+
+func _ready() -> void:
+	if debug_shape:
+		show_shape(show)
+	
+	add_to_group(\"Walls\")
+
+func show_shape(val):
+	show_debug_shape = val
+	debug_shape.visible = val
+"
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 0.803922, 0, 1, 1 )
+
+[node name="Wall" type="StaticBody"]
+script = SubResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="DebugMesh" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )

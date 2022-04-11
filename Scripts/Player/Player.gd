@@ -66,6 +66,7 @@ onready var grnd_chk = $Foot/GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var interact_chk = $Head/InteractRay
+onready var look_ray = $Head/LookRay
 onready var aim_ray = $Head/AimRay
 onready var hitbox : Hitbox = $Hitbox
 onready var others_chck = $OthersDetection
@@ -192,17 +193,13 @@ func toggle_collisions(stat: bool):
 	roof_chk.enabled = stat
 	grnd_chk.enabled = stat
 	stairs_chk.enabled = stat
-	
-	interact_chk.monitorable = stat
-	interact_chk.monitoring = stat
-	
-	hitbox.monitorable = stat
-	hitbox.monitoring = stat
-	
-	others_chck.monitoring = stat
-	others_chck.monitorable = stat
-	
 	aim_ray.enabled = stat
+	
+	Utils.toggle_area(interact_chk, stat)
+	# Utils.toggle_area(env_chk, stat)
+	Utils.toggle_area(hitbox, stat)
+	Utils.toggle_area(others_chck, stat)
+	Utils.toggle_area(look_ray, stat)
 
 func change_mover(new_mover: PlayerMover):
 	if new_mover == null:

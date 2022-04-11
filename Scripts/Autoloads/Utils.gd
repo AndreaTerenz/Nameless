@@ -54,6 +54,10 @@ func toggle_mask_bits_in_object(obj: Spatial, names: PoolStringArray):
 	if obj is CollisionObject or obj is RayCast:
 		for n in names:
 			toggle_mask_bit_in_object(obj, n)
+			
+static func toggle_area(a: Area, stat: bool):
+	a.monitorable = stat
+	a.monitoring = stat
 
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
