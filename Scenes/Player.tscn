@@ -564,6 +564,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453955, 0 )
 shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Body"]
+visible = false
 portal_mode = 2
 cast_shadow = 0
 mesh = SubResource( 15 )

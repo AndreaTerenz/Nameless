@@ -7,6 +7,7 @@ const MF_SCENE_FILE_NOT_FOUND = 101
 
 var scene_file : String setget ,get_scene_file
 var display_name : String setget ,get_display_name
+var description : String setget ,get_description
 var scene_file_found := true
 
 var load_error = NO_ERROR
@@ -41,3 +42,6 @@ func get_scene_file() -> String:
 	
 func get_display_name() -> String:
 	return get_value("Generic", "display_name", "")
+	
+func get_description() -> String:
+	return get_value("Generic", "description", "")

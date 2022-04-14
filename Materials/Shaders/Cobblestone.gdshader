@@ -51,7 +51,7 @@ vec2 RNGV2(vec2 p) {
 
 vec2 stdNormalMap(float height) 
 {
-    return -vec2(dFdx(height), dFdy(height)) * ridge_normal_strength;
+    return -vec2(dFdx(height), dFdy(height)) * ridge_normal_strength + .5;
 }
 
 float border_mask(vec2 uv) {
@@ -134,7 +134,9 @@ void fragment()
 	
 	if (reverse_ridges)
 		total = 1. - total;
-	vec3 ridge_norm = vec3(stdNormalMap((1. - total)), 1.);
+	vec2 tmp = stdNormalMap((1. - total));
+	vec3 ridge_norm = vec3(tmp, 1.);
+	//ALBEDO = ridge_norm;
 	
 	NORMALMAP = noise_norm + ridge_norm;
 	METALLIC = metallic;

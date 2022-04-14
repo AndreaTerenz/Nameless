@@ -152,13 +152,13 @@ func set_list(filter = \"\", notify_not_found := false):
 			MapFile.NO_ERROR:
 				Console.write_line(\"Found scene '%s' @ '%s'\" % [map.display_name, map.scene_file])
 				list.add_item(map.display_name)
+				list.set_item_tooltip(list.get_item_count()-1, map.description)
 				files.append(map)
 			MapFile.MF_INVALID_INCOMPLETE:
-				Console.Log.error(\"Map file %s contains invalid or incomplete data\" % path)
+				Console.Log.error(\"Map file '%s' contains invalid or incomplete data\" % path)
 				faulty_maps.append(path)
 			MapFile.MF_SCENE_FILE_NOT_FOUND:
-				Console.Log.error(\"Source scene for map %s not found\" % path)
-				Console.Log.error(map.get_raw_scene_file())
+				Console.Log.error(\"Source scene '%s' not found [from map '%s']\" % [map.get_raw_scene_file(), map.display_name])
 				faulty_maps.append(path)
 				
 	Console.write_line(\"Found %d scene files (loaded: %d)\" % [len(files), len(files) - len(faulty_maps)])
