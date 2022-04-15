@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/Pickups/AmmoPickup.gd"
 }, {
+"base": "Node",
+"class": "ArgParse",
+"language": "GDScript",
+"path": "res://addons/argparse/ArgParse.gd"
+}, {
 "base": "Reference",
 "class": "ArrayUtils",
 "language": "GDScript",
@@ -216,6 +221,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AmmoPickup": "",
+"ArgParse": "",
 "ArrayUtils": "",
 "BaseCharacter": "",
 "BaseDoor": "",
@@ -289,6 +295,10 @@ window/size/fullscreen=true
 mouse_cursor/custom_image="res://Assets/Sprites/UI/cursor.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[editor]
+
+main_run_args="--skip_splash --console"
 
 [editor_plugins]
 

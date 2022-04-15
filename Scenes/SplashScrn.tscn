@@ -13,7 +13,12 @@ onready var anim := $AnimationPlayer
 export var path := \"res://Scenes/Scene Hub.tscn\"
 
 func _ready() -> void:
-	anim.play(\"LogoAnim\")
+	var options : Dictionary = ArgParse.get_options()
+	
+	if options.has(\"skip_splash\"):
+		get_tree().change_scene(path)
+	else:
+		anim.play(\"LogoAnim\")
 	
 func _process(delta: float) -> void:
 	if loader:

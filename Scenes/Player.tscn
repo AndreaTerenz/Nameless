@@ -426,6 +426,7 @@ radius = 20.0
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
+h_speed = 12.5
 crouch_anim_mult = 3.0
 zoom_fov = 20.0
 

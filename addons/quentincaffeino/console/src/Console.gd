@@ -91,7 +91,8 @@ func _ready():
 
 # @param  InputEvent  e
 func _input(e):
-	if Input.is_action_just_pressed(DefaultActions.CONSOLE_TOGGLE):
+	var options : Dictionary = ArgParse.get_options()
+	if options.has("console") and Input.is_action_just_pressed(DefaultActions.CONSOLE_TOGGLE):
 		self.toggle_console()
 
 
