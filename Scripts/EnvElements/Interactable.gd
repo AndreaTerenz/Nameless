@@ -13,22 +13,22 @@ func exited_range():
 	_on_exited_range()
 
 func interact(sender: Node = null):
-	var output = _on_interact(sender)
-	emit_interacted(sender)
+	if can_interact():
+		var output = _on_interact(sender)
+		emit_signal("interacted_with", sender)
+		
+		return output
 	
-	return output
+	return null
 	
 func stop_interaction():
 	if continuous:
 		var output = _on_interact_stop()
-		emit_interact_end()
+		emit_signal("interaction_ended")
 		return output
 		
-func emit_interacted(sender: Node = null):
-	emit_signal("interacted_with", sender)
-	
-func emit_interact_end():
-	emit_signal("interaction_ended")
+func can_interact():
+	return true
 	
 func _on_interact(sender: Node = null):
 	pass

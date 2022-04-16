@@ -18,8 +18,8 @@ func _on_interact(sender: Node = null):
 	if timer.is_stopped():
 		toggle.active = true
 		timer.start(timer_length)
-		emit_signal("pressed")
+		press()
 
 func _on_timeout() -> void:
 	toggle.active = false
-	emit_signal("released")
+	release()

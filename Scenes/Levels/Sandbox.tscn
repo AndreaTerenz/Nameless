@@ -13,9 +13,7 @@
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=11]
 [ext_resource path="res://Scripts/EnvElements/Buttons/TimerButton.gd" type="Script" id=12]
 [ext_resource path="res://Scripts/EnvElements/Doors/BaseDoor.gd" type="Script" id=13]
-[ext_resource path="res://Scripts/EnvElements/Buttons/SwitchButton.gd" type="Script" id=14]
 [ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
-[ext_resource path="res://Scripts/EnvElements/Buttons/PushButton.gd" type="Script" id=16]
 [ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=19]
@@ -40,6 +38,35 @@ func _on_released() -> void:
 	mat.emission = Color.black
 "
 
+[sub_resource type="GDScript" id=47]
+script/source = "extends BaseDoor
+
+
+func _ready() -> void:
+	pass
+
+
+func _on_btn_switched(on) -> void:
+	set_active(not active)
+"
+
+[sub_resource type="GDScript" id=48]
+script/source = "extends SwitchButton
+
+onready var mesh := $MeshInstance
+
+var mat: SpatialMaterial = null
+
+func _ready():
+	mat = mesh.get_active_material(0) as SpatialMaterial
+
+func _on_pressed() -> void:
+	mat.emission = Color.white
+	
+func _on_released() -> void:
+	mat.emission = Color.black
+"
+
 [sub_resource type="CubeMesh" id=11]
 
 [sub_resource type="SpatialMaterial" id=41]
@@ -52,10 +79,30 @@ emission_operator = 0
 emission_on_uv2 = false
 uv1_triplanar = true
 
-[sub_resource type="GDScript" id=43]
-script/source = "extends MeshInstance
+[sub_resource type="GDScript" id=45]
+script/source = "extends BaseDoor
 
-var mat: SpatialMaterial = get_active_material(0)
+
+func _ready() -> void:
+	pass
+
+
+func _on_btn_pressed() -> void:
+	set_active(true)
+
+func _on_btn_released() -> void:
+	set_active(false)
+"
+
+[sub_resource type="GDScript" id=46]
+script/source = "extends PushButton
+
+onready var mesh := $MeshInstance
+
+var mat: SpatialMaterial = null
+
+func _ready():
+	mat = mesh.get_active_material(0) as SpatialMaterial
 
 func _on_pressed() -> void:
 	mat.emission = Color.white
@@ -73,18 +120,6 @@ emission_energy = 1.0
 emission_operator = 0
 emission_on_uv2 = false
 uv1_triplanar = true
-
-[sub_resource type="GDScript" id=44]
-script/source = "extends MeshInstance
-
-var mat: SpatialMaterial = get_active_material(0)
-
-func _on_pressed() -> void:
-	mat.emission = Color.white
-	
-func _on_released() -> void:
-	mat.emission = Color.black
-"
 
 [sub_resource type="BoxShape" id=35]
 extents = Vector3( 7.36901, 1, 1 )
@@ -285,6 +320,7 @@ shape = SubResource( 37 )
 
 [node name="Trigger" parent="Env/CSGCombiner/Doors/Door 1" instance=ExtResource( 18 )]
 transform = Transform( -1.08376e-07, 0, -2.67057, 0, 3.04592, 0, 2.47936, 0, -1.16734e-07, 0, -0.50343, 0 )
+oneshot = false
 
 [node name="Door 2" type="CSGBox" parent="Env/CSGCombiner/Doors"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -0.692628 )
@@ -357,7 +393,7 @@ use_in_baked_light = true
 width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
-script = ExtResource( 13 )
+script = SubResource( 47 )
 left_side_path = NodePath("CSGBox/Left Side")
 right_side_path = NodePath("CSGBox/Right Side")
 
@@ -400,11 +436,10 @@ shape = SubResource( 37 )
 [node name="Button2" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 3"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.9374, -0.57968, 0.3204 )
 collision_layer = 9
-script = ExtResource( 14 )
+script = SubResource( 48 )
 __meta__ = {
 "_edit_group_": true
 }
-toggle_path = NodePath("..")
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 3/Button2"]
 shape = SubResource( 39 )
@@ -413,7 +448,6 @@ shape = SubResource( 39 )
 use_in_baked_light = true
 mesh = SubResource( 11 )
 material/0 = SubResource( 41 )
-script = SubResource( 43 )
 
 [node name="Door 4" type="CSGBox" parent="Env/CSGCombiner/Doors"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -34.8245, 4.10402, 13.079 )
@@ -421,7 +455,7 @@ use_in_baked_light = true
 width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
-script = ExtResource( 13 )
+script = SubResource( 45 )
 left_side_path = NodePath("CSGBox/Left Side")
 right_side_path = NodePath("CSGBox/Right Side")
 
@@ -464,11 +498,10 @@ shape = SubResource( 37 )
 [node name="Button3" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 4"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7.079, -0.10402, -0.175499 )
 collision_layer = 9
-script = ExtResource( 16 )
+script = SubResource( 46 )
 __meta__ = {
 "_edit_group_": true
 }
-toggle_path = NodePath("..")
 
 [node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 4/Button3"]
 shape = SubResource( 39 )
@@ -477,7 +510,6 @@ shape = SubResource( 39 )
 use_in_baked_light = true
 mesh = SubResource( 40 )
 material/0 = SubResource( 13 )
-script = SubResource( 44 )
 
 [node name="Stairs" type="CSGCombiner" parent="Env/CSGCombiner"]
 
@@ -649,7 +681,6 @@ zoom_fov = 30.0
 
 [connection signal="pressed" from="Env/CSGCombiner/Doors/Door 2/Button" to="Env/CSGCombiner/Doors/Door 2/Button/MeshInstance" method="_on_pressed"]
 [connection signal="released" from="Env/CSGCombiner/Doors/Door 2/Button" to="Env/CSGCombiner/Doors/Door 2/Button/MeshInstance" method="_on_released"]
-[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3/Button2/MeshInstance" method="_on_pressed"]
-[connection signal="released" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3/Button2/MeshInstance" method="_on_released"]
-[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4/Button3/MeshInstance" method="_on_pressed"]
-[connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4/Button3/MeshInstance" method="_on_released"]
+[connection signal="switched" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3" method="_on_btn_switched"]
+[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_pressed"]
+[connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_released"]
