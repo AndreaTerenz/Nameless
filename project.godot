@@ -164,11 +164,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Weapons/RayGun.gd"
 }, {
-"base": "BaseDoor",
-"class": "RemoteDoor",
-"language": "GDScript",
-"path": "res://Scripts/EnvElements/Doors/RemoteDoor.gd"
-}, {
 "base": "RigidBody",
 "class": "RigidBodyPickup",
 "language": "GDScript",
@@ -251,7 +246,6 @@ _global_script_class_icons={
 "Prop": "",
 "PushButton": "",
 "RayGun": "",
-"RemoteDoor": "",
 "RigidBodyPickup": "",
 "ScaleOnHover": "",
 "SettingsTab": "",
@@ -302,7 +296,7 @@ main_run_args="--skip_splash --console"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/SIsilicon.3d.text/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/SIsilicon.3d.text/plugin.cfg", "res://addons/argparse/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
 
 [gui]
 

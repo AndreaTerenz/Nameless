@@ -6,9 +6,6 @@
 
 [node name="crate" instance=ExtResource( 1 )]
 
-[node name="Crate" parent="." index="0"]
-use_in_baked_light = true
-
 [node name="StaticBody" type="StaticBody" parent="." index="1"]
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody" index="0"]
