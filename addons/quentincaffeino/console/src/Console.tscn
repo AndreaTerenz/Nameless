@@ -69,9 +69,6 @@ anchor_bottom = 0.5
 margin_left = 229.0
 margin_right = -230.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ConsoleBox"]
 anims/fade = SubResource( 1 )
@@ -112,4 +109,3 @@ focus_previous = NodePath(".")
 size_flags_horizontal = 3
 theme = ExtResource( 7 )
 script = ExtResource( 6 )
-_sections_unfolded = [ "Anchor", "Caret", "Grow Direction", "Margin", "Material", "Pause", "Placeholder", "Rect", "Size Flags", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]

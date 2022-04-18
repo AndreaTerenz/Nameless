@@ -93,6 +93,10 @@ func _ready() -> void:
 	set_mode(start_mode)
 	
 	Globals.set_player(self)
+	
+	Console.add_command("noclip", self, "_noclip")\
+	.set_description("Toggles noclip mode")\
+	.register()
 
 func _input(event: InputEvent) -> void:
 	if mode == MODE.CINEMATIC:
@@ -208,6 +212,12 @@ func change_mover(new_mover: PlayerMover):
 		new_mover.setup(self)
 		mover = new_mover
 		emit_signal("mover_changed", mover)
+		
+func _noclip():
+	if mode != MODE.NOCLIP:
+		set_mode(MODE.NOCLIP)
+	else:
+		set_mode(MODE.GAME)
 	
 func check_stairs() -> void:
 	if not(on_stairs) and (is_on_floor() or not(leaving_stairs)):

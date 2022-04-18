@@ -4,6 +4,7 @@ signal paused
 signal unpaused
 signal pause_changed(state)
 signal player_set(p)
+signal scene_manager_set(sm)
 
 enum GROUPS  {
 	ENEMIES,
@@ -58,12 +59,19 @@ var group_layers : Dictionary = {
 
 var scene_to_load := ""
 var in_game := true
+
 var player : Player = null
+var scene_mngr : SceneManager = null
 var player_set := false
+var scn_mngr_set := false
+
 var inventory : Inventory = null
 var current_ui : GameUI = null
 
 func _ready() -> void:
+	if Input.get_connected_joypads().size() > 0:
+		Console.Log.error("CONTROLLER INPUT NOT SUPPORTED AT THIS TIME")
+	
 	for i in range(1, 21):
 		layers.append(ProjectSettings.get_setting("layer_names/3d_physics/layer_%d" % i))
 	
@@ -87,6 +95,11 @@ func _ready() -> void:
 	Console.add_command("show_walls", self, "show_walls")\
 	.set_description("toggles walls visibility")\
 	.add_argument("show", TYPE_INT)\
+	.register()
+	
+	Console.add_command("debug_draw", self, "debug_draw")\
+	.set_description("sets debug draw mode (0 to disable)")\
+	.add_argument("mode", TYPE_INT)\
 	.register()
 	
 	Console.add_command("player_info", self, "get_player_info")\
@@ -158,6 +171,10 @@ func show_group(t, group: String, method := "show_shape") -> bool:
 	tree.call_group(group, method, t)
 
 	return true
+	
+func debug_draw(mode):
+	if mode in range(0, 4):
+		get_viewport().debug_draw = mode
 		
 func get_player_info(mode: String):
 	if player:
@@ -260,14 +277,27 @@ func set_player(p: Player):
 	player_set = (p != null)
 	inventory = p.inventory if (p != null) else null
 	
-	if player:
+	if player_set:
 		emit_signal("player_set", player)
+
+func set_scene_manager(sm: SceneManager):
+	scene_mngr = sm
+	scn_mngr_set = (sm != null)
+	
+	if scn_mngr_set:
+		emit_signal("scene_manager_set", scene_mngr)
 	
 func connect_to_player_set(obj: Node, method: String):
 	if not player_set:
 		connect("player_set", obj, method)
 	else:
 		obj.call(method, player)
+	
+func connect_to_scn_mngr_set(obj: Node, method: String):
+	if not scn_mngr_set:
+		connect("scene_manager_set", obj, method)
+	else:
+		obj.call(method, scene_mngr)
 
 func toggle_pause() -> void:
 	set_paused(not(get_tree().paused))

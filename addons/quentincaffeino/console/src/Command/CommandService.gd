@@ -46,6 +46,11 @@ func set(command_name, command):
 # @returns  Command|null
 func get(command_name):
 	return self._command_collection.get(command_name)
+	
+# @param    String   command_name
+# @returns  bool
+func has(command_name):
+	return self._command_collection.get(command_name) != null
 
 # @param    String   command_name
 # @returns  CommandCollection

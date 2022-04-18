@@ -50,8 +50,8 @@ var previous_focus_owner = null
 
 ### Console nodes
 onready var _console_box = $ConsoleBox
-onready var Text = $ConsoleBox/Container/ConsoleText setget _set_readonly
-onready var Line = $ConsoleBox/Container/ConsoleLine setget _set_readonly
+onready var Text := $ConsoleBox/Container/ConsoleText setget _set_readonly
+onready var Line := $ConsoleBox/Container/ConsoleLine setget _set_readonly
 onready var _animation_player = $ConsoleBox/AnimationPlayer
 
 

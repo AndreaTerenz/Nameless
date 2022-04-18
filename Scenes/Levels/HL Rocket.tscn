@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Models/HL rocket/terrain.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://addons/silicon.vfx.lens_flare/lens_flare.gd" type="Script" id=14]
 [ext_resource path="res://Assets/Audio/SFX/rocket_rumble.ogg" type="AudioStream" id=15]
 [ext_resource path="res://Assets/Models/HL rocket/sides.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scripts/EnvElements/SceneManager.gd" type="Script" id=17]
 
 [sub_resource type="PanoramaSky" id=10]
 resource_local_to_scene = true
@@ -470,6 +471,7 @@ radius = 7.0
 height = 14.0
 
 [node name="Spatial" type="Spatial"]
+script = ExtResource( 17 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 1.83257, 7.45567, -41.2534 )
@@ -478,7 +480,7 @@ transform = Transform( 1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 1.83257, 7.45567, -41.25
 environment = SubResource( 9 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.621366, -0.651694, -0.43497, 0.75643, 0.354236, 0.549846, -0.204249, -0.67068, 0.713072, 0, 18.2587, 0 )
+transform = Transform( 0.621366, -0.651694, -0.43497, 0.75643, 0.354236, 0.549846, -0.204249, -0.67068, 0.713071, 0, 18.2587, 0 )
 light_color = Color( 1, 0.952941, 0.666667, 1 )
 shadow_enabled = true
 shadow_contact = 0.457
