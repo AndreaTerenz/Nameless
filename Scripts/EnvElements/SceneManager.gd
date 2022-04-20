@@ -60,6 +60,12 @@ func _ready() -> void:
 	.set_description("toggle environment automatic exposure")\
 	.add_argument("show", TYPE_BOOL)\
 	.register()
+		
+	Console.add_command("env_set_property", self, "env_set_property")\
+	.set_description("set value for world env property")\
+	.add_argument("prop", TYPE_STRING)\
+	.add_argument("value", TYPE_OBJECT)\
+	.register()
 	
 	Globals.set_scene_manager(self)
 
@@ -86,3 +92,7 @@ func env_toggle_bloom(show):
 func env_toggle_auto_exp(show):
 	if world_env:
 		world_env.environment.auto_exposure_enabled = show
+
+func env_set_property(prop, value):
+	if world_env:
+		world_env.set(prop, value)

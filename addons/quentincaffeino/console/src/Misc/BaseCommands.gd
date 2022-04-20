@@ -45,6 +45,26 @@ func _init(console):
 		.add_argument('fps', self._console.IntRangeType.new(10, 1000))\
 		.register()
 
+	self._console.add_command('bind', self, '_bind')\
+		.set_description('Bind command to keyboard key')\
+		.add_argument('key', TYPE_STRING)\
+		.add_argument('cmd', TYPE_STRING)\
+		.register()
+
+	self._console.add_command('unbind', self, '_unbind')\
+		.set_description('Remove currently bound command from keyboard key')\
+		.add_argument('key', TYPE_STRING)\
+		.register()
+
+	self._console.add_command('binding', self, '_binding')\
+		.set_description('Prints the command that is currently bound to a key')\
+		.add_argument('key', TYPE_STRING)\
+		.register()
+
+	self._console.add_command('bindings', self, '_bindings')\
+		.set_description('List key-command binding pairs')\
+		.register()
+
 
 # Display help message or display description for the command.
 # @param    String|null  command_name
@@ -76,7 +96,48 @@ func _list_commands():
 	for command in self._console._command_service.values():
 		var name = command.get_name()
 		self._console.write_line('[color=#ffff66][url=%s]%s[/url][/color]' % [ name, name ])
-
+		
+func _bind(key, cmd):
+	var scancode = OS.find_scancode_from_string(key)
+	if scancode != 0:
+		self._console.bind_key_command(scancode, cmd)
+	else:
+		self._console.Log.error("Invalid key '%s' (no scancode found)" % key)
+		
+func _unbind(key):
+	var scancode = OS.find_scancode_from_string(key)
+	if scancode != 0:
+		self._console.unbind_key(scancode)
+	else:
+		self._console.Log.error("Invalid key '%s' (no scancode found)" % key)
+		
+func _binding(key):
+	var binds : Dictionary = self._console.bindings
+	var key_code = OS.find_scancode_from_string(key)
+	
+	if binds.empty():
+		self._console.Log.warn("No key-command bindings are currently set")
+	elif key_code == 0:
+		self._console.Log.error("Invalid key '%s' (no scancode found)" % key)
+	else:
+		var cmd = self._console.find_bound_command(key)
+		
+		if cmd:
+			self._console.write_line("%s (%d) -> '%s'" % [key, key_code, cmd])
+		else:
+			self._console.write_line("No binding found for key %s (%d)" % [key, key_code])
+		
+func _bindings():
+	var binds : Dictionary = self._console.bindings
+	
+	if binds.empty():
+		self._console.Log.warn("No key-command bindings are currently set")
+	else:
+		self._console.write_line("%d bindings found:" % [len(binds)])
+		for key_code in binds.keys():
+			var key = OS.get_scancode_string(key_code)
+			var cmd = binds[key_code]
+			self._console.write_line("%s (%d) -> '%s'" % [ key, key_code, cmd ])
 
 # Quitting application.
 # @returns  void

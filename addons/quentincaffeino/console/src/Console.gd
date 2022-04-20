@@ -47,6 +47,9 @@ var consume_input = true
 # @var  Control
 var previous_focus_owner = null
 
+# @var Dictionary
+var bindings : Dictionary = {}
+
 
 ### Console nodes
 onready var _console_box = $ConsoleBox
@@ -90,10 +93,15 @@ func _ready():
 
 
 # @param  InputEvent  e
-func _input(e):
+func _input(e: InputEvent):
 	var options : Dictionary = ArgParse.get_options()
 	if options.has("console") and Input.is_action_just_pressed(DefaultActions.CONSOLE_TOGGLE):
 		self.toggle_console()
+		
+	if not self.is_console_shown and e is InputEventKey and not e.pressed:
+		if bindings.has(e.scancode):
+			var cmd = bindings[e.scancode]
+			execute(cmd)
 
 
 # @returns  Command/CommandService
@@ -110,6 +118,43 @@ func get_command(name):
 # @returns  Command/CommandCollection
 func find_commands(name):
 	return self._command_service.find(name)
+
+# @param    String  command
+# @returns  void
+func execute(command):
+	self.Line.execute(command)
+
+# @param    int  key_code
+# @param    String  command
+# @returns  bool
+func bind_key_command(key_code, command):
+	if not bindings.has(key_code):
+		bindings[key_code] = command
+	else:
+		var key = OS.get_scancode_string(key_code)
+		self.Log.warn("Key %s (%d) is already bound to command '%s' - Ignoring" % \
+			 [key, key_code, bindings[key_code]])
+			
+	return bindings[key_code] == command
+
+# @param    int  key_code
+# @returns  void
+func unbind_key(key_code):
+	var key = OS.get_scancode_string(key_code)
+	
+	if not bindings.erase(key_code):
+		self.Log.warn("No binding found for key %s (%d) - Ignoring" % \
+			 [key, key_code])
+
+func is_key_bound(key):
+	var code = OS.find_scancode_from_string(key)
+	
+	return code != 0 and bindings.has(code)
+
+func find_bound_command(key):
+	var code = OS.find_scancode_from_string(key)
+	
+	return bindings.get(code)
 
 # Example usage:
 # ```gdscript
