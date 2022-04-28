@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Rig test"
+description=""
+scene_file="res://Scenes/Misc tests/IK demo.tscn"

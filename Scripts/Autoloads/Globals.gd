@@ -42,6 +42,8 @@ const THEMES_SUFFIX : Dictionary = {
 const KILL_ZN_GRP = "KillZones"
 const TRGGR_ZN_GRP = "Triggers"
 const WALL_GRP = "Walls"
+const PROP_GRP = "Props"
+const EXPL_PROP_GRP = "Expl_Props"
 
 const UI_BTN_THEME := UI_BTN_THEMES.DARK
 const UI_BTN_BASE_DIR := "res://Assets/UI Buttons"
@@ -77,24 +79,16 @@ func _ready() -> void:
 	
 	Console.connect("toggled", self, "_on_console_toggled")
 	
-	Console.add_command("show_triggers", self, "show_triggers")\
+	Console.add_command("toggle_triggers", self, "toggle_triggers")\
 	.set_description("toggles triggers visibility")\
-	.add_argument("show", TYPE_INT)\
 	.register()
 	
-	Console.add_command("show_killzones", self, "show_killzones")\
+	Console.add_command("toggle_killzones", self, "toggle_killzones")\
 	.set_description("toggles killzones visibility")\
-	.add_argument("show", TYPE_INT)\
 	.register()
 	
-	Console.add_command("show_colliders", self, "show_colliders")\
-	.set_description("toggles collision shapes visibility")\
-	.add_argument("show", TYPE_INT)\
-	.register()
-	
-	Console.add_command("show_walls", self, "show_walls")\
+	Console.add_command("toggle_walls", self, "toggle_walls")\
 	.set_description("toggles walls visibility")\
-	.add_argument("show", TYPE_INT)\
 	.register()
 	
 	Console.add_command("debug_draw", self, "debug_draw")\
@@ -111,9 +105,8 @@ func _ready() -> void:
 	.set_description("reload current scene")\
 	.register()
 	
-	Console.add_command("set_vsync", self, "set_vsync")\
+	Console.add_command("toggle_vsync", self, "toggle_vsync")\
 	.set_description("toggle vsync")\
-	.add_argument("use", TYPE_INT)\
 	.register()
 	
 	Console.add_command("get_vsync", self, "get_vsync")\
@@ -131,10 +124,10 @@ func _ready() -> void:
 	.add_argument("height", TYPE_INT)\
 	.register()
 	
-	Console.add_command("set_gravity", self, "set_gravity")\
-	.set_description("Set world gravity value (0 for default)")\
-	.add_argument("value", TYPE_REAL)\
-	.register()
+#	Console.add_command("set_gravity", self, "set_gravity")\
+#	.set_description("Set world gravity value (0 for default)")\
+#	.add_argument("value", TYPE_REAL)\
+#	.register()
 	
 #	Console.add_command("give_item", self, "give_item")\
 #	.set_description("Add item to player inventory")\
@@ -146,12 +139,12 @@ func _on_console_toggled(val: bool):
 	if current_ui == null and in_game:
 		set_paused(val)
 	
-func show_triggers(t):
-	if not show_group(t, TRGGR_ZN_GRP):
+func toggle_triggers():
+	if not toggle_group(TRGGR_ZN_GRP):
 		Console.Log.warn("No triggers in scene")
 		
-func show_killzones(t):
-	if not show_group(t, KILL_ZN_GRP):
+func toggle_killzones():
+	if not toggle_group(KILL_ZN_GRP):
 		Console.Log.warn("No killzones in scene")
 		
 func show_colliders(t):
@@ -159,16 +152,16 @@ func show_colliders(t):
 	# get_tree().debug_collisions_hint = bool(t)
 	pass
 		
-func show_walls(t):
-	if not show_group(t, WALL_GRP):
+func toggle_walls():
+	if not toggle_group(WALL_GRP):
 		Console.Log.warn("No invisible walls in scene")
 	
-func show_group(t, group: String, method := "show_shape") -> bool:
+func toggle_group(group: String, method := "toggle_shape") -> bool:
 	var tree := get_tree()
 	if len(tree.get_nodes_in_group(group)) == 0:
 		return false
 	
-	tree.call_group(group, method, t)
+	tree.call_group(group, method)
 
 	return true
 	
@@ -217,8 +210,8 @@ func restart_scene():
 		Console.toggle_console()
 	_restart()
 		
-func set_vsync(t):
-	OS.vsync_enabled = (t != 0)
+func toggle_vsync():
+	OS.vsync_enabled = not OS.vsync_enabled
 	
 func get_vsync():
 	Console.write_line(OS.vsync_enabled)

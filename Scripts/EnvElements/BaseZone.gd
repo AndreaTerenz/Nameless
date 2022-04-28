@@ -47,6 +47,10 @@ func show_shape(val):
 	show_debug_shape = val
 	debug_shape.visible = val
 
+func toggle_shape():
+	show_debug_shape = not show_debug_shape
+	debug_shape.visible = show_debug_shape
+
 func _set_id():
 	zone_id = -1
 	

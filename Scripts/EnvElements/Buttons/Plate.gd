@@ -15,7 +15,7 @@ func _ready() -> void:
 	connect("body_exited", self, "_on_body_exited")
 
 func check_body(body: Node):
-	return body == Globals.player or (body is RigidBody and (body as RigidBody).mode == RigidBody.MODE_RIGID)
+	return body == Globals.player or body is Prop
 
 func _on_body_entered(body: Node) -> void:
 	if check_body(body):

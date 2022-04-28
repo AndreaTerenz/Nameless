@@ -6,6 +6,9 @@ signal interaction_ended
 
 export(bool) var continuous = false
 
+func _ready():
+	Utils.set_layer_bit_in_object(self, "Interactables")
+
 func entered_range():
 	_on_entered_range()
 	

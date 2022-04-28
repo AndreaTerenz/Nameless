@@ -33,17 +33,14 @@ func _ready() -> void:
 	
 	Console.add_command("toggle_sun", self, "toggle_sun")\
 	.set_description("toggles scene directional light")\
-	.add_argument("show", TYPE_BOOL)\
 	.register()
 	
 	Console.add_command("toggle_gi_probes", self, "toggle_gi_probes")\
 	.set_description("toggles GIProbes")\
-	.add_argument("show", TYPE_BOOL)\
 	.register()
 		
 	Console.add_command("toggle_ref_probes", self, "toggle_ref_probes")\
 	.set_description("toggles GIProbes")\
-	.add_argument("show", TYPE_BOOL)\
 	.register()
 		
 	Console.add_command("env_set_tonemapper", self, "env_set_tonemapper")\
@@ -53,12 +50,10 @@ func _ready() -> void:
 		
 	Console.add_command("env_toggle_bloom", self, "env_toggle_bloom")\
 	.set_description("toggle environment bloom")\
-	.add_argument("show", TYPE_BOOL)\
 	.register()
 		
 	Console.add_command("env_toggle_auto_exp", self, "env_toggle_auto_exp")\
 	.set_description("toggle environment automatic exposure")\
-	.add_argument("show", TYPE_BOOL)\
 	.register()
 		
 	Console.add_command("env_set_property", self, "env_set_property")\
@@ -69,29 +64,29 @@ func _ready() -> void:
 	
 	Globals.set_scene_manager(self)
 
-func toggle_sun(show):
+func toggle_sun():
 	if sun_light:
-		sun_light.visible = (show)
+		sun_light.visible = not sun_light.visible
 
-func toggle_gi_probes(show):
+func toggle_gi_probes():
 	for gip in gi_probes:
-		gip.visible = show
+		gip.visible = not gip.visible
 
-func toggle_ref_probes(show):
+func toggle_ref_probes():
 	for rp in ref_probes:
-		rp.visible = show
+		rp.visible = not rp.visible
 
 func env_set_tonemapper(type):
 	if world_env:
 		world_env.environment.tonemap_mode = type
 
-func env_toggle_bloom(show):
+func env_toggle_bloom():
 	if world_env:
-		world_env.environment.glow_enabled = show
+		world_env.environment.glow_enabled = not world_env.environment.glow_enabled
 
-func env_toggle_auto_exp(show):
+func env_toggle_auto_exp():
 	if world_env:
-		world_env.environment.auto_exposure_enabled = show
+		world_env.environment.auto_exposure_enabled = not world_env.environment.auto_exposure_enabled
 
 func env_set_property(prop, value):
 	if world_env:

@@ -111,19 +111,19 @@ func _on_animation_finished(anim_name: String) -> void:
 		"Aim", "Aim Reverse", "Hide Reverse": 
 			set_gun_state(GUN_STATE.ACTIVE)
 		"Hide": 
-			Console.write_line("Finished hide anim")
+			#Console.write_line("Finished hide anim")
 			if switching() and len(weapons)>0:
 				load_gun()
 				anim_player.play("Hide Reverse")
 		"Hide Reverse": 
-			Console.write_line("Finished hide reverse anim")
+			pass#Console.write_line("Finished hide reverse anim")
 
 func _on_animation_started(anim_name: String) -> void:
 	match anim_name:
 		"Hide": 
-			Console.write_line("Started hide anim")
+			pass #Console.write_line("Started hide anim")
 		"Hide Reverse": 
-			Console.write_line("Started hide reverse anim")
+			pass #Console.write_line("Started hide reverse anim")
 
 func set_gun_state(state):
 	gun_stat = state

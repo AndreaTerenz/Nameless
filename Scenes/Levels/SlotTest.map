@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Slot test"
+description="Testing scene for a slot system"
+scene_file="res://Scenes/Levels/SlotTest.tscn"

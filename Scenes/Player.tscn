@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -10,7 +10,7 @@
 [ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Player/Inventory.gd" type="Script" id=9]
 [ext_resource path="res://Envs/Night_Env.tres" type="Environment" id=10]
-[ext_resource path="res://Scenes/UI/DeathScreen.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Assets/Models/hollow_dome.obj" type="ArrayMesh" id=12]
 [ext_resource path="res://Materials/Shaders/in_water.gdshader" type="Shader" id=13]
 
 [sub_resource type="SphereShape" id=5]
@@ -215,12 +215,7 @@ tracks/3/keys = {
 "values": [ Vector3( 1.19807, -0.804665, -1.655 ) ]
 }
 
-[sub_resource type="SphereMesh" id=24]
-radius = 2.0
-height = 0.755
-is_hemisphere = true
-
-[sub_resource type="ShaderMaterial" id=22]
+[sub_resource type="ShaderMaterial" id=28]
 shader = ExtResource( 13 )
 shader_param/tint = Color( 0.16, 0.2, 0.38, 1 )
 shader_param/clarity = 0.624
@@ -257,7 +252,7 @@ signal released(obj, was_launched)
 export(float, 1.0, 8.0, .1) var hold_distance = 2.0
 export(float, 1.0, 40.0, .5) var throw_strength = 25.0
 
-var held_obj : RigidBodyPickup = null
+var held_obj : Prop = null
 
 func _ready() -> void:
 	Globals.connect(\"unpaused\", self, \"on_unpaused\")
@@ -271,9 +266,9 @@ func _input(event: InputEvent) -> void:
 		if held_obj:
 			release(true)
 	else:
-		var coll = get_collider() as RigidBodyPickup
+		var coll = get_collider() as Prop
 		
-		if coll:
+		if coll and coll.grab_enabled:
 			if Input.is_action_just_pressed(\"grab_drop\"):
 				if not held_obj:
 					held_obj = coll
@@ -283,7 +278,6 @@ func _input(event: InputEvent) -> void:
 				if held_obj:
 					release()
 
-
 func release(launch = false):
 	if launch:
 		held_obj.launched(throw_strength)
@@ -292,6 +286,10 @@ func release(launch = false):
 	
 	emit_signal(\"released\", held_obj, launch)
 	
+	held_obj = null
+
+func on_entered_slot():
+	emit_signal(\"released\", held_obj, false)
 	held_obj = null
 "
 
@@ -457,13 +455,12 @@ script = ExtResource( 2 )
 
 [node name="Tween" type="Tween" parent="Head/Camera"]
 
+[node name="Hud" parent="Head/Camera" instance=ExtResource( 4 )]
+
 [node name="ViewportContainer" type="ViewportContainer" parent="Head/Camera"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 stretch = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Viewport" type="Viewport" parent="Head/Camera/ViewportContainer"]
 size = Vector2( 1920, 1080 )
@@ -495,16 +492,11 @@ anims/Hide = SubResource( 9 )
 anims/Idle = SubResource( 10 )
 anims/RESET = SubResource( 8 )
 
-[node name="Hud" parent="Head/Camera/ViewportContainer" instance=ExtResource( 4 )]
-
-[node name="DeathScreen" parent="Head/Camera/ViewportContainer" instance=ExtResource( 11 )]
-visible = false
-
 [node name="Water Effect 3D" type="MeshInstance" parent="Head/Camera"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.949978 )
+transform = Transform( 1.92118, 0, 0, 0, -2.78484e-08, 1.92118, 0, -0.637098, -8.39776e-08, 0, 0, -0.878278 )
 cast_shadow = 0
-mesh = SubResource( 24 )
-material/0 = SubResource( 22 )
+mesh = ExtResource( 12 )
+material/0 = SubResource( 28 )
 script = SubResource( 25 )
 
 [node name="InteractRay" type="Area" parent="Head"]
@@ -530,7 +522,7 @@ collision_mask = 932
 collide_with_areas = true
 debug_shape_custom_color = Color( 1, 0, 0, 1 )
 
-[node name="PhysPickUpRay" type="RayCast" parent="Head"]
+[node name="PropRay" type="RayCast" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.823641 )
 enabled = true
 cast_to = Vector3( 0, 0, -5 )
@@ -627,8 +619,10 @@ script = ExtResource( 9 )
 [node name="UI" type="Node" parent="."]
 
 [node name="Inventory UI" parent="UI" instance=ExtResource( 3 )]
+visible = false
 
 [node name="Pause menu" parent="UI" instance=ExtResource( 8 )]
+visible = false
 
 [connection signal="area_entered" from="Head/Env Check" to="." method="_on_entered_env"]
 [connection signal="area_exited" from="Head/Env Check" to="." method="_on_exited_env"]
@@ -638,8 +632,10 @@ script = ExtResource( 9 )
 [connection signal="body_exited" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_exited"]
 [connection signal="interact_data" from="Head/InteractRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_interact_data"]
 [connection signal="pickup_data" from="Head/InteractRay" to="Inventory" method="_on_interact_data"]
-[connection signal="picked_up" from="Head/PhysPickUpRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_grabbed_rb_pickup"]
-[connection signal="released" from="Head/PhysPickUpRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_released_rb_pickup"]
+[connection signal="picked_up" from="Head/PropRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_grabbed_rb_pickup"]
+[connection signal="picked_up" from="Head/PropRay" to="Head/InteractRay" method="_on_prop_picked_up"]
+[connection signal="released" from="Head/PropRay" to="Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook" method="_on_released_rb_pickup"]
+[connection signal="released" from="Head/PropRay" to="Head/InteractRay" method="_on_prop_released"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]
 [connection signal="body_entered" from="OthersDetection" to="." method="_on_other_detected"]
 [connection signal="body_exited" from="OthersDetection" to="." method="_on_other_lost"]

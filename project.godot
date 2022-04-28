@@ -164,11 +164,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Weapons/RayGun.gd"
 }, {
-"base": "RigidBody",
-"class": "RigidBodyPickup",
-"language": "GDScript",
-"path": "res://Scripts/EnvElements/Pickups/RigidBodyPickup.gd"
-}, {
 "base": "Control",
 "class": "ScaleOnHover",
 "language": "GDScript",
@@ -183,6 +178,11 @@ _global_script_classes=[ {
 "class": "SettingsTab",
 "language": "GDScript",
 "path": "res://Scripts/UI/SettingsTab.gd"
+}, {
+"base": "Area",
+"class": "Slot",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Props/Slot.gd"
 }, {
 "base": "PlayerMover",
 "class": "StairsMover",
@@ -251,10 +251,10 @@ _global_script_class_icons={
 "Prop": "",
 "PushButton": "",
 "RayGun": "",
-"RigidBodyPickup": "",
 "ScaleOnHover": "",
 "SceneManager": "",
 "SettingsTab": "",
+"Slot": "",
 "StairsMover": "",
 "StandardMover": "",
 "SwitchButton": "",
@@ -611,8 +611,7 @@ throw={
 3d_physics/layer_9="NPCs"
 3d_physics/layer_10="Friendlies"
 3d_physics/layer_11="Water"
-3d_physics/layer_12="RBPickups"
-3d_physics/layer_13="Expl_blocks"
+3d_physics/layer_12="Props"
 
 [physics]
 

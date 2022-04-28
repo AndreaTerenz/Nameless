@@ -20,9 +20,6 @@ margin_right = 20.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 20, 20 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 fill = Color( 0.945098, 0.294118, 0.294118, 1 )
 stroke = Color( 0.192157, 0, 0, 1 )
 stroke_weight = 1.153

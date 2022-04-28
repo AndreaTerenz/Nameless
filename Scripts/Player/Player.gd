@@ -59,15 +59,16 @@ onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
 onready var water_hemisphere = $"Head/Camera/Water Effect 3D"
 onready var env_chk = $"Head/Env Check"
-onready var hud = $Head/Camera/ViewportContainer/Hud
-onready var compass = $Head/Camera/ViewportContainer/Hud/Compass
+onready var hud = $"Head/Camera/Hud"
+onready var compass = $Head/Camera/Hud/Compass
 onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
-onready var grnd_chk = $Foot/GroundCheck
+onready var grnd_chk := $Foot/GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
 onready var interact_chk = $Head/InteractRay
 onready var look_ray = $Head/LookRay
 onready var aim_ray = $Head/AimRay
+onready var prop_ray = $Head/PropRay
 onready var hitbox : Hitbox = $Hitbox
 onready var others_chck = $OthersDetection
 onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"
@@ -97,30 +98,29 @@ func _ready() -> void:
 	Console.add_command("noclip", self, "_noclip")\
 	.set_description("Toggles noclip mode")\
 	.register()
+	
+	Console.bind_key_command(OS.find_scancode_from_string("n"), "noclip")
 
 func _input(event: InputEvent) -> void:
 	if mode == MODE.CINEMATIC:
 		return
+
+	if Input.is_action_just_pressed("flashlight"):
+		light.visible = !light.visible
+	
+	if not(on_stairs):
+		mouse_sensitivity = mouse_sens_std
 		
-	if Input.is_action_just_pressed("noclip_toggle"):
-		set_mode(MODE.NOCLIP if mode != MODE.NOCLIP else MODE.GAME)
-	else:
-		if Input.is_action_just_pressed("flashlight"):
-			light.visible = !light.visible
+		camera.check_zoom()
 		
-		if not(on_stairs):
-			mouse_sensitivity = mouse_sens_std
-			
-			camera.check_zoom()
-			
-			if camera.zoomed:
-				mouse_sensitivity *= zoom_mouse_sensitivity_factor
-			gun_hook.hidden = camera.zoomed
-			
-		if event is InputEventMouseMotion:
-			var invert_y = Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y)
-			
-			Utils.rotate_with_mouse(event, self, head, mouse_sensitivity, head_rot_limit, invert_y)
+		if camera.zoomed:
+			mouse_sensitivity *= zoom_mouse_sensitivity_factor
+		gun_hook.hidden = camera.zoomed
+		
+	if event is InputEventMouseMotion:
+		var invert_y = Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y)
+		
+		Utils.rotate_with_mouse(event, self, head, mouse_sensitivity, head_rot_limit, invert_y)
 		
 func _physics_process(delta: float) -> void:
 	gun_camera.global_transform = camera.global_transform
@@ -139,46 +139,38 @@ func set_mode(val):
 			MODE.GAME:
 				camera.show_ui(true)
 				gun_hook.hidden = false
+				
 				toggle_collisions(true)
-				
+				set_env()
 				change_mover(StandardMover.new())
-				
-				restore_env()
 			MODE.CINEMATIC:
 				camera.show_ui(false)
 				camera.toggle_sprint_fov(false)
 				gun_hook.hidden = true
-				toggle_collisions(false)
 				
+				toggle_collisions(false)
 				set_env(ENVIRONMENT.NONE)
 				change_mover(PlayerMover.new())
 			MODE.NOCLIP:
 				camera.show_ui(true)
 				camera.toggle_sprint_fov(false)
 				gun_hook.hidden = false
-				toggle_collisions(false)
 				
+				toggle_collisions(false)
 				change_mover(NoClipMover.new())
 				
-				restore_env()
-				
-func set_env(val):
+func set_env(val = environment):
 	if environment != val:
-		if environment != -1:
-			emit_signal("env_changed", val)
-			
-		environment = val
+		emit_signal("env_changed", val)
 		
-		match(environment):
-			ENVIRONMENT.WATER:
-				grnd_chk.enabled = false
-			ENVIRONMENT.NORMAL:
+	environment = val
+	
+	match(environment):
+		ENVIRONMENT.WATER:
+			grnd_chk.enabled = false
+		ENVIRONMENT.NORMAL:
+			if mode == MODE.GAME:
 				grnd_chk.enabled = true
-				
-func restore_env():
-	var old = environment
-	environment = -1
-	set_env(old)
 			
 func mode_str():
 	match (mode):
@@ -198,6 +190,7 @@ func toggle_collisions(stat: bool):
 	grnd_chk.enabled = stat
 	stairs_chk.enabled = stat
 	aim_ray.enabled = stat
+	prop_ray.enabled = stat
 	
 	Utils.toggle_area(interact_chk, stat)
 	# Utils.toggle_area(env_chk, stat)
@@ -259,9 +252,12 @@ func _on_other_lost(body: Node) -> void:
 	compass.remove_target(body)
 
 func _on_entered_env(area: Area) -> void:
-	if (Globals.get_layer_bit_in_object(area, "Water")):
-		set_env(ENVIRONMENT.WATER)
+	if area.has_meta("ENV_TYPE"):
+		var env = area.get_meta("ENV_TYPE")
+		
+		set_env(env)
 
 
 func _on_exited_env(area: Area) -> void:
-	set_env(ENVIRONMENT.NORMAL)
+	if area.has_meta("ENV_TYPE"):
+		set_env(ENVIRONMENT.NORMAL)

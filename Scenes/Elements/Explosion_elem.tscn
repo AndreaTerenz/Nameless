@@ -1,12 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [sub_resource type="GDScript" id=22]
 script/source = "extends Spatial
 
 export(float, .1, 100.0, .1) var max_dist := 10.0
 export(float, .01, 1.0, .01) var min_force_ratio := .5
-export(float, 1.0, 1000.0, .5) var max_force := 100.0
+export(float, 1.0, 100.0, .05) var max_force := 5.0
 export(float, .5, 50.0, .1) var light_intensity := 24.0
+export(AudioStream) var boom_sound
+export(Color) var flash_tint = Color(1, 0.996078, 0.376471)
 
 var ray := RayCast.new()
 var tween := Tween.new()
@@ -20,17 +22,19 @@ func _ready() -> void:
 	ray.enabled = true
 	ray.cast_to = Vector3.FORWARD * max_dist
 	ray.collision_mask = 0
-	Utils.set_mask_bit_in_object(ray, \"Expl_blocks\")
+	Utils.set_mask_bit_in_object(ray, \"Env\")
 	light.omni_range = max_dist
-	light.light_energy = 0.0
-					
+	light.light_color = flash_tint
+	light.visible = false
+	
 func detonate():
 	particles.emitting = true
 	light.light_energy = light_intensity
+	light.visible = true
 	tween.interpolate_property(light, \"light_energy\", light_intensity, 0.0, .1, Tween.TRANS_EXPO, Tween.EASE_IN)
 	tween.start()
 	
-	var props = get_tree().get_nodes_in_group(\"props\")
+	var props = get_tree().get_nodes_in_group(Globals.EXPL_PROP_GRP)
 	var here = Utils.get_global_pos(self)
 	
 	for p in props:
@@ -42,7 +46,8 @@ func detonate():
 			
 			var has_collided := ray.is_colliding()
 			var coll_point := ray.get_collision_point()
-			var prop_closer = d < here.distance_to(coll_point)
+			var here_to_there = here.distance_to(coll_point)
+			var prop_closer = d < here_to_there
 			
 			if not has_collided or prop_closer:
 				var factor = 1.0 - smoothstep(0.0, max_dist, d)
@@ -75,17 +80,25 @@ material = SubResource( 30 )
 radius = 2.0
 height = 4.0
 
+[sub_resource type="SphereMesh" id=31]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="SpatialMaterial" id=32]
+flags_unshaded = true
+albedo_color = Color( 1, 0, 0, 1 )
+
 [node name="Explosion" type="Spatial"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 3.22025, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 script = SubResource( 22 )
 __meta__ = {
 "_edit_group_": true
 }
 max_dist = 20.0
 min_force_ratio = 0.15
-max_force = 437.5
 
 [node name="Particles" type="Particles" parent="."]
+visible = false
 emitting = false
 amount = 70
 lifetime = 0.5
@@ -95,8 +108,16 @@ process_material = SubResource( 27 )
 draw_pass_1 = SubResource( 26 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
+visible = false
 light_color = Color( 1, 0.996078, 0.376471, 1 )
 light_energy = 24.0
 shadow_enabled = true
 omni_range = 7.598
 omni_attenuation = 0.420449
+
+[node name="Boom" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Debug" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 31 )
+material/0 = SubResource( 32 )

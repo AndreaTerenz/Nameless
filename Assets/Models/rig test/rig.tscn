@@ -1,0 +1,153 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Models/rig test/rig.glb" type="PackedScene" id=1]
+[ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends Spatial
+
+onready var skeleton = $Armature/Skeleton
+
+func _ready() -> void:
+	start_sim()
+
+func start_sim() -> void:
+	skeleton.physical_bones_start_simulation()
+	
+"
+
+[sub_resource type="SphereShape" id=8]
+radius = 0.574026
+
+[sub_resource type="CapsuleShape" id=2]
+radius = 0.157838
+height = 0.891786
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 0.153505
+height = 0.779378
+
+[sub_resource type="CapsuleShape" id=7]
+radius = 0.157806
+height = 0.362848
+
+[node name="rig" instance=ExtResource( 1 )]
+script = SubResource( 9 )
+
+[node name="Sphere" parent="Armature/Skeleton" index="0"]
+material/0 = ExtResource( 2 )
+
+[node name="Physical Bone Body" type="PhysicalBone" parent="Armature/Skeleton" index="1"]
+transform = Transform( 1, 0, -1.50996e-07, -1.50996e-07, 0, -1, 0, 1, 0, 0, 0, 0 )
+mass = 11.0
+weight = 107.8
+friction = 0.7
+bounce = 0.2
+bone_name = "Body"
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone Body" index="0"]
+shape = SubResource( 8 )
+
+[node name="Physical Bone HipL" type="PhysicalBone" parent="Armature/Skeleton" index="2"]
+transform = Transform( 1.2544e-07, -1, 2.20386e-08, -0.353477, -2.78181e-08, 0.935443, -0.935444, -1.49012e-07, -0.353477, -0.456965, -0.521042, 0.196887 )
+joint_type = 3
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96047e-08, -6.53024e-14, 0.557 )
+body_offset = Transform( 1, 0, 0, -2.08616e-07, -1.42109e-14, -1, 1.35003e-13, 1, 1.1724e-13, 5.96046e-08, 0.557, 0 )
+friction = 0.7
+bounce = 0.2
+bone_name = "Hip.L"
+joint_constraints/angular_limit_enabled = false
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone HipL" index="0"]
+shape = SubResource( 2 )
+
+[node name="Physical Bone LowerLegL" type="PhysicalBone" parent="Armature/Skeleton" index="3"]
+transform = Transform( 1.48624e-07, 1, 5.13646e-08, 0.366175, -2.53188e-09, -0.930546, -0.930546, 1.80989e-07, -0.366176, -0.456965, -1.54713, 0.195563 )
+joint_type = 2
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22553e-06, -6.35444e-14, -0.542002 )
+body_offset = Transform( 1, -1.98952e-13, 2.68221e-07, -1.49012e-07, 2.20268e-13, 1, 2.27374e-13, -1, 1.1724e-13, 1.37091e-06, 0.542002, 0 )
+friction = 0.7
+bounce = 0.2
+bone_name = "LowerLeg.L"
+joint_constraints/swing_span = 45.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone LowerLegL" index="0"]
+shape = SubResource( 3 )
+
+[node name="Physical Bone FootL" type="PhysicalBone" parent="Armature/Skeleton" index="4"]
+transform = Transform( -7.55147e-08, -1, 1.50996e-07, -1, 7.54977e-08, -0.000111073, 0.000111073, -1.51004e-07, -1, -0.457, -2.044, 0.323 )
+joint_type = 2
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000218016, -3.4545e-05, 0.322886 )
+body_offset = Transform( 1, -5.4394e-14, -4.7683e-07, 0, -5.55632e-08, -1, -4.0909e-09, 1, -7.94427e-08, 0.00021817, 0.322886, 3.45707e-05 )
+friction = 0.7
+bounce = 0.2
+bone_name = "Foot.L"
+joint_constraints/swing_span = 20.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone FootL" index="0"]
+shape = SubResource( 7 )
+
+[node name="Physical Bone HipR" type="PhysicalBone" parent="Armature/Skeleton" index="5"]
+transform = Transform( 5.33735e-08, -1, -1.41247e-07, 0.353476, 1.50996e-07, -0.935443, 0.935444, 0, 0.353476, 0.456964, -0.521042, 0.196886 )
+joint_type = 3
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, -9.83477e-07, -0.557 )
+body_offset = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 4.68958e-13, 5.96046e-08, 0.557, -9.83477e-07 )
+friction = 0.7
+bounce = 0.2
+bone_name = "Hip.R"
+joint_constraints/angular_limit_enabled = false
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone HipR" index="0"]
+shape = SubResource( 2 )
+
+[node name="Physical Bone LowerLegR" type="PhysicalBone" parent="Armature/Skeleton" index="6"]
+transform = Transform( -4.36483e-08, 1, 5.56532e-08, -0.366175, -6.77706e-08, 0.930546, 0.930546, 2.0238e-08, 0.366175, 0.456965, -1.54712, 0.195565 )
+joint_type = 2
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.06639e-07, -1.26366e-13, 0.542 )
+body_offset = Transform( 1, 0, 0, 2.38419e-07, 1.55431e-14, -1, -9.9476e-14, 1, 2.33147e-13, 5.06639e-07, 0.542, 0 )
+friction = 0.7
+bounce = 0.2
+bone_name = "LowerLeg.R"
+joint_constraints/swing_span = 45.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone LowerLegR" index="0"]
+shape = SubResource( 3 )
+
+[node name="Physical Bone FootR" type="PhysicalBone" parent="Armature/Skeleton" index="7"]
+transform = Transform( 1.39092e-08, -1, -8.7655e-08, 1, 1.38994e-08, 0.000111997, -0.00011152, -8.76566e-08, 1, 0.456965, -2.04378, 0.323113 )
+joint_type = 2
+joint_offset = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.44941e-08, -1.87784e-21, -0.323 )
+body_offset = Transform( 1, 2.55872e-16, 0, 0, 0, 1, 2.91165e-14, -1, 0, 6.44941e-08, 0.323, 0 )
+friction = 0.7
+bounce = 0.2
+bone_name = "Foot.R"
+joint_constraints/swing_span = 20.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Armature/Skeleton/Physical Bone FootR" index="0"]
+shape = SubResource( 7 )

@@ -42,3 +42,11 @@ func _on_body_exited(body: Node) -> void:
 			target = null
 		else:
 			intr.exited_range()
+
+
+func _on_prop_picked_up(obj) -> void:
+	monitoring = false
+
+
+func _on_prop_released(obj, was_launched) -> void:
+	monitoring = true
