@@ -217,7 +217,7 @@ tracks/3/keys = {
 
 [sub_resource type="ShaderMaterial" id=28]
 shader = ExtResource( 13 )
-shader_param/tint = Color( 0.16, 0.2, 0.38, 1 )
+shader_param/tint = Color( 0.0509804, 0.0745098, 0.184314, 1 )
 shader_param/clarity = 0.624
 
 [sub_resource type="GDScript" id=25]
@@ -254,6 +254,9 @@ export(float, 1.0, 40.0, .5) var throw_strength = 25.0
 
 var held_obj : Prop = null
 
+var mouse_moved := false
+var last_mouse_motion_time = -1
+
 func _ready() -> void:
 	Globals.connect(\"unpaused\", self, \"on_unpaused\")
 	
@@ -262,27 +265,30 @@ func on_unpaused():
 		release()
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		last_mouse_motion_time = Time.get_ticks_msec()
+	
 	if Input.is_action_just_pressed(\"throw\"):
 		if held_obj:
 			release(true)
-	else:
+	elif Input.is_action_just_released(\"grab_drop\"):
+		Console.write_line(\"grab_drop released\")
+		if held_obj:
+			release()
+	elif Input.is_action_just_pressed(\"grab_drop\"):
 		var coll = get_collider() as Prop
 		
-		if coll and coll.grab_enabled:
-			if Input.is_action_just_pressed(\"grab_drop\"):
-				if not held_obj:
-					held_obj = coll
-					held_obj.picked_up(self, hold_distance)
-					emit_signal(\"picked_up\", held_obj)
-			elif Input.is_action_just_released(\"grab_drop\"):
-				if held_obj:
-					release()
+		if coll and coll.grab_enabled and not held_obj:
+			held_obj = coll
+			held_obj.picked_up(self, hold_distance)
+			emit_signal(\"picked_up\", held_obj)
 
 func release(launch = false):
 	if launch:
 		held_obj.launched(throw_strength)
 	else:
-		held_obj.dropped()
+		var now = Time.get_ticks_msec()
+		held_obj.dropped((now - last_mouse_motion_time) < 10)
 	
 	emit_signal(\"released\", held_obj, launch)
 	

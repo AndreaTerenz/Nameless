@@ -60,11 +60,24 @@ func picked_up(by: Node, distance := 1.0, on_entered_slot := "on_entered_slot"):
 func _on_picked_up():
 	pass
 	
-func dropped():
+func dropped(mouse_moving := true):
 	Console.write_line("Prop " + name + " was DROPPED")
 	_release()
 	
 	emit_signal("dropped", holder)
+	
+	if mouse_moving:
+		var mouse_speed := Input.get_last_mouse_speed()
+		Console.write_line(mouse_speed)
+		# dir_x positive ==>
+		# mouse moving to the right FROM MY POV ==>
+		# obj going to the left FROM ITS POV
+		var dir_x := Utils.local_direction(self, Vector3.LEFT) * mouse_speed.x
+		var dir_y := Utils.local_direction(self, Vector3.UP) * mouse_speed.y
+		var push = ((dir_x + dir_y) * .01).limit_length(20.0)
+
+		apply_central_impulse(push)
+		
 	holder = null
 	
 	_on_dropped()
@@ -78,7 +91,7 @@ func launched(strength, forward_origin: Spatial = holder):
 	
 	emit_signal("launched", holder, strength) 
 	#holder = null
-	apply_central_impulse(-Utils.get_dir_vector(forward_origin, Vector3.AXIS_Z) * strength)
+	apply_central_impulse(Utils.local_direction(forward_origin, Vector3.BACK) * strength)
 	holder = null
 	
 	_on_launched()

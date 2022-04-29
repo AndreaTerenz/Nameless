@@ -141,7 +141,8 @@ func set_list(filter = \"\", notify_not_found := false):
 	
 	var faulty_maps := []
 	
-	filter = filter.to_lower()
+	var regex := RegEx.new()
+	regex.compile(\"(?i)\" + filter)
 	Console.write_line(\"Scanning folder '%s'...\" % current_dir)
 	var count = 0
 	for fr in Utils.list_files_in_directory(current_dir, [\"map\"]):
@@ -150,17 +151,19 @@ func set_list(filter = \"\", notify_not_found := false):
 		
 		match map.load_error:
 			MapFile.NO_ERROR:
-				Console.write_line(\"Found scene '%s' @ '%s'\" % [map.display_name, map.scene_file])
-				list.add_item(map.display_name)
-				list.set_item_tooltip(list.get_item_count()-1, map.description)
-				files.append(map)
+				
+				if filter == \"\" or regex.search(map.display_name):
+					Console.write_line(\"Found scene '%s' @ '%s'\" % [map.display_name, map.scene_file])
+					list.add_item(map.display_name)
+					list.set_item_tooltip(list.get_item_count()-1, map.description)
+					files.append(map)
 			MapFile.MF_INVALID_INCOMPLETE:
 				Console.Log.error(\"Map file '%s' contains invalid or incomplete data\" % path)
 				faulty_maps.append(path)
 			MapFile.MF_SCENE_FILE_NOT_FOUND:
 				Console.Log.error(\"Source scene '%s' not found [from map '%s']\" % [map.get_raw_scene_file(), map.display_name])
 				faulty_maps.append(path)
-				
+	
 	Console.write_line(\"Found %d scene files (loaded: %d)\" % [len(files), len(files) - len(faulty_maps)])
 	
 	if len(files) > 0:
@@ -858,9 +861,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -573.0
+margin_left = 1347.0
 margin_top = -166.0
-margin_right = 407.0
+margin_right = 2327.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50
