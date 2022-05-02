@@ -71,6 +71,9 @@ var inventory : Inventory = null
 var current_ui : GameUI = null
 
 func _ready() -> void:
+	var args = OS.get_cmdline_args()
+	Console.write_line("Running with arguments: '%s'" % [" ".join(args)])
+	
 	if Input.get_connected_joypads().size() > 0:
 		Console.Log.error("CONTROLLER INPUT NOT SUPPORTED AT THIS TIME")
 	

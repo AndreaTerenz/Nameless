@@ -281,6 +281,7 @@ Console="*res://addons/quentincaffeino/console/src/Console.tscn"
 Utils="*res://Scripts/Autoloads/Utils.gd"
 Globals="*res://Scripts/Autoloads/Globals.gd"
 Settings="*res://Scripts/Autoloads/Settings.gd"
+Args="*res://Scripts/Autoloads/Args.gd"
 
 [debug]
 
@@ -298,7 +299,7 @@ window/stretch/aspect="keep"
 
 [editor]
 
-main_run_args="--skip_splash --console"
+main_run_args="--skip_splash --console --defaut=soft"
 
 [editor_plugins]
 

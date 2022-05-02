@@ -10,13 +10,11 @@ var loader : ResourceInteractiveLoader = null
 
 onready var anim := $AnimationPlayer
 
-export var path := \"res://Scenes/Scene Hub.tscn\"
+export var hub_path := \"res://Scenes/Scene Hub.tscn\"
 
 func _ready() -> void:
-	var options : Dictionary = ArgParse.get_options()
-	
-	if options.has(\"skip_splash\"):
-		get_tree().change_scene(path)
+	if Args.find_option(Args.SKIP_SPLASH):
+		get_tree().change_scene(hub_path)
 	else:
 		anim.play(\"LogoAnim\")
 	
@@ -33,7 +31,7 @@ func _process(delta: float) -> void:
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		\"LogoAnim\":
-			loader = ResourceLoader.load_interactive(path)
+			loader = ResourceLoader.load_interactive(hub_path)
 			$Label.visible = true
 "
 

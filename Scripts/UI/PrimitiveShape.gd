@@ -13,6 +13,8 @@ export var fill := Color.white setget set_fill
 export var stroke := Color.black setget set_stroke
 export var stroke_weight := 4.0 setget set_stroke_weight
 
+export(bool) var stroke_on_top = true setget set_stroke_on_top
+
 func _get_property_list():
 	match type:
 		PRIMITIVES.CIRCLE:
@@ -68,6 +70,10 @@ func set_fill(value):
 func set_stroke_weight(value):
 	stroke_weight = value
 	update()
+	
+func set_stroke_on_top(value):
+	stroke_on_top = value
+	update()
 
 var radius := 20.0 setget set_radius
 func set_radius(value):
@@ -106,8 +112,12 @@ func _draw() -> void:
 			var size = Vector2(width, height)
 			var r = Rect2(-size/2.0, size)
 			
-			draw_rect(r, stroke, false, stroke_weight, true)
-			draw_rect(r, fill, true)
+			if not stroke_on_top:
+				draw_rect(r, stroke, false, stroke_weight, true)
+				draw_rect(r, fill, true)
+			else:
+				draw_rect(r, fill, true)
+				draw_rect(r, stroke, false, stroke_weight, true)
 		PRIMITIVES.ELLIPSE:
 			var scale = Vector2(minor/major, 1.0)
 			draw_set_transform(center, 0.0, scale)

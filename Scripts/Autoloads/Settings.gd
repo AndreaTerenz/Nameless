@@ -68,6 +68,9 @@ const WIN_MODE_BRDRLESS := "borderless"
 ######################################
 const AUDIO := "Audio"
 
+const MASTER_VOL := "master_volume"
+const MASTER_VOL_MUTED := "master_volume_mute"
+
 const defaults : Dictionary = {
 	CONTROLS : {
 		MOUSE_SENS: 1.0,
@@ -78,18 +81,22 @@ const defaults : Dictionary = {
 		RESOLUTION: NATIVE_RES,
 		WIN_MODE: WIN_MODE_FULL
 	},
-	AUDIO : {},
+	AUDIO : {
+		MASTER_VOL: 1.0,
+		MASTER_VOL_MUTED: false,
+	},
 }
 
-var debug_force_defaults = false
 func _ready():
 	if not data_loaded:
 		var err = config.load(target_file)
 		data_loaded = true
 		
-		if debug_force_defaults or err == ERR_FILE_NOT_FOUND:
+		var default_opt = Args.get_option(Args.DEFAULT_SETTINGS, [Args.DEFAULT_SETTS_RESET, Args.DEFAULT_SETTS_SOFT])
+		
+		if err == ERR_FILE_NOT_FOUND or default_opt:
 			load_defaults()
-			if err == ERR_FILE_NOT_FOUND:
+			if err == ERR_FILE_NOT_FOUND or (default_opt == Args.DEFAULT_SETTS_RESET):
 				save_data()
 		elif err == OK:
 			emit_signal("settings_loaded", false)
@@ -162,7 +169,23 @@ func apply_setting(section: String, key: String, value):
 					WIN_MODE_WINDW: 
 						Globals.set_fullscreen(false)
 	elif section == AUDIO:
-		pass
+		match key:
+			MASTER_VOL:
+				var idx = AudioServer.get_bus_index("Master")
+				var db = linear2db(clamp(value, 0.0, 1.0))
+				AudioServer.set_bus_volume_db(idx, db)
+			MASTER_VOL_MUTED:
+				# value == true --> audio MUTED
+				# value == false --> audio ENABLED
+				value = bool(value)
+				var idx = AudioServer.get_bus_index("Master")
+				var db = linear2db(0.0)
+				
+				if not value:
+					var volume = get_value(AUDIO, MASTER_VOL)
+					db = linear2db(clamp(volume, 0.0, 1.0))
+				
+				AudioServer.set_bus_volume_db(idx, db)
 		
 func apply_all():
 	for section in config.get_sections():
