@@ -18,6 +18,8 @@ var keep_hidden_state := false
 var current_weapon := 0
 var can_hide := true
 
+var player_hud : Control
+
 var gun_stat setget set_gun_state
 func switching():
 	return (gun_stat == GUN_STATE.SWITCHING)
@@ -39,6 +41,8 @@ func _on_player_set(p: Player):
 	load_gun()
 	set_crosshair()
 	set_gun_state(GUN_STATE.ACTIVE)
+	
+	player_hud.weapons_slots.load_weapons(self)
 	
 func set_crosshair():
 	var cross : Texture = null

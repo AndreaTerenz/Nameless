@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/compass_center.svg" type="Texture" id=2]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Scripts/UI/PrimitiveShape.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/UI/ProceduralShape.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Scenes/UI/Weapon Slot.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Sprites/compass.svg" type="Texture" id=7]
@@ -87,6 +87,7 @@ var c := 0
 
 onready var compass = $Compass
 onready var notif_list := $Notifications
+onready var weapons_slots = $\"Weapon Wheel\"
 
 func _ready() -> void:
 	Globals.connect(\"player_set\", self, \"_on_player_set\")
@@ -286,12 +287,9 @@ var current_slot := 0
 var visible_pos := 0.0
 
 func _ready() -> void:
-	Globals.connect(\"player_set\", self, \"_on_player_set\")
-	
 	slot_cont.get_child(0).queue_free()
-
-func _on_player_set(p: Player):
-	var hook = p.gun_hook
+	
+func load_weapons(hook):
 	hook.connect(\"weapon_switched\", self, \"_on_gun_switched\")
 	
 	for i in range(0, len(hook.weapons)):
@@ -386,6 +384,7 @@ use_filter = true
 font_data = ExtResource( 8 )
 
 [sub_resource type="StyleBoxFlat" id=34]
+resource_local_to_scene = true
 bg_color = Color( 0.270588, 1, 0.156863, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -393,6 +392,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id=35]
+resource_local_to_scene = true
 bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -536,8 +536,10 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-stroke_weight = 0.1
-radius = 5.0
+fill = Color( 1, 0.956863, 0.113725, 1 )
+stroke = Color( 0.134766, 0.134156, 0.0379028, 1 )
+stroke_weight = 1.481
+radius = 8.064
 
 [node name="TextureRect" type="TextureRect" parent="Crosshair"]
 margin_left = 934.0

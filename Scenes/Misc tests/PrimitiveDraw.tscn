@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/UI/PrimitiveShape.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/UI/ProceduralShape.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "# fuck you gdscript
+extends \"res://Scripts/UI/ProceduralShape.gd\"
+
+# class_name ProceduralRectangle
+
+
+func _ready() -> void:
+	pass
+"
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -20,8 +31,15 @@ margin_right = 20.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 20, 20 )
 script = ExtResource( 1 )
-type = 1
-fill = Color( 0.945098, 0.294118, 0.294118, 1 )
-stroke = Color( 0.192157, 0, 0, 1 )
-width = 27.885
-height = 25.513
+radius = 20.0
+
+[node name="Shape2" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -66.0
+margin_top = -40.0
+margin_right = -26.0
+rect_pivot_offset = Vector2( 20, 20 )
+script = SubResource( 1 )

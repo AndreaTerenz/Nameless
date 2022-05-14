@@ -287,14 +287,27 @@ script/source = "extends SettingsTab
 [sub_resource type="GDScript" id=584]
 script/source = "extends HSlider
 
+export(NodePath) var par_tab_ref
+export(NodePath) var toggle_ref
+
 var edit : Settings.SettingsEdit
+var toggle : CheckButton
+var parent_tab : SettingsTab
 
 func _ready() -> void:
-	edit = Settings.SettingsEdit.new(Settings.AUDIO, Settings.MASTER_VOL)
+	parent_tab = get_node(par_tab_ref) as SettingsTab
+	if parent_tab:
+		parent_tab.connect(\"apply\", self, \"_on_apply_settings\")
+		parent_tab.connect(\"cancel\", self, \"_on_cancel_edits\")
+		
+	toggle = get_node(toggle_ref) as CheckButton
+	if toggle:
+		toggle.connect(\"pressed\", self, \"_on_toggle_pressed\")
+	
+	edit = Settings.SettingsEdit.new(_setting_section(), _setting_name())
 	value = edit.current_value
 	
-	var muted = Settings.get_value(Settings.AUDIO, Settings.MASTER_VOL_MUTED)
-	editable = not bool(muted)
+	connect(\"drag_ended\", self, \"_on_drag_ended\")
 
 func _on_apply_settings() -> void:
 	edit.apply()
@@ -305,9 +318,15 @@ func _on_cancel_edits() -> void:
 
 func _on_drag_ended(value_changed: bool) -> void:
 	edit.current_value = value
+	
+func _on_toggle_pressed() -> void:
+	editable = toggle.pressed
 
-func _on_MuteMaster_toggled(button_pressed: bool) -> void:
-	editable = button_pressed
+func _setting_section():
+	return Settings.AUDIO
+	
+func _setting_name():
+	return Settings.MASTER_VOL
 "
 
 [sub_resource type="GDScript" id=585]
@@ -322,7 +341,7 @@ var edit : Settings.SettingsEdit
 
 func _ready() -> void:
 	edit = Settings.SettingsEdit.new(Settings.AUDIO, Settings.MASTER_VOL_MUTED)
-	set_prsd(false)
+	set_prsd()
 
 func _on_toggled(button_pressed: bool) -> void:
 	edit.current_value = not button_pressed
@@ -337,9 +356,7 @@ func _on_cancel_edits() -> void:
 
 func set_prsd(emit_sig := true):
 	var s = not edit.current_value
-	set_pressed_no_signal(s)
-	if emit_sig:
-		emit_signal(\"master_vol_state\", s)
+	pressed = s
 "
 
 [sub_resource type="StyleBoxEmpty" id=57]
@@ -605,6 +622,8 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 script = SubResource( 584 )
+par_tab_ref = NodePath("../..")
+toggle_ref = NodePath("../MuteMaster_Btn")
 
 [node name="MuteMaster_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 896.0
@@ -633,6 +652,9 @@ margin_right = 888.0
 margin_bottom = 262.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
+max_value = 1.0
+step = 0.005
+value = 1.0
 
 [node name="MuteSfx_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 896.0
@@ -660,6 +682,9 @@ margin_right = 888.0
 margin_bottom = 428.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
+max_value = 1.0
+step = 0.005
+value = 1.0
 
 [node name="MuteMusic_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 896.0
@@ -756,12 +781,8 @@ target_node_path = NodePath("..")
 [connection signal="toggled" from="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" method="_on_toggled"]
 [connection signal="item_selected" from="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" method="_on_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" method="_on_item_selected"]
-[connection signal="apply" from="VBoxContainer/TabContainer/Audio" to="VBoxContainer/TabContainer/Audio/GridContainer/MasterVol_Slider" method="_on_apply_settings"]
 [connection signal="apply" from="VBoxContainer/TabContainer/Audio" to="VBoxContainer/TabContainer/Audio/GridContainer/MuteMaster_Btn" method="_on_apply_settings"]
-[connection signal="cancel" from="VBoxContainer/TabContainer/Audio" to="VBoxContainer/TabContainer/Audio/GridContainer/MasterVol_Slider" method="_on_cancel_edits"]
 [connection signal="cancel" from="VBoxContainer/TabContainer/Audio" to="VBoxContainer/TabContainer/Audio/GridContainer/MuteMaster_Btn" method="_on_cancel_edits"]
-[connection signal="drag_ended" from="VBoxContainer/TabContainer/Audio/GridContainer/MasterVol_Slider" to="VBoxContainer/TabContainer/Audio/GridContainer/MasterVol_Slider" method="_on_drag_ended"]
-[connection signal="master_vol_state" from="VBoxContainer/TabContainer/Audio/GridContainer/MuteMaster_Btn" to="VBoxContainer/TabContainer/Audio/GridContainer/MasterVol_Slider" method="_on_MuteMaster_toggled"]
 [connection signal="toggled" from="VBoxContainer/TabContainer/Audio/GridContainer/MuteMaster_Btn" to="VBoxContainer/TabContainer/Audio/GridContainer/MuteMaster_Btn" method="_on_toggled"]
 [connection signal="apply_settings" from="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn" to="." method="_on_apply_settings"]
 [connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn" to="VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn" method="_on_pressed"]

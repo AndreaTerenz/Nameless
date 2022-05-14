@@ -1,6 +1,7 @@
 tool
 extends Control
 
+#class_name ProceduralShape
 
 enum PRIMITIVES {
 	CIRCLE,

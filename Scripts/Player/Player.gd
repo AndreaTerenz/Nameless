@@ -33,7 +33,7 @@ export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
 export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
-export(bool) var get_fall_damage = true
+export(bool) var get_fall_damage = false
 
 var mouse_sensitivity: float = .0
 var bonked_head: bool = false
@@ -57,21 +57,21 @@ onready var head_anim = $Head/AnimationPlayer
 onready var body = $Body
 onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
-onready var water_hemisphere = $"Head/Camera/Water Effect 3D"
+onready var water_hemisphere = get_node("%WaterFX")
 onready var env_chk = $"Head/Env Check"
-onready var hud = $"Head/Camera/Hud"
+onready var hud = get_node("%Hud")
 onready var compass = $Head/Camera/Hud/Compass
-onready var gun_camera = $"Head/Camera/ViewportContainer/Viewport/Gun Camera"
+onready var gun_camera = get_node("%GunCamera")
 onready var grnd_chk := $Foot/GroundCheck
 onready var roof_chk = $Head/RoofCheck
 onready var stairs_chk = $StairsChecks
-onready var interact_chk = $Head/InteractRay
-onready var look_ray = $Head/LookRay
-onready var aim_ray = $Head/AimRay
-onready var prop_ray = $Head/PropRay
+onready var interact_chk = get_node("%InteractRay")
+onready var look_ray = get_node("%LookRay")
+onready var aim_ray = get_node("%AimRay")
+onready var prop_ray = get_node("%PropRay")
 onready var hitbox : Hitbox = $Hitbox
 onready var others_chck = $OthersDetection
-onready var gun_hook = $"Head/Camera/ViewportContainer/Viewport/Gun Camera/Gun Hook"
+onready var gun_hook = get_node("%GunHook")
 onready var light = $"Head/Flashlight"
 
 func _ready() -> void:
@@ -92,6 +92,9 @@ func _ready() -> void:
 	grnd_chk.debug_ignore_dmg = not get_fall_damage
 	
 	set_mode(start_mode)
+	
+	gun_hook.player_hud = hud
+	#hud.weapons_slots.load_weapons(gun_hook)
 	
 	Globals.set_player(self)
 	

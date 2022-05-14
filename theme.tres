@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=29 format=2]
+[gd_resource type="Theme" load_steps=30 format=2]
 
 [ext_resource path="res://base font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Assets/Sprites/UI/slider/tick.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Sprites/UI/checkbtns/check_off.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Sprites/UI/checkbtns/check_on.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Sprites/UI/slider/grabber_off.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=8]
 size = 48
@@ -183,7 +184,7 @@ CheckButton/icons/on = ExtResource( 11 )
 CheckButton/styles/focus = SubResource( 67 )
 CheckButton/styles/normal = SubResource( 67 )
 HSlider/icons/grabber = ExtResource( 7 )
-HSlider/icons/grabber_disabled = ExtResource( 7 )
+HSlider/icons/grabber_disabled = ExtResource( 12 )
 HSlider/icons/grabber_highlight = ExtResource( 8 )
 HSlider/icons/tick = ExtResource( 9 )
 HSlider/styles/grabber_area = SubResource( 64 )
