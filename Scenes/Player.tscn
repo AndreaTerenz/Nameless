@@ -646,6 +646,7 @@ visible = false
 
 [connection signal="area_entered" from="Head/Env Check" to="." method="_on_entered_env"]
 [connection signal="area_exited" from="Head/Env Check" to="." method="_on_exited_env"]
+[connection signal="hook_ready" from="Head/Camera/ViewportContainer/Viewport/GunCamera/GunHook" to="Head/Camera/Hud" method="_on_hook_ready"]
 [connection signal="animation_finished" from="Head/Camera/ViewportContainer/Viewport/GunCamera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/GunCamera/GunHook" method="_on_animation_finished"]
 [connection signal="animation_started" from="Head/Camera/ViewportContainer/Viewport/GunCamera/AnimationPlayer" to="Head/Camera/ViewportContainer/Viewport/GunCamera/GunHook" method="_on_animation_started"]
 [connection signal="body_entered" from="Head/InteractRay" to="Head/InteractRay" method="_on_body_entered"]

@@ -113,7 +113,9 @@ func inv_change_notif(entry: Inventory.InventoryEntry):
 	
 func inv_overw_notif():
 	notif_list.queue_notification(\"Inventory overweight\")
-	
+
+func _on_hook_ready(h) -> void:
+	weapons_slots.load_weapons(h)
 "
 
 [sub_resource type="ShaderMaterial" id=30]
@@ -285,6 +287,7 @@ onready var tween := $Tween
 var slots := []
 var current_slot := 0
 var visible_pos := 0.0
+var hidden_pos := 0.0
 
 func _ready() -> void:
 	slot_cont.get_child(0).queue_free()
@@ -300,7 +303,9 @@ func load_weapons(hook):
 		slots.append(slot)
 	
 	visible_pos = rect_position.y
-	rect_position.y += tween_amount
+	hidden_pos = rect_position.y + tween_amount
+	
+	rect_position.y = hidden_pos
 	
 func _on_gun_switched(to: int):
 	tween_pos(true)
@@ -311,21 +316,12 @@ func _on_gun_switched(to: int):
 	current_slot = to
 	
 func tween_pos(up := true):
-	var current := rect_position.y
-	
-	if not up or current != visible_pos:
-		var dir = -1 if up else 1
+	var dest = visible_pos if up else hidden_pos
 		
-		var dest: float
-		if up:
-			visible_pos
-		else:
-			max(current + tween_amount*dir, visible_pos)
-		
-		tween.interpolate_property(self, \"rect_position:y\", \\
-			current, current + tween_amount*dir, .2, \\
-			Tween.TRANS_EXPO, Tween.EASE_OUT)
-		tween.start()
+	tween.interpolate_property(self, \"rect_position:y\", \\
+		null, dest, .2, \\
+		Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.start()
 
 func _on_timeout() -> void:
 	tween_pos(false)

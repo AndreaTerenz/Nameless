@@ -7,6 +7,7 @@ enum GUN_STATE {
 }
 
 signal weapon_switched(i)
+signal hook_ready(h)
 
 export(NodePath) var anim_player_node
 export(PoolStringArray) var weapons_scenes
@@ -42,7 +43,7 @@ func _on_player_set(p: Player):
 	set_crosshair()
 	set_gun_state(GUN_STATE.ACTIVE)
 	
-	player_hud.weapons_slots.load_weapons(self)
+	emit_signal("hook_ready", self)
 	
 func set_crosshair():
 	var cross : Texture = null
