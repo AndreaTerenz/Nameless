@@ -16,6 +16,8 @@ var holder : Spatial = null
 var entered_slot_func := ""
 var initial_parent : Node
 
+var rotate_to_holder := false
+
 func _ready() -> void:
 	add_to_group(Globals.PROP_GRP)
 	if explode_enabled:
@@ -33,6 +35,14 @@ func _ready() -> void:
 	add_child(tween)
 	sleeping = true
 
+func _process(delta: float) -> void:
+	if rotate_to_holder:
+		var wrotation = Utils.lerp_rot_towards(self, holder, 8.0*delta)
+
+		global_transform = Transform(Basis(wrotation), global_transform.origin)
+		
+		rotate_to_holder = (wrotation.length() > 0)
+
 func picked_up(by: Node, distance := 1.0, on_entered_slot := "on_entered_slot"):
 	if grab_enabled:
 		emit_signal("picked_up", by)
@@ -44,15 +54,18 @@ func picked_up(by: Node, distance := 1.0, on_entered_slot := "on_entered_slot"):
 		connect("entered_slot", holder, entered_slot_func)
 		
 		var old_pos := Utils.get_global_pos(self)
+		var holder_pos := Utils.get_global_pos(holder)
+		
 		Utils.transfer_node(self, holder)
 		Utils.toggle_mask_bit_in_object(self, "Player")
-		
-		var d = old_pos.distance_to(Utils.get_global_pos(holder))
+
+		var d = old_pos.distance_to(holder_pos)
 		var start_pos : Vector3 = holder.to_local(old_pos)
-		var end_pos := Vector3.FORWARD * min(d, distance)
+		var end_pos := Vector3.BACK * min(d, distance)
+		
+		rotate_to_holder = true
 		
 		tween.interpolate_property(self, "transform:origin", start_pos, end_pos, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
-		tween.interpolate_property(self, "rotation", null, Vector3.ZERO, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
 		tween.start()
 		
 		_on_picked_up()
@@ -68,13 +81,10 @@ func dropped(mouse_moving := true):
 	
 	if mouse_moving:
 		var mouse_speed := Input.get_last_mouse_speed()
-		Console.write_line(mouse_speed)
-		# dir_x positive ==>
-		# mouse moving to the right FROM MY POV ==>
-		# obj going to the left FROM ITS POV
-		var dir_x := Utils.local_direction(self, Vector3.LEFT) * mouse_speed.x
+		# finnicky
+		var dir_x := Utils.local_direction(self, Vector3.RIGHT) * mouse_speed.x
 		var dir_y := Utils.local_direction(self, Vector3.UP) * mouse_speed.y
-		var push = ((dir_x + dir_y) * .01).limit_length(20.0)
+		var push = ((dir_x + dir_y) * .01).limit_length(16.0)
 
 		apply_central_impulse(push)
 		
@@ -91,7 +101,7 @@ func launched(strength, forward_origin: Spatial = holder):
 	
 	emit_signal("launched", holder, strength) 
 	#holder = null
-	apply_central_impulse(Utils.local_direction(forward_origin, Vector3.BACK) * strength)
+	apply_central_impulse(Utils.local_direction(forward_origin, Vector3.FORWARD) * strength)
 	holder = null
 	
 	_on_launched()
@@ -104,6 +114,7 @@ func _release():
 	sleeping = false
 	
 	tween.stop_all()
+	rotate_to_holder = false
 	
 	disconnect("entered_slot", holder, entered_slot_func)
 	
@@ -118,6 +129,7 @@ func entered_slot(s):
 	emit_signal("entered_slot")
 	
 	tween.stop_all()
+	rotate_to_holder = false
 	
 	disconnect("entered_slot", holder, entered_slot_func)
 	holder = null

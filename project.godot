@@ -99,6 +99,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Player/Inventory.gd"
 }, {
+"base": "BaseDoor",
+"class": "KeyDoor",
+"language": "GDScript",
+"path": "res://Scripts/EnvElements/Doors/KeyDoor.gd"
+}, {
 "base": "BaseZone",
 "class": "KillZone",
 "language": "GDScript",
@@ -238,6 +243,7 @@ _global_script_class_icons={
 "Hitbox": "",
 "Interactable": "",
 "Inventory": "",
+"KeyDoor": "",
 "KillZone": "",
 "Label3D": "",
 "LooKTrigger": "",

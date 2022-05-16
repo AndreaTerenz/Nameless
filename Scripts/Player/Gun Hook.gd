@@ -53,27 +53,28 @@ func set_crosshair():
 	Globals.player.hud.set_crosshair_text(cross)
 
 func _input(_event: InputEvent) -> void:
-	if gun.aimable:
-		var pressed = Input.is_action_just_pressed("aim")
-		var released = Input.is_action_just_released("aim")
-		if pressed or released:
-			set_gun_state(GUN_STATE.INACTIVE)
-			if pressed:
-				can_hide = false
-				anim_player.play("Aim")
-			elif released:
-				anim_player.play("Aim Reverse")
-	
-	if can_hide:
-		if Input.is_action_just_pressed("next weapon"):
-			switch_weapon(slots+1)
-		elif Input.is_action_just_pressed("prev weapon"):
-			switch_weapon(-1)
-			
-		for i in range(0, slots):
-			var action := "weapon slot %d" % (i+1)
-			if i != current_weapon and Input.is_action_just_pressed(action):
-				switch_weapon(i)
+	if not keep_hidden_state:
+		if gun.aimable:
+			var pressed = Input.is_action_just_pressed("aim")
+			var released = Input.is_action_just_released("aim")
+			if pressed or released:
+				set_gun_state(GUN_STATE.INACTIVE)
+				if pressed:
+					can_hide = false
+					anim_player.play("Aim")
+				elif released:
+					anim_player.play("Aim Reverse")
+		
+		if can_hide:
+			if Input.is_action_just_pressed("next weapon"):
+				switch_weapon(slots+1)
+			elif Input.is_action_just_pressed("prev weapon"):
+				switch_weapon(-1)
+				
+			for i in range(0, slots):
+				var action := "weapon slot %d" % (i+1)
+				if i != current_weapon and Input.is_action_just_pressed(action):
+					switch_weapon(i)
 
 func set_hidden(value):
 	if hidden != value and not keep_hidden_state:
@@ -146,14 +147,13 @@ func set_gun_state(state):
 func _on_interact_data(d) -> void:
 	pass
 
-
-func _on_grabbed_rb_pickup(obj) -> void:
-	Console.write_line("grabbd pickup so gun hid")
+func _on_prop_picked_up(obj) -> void:
+	#Console.write_line("grabbd pickup so gun hid")
 	set_hidden(true)
 	keep_hidden_state = true
 
 
-func _on_released_rb_pickup(obj, was_launched) -> void:
-	Console.write_line("droppd pickup so gun show")
+func _on_prop_released(obj, was_launched) -> void:
+	#Console.write_line("droppd pickup so gun show")
 	keep_hidden_state = false
 	set_hidden(false)

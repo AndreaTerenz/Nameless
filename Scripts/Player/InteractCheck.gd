@@ -16,7 +16,7 @@ func _input(event: InputEvent) -> void:
 			send_data(target.interact())
 			
 		if target.is_queued_for_deletion():
-			target = null
+			target_gone()
 
 
 func send_data(data):
@@ -30,6 +30,7 @@ func send_data(data):
 func _on_body_entered(body: Node) -> void:
 	target = body as Interactable
 	if target:
+		$InteractTip.show_tip(target.interact_txt)
 		target.entered_range()
 
 
@@ -39,10 +40,13 @@ func _on_body_exited(body: Node) -> void:
 		if intr == target:
 			if target.continuous:
 				target.stop_interaction()
-			target = null
+			target_gone()
 		else:
 			intr.exited_range()
-
+			
+func target_gone():
+	$InteractTip.hide_tip()
+	target = null
 
 func _on_prop_picked_up(obj) -> void:
 	monitoring = false

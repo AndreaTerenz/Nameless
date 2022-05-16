@@ -122,6 +122,18 @@ static func local_direction(obj: Spatial, direction : Vector3) -> Vector3:
 		Vector3.LEFT: return obj.global_transform.basis.x
 		
 	return Vector3.ZERO
+
+static func lerp_rot_towards(obj: Spatial, target: Spatial, amount: float = 1.0) -> Quat:
+	var target_pos = Utils.get_global_pos(target)
+	var obj_pos = Utils.get_global_pos(obj)
+	var obj_global_tr = obj.global_transform
+	
+	var wtransform = obj_global_tr.looking_at(target_pos,Vector3.UP)
+	
+	return Utils.transform2quat(obj_global_tr).slerp(Utils.transform2quat(wtransform), amount)
+	
+static func transform2quat(tr: Transform) -> Quat:
+	return Quat(tr.basis)
 	
 static func rotate_with_mouse(event: InputEventMouseMotion, node: Spatial, x_rot_node : Spatial, sensitivity := .1 , head_rot_lim := 80.0, invert_y := false):
 	var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * sensitivity)

@@ -23,9 +23,17 @@ func _ready() -> void:
 
 func open():
 	emit_signal("opened")
+	_on_open()
+	
+func _on_open():
+	pass
 	
 func close():
 	emit_signal("closed")
+	_on_closed()
+	
+func _on_closed():
+	pass
 	
 func _on_deactivated():
 	close()

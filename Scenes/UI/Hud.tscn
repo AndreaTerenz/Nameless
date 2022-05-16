@@ -284,6 +284,12 @@ onready var slot_cont := $HBoxContainer
 onready var timer := $Timer
 onready var tween := $Tween
 
+var enabled := true setget set_enabled
+func set_enabled(value):
+	enabled = value
+	if not enabled:
+		tween_pos(false)
+
 var slots := []
 var current_slot := 0
 var visible_pos := 0.0
@@ -308,13 +314,14 @@ func load_weapons(hook):
 	rect_position.y = hidden_pos
 	
 func _on_gun_switched(to: int):
-	tween_pos(true)
-	timer.start()
-	
-	slots[current_slot].set_focused(false)
-	slots[to].set_focused(true)
-	current_slot = to
-	
+	if enabled:
+		tween_pos(true)
+		timer.start()
+		
+		slots[current_slot].set_focused(false)
+		slots[to].set_focused(true)
+		current_slot = to
+		
 func tween_pos(up := true):
 	var dest = visible_pos if up else hidden_pos
 		
@@ -619,9 +626,6 @@ margin_left = -21.0
 margin_top = -18.0
 margin_right = 23.0
 custom_styles/panel = SubResource( 18 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Weapon Wheel"]
 anchor_right = 1.0

@@ -11,7 +11,7 @@ var cast_shadow := true setget set_cast_shadow
 var use_in_baked_light := false setget set_use_in_baked
 
 var color := Color(0.6, 0.6, 0.6) setget set_color
-var unshaded := true 
+var unshaded := true setget set_unshaded
 var metallic := 0.0 setget set_metallic
 var roughness := 0.5 setget set_roughness
 var emission_strength := 0.0 setget set_emission_strength
@@ -206,6 +206,10 @@ func set_roughness(value: float) -> void:
 	if material:
 		material.set_shader_param("roughness", roughness)
 
+func set_unshaded(value: bool) -> void:
+	unshaded = value
+	if material:
+		material
 
 func set_emission_color(value: Color) -> void:
 	emission_color = value

@@ -14,6 +14,7 @@ onready var toggle: Togglable = get_node(toggle_path) as Togglable
 
 func _ready() -> void:
 	continuous = false
+	interact_txt = "Press"
 
 func press():
 	emit_signal("pressed")

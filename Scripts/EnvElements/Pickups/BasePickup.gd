@@ -8,6 +8,7 @@ export(bool) var permanent = false
 
 func _ready() -> void:
 	continuous = false
+	interact_txt = "Pick up"
 
 func _on_interact(sender: Node = null):
 	if inventory_has_space():
