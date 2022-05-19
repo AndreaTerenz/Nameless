@@ -1,0 +1,191 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scenes/UI/Pause menu.tscn" type="PackedScene" id=1]
+
+[sub_resource type="ProceduralSky" id=8]
+
+[sub_resource type="Environment" id=9]
+resource_local_to_scene = true
+background_mode = 3
+background_sky = SubResource( 8 )
+background_color = Color( 0.172549, 0.172549, 0.172549, 1 )
+tonemap_mode = 4
+ss_reflections_fade_in = 0.204906
+ssao_intensity = 68.37
+glow_enabled = true
+glow_intensity = 6.07
+glow_strength = 0.76
+glow_bicubic_upscale = true
+glow_high_quality = true
+
+[sub_resource type="PlaneMesh" id=10]
+size = Vector2( 11.786, 2 )
+
+[sub_resource type="Shader" id=11]
+code = "shader_type spatial;
+
+uniform float scaling = 2.;
+uniform float width : hint_range(0., 1.) = .5;
+uniform float skew : hint_range(0., 1.) = .5;
+
+uniform sampler2D base_color : hint_albedo;
+uniform vec4 tint : hint_color ;
+uniform vec4 background : hint_color ;
+
+bool compare(float value, float ref, float delta) {
+	return abs(value - ref) <= delta/2.;
+}
+
+float remap(float value, float low1, float high1, float low2, float high2) {
+	return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
+}
+
+void fragment() {
+	vec2 uv = UV;
+	
+	uv *= scaling;
+	uv.x -= skew * uv.y;
+	
+	uv = fract(uv);
+	
+	float mask = float(compare(uv.x, .5, width));
+	
+	ALBEDO = (texture(base_color, UV) * mix(background, tint, mask)).rgb;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=13]
+
+[sub_resource type="NoiseTexture" id=14]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource( 13 )
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
+shader_param/scaling = 2.0
+shader_param/width = 0.5
+shader_param/skew = 0.5
+shader_param/tint = Color( 0.972549, 0.956863, 0, 1 )
+shader_param/background = Color( 0.172549, 0.172549, 0.172549, 1 )
+shader_param/base_color = SubResource( 14 )
+
+[sub_resource type="PlaneMesh" id=17]
+size = Vector2( 5.541, 2 )
+
+[sub_resource type="Shader" id=15]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.5.beta5's SpatialMaterial.
+
+shader_type spatial;
+render_mode async_visible,blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : hint_color;
+uniform sampler2D texture_albedo : hint_albedo;
+uniform float specular;
+uniform float metallic;
+uniform float roughness : hint_range(0,1);
+uniform float point_size : hint_range(0,128);
+varying vec3 uv1_triplanar_pos;
+uniform float uv1_blend_sharpness;
+varying vec3 uv1_power_normal;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform float scaling = 2.;
+uniform float width : hint_range(0., 1.) = .5;
+uniform float skew : hint_range(0., 1.) = .5;
+
+uniform sampler2D base_color : hint_albedo;
+uniform vec4 tint : hint_color ;
+uniform vec4 background : hint_color ;
+
+bool compare(float value, float ref, float delta) {
+	return abs(value - ref) <= delta/2.;
+}
+
+float remap(float value, float low1, float high1, float low2, float high2) {
+	return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
+}
+
+void vertex() {
+	TANGENT = vec3(0.0,0.0,-1.0) * abs(NORMAL.x);
+	TANGENT+= vec3(1.0,0.0,0.0) * abs(NORMAL.y);
+	TANGENT+= vec3(1.0,0.0,0.0) * abs(NORMAL.z);
+	TANGENT = normalize(TANGENT);
+	BINORMAL = vec3(0.0,1.0,0.0) * abs(NORMAL.x);
+	BINORMAL+= vec3(0.0,0.0,-1.0) * abs(NORMAL.y);
+	BINORMAL+= vec3(0.0,1.0,0.0) * abs(NORMAL.z);
+	BINORMAL = normalize(BINORMAL);
+	uv1_power_normal=pow(abs(NORMAL),vec3(uv1_blend_sharpness));
+	uv1_power_normal/=dot(uv1_power_normal,vec3(1.0));
+	uv1_triplanar_pos = VERTEX * uv1_scale + uv1_offset;
+	uv1_triplanar_pos *= vec3(1.0,-1.0, 1.0);
+}
+
+
+vec4 triplanar_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) {
+	vec4 samp=vec4(0.0);
+	samp+= texture(p_sampler,p_triplanar_pos.xy) * p_weights.z;
+	samp+= texture(p_sampler,p_triplanar_pos.xz) * p_weights.y;
+	samp+= texture(p_sampler,p_triplanar_pos.zy * vec2(-1.0,1.0)) * p_weights.x;
+	return samp;
+}
+
+
+void fragment() {
+	vec4 albedo_tex = triplanar_texture(texture_albedo,uv1_power_normal,uv1_triplanar_pos);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	METALLIC = metallic;
+	ROUGHNESS = roughness;
+	SPECULAR = specular;
+	
+	vec2 uv = uv1_triplanar_pos.xy;
+	uv.x += skew * uv.y;
+	
+	uv *= scaling;
+	
+	uv = fract(uv);
+	
+	float mask = float(compare(uv.x, .5, width));
+	
+	ALBEDO = vec3(uv, 0.);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 15 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/uv1_blend_sharpness = 1.0
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/scaling = 9.332
+shader_param/width = 0.5
+shader_param/skew = 0.5
+shader_param/tint = Color( 0.658824, 0.843137, 0, 1 )
+shader_param/background = null
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 9 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.647587, -0.342429, 0.680715, 0, 0.893337, 0.449387, -0.761992, 0.291017, -0.578514, 1.77022, 1.22198, -1.49977 )
+
+[node name="Pause menu" parent="." instance=ExtResource( 1 )]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 10 )
+material/0 = SubResource( 12 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.311926, 0, -2.24197 )
+mesh = SubResource( 17 )
+material/0 = SubResource( 16 )

@@ -32,6 +32,9 @@ func _on_body_entered(body: Node) -> void:
 	if target:
 		$InteractTip.show_tip(target.interact_txt)
 		target.entered_range()
+	# ugly ugly ugly
+	if body is Prop and body.grab_enabled:
+		$InteractTip.show_tip("Pick up")
 
 
 func _on_body_exited(body: Node) -> void:
@@ -43,6 +46,9 @@ func _on_body_exited(body: Node) -> void:
 			target_gone()
 		else:
 			intr.exited_range()
+	# ugly ugly ugly
+	if body is Prop:
+		$InteractTip.hide_tip()
 			
 func target_gone():
 	$InteractTip.hide_tip()
@@ -54,3 +60,7 @@ func _on_prop_picked_up(obj) -> void:
 
 func _on_prop_released(obj, was_launched) -> void:
 	monitoring = true
+
+
+func diocane(area: Area) -> void:
+	print("diocane " + area.name)

@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/argparse/ArgParse.gd"
 }, {
-"base": "Reference",
-"class": "ArrayUtils",
-"language": "GDScript",
-"path": "res://addons/SIsilicon.3d.text/array_utils.gd"
-}, {
 "base": "CollisionObject",
 "class": "BaseCharacter",
 "language": "GDScript",
@@ -108,11 +103,6 @@ _global_script_classes=[ {
 "class": "KillZone",
 "language": "GDScript",
 "path": "res://Scripts/EnvElements/KillZone.gd"
-}, {
-"base": "Spatial",
-"class": "Label3D",
-"language": "GDScript",
-"path": "res://addons/SIsilicon.3d.text/label_3d.gd"
 }, {
 "base": "TriggerZone",
 "class": "LooKTrigger",
@@ -199,6 +189,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Player/Movement/StandardMover.gd"
 }, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://Scripts/FSM/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://Scripts/FSM/StateMachine.gd"
+}, {
 "base": "Base_Button",
 "class": "SwitchButton",
 "language": "GDScript",
@@ -227,7 +227,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AmmoPickup": "",
 "ArgParse": "",
-"ArrayUtils": "",
 "BaseCharacter": "",
 "BaseDoor": "",
 "BaseGun": "",
@@ -245,7 +244,6 @@ _global_script_class_icons={
 "Inventory": "",
 "KeyDoor": "",
 "KillZone": "",
-"Label3D": "",
 "LooKTrigger": "",
 "MapFile": "",
 "MeleeWeapon": "",
@@ -263,6 +261,8 @@ _global_script_class_icons={
 "Slot": "",
 "StairsMover": "",
 "StandardMover": "",
+"State": "",
+"StateMachine": "",
 "SwitchButton": "",
 "TimerButton": "",
 "Togglable": "",

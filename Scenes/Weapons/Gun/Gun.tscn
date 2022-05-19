@@ -1,9 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://addons/SIsilicon.3d.text/label_3d.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=3]
-[ext_resource path="res://base font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=7]
@@ -50,25 +48,6 @@ muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 3 )
 fire_rate = 20
 max_mags = 5
-
-[node name="Label3D" type="Spatial" parent="."]
-transform = Transform( -6.31881e-08, 0.82691, -0.94448, 0, 2.37697, 0.32857, 1.44557, 3.61454e-08, -4.12845e-08, -2.45463, 1.56608, -1.07102e-07 )
-script = ExtResource( 2 )
-text = "00"
-text_size = 1.0
-font = ExtResource( 4 )
-align = 3
-layer = 2
-cast_shadow = false
-use_in_baked_light = false
-color = Color( 1, 1, 1, 1 )
-metallic = 0.0
-roughness = 0.5
-emission_color = Color( 1, 1, 1, 1 )
-emission_strength = 0.67
-extrude = 0.0
-max_steps = 256
-step_size = 1.0
 
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.58112, 0 )

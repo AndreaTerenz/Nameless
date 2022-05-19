@@ -79,6 +79,12 @@ static func vec3_deg2rad(v: Vector3):
 static func vec2_deg2rad(v: Vector2):
 	return Vector2(deg2rad(v.x), deg2rad(v.y))
 	
+static func mirror_vec2(origin: Vector2, to_mirror: Vector2):
+	return origin - (origin - to_mirror)
+	
+static func mirror_vec3(origin: Vector3, to_mirror: Vector3):
+	return origin - (origin - to_mirror)
+	
 static func round_vec2(v : Vector2, digits : int = 3):
 	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
 
