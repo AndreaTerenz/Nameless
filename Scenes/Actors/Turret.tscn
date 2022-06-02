@@ -17,6 +17,9 @@ var is_visible := false
 
 func _ready() -> void:
 	seek_ray.cast_to = Vector3(0, 0, -1) * min_dist
+	
+func check_player():
+	return Globals.player and player_in_range() and player_visible()
 
 func player_visible():
 	var p_pos = Utils.get_global_pos(Globals.player.camera)
@@ -61,7 +64,7 @@ func _update(_delta: float) -> void:
 	pass
 	
 func check_next():
-	if target.player_in_range() and target.player_visible():
+	if target.check_player():
 		state_machine.transition_to(\"Attack\")
 "
 
@@ -75,7 +78,7 @@ func _update(_delta: float) -> void:
 	target.rotate_y(_delta)
 	
 func check_next():
-	if target.player_in_range() and target.player_visible():
+	if target.check_player():
 		state_machine.transition_to(\"Attack\")
 "
 
@@ -91,7 +94,7 @@ func _update(_delta: float) -> void:
 	target.gun_pivot.look_at(p_pos, Vector3.UP)
 	
 func check_next():
-	if not (target.player_in_range() and target.player_visible()):
+	if not (target.check_player()):
 		target.gun_pivot.rotation.x *= 0.0
 		state_machine.transition_to(\"Seek\")
 "

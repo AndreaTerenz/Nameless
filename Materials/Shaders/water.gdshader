@@ -1,14 +1,12 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform float wave_speed : hint_range(0.0, 4.0) = .1;
-uniform float wave_frequency : hint_range(.5, 80.0) = 1.0;
-uniform float height_scale : hint_range(0.0, 6.0) = 1.0;
-uniform float height_oscill_speed : hint_range(0.0, 6.0) = 4.0;
+uniform float noise_scale : hint_range(.5, 80.0) = 1.0;
+uniform float time_mult : hint_range(0.0, 6.0) = 4.0;
 uniform float fresnel_scale : hint_range(0.0, 2.0) = .05;
 uniform float refraction_dampen : hint_range(0.1, 10.0) = 3.0;
 uniform bool realistic_murkiness = true;
-uniform float murkiness : hint_range(.0, .5) = .2;
+uniform float murkiness : hint_range(.0, 1.) = .2;
 
 uniform bool enable_edge = true;
 uniform float edge_scale : hint_range(0.1, 2.0) = 1.0;
@@ -49,17 +47,15 @@ float rim(float depth) {
 
 float noise_sum(vec2 uv, float time) {
 	vec3 na_sample = texture(noise_a, uv + time).rgb;
-	vec3 nb_sample = texture(noise_b, uv - time * .2).rgb;
+	vec3 nb_sample = texture(noise_b, uv - time).rgb;
 	
-	return (na_sample.r + nb_sample.r) - 1.0;
+	return remap_range(na_sample.r + nb_sample.r, 0., 2., -1., 1.);
 }
 
 float height(vec2 position, float time) {
-	float t = (time * height_oscill_speed);
-	float x = 80.0;
-	vec2 offset = .1 * vec2(cos(t), sin(t));
+	vec2 offset = .1 * vec2(cos(time), sin(time));
 	
-	return noise_sum((position + offset) / wave_frequency, t);
+	return noise_sum((position + offset) / noise_scale, time);
 }
 
 vec3 edge_color(sampler2D depth_txt, vec2 uv_pos, vec4 fragcoord) {
@@ -87,13 +83,13 @@ float get_clearness(vec2 uv_pos, sampler2D depth_txt, mat4 proj_mat, float vert_
 	depth = remap_range(depth, 0.0, 1.0, -1.0, 1.0);
 	depth = proj_mat[3][2] / (depth + proj_mat[2][2]);
 	depth += vert_z; //z < 0
-	depth = exp(-depth * murkiness * 2.0);
+	depth = exp(-depth * murkiness);
 
 	return 1.0 - clamp(depth, 0.0, 1.0);
 }
 
 vec2 refraction_vec(vec2 uv_pos, float time) {
-	float refraction = noise_sum(uv_pos, time / (height_oscill_speed * 5.0)) / (refraction_dampen * 15.0);
+	float refraction = noise_sum(uv_pos, time / (time_mult * 5.0)) / (refraction_dampen * 15.0);
 	return vec2(refraction);
 }
 
@@ -101,7 +97,7 @@ void vertex() {
 	float noise_x = remap_range(VERTEX.x, -1.0, 1.0, 0.0, 1.0);
 	float noise_y = remap_range(VERTEX.z, -1.0, 1.0, 0.0, 1.0);
 	
-	VERTEX.y += height(vec2(noise_x, noise_y), TIME * wave_speed);
+	VERTEX.y += height(vec2(noise_x, noise_y), TIME * time_mult / 10.);
 }
 
 float fresnel(vec3 normal, vec3 view) {
@@ -109,14 +105,14 @@ float fresnel(vec3 normal, vec3 view) {
 }
 
 void fragment() {
-	float time = TIME * wave_speed;
+	float time = TIME * time_mult / 5.;
 	float fr = fresnel(NORMAL, VIEW);
 	
-	vec2 refract_uv = SCREEN_UV + refraction_vec(UV, TIME);
+	vec2 refract_uv = SCREEN_UV + refraction_vec(UV, time);
 	vec3 edge_color = edge_color(DEPTH_TEXTURE, SCREEN_UV, FRAGCOORD);
 	float alpha = (!realistic_murkiness) ? tint.a : get_clearness(refract_uv, DEPTH_TEXTURE, PROJECTION_MATRIX, VERTEX.z);
 	
-	vec4 back = texture(SCREEN_TEXTURE, refract_uv); //+ texture(caustics_txt, refraction_vec(UV, TIME) * 40.0) * .1;
+	vec4 back = texture(SCREEN_TEXTURE, refract_uv);
 
 	vec3 color = mix(back.rgb, tint.rgb, alpha);
 	color = max(color, edge_color);
@@ -128,5 +124,4 @@ void fragment() {
 	ALBEDO.rgb = color + (fresnel_scale * fr);
 	SPECULAR = 1.0;
 	TRANSMISSION = tint.rgb;
-	
 }
