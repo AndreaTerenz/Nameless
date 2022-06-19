@@ -121,41 +121,28 @@ emission_operator = 0
 emission_on_uv2 = false
 uv1_triplanar = true
 
-[sub_resource type="BoxShape" id=35]
-extents = Vector3( 7.36901, 1, 1 )
-
-[sub_resource type="CubeMesh" id=2]
-
-[sub_resource type="GDScript" id=49]
-script/source = "extends CollisionShape
+[sub_resource type="GDScript" id=51]
+script/source = "extends Area
 
 
 func _ready() -> void:
-	var extents := (shape as BoxShape).extents
-	
-	var top := Vector3(0, extents.y, 0)
-	var bottom := Vector3(0, -extents.y, 0)
+	pass
 
-	var db_sphere_mesh := SphereMesh.new()
-	
-	var sphere1 = MeshInstance.new()
-	sphere1.mesh = db_sphere_mesh
-	
-	var sphere2 = MeshInstance.new()
-	sphere2.mesh = db_sphere_mesh
-	
-	add_child(sphere1)
-	add_child(sphere2)
-	
-	var parent_scale : Vector3 = get_parent().scale
-	var inverse_par_scale := Vector3(1.0/parent_scale.x, 1.0/parent_scale.y, 1.0/parent_scale.z)
-	
-	sphere1.translate(top)
-	sphere1.scale = inverse_par_scale
-	
-	sphere2.translate(bottom)
-	sphere2.scale = inverse_par_scale
+
+func _on_body_entered(body: Node) -> void:
+	if body == Globals.player:
+		Globals.player.entered_ladder(self)
+
+
+func _on_body_exited(body: Node) -> void:
+	if body == Globals.player:
+		Globals.player.left_ladder(self)
 "
+
+[sub_resource type="BoxShape" id=49]
+extents = Vector3( 3.04537, 1, 1 )
+
+[sub_resource type="CubeMesh" id=50]
 
 [sub_resource type="GDScript" id=16]
 script/source = "extends KinematicBody
@@ -551,22 +538,6 @@ width = 24.2303
 depth = 26.9968
 material = ExtResource( 3 )
 
-[node name="CSGBox8" type="CSGBox" parent="Env/CSGCombiner/Stairs/CSGBox5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96824, 0, -7.0227 )
-operation = 2
-width = 4.93698
-height = 9.18817
-depth = 3.85287
-material = ExtResource( 3 )
-
-[node name="CSGBox6" type="CSGBox" parent="Env/CSGCombiner/Stairs/CSGBox5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96824, -0.000100136, -1.24944 )
-operation = 2
-width = 4.93698
-height = 9.18817
-depth = 3.85287
-material = ExtResource( 3 )
-
 [node name="CSGBox7" type="CSGBox" parent="Env/CSGCombiner/Stairs/CSGBox5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96824, -0.000100136, 8.44036 )
 operation = 2
@@ -575,49 +546,21 @@ height = 9.18817
 depth = 3.85287
 material = ExtResource( 3 )
 
-[node name="Stair 2" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 16.839, -18.3257 )
-use_in_baked_light = true
-width = 2.74093
-height = 21.2704
-depth = 2.97328
-material = ExtResource( 3 )
-
-[node name="Stairs" type="StaticBody" parent="Env/CSGCombiner/Stairs/Stair 2"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.04904e-05 )
-collision_layer = 3
-
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 2/Stairs"]
-shape = SubResource( 35 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 2/Stairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
-use_in_baked_light = true
-mesh = SubResource( 2 )
-skeleton = NodePath("../../../../..")
-material/0 = ExtResource( 4 )
-
 [node name="Stair 1" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 10.2379, -12.5525 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.612, 20.0144, -10.7808 )
 use_in_baked_light = true
-width = 2.74093
-height = 21.2704
-depth = 2.97328
+width = 7.81403
+height = 0.706869
+depth = 6.26062
 material = ExtResource( 3 )
 
-[node name="Stairs" type="StaticBody" parent="Env/CSGCombiner/Stairs/Stair 1"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.04904e-05 )
-collision_layer = 3
-
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 1/Stairs"]
-shape = SubResource( 35 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 1/Stairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
+[node name="Stair 2" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.612, 35.3319, -21.6766 )
 use_in_baked_light = true
-mesh = SubResource( 2 )
-skeleton = NodePath("../../../../..")
-material/0 = ExtResource( 4 )
+width = 7.81403
+height = 0.706869
+depth = 6.26062
+material = ExtResource( 3 )
 
 [node name="Stair 3" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 10.2379, -2.86264 )
@@ -627,18 +570,41 @@ height = 21.2704
 depth = 2.97328
 material = ExtResource( 3 )
 
-[node name="NewStairs" type="StaticBody" parent="Env/CSGCombiner/Stairs/Stair 3"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.441, 0.3731, -1.04904e-05 )
-collision_layer = 3
+[node name="Area" type="Area" parent="Env/CSGCombiner/Stairs/Stair 3"]
+collision_layer = 2
+script = SubResource( 51 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 3/NewStairs"]
-shape = SubResource( 35 )
-script = SubResource( 49 )
+[node name="CollisionShape2" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 3/Area"]
+transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
+shape = SubResource( 49 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 3/NewStairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 4.44089e-16, 0, 1, 0, 0, 0 )
+[node name="MeshInstance2" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 3/Area"]
+transform = Transform( 0.1, 0, 0, 0, 10, 0, 8.88178e-16, 0, 1.248, -1.441, 0.373, 2.38419e-07 )
 use_in_baked_light = true
-mesh = SubResource( 2 )
+mesh = SubResource( 50 )
+skeleton = NodePath("../../../../..")
+material/0 = ExtResource( 4 )
+
+[node name="Stair 4" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.612, 25.1935, -18.4216 )
+use_in_baked_light = true
+width = 2.74093
+height = 21.2704
+depth = 2.97328
+material = ExtResource( 3 )
+
+[node name="Area" type="Area" parent="Env/CSGCombiner/Stairs/Stair 4"]
+collision_layer = 2
+script = SubResource( 51 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 4/Area"]
+transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
+shape = SubResource( 49 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 4/Area"]
+transform = Transform( 0.1, 0, 0, 0, 10, 0, 8.88178e-16, 0, 1.248, -1.441, 0.373, 2.38419e-07 )
+use_in_baked_light = true
+mesh = SubResource( 50 )
 skeleton = NodePath("../../../../..")
 material/0 = ExtResource( 4 )
 
@@ -734,7 +700,7 @@ fov = 79.0
 transform = Transform( 285.212, 0, -1.81899e-12, 0, 1, 0, 1.81899e-12, 0, 285.212, 0, -22.1031, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.51057, 17.001, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.51057, 17.001, 0 )
 collision_layer = 3
 speed_sprint_mult = 1.7
 std_fov = 70.0
@@ -746,3 +712,7 @@ zoom_fov = 30.0
 [connection signal="switched" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3" method="_on_btn_switched"]
 [connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_pressed"]
 [connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_released"]
+[connection signal="body_entered" from="Env/CSGCombiner/Stairs/Stair 3/Area" to="Env/CSGCombiner/Stairs/Stair 3/Area" method="_on_body_entered"]
+[connection signal="body_exited" from="Env/CSGCombiner/Stairs/Stair 3/Area" to="Env/CSGCombiner/Stairs/Stair 3/Area" method="_on_body_exited"]
+[connection signal="body_entered" from="Env/CSGCombiner/Stairs/Stair 4/Area" to="Env/CSGCombiner/Stairs/Stair 4/Area" method="_on_body_entered"]
+[connection signal="body_exited" from="Env/CSGCombiner/Stairs/Stair 4/Area" to="Env/CSGCombiner/Stairs/Stair 4/Area" method="_on_body_exited"]

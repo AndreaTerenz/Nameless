@@ -24,32 +24,20 @@ func _compute(delta: float):
 	
 	return gravity_vec + h_velocity*Vector3(1,0,1)
 	
-func get_next_mover():
-	if player.mode == player.MODE.GAME:
-		player.check_stairs()
-		
-		if player.on_stairs:
-			return stairs_mover_class.new()
-			
-	return null
-	
 func set_direction():
 	direction *= 0.0
 	
-	var basis : Basis = player.transform.basis
+	if Input.is_action_pressed("move_f"):
+		direction -= Utils.local_direction(player, Vector3.FORWARD)
+	elif Input.is_action_pressed("move_b"):
+		direction -= Utils.local_direction(player, Vector3.BACK)
 	
-	if player.is_on_floor() or not(player.stairs_chk.enabled):
-		if Input.is_action_pressed("move_f"):
-			direction -= basis.z
-		elif Input.is_action_pressed("move_b"):
-			direction += basis.z
+	if Input.is_action_pressed("move_l"):
+		direction -= Utils.local_direction(player, Vector3.LEFT)
+	elif Input.is_action_pressed("move_r"):
+		direction -= Utils.local_direction(player, Vector3.RIGHT)
 		
-		if Input.is_action_pressed("move_l"):
-			direction -= basis.x
-		elif Input.is_action_pressed("move_r"):
-			direction += basis.x
-			
-		direction = direction.normalized()
+	direction = direction.normalized()
 		
 func set_gravity_vec(delta):
 	if not(player.is_on_floor()):

@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/native_dialogs/bin/native_dialog_notify.gdns" type="Script" id=1]
+[ext_resource path="res://addons/native_dialogs/bin/native_dialog_message.gdns" type="Script" id=2]
+[ext_resource path="res://addons/native_dialogs/bin/native_dialog_open_file.gdns" type="Script" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+onready var notify := $NativeDialogNotify
+onready var message := $NativeDialogMessage
+onready var open_file := $NativeDialogOpenFile
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"ui_cancel\"):
+		get_tree().quit()
+
+func _on_NotifyBtn_pressed() -> void:
+	notify.send()
+
+func _on_MessageBtn_pressed() -> void:
+	message.show()
+
+func _on_OpenFileBtn_pressed() -> void:
+	open_file.show()
+"
+
+[node name="Root" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+
+[node name="NativeDialogNotify" type="Node" parent="."]
+script = ExtResource( 1 )
+title = "Ao"
+text = "ueueue"
+
+[node name="NativeDialogMessage" type="Node" parent="."]
+script = ExtResource( 2 )
+title = "Eoa"
+text = "Some map files haven't been loaded correctly"
+choice = 0
+icon = 2
+
+[node name="NativeDialogOpenFile" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = 82.0
+margin_bottom = 211.0
+custom_constants/separation = 59
+alignment = 1
+
+[node name="NotifyBtn" type="Button" parent="HBoxContainer"]
+margin_left = 601.0
+margin_top = 34.0
+margin_right = 801.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 200, 60 )
+size_flags_vertical = 4
+text = "Notify"
+
+[node name="MessageBtn" type="Button" parent="HBoxContainer"]
+margin_left = 860.0
+margin_top = 34.0
+margin_right = 1060.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 200, 60 )
+size_flags_vertical = 4
+text = "Message"
+
+[node name="OpenFileBtn" type="Button" parent="HBoxContainer"]
+margin_left = 1119.0
+margin_top = 34.0
+margin_right = 1319.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 200, 60 )
+size_flags_vertical = 4
+text = "Open File"
+
+[connection signal="pressed" from="HBoxContainer/NotifyBtn" to="." method="_on_NotifyBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/MessageBtn" to="." method="_on_MessageBtn_pressed"]
+[connection signal="pressed" from="HBoxContainer/OpenFileBtn" to="." method="_on_OpenFileBtn_pressed"]

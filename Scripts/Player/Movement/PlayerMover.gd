@@ -30,9 +30,9 @@ func setup(pl) -> void:
 	
 func _setup():
 	pass
-
-func get_next_mover():
-	return null
+	
+func new_mode():
+	return player.mode
 
 func get_velocity(delta: float):
 	velocity = _compute(delta)

@@ -13,6 +13,7 @@ enum ENVIRONMENT {
 
 enum MODE {
 	GAME,
+	STAIRS,
 	CINEMATIC,
 	NOCLIP
 }
@@ -39,7 +40,6 @@ var mouse_sensitivity: float = .0
 var bonked_head: bool = false
 var sprinting: bool = false
 var leaving_stairs: bool = false
-var on_stairs: bool = false
 var others_dict: Dictionary = {
 	Globals.GROUPS.ENEMIES: 0,
 	Globals.GROUPS.FRIENDLY: 0,
@@ -64,7 +64,6 @@ onready var compass = $Head/Camera/Hud/Compass
 onready var gun_camera = get_node("%GunCamera")
 onready var grnd_chk := $Foot/GroundCheck
 onready var roof_chk = $Head/RoofCheck
-onready var stairs_chk = $StairsChecks
 onready var interact_chk = get_node("%InteractRay")
 onready var look_ray = get_node("%LookRay")
 onready var aim_ray = get_node("%AimRay")
@@ -111,7 +110,7 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("flashlight"):
 		light.visible = !light.visible
 	
-	if not(on_stairs):
+	if mode != MODE.STAIRS:
 		mouse_sensitivity = mouse_sens_std
 		
 		camera.check_zoom()
@@ -130,10 +129,19 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide(mover.get_velocity(delta), Vector3.UP)
 	
-	change_mover(mover.get_next_mover())
+	set_mode(mover.new_mode())
 
-func set_mode(val):
-	if mode != val:
+func entered_ladder(l: Spatial):
+	set_mode(MODE.STAIRS)
+		
+	(mover as StairsMover).ladders.append(l)
+
+func left_ladder(l: Spatial):
+	if mode == MODE.STAIRS and mover is StairsMover:
+		(mover as StairsMover).ladders.erase(l)
+
+func set_mode(val, force=false):
+	if mode != val or force:
 		mode = val
 	
 		emit_signal("mode_changed", mode)
@@ -146,6 +154,11 @@ func set_mode(val):
 				toggle_collisions(true)
 				set_env()
 				change_mover(StandardMover.new())
+			MODE.STAIRS:
+				camera.show_ui(true)
+				gun_hook.hidden = true
+				
+				change_mover(StairsMover.new())
 			MODE.CINEMATIC:
 				camera.show_ui(false)
 				camera.toggle_sprint_fov(false)
@@ -179,6 +192,8 @@ func mode_str():
 	match (mode):
 		MODE.GAME:
 			return "GAME"
+		MODE.STAIRS:
+			return "STAIRS"
 		MODE.CINEMATIC:
 			return "CINEMATIC"
 		MODE.NOCLIP:
@@ -191,7 +206,6 @@ func toggle_collisions(stat: bool):
 	
 	roof_chk.enabled = stat
 	grnd_chk.enabled = stat
-	stairs_chk.enabled = stat
 	aim_ray.enabled = stat
 	prop_ray.enabled = stat
 	
@@ -202,9 +216,7 @@ func toggle_collisions(stat: bool):
 	Utils.toggle_area(look_ray, stat)
 
 func change_mover(new_mover: PlayerMover):
-	if new_mover == null:
-		return
-	if new_mover != mover:
+	if new_mover and new_mover != mover:
 		new_mover.setup(self)
 		mover = new_mover
 		emit_signal("mover_changed", mover)
@@ -216,18 +228,7 @@ func _noclip():
 		set_mode(MODE.GAME)
 	
 func check_stairs() -> void:
-	if not(on_stairs) and (is_on_floor() or not(leaving_stairs)):
-		stairs_chk.enabled = true
-		on_stairs = stairs_chk.any_collisions()
-		if on_stairs:
-			gun_hook.hidden = true
-			camera.toggle_sprint_fov(false)
-			sprinting = false
-	elif Input.is_action_just_pressed("jump"):
-		gun_hook.hidden = false
-		stairs_chk.enabled = false
-		on_stairs = false
-		leaving_stairs = true
+	return
 
 func _on_killed() -> void:
 	Globals._restart()
@@ -248,7 +249,6 @@ func _on_other_detected(body: Node) -> void:
 	others_dict[type] += 1
 	compass.add_target(body, type)
 
-
 func _on_other_lost(body: Node) -> void:
 	var type = get_other_type(body)
 	others_dict[type] -= 1
@@ -259,7 +259,6 @@ func _on_entered_env(area: Area) -> void:
 		var env = area.get_meta("ENV_TYPE")
 		
 		set_env(env)
-
 
 func _on_exited_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
