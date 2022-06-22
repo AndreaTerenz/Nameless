@@ -1,5 +1,5 @@
 class_name AmmoPickup
-extends BasePickup
+extends InventoryPickup
 
 export(PackedScene) var bullet_scn = preload("res://Scenes/Weapons/Bullet.tscn")
 
