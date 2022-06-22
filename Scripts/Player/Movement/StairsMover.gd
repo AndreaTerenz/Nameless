@@ -20,6 +20,21 @@ func _compute(delta: float):
 	
 	return dir * mult
 	
+func add_ladder(l: Spatial):
+	ladders.append(l)
+	
+	if len(ladders) == 1:
+		var p_pos := Utils.get_global_pos(player)
+		var snap_to := l.to_local(p_pos)
+		
+		snap_to.z = 0
+		
+		var tween = create_tween()
+		tween.tween_property(player, "global_transform:origin", l.to_global(snap_to), .1)
+
+func remove_ladder(l):
+	ladders.erase(l)
+	
 func new_mode():
 	if player.mode == player.MODE.STAIRS and (ladders.empty() or player.leaving_stairs):
 		return player.MODE.GAME

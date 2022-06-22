@@ -135,11 +135,11 @@ func _physics_process(delta: float) -> void:
 func entered_ladder(l: Spatial):
 	set_mode(MODE.STAIRS)
 		
-	(mover as StairsMover).ladders.append(l)
+	(mover as StairsMover).add_ladder(l)
 
 func left_ladder(l: Spatial):
 	if mode == MODE.STAIRS and mover is StairsMover:
-		(mover as StairsMover).ladders.erase(l)
+		(mover as StairsMover).remove_ladder(l)
 
 func set_mode(val, force=false):
 	if mode != val or force:
@@ -218,8 +218,14 @@ func toggle_collisions(stat: bool):
 
 func change_mover(new_mover: PlayerMover):
 	if new_mover and new_mover != mover:
+		if mover:
+			remove_child(mover)
+			mover.queue_free()
+		
 		new_mover.setup(self)
 		mover = new_mover
+		add_child(mover)
+		
 		emit_signal("mover_changed", mover)
 		
 func _noclip():
