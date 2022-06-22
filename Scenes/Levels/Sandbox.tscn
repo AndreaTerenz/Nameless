@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=11]
 [ext_resource path="res://Scripts/EnvElements/Buttons/TimerButton.gd" type="Script" id=12]
 [ext_resource path="res://Scripts/EnvElements/Doors/BaseDoor.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/EnvElements/Pickups/HealthPickup.gd" type="Script" id=14]
 [ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
 [ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=18]
@@ -125,6 +126,7 @@ uv1_triplanar = true
 script/source = "extends Area
 
 
+
 func _ready() -> void:
 	pass
 
@@ -201,6 +203,11 @@ shader_param/line_definition = 0.6
 shader_param/min_thickness = 0.26
 shader_param/base_texture = SubResource( 27 )
 shader_param/overlay_texture = ExtResource( 17 )
+
+[sub_resource type="CubeMesh" id=52]
+
+[sub_resource type="ConvexPolygonShape" id=53]
+points = PoolVector3Array( -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1 )
 
 [node name="Spatial" type="Spatial"]
 
@@ -699,8 +706,20 @@ fov = 79.0
 [node name="KillZone" parent="Env" instance=ExtResource( 19 )]
 transform = Transform( 285.212, 0, -1.81899e-12, 0, 1, 0, 1.81899e-12, 0, 285.212, 0, -22.1031, 0 )
 
+[node name="Interactable" type="StaticBody" parent="Env"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.0422, 2.865, -11.6948 )
+script = ExtResource( 14 )
+
+[node name="HP" type="MeshInstance" parent="Env/Interactable"]
+mesh = SubResource( 52 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Env/Interactable"]
+shape = SubResource( 53 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.51057, 17.001, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -17.6348, 37.7312, 22.2645 )
 collision_layer = 3
 speed_sprint_mult = 1.7
 std_fov = 70.0

@@ -7,6 +7,7 @@ signal hit(damage)
 signal changed(amnt)
 signal healed(amnt)
 
+var last_change_from := Vector3.ZERO
 var initial_health : float = 100
 var health : float = 100 
 
@@ -16,17 +17,18 @@ func _ready() -> void:
 	
 func set_initial_hp(h):
 	initial_health = h
-	set_health(h, true)
+	set_health(h, Vector3.ZERO, true)
 	
-func decrease_hp(delta = health):
-	set_health(health - delta)
+func decrease_hp(delta = health, from := Vector3.ZERO):
+	set_health(health - delta, from)
 	
-func increase_hp(delta = health):
-	set_health(health - delta)
+func increase_hp(delta, from := Vector3.ZERO):
+	set_health(health + delta, from)
 	
-func set_health(val, quiet := false):
+func set_health(val, from := Vector3.ZERO, quiet := false):
+	last_change_from = from
 	if val != health:
-		var tmp = health
+		var orig_hp = health
 		health = max(0.0, val)
 			
 		if health == 0.0:
@@ -35,7 +37,7 @@ func set_health(val, quiet := false):
 			monitoring = false
 			monitorable = false
 		elif not quiet:
-			emit_change(health - tmp)
+			emit_change(health - orig_hp)
 	else:
 		emit_signal("no_change")
 			

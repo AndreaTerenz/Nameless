@@ -13,6 +13,7 @@ enum ENVIRONMENT {
 
 enum MODE {
 	GAME,
+	WATER,
 	STAIRS,
 	CINEMATIC,
 	NOCLIP
@@ -35,7 +36,7 @@ export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
 export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
-export(bool) var get_fall_damage = false
+export(bool) var get_fall_damage = true
 
 var mouse_sensitivity: float = .0
 var bonked_head: bool = false
@@ -47,6 +48,7 @@ var others_dict: Dictionary = {
 	Globals.GROUPS.NEUTRAL: 0,
 }
 var compass_range := 0.0
+var drowning := false
 
 onready var mover = null
 onready var mode = -1 setget set_mode
@@ -59,7 +61,8 @@ onready var body = $Body
 onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
 onready var water_hemisphere = get_node("%WaterFX")
-onready var env_chk = $"Head/Env Check"
+onready var env_chk = get_node("%EnvCheck")
+onready var drown_timer = get_node("%DrownTimer")
 onready var hud = get_node("%Hud")
 onready var compass = $Head/Camera/Hud/Compass
 onready var gun_camera = get_node("%GunCamera")
@@ -73,6 +76,7 @@ onready var hitbox : Hitbox = $Hitbox
 onready var others_chck = $OthersDetection
 onready var gun_hook = get_node("%GunHook")
 onready var light = $"Head/Flashlight"
+onready var alerts_queue := get_node("%AlertsQueue")
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -155,6 +159,14 @@ func set_mode(val, force=false):
 				toggle_collisions(true)
 				set_env()
 				change_mover(StandardMover.new())
+			MODE.WATER:
+				drown_timer.start()
+				camera.show_ui(true)
+				gun_hook.hidden = false
+				
+				toggle_collisions(true)
+				#set_env()
+				change_mover(WaterMover.new())
 			MODE.STAIRS:
 				camera.show_ui(true)
 				gun_hook.hidden = true
@@ -184,9 +196,11 @@ func set_env(val = environment):
 	
 	match(environment):
 		ENVIRONMENT.WATER:
-			grnd_chk.enabled = false
+			set_mode(MODE.WATER)
 		ENVIRONMENT.NORMAL:
 			if mode == MODE.GAME:
+				drown_timer.stop()
+				drowning = false
 				grnd_chk.enabled = true
 			
 func mode_str():
@@ -270,3 +284,22 @@ func _on_entered_env(area: Area) -> void:
 func _on_exited_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
 		set_env(ENVIRONMENT.NORMAL)
+
+
+func _on_hit(damage) -> void:
+	var voice_dir = "res://Assets/Audio/Voices/Suit"
+	var sample1 = load("/".join([voice_dir, "major_fracture.ogg"]))
+	#alerts_queue.enqueue(sample1)
+	
+	if (hitbox.health / hitbox.initial_health < 0.2):
+		var sample2 = load("/".join([voice_dir, "critical.ogg"]))
+		#alerts_queue.enqueue(sample2)
+
+func _on_start_drown() -> void:
+	if not drowning:
+		drowning = true
+		drown_timer.wait_time = 1.5
+		drown_timer.one_shot = false
+		drown_timer.start()
+	else:
+		hitbox.decrease_hp(10)

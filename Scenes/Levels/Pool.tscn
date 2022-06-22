@@ -294,12 +294,14 @@ material = ExtResource( 3 )
 
 [node name="CSGSphere" type="CSGSphere" parent="Env/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.358587, -5.86005, -1.69359 )
+visible = false
 radial_segments = 24
 rings = 12
 material = ExtResource( 6 )
 
 [node name="CSGSphere3" type="CSGSphere" parent="Env/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95542, -13.86, 0.675066 )
+visible = false
 radius = 2.858
 radial_segments = 24
 rings = 12

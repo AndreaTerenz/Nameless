@@ -7,7 +7,7 @@
    viewBox="0 0 67.733332 135.46667"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
    sodipodi:docname="UI elements.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -16,31 +16,107 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
      id="namedview7"
-     pagecolor="#505050"
+     pagecolor="#000000"
      bordercolor="#ffffff"
      borderopacity="1"
      inkscape:pageshadow="0"
      inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="1"
+     inkscape:pagecheckerboard="false"
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
      inkscape:snap-page="true"
-     inkscape:zoom="0.90509668"
-     inkscape:cx="456.85727"
-     inkscape:cy="367.36407"
+     inkscape:zoom="0.32"
+     inkscape:cx="-4039.0625"
+     inkscape:cy="2820.3125"
      inkscape:window-width="1920"
-     inkscape:window-height="1022"
+     inkscape:window-height="1020"
      inkscape:window-x="0"
-     inkscape:window-y="28"
+     inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showguides="false"
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-center="true" />
+     inkscape:snap-center="true"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#000000" />
   <defs
      id="defs2">
+    <inkscape:path-effect
+       effect="copy_rotate"
+       starting_point="2.6096128,-89.930593"
+       origin="-860.05536,-89.930593"
+       id="path-effect1309"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       method="normal"
+       num_copies="8"
+       starting_angle="0"
+       rotation_angle="45"
+       gap="-0.01"
+       copies_to_360="true"
+       mirror_copies="false"
+       split_items="false"
+       link_styles="true" />
+    <inkscape:path-effect
+       effect="copy_rotate"
+       starting_point="315.49416,-93.551627"
+       origin="-753.4495,-93.551627"
+       id="path-effect1287"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       method="normal"
+       num_copies="8"
+       starting_angle="0"
+       rotation_angle="45"
+       gap="-0.01"
+       copies_to_360="true"
+       mirror_copies="false"
+       split_items="false"
+       link_styles="false" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1163">
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="0.45875329"
+         id="stop1153" />
+      <stop
+         style="stop-color:#ff2121;stop-opacity:0.10346727;"
+         offset="0.59975314"
+         id="stop1155" />
+      <stop
+         style="stop-color:#ff2121;stop-opacity:0.52453983;"
+         offset="0.75700986"
+         id="stop1157" />
+      <stop
+         style="stop-color:#ff1414;stop-opacity:0.71191478;"
+         offset="0.87258065"
+         id="stop1159" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="1"
+         id="stop1161" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient949">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop945" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.45882353;"
+         offset="0.12407129"
+         id="stop953" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="0.37977365"
+         id="stop947" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3659"
        inkscape:swatch="solid">
@@ -49,15 +125,27 @@
          offset="0"
          id="stop3657" />
     </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1163"
+       id="radialGradient1032"
+       cx="74.707779"
+       cy="92.918121"
+       fx="74.707779"
+       fy="92.918121"
+       r="68.321983"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(3.149692,1.3046452,-1.3046452,3.149692,-972.23487,-479.80647)" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient3659"
-       id="linearGradient3661"
-       x1="-109.89634"
-       y1="3.4238301"
-       x2="-68.791969"
-       y2="3.4238301"
-       gradientUnits="userSpaceOnUse" />
+       xlink:href="#linearGradient949"
+       id="linearGradient951"
+       x1="-378.70428"
+       y1="103.13813"
+       x2="-244.20337"
+       y2="72.365341"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-613.95019,-162.0412)" />
   </defs>
   <g
      inkscape:label="slider grabber"
@@ -122,14 +210,6 @@
          inkscape:export-ydpi="6.3763838" />
     </g>
   </g>
-  <path
-     style="color:#000000;fill:url(#linearGradient3661);fill-opacity:1;stroke:#ffec31;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;-inkscape-stroke:none"
-     d="m -102.6543,-98.505859 a 10.91735,10.91735 0 0 0 -5.91015,14.263672 c 23.252085,56.135503 23.252084,119.196527 0,175.332031 a 10.91735,10.91735 0 0 0 5.91015,14.263676 10.91735,10.91735 0 0 0 14.263675,-5.908208 c 25.464965,-61.477863 25.464966,-130.565105 0,-192.042968 a 10.91735,10.91735 0 0 0 -14.263675,-5.908203 z"
-     id="path958"
-     inkscape:label="damage dir"
-     inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/dmg_dir.png"
-     inkscape:export-xdpi="37.080002"
-     inkscape:export-ydpi="37.080002" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -227,6 +307,57 @@
          x="0.62888759"
          y="0.62888759" />
     </g>
+    <g
+       id="g5872"
+       inkscape:label="check_on"
+       inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/checkbtns/check_on.png"
+       inkscape:export-xdpi="37.740002"
+       inkscape:export-ydpi="37.740002">
+      <rect
+         style="fill:#94ff77;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.129;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         id="rect5868"
+         width="60.547485"
+         height="28.63002"
+         x="3.0470469"
+         y="222.56378"
+         inkscape:label="bg"
+         ry="2.0884116" />
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.65384;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect10420"
+         width="23.969156"
+         height="28.63002"
+         x="39.625378"
+         y="222.56378"
+         inkscape:label="bg"
+         ry="2.0884116" />
+    </g>
+    <g
+       id="g17667"
+       transform="rotate(180,33.320789,257.01273)"
+       inkscape:label="check_off"
+       inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/checkbtns/check_off.png"
+       inkscape:export-xdpi="37.740002"
+       inkscape:export-ydpi="37.740002">
+      <rect
+         style="fill:#1b1b1b;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.129;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         id="rect17658"
+         width="60.547485"
+         height="28.63002"
+         x="3.0470469"
+         y="222.56378"
+         inkscape:label="bg"
+         ry="2.0884116" />
+      <rect
+         style="fill:#bbbbbb;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.65384;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="rect17660"
+         width="23.969156"
+         height="28.63002"
+         x="39.625378"
+         y="222.56378"
+         inkscape:label="bg"
+         ry="2.0884116" />
+    </g>
   </g>
   <g
      inkscape:label="screen ratios"
@@ -306,54 +437,25 @@
     </g>
   </g>
   <g
-     id="g5872"
-     inkscape:label="check_on"
-     inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/checkbtns/check_on.png"
-     inkscape:export-xdpi="37.740002"
-     inkscape:export-ydpi="37.740002">
-    <rect
-       style="fill:#94ff77;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.129;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="rect5868"
-       width="60.547485"
-       height="28.63002"
-       x="3.0470469"
-       y="222.56378"
-       inkscape:label="bg"
-       ry="2.0884116" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.65384;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-       id="rect10420"
-       width="23.969156"
-       height="28.63002"
-       x="39.625378"
-       y="222.56378"
-       inkscape:label="bg"
-       ry="2.0884116" />
-  </g>
-  <g
-     id="g17667"
-     transform="rotate(180,33.320789,257.01273)"
-     inkscape:label="check_off"
-     inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/checkbtns/check_off.png"
-     inkscape:export-xdpi="37.740002"
-     inkscape:export-ydpi="37.740002">
-    <rect
-       style="fill:#1b1b1b;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.129;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="rect17658"
-       width="60.547485"
-       height="28.63002"
-       x="3.0470469"
-       y="222.56378"
-       inkscape:label="bg"
-       ry="2.0884116" />
-    <rect
-       style="fill:#bbbbbb;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.65384;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-       id="rect17660"
-       width="23.969156"
-       height="28.63002"
-       x="39.625378"
-       y="222.56378"
-       inkscape:label="bg"
-       ry="2.0884116" />
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Dmg indicator">
+    <path
+       id="path2127"
+       style="fill:url(#radialGradient1032);fill-opacity:1;stroke:url(#linearGradient951);stroke-width:3.19828;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       inkscape:transform-center-y="-4.5859941e-06"
+       d="M -858.15421,-89.676825 -1066.0006,-175.76845 V -3.5834402 l 207.84639,-86.0916238 z"
+       inkscape:transform-center-x="103.92322"
+       inkscape:tile-cx="-858.15417"
+       inkscape:tile-cy="-89.675939"
+       inkscape:tile-w="211.04467"
+       inkscape:tile-h="175.38313"
+       inkscape:tile-x0="-1067.5997"
+       inkscape:tile-y0="-177.36751"
+       inkscape:label="Slice"
+       inkscape:export-filename="dmg_dir.png"
+       inkscape:export-xdpi="16"
+       inkscape:export-ydpi="16"
+       class="UnoptimicedTransforms" />
   </g>
 </svg>
