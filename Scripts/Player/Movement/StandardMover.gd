@@ -6,19 +6,15 @@ var crouching: bool = false
 var bonked_head: bool = false
 var crouch_released: bool = false
 
-var stairs_mover_class = load("res://Scripts/Player/Movement/StairsMover.gd")
-
 func _compute(delta: float):
 	set_direction()
 	
+	var target_vel = direction * current_speed
+	h_velocity = h_velocity.linear_interpolate(target_vel, h_acceleration * delta)
+	
 	check_sprinting()
 	check_crouch()
-		
-	if not(player.leaving_stairs):
-		h_velocity = h_velocity.linear_interpolate(direction * current_speed, h_acceleration * delta)
-	else:
-		h_velocity = direction * current_speed 
-		player.leaving_stairs = false
+	check_stairs(delta)
 	
 	set_gravity_vec(delta)
 	
@@ -27,6 +23,7 @@ func _compute(delta: float):
 func set_direction():
 	direction *= 0.0
 	
+	# WHY -= ?????
 	if Input.is_action_pressed("move_f"):
 		direction -= Utils.local_direction(player, Vector3.FORWARD)
 	elif Input.is_action_pressed("move_b"):
@@ -40,21 +37,28 @@ func set_direction():
 	direction = direction.normalized()
 		
 func set_gravity_vec(delta):
+	h_acceleration = player.std_acceleration
+	
 	if not(player.is_on_floor()):
 		if not(bonked_head) and player.roof_chk.is_colliding():
 			gravity_vec *= 0.0
 			bonked_head = true
-		h_acceleration = 0.0
+		h_acceleration *= player.air_acc_factor
 		var grav_delta : Vector3 = Vector3.DOWN * player.gravity_strength * delta
 		gravity_vec += grav_delta
 	else:
 		bonked_head = false
-		h_acceleration = player.std_acceleration
 		gravity_vec = -player.get_floor_normal() * player.gravity_strength
 		
 	var can_jump = (player.is_on_floor() or player.grnd_chk.is_colliding()) and not(crouching)
 	if Input.is_action_just_pressed("jump") and can_jump:
 			gravity_vec = Vector3.UP * player.jump_strength
+			
+func check_stairs(delta: float):
+	if (player.leaving_stairs):
+		var forw = -Utils.local_direction(player, Vector3.FORWARD)
+		h_velocity = forw * current_speed 
+		player.leaving_stairs = false
 			
 func check_crouch():
 	if not(sprinting):

@@ -28,6 +28,7 @@ export(float, .01, .2, .005) var mouse_sens_std = 0.1
 export(float, .01, .9, .005) var zoom_mouse_sensitivity_factor = 0.33
 export(float, 10.0, 90.0, .01) var head_rot_limit = 80.0
 export(float, 1, 10, .1) var std_acceleration = 6.0
+export(float, 0.01, 1.0, .01) var air_acc_factor = 0.5
 export(float, .05, .2, .01) var fov_tween_speed = .1
 export(float, 60.0, 80.0, .5) var std_fov = 65.0
 export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
