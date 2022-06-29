@@ -87,6 +87,12 @@ static func mirror_vec3(origin: Vector3, to_mirror: Vector3):
 	
 static func round_vec2(v : Vector2, digits : int = 3):
 	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
+	
+static func round_vec3(v : Vector3, digits : int = 3):
+	return Vector3( \
+		stepify(v.x, pow(10, -digits)), \
+		stepify(v.y, pow(10, -digits)), \
+		stepify(v.z, pow(10, -digits)))
 
 func root_origin() -> Vector3:
 	var root = get_tree().current_scene
@@ -188,3 +194,43 @@ static func list_files_in_directory(path, extensions = [], include_hidden = fals
 	dir.list_dir_end()
 
 	return files
+	
+static func spatial_to_local(s: Spatial, orig: Spatial) -> Vector3:
+	return orig.to_local(Utils.get_global_pos(s))
+	
+static func vec2_to_list(v: Vector2) -> Array:
+	return [v.x, v.y]
+	
+static func vec3_to_list(v: Vector3) -> Array:
+	return [v.x, v.y, v.z]
+	
+static func vec2_abs(v: Vector2) -> Vector2:
+	return Vector2(abs(v.x), abs(v.y))
+	
+static func vec3_abs(v: Vector3) -> Vector3:
+	return Vector3(abs(v.x), abs(v.y), abs(v.z))
+
+static func float_to_vec2(v: float) -> Vector2:
+	return Vector2.ONE * v
+
+static func float_to_vec3(v: float) -> Vector3:
+	return Vector3.ONE * v
+	
+static func aabb_has_point(cube: AABB, p: Vector3) -> bool:
+	p = Utils.vec3_abs(p)
+	var half_size : Vector3 = Utils.vec3_abs(cube.size / 2)
+	
+	return (p.x <= half_size.x and \
+			p.y <= half_size.y and \
+			p.z <= half_size.z)
+
+static func aabb_has_sphere(cube: AABB, p: Vector3, r: float) -> bool:
+	var second_cube = cube.grow(-r)
+	
+	return aabb_has_point(second_cube, p)
+	
+static func aabb_from_center(c: Vector3, size: Vector3) -> AABB:
+	return AABB(c - size, size)
+
+static func aabb_at_origin(size: Vector3) -> AABB:
+	return aabb_from_center(Vector3.ZERO, size)

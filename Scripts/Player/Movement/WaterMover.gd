@@ -1,7 +1,7 @@
 class_name WaterMover
 extends PlayerMover
 
-var slowdown := 1/5.0
+var slowdown := 1/3.0
 var bonked_head: bool = false
 
 func _setup() -> void:
@@ -36,9 +36,12 @@ func set_direction():
 		
 func set_gravity_vec(delta):
 	h_acceleration = player.std_acceleration * slowdown
-	var grav = player.gravity_strength * (slowdown / 2.0)
+	var grav = player.gravity_strength * (slowdown)
 
 	if Input.is_action_pressed("jump"):
+		gravity_vec = Vector3.ZERO
+		
+		if player.is_fully_in_env(.25):
 			gravity_vec = Vector3.UP * player.jump_strength * slowdown
 	else:
 		if not(player.is_on_floor()):

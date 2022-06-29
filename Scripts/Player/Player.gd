@@ -4,6 +4,8 @@ extends KinematicBody
 signal mode_changed(new_mode)
 signal mover_changed(new_mov)
 signal env_changed(new_env)
+signal drown_started
+signal drown_stopped
 
 enum ENVIRONMENT {
 	NONE,
@@ -160,7 +162,6 @@ func set_mode(val, force=false):
 				set_env()
 				change_mover(StandardMover.new())
 			MODE.WATER:
-				drown_timer.start()
 				camera.show_ui(true)
 				gun_hook.hidden = false
 				
@@ -199,8 +200,7 @@ func set_env(val = environment):
 			set_mode(MODE.WATER)
 		ENVIRONMENT.NORMAL:
 			if mode == MODE.GAME:
-				drown_timer.stop()
-				drowning = false
+				stop_drown()
 				grnd_chk.enabled = true
 			
 func mode_str():
@@ -278,12 +278,13 @@ func _on_other_lost(body: Node) -> void:
 func _on_entered_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
 		var env = area.get_meta("ENV_TYPE")
-		
 		set_env(env)
 
 func _on_exited_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
 		set_env(ENVIRONMENT.NORMAL)
+		
+
 
 
 func _on_hit(damage) -> void:
@@ -297,9 +298,33 @@ func _on_hit(damage) -> void:
 
 func _on_start_drown() -> void:
 	if not drowning:
-		drowning = true
-		drown_timer.wait_time = 1.5
-		drown_timer.one_shot = false
-		drown_timer.start()
+		start_drown()
 	else:
 		hitbox.decrease_hp(10)
+		
+func start_drown():
+	emit_signal("drown_started")
+	
+	# wait for one cycle to pass before actually drowning
+	# this way the player is alerted a bit before the problem
+	# actually starts
+	# hitbox.decrease_hp(10)
+	
+	drowning = true
+	drown_timer.one_shot = false
+	drown_timer.start(1.5)
+		
+func stop_drown():
+	if environment == ENVIRONMENT.WATER:
+		emit_signal("drown_stopped")
+		drown_timer.stop()
+		drowning = false
+		
+func is_fully_in_env(offset = 1.0):
+	return env_chk.is_fully_in_env(offset)
+
+func _on_WaterFX_Trig_entered(area: Area) -> void:
+	drown_timer.start(5.0)
+
+func _on_WaterFX_Trig_exited(area: Area) -> void:
+	stop_drown()

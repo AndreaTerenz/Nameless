@@ -24,6 +24,7 @@ bump_strength = 1.0
 noise = SubResource( 17 )
 
 [resource]
+render_priority = 1
 shader = ExtResource( 1 )
 shader_param/noise_scale = 48.051
 shader_param/time_mult = 0.441

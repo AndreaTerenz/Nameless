@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/compass_center.svg" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/UI/Weapon Slot.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Assets/Sprites/compass.svg" type="Texture" id=7]
 [ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://addons/quentincaffeino/console/assets/fonts/source-code-pro/OTF/SourceCodePro-Medium.otf" type="DynamicFontData" id=9]
 
 [sub_resource type="DynamicFont" id=8]
 size = 48
@@ -116,6 +117,67 @@ func inv_overw_notif():
 func _on_hook_ready(h) -> void:
 	weapons_slots.load_weapons(h)
 "
+
+[sub_resource type="Shader" id=37]
+code = "shader_type canvas_item;
+
+bool compare(float v, float target, float delta) {
+	return abs(v - target) <= delta/2.0;
+}
+
+float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
+    return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
+}
+
+float smooth_compare(float val, float ref, float delta, float harhsness, bool reverse)
+{
+	float diff = abs(val-ref);
+	float output = remap_range(diff, harhsness/2.0, delta/2.0, 0.0, 1.0);
+	
+	return (reverse) ? 1.0 - output : output;
+}
+
+uniform float aspect = 1.0;
+uniform float distortion = 1.0;
+uniform float radius = 1.0;
+uniform float alpha = 1.0;
+uniform float crop = 1.0;
+uniform vec4 crop_color : hint_color = vec4(0,0,0,1);
+
+vec2 distort(vec2 p)
+{
+	float d = length(p);
+	float z = sqrt(distortion + d * d * -distortion);
+	float r = atan(d, z) / 3.1415926535;
+	float phi = atan(p.y, p.x);
+	return vec2(r * cos(phi) * (1.0 / aspect) + 0.5, r * sin(phi) + 0.5);
+}
+
+void fragment()
+{
+	discard;
+	vec2 xy = (SCREEN_UV * 2.0 - 1.0); // move origin of UV coordinates to center of screen
+
+	xy = vec2(xy.x * aspect, xy.y); // adjust aspect ratio
+
+	float d = length(xy); // distance from center
+
+	vec4 tex;
+
+	xy = distort(xy);
+	tex = texture(SCREEN_TEXTURE, xy);
+	COLOR = tex;
+	COLOR.a = alpha;
+}"
+
+[sub_resource type="ShaderMaterial" id=38]
+shader = SubResource( 37 )
+shader_param/aspect = 1.0
+shader_param/distortion = 0.256
+shader_param/radius = 0.649
+shader_param/alpha = 1.0
+shader_param/crop = 1.0
+shader_param/crop_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="GDScript" id=39]
 script/source = "extends Control
@@ -327,10 +389,11 @@ shadow_size = 4
 [sub_resource type="GDScript" id=28]
 script/source = "extends Control
 
-onready var bar := $Panel/VBoxContainer/ProgressBar
+onready var oxy_alert := $OxyAlert
+onready var bar := $Panel/ProgressBar
 onready var dmg_lbl := $DamageLabel
 onready var dmg_timer := $Timer
-onready var bar_tween := $Panel/VBoxContainer/ProgressBar/Tween
+onready var bar_tween := $Panel/ProgressBar/Tween
 
 func _ready() -> void:
 	Globals.connect_to_player_set(self, \"_on_player_set\")
@@ -340,6 +403,8 @@ func _on_player_set(pl: Player):
 	bar.setup(pl.hitbox.initial_health)
 	
 	pl.hitbox.connect(\"changed\", self, \"_on_hp_change\")
+	pl.connect(\"drown_started\", self, \"_on_drown_start\")
+	pl.connect(\"drown_stopped\", self, \"_on_drown_stop\")
 	
 func _on_hp_change(amount):
 	bar.hp_changed(amount)
@@ -347,10 +412,59 @@ func _on_hp_change(amount):
 	dmg_lbl.text = \"%.2f\" % (amount)
 	dmg_lbl.visible = true
 	dmg_timer.start()
+	
+func _on_drown_start():
+	oxy_alert.slide_down()
+	
+func _on_drown_stop():
+	oxy_alert.slide_up()
 
 func _on_timeout() -> void:
 	dmg_lbl.visible = false
 "
+
+[sub_resource type="StyleBoxFlat" id=45]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.501961, 0.12549, 0.12549, 0.776471 )
+border_color = Color( 0.945098, 0.156863, 0.156863, 1 )
+border_blend = true
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color( 1, 0, 0, 1 )
+shadow_size = 4
+
+[sub_resource type="GDScript" id=48]
+script/source = "extends PanelContainer
+
+var initial_pos : float
+var amnt : float
+
+func _ready() -> void:
+	initial_pos = rect_position.y
+	amnt = rect_size.y
+	rect_position.y -= amnt
+	
+func slide_down():
+	slide(1.0)
+	
+func slide_up():
+	slide(-1.0)
+	
+func slide(dir : float):
+	var t := create_tween()
+	var final = rect_position.y + sign(dir) * amnt
+	t.tween_property(self, \"rect_position:y\", final, 0.05)
+"
+
+[sub_resource type="DynamicFont" id=47]
+size = 38
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="StyleBoxEmpty" id=46]
 
 [sub_resource type="StyleBoxFlat" id=24]
 content_margin_left = 40.0
@@ -358,9 +472,9 @@ content_margin_right = 40.0
 content_margin_top = 8.0
 content_margin_bottom = 8.0
 bg_color = Color( 0.117647, 0.117647, 0.117647, 1 )
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color( 0.87451, 0.87451, 0.87451, 0.6 )
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_color = Color( 0.87451, 0.87451, 0.87451, 1 )
 shadow_size = 4
 
 [sub_resource type="DynamicFont" id=27]
@@ -422,72 +536,75 @@ size = 40
 use_filter = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="Shader" id=37]
-code = "shader_type canvas_item;
+[sub_resource type="StyleBoxFlat" id=41]
+content_margin_left = 20.0
+content_margin_right = 20.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.6, 0.6, 0.6, 0.541176 )
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color( 0.160784, 0.160784, 0.160784, 1 )
+corner_radius_bottom_left = 10
 
-bool compare(float v, float target, float delta) {
-	return abs(v - target) <= delta/2.0;
-}
+[sub_resource type="GDScript" id=43]
+script/source = "extends PanelContainer
 
-float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
-    return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
-}
 
-float smooth_compare(float val, float ref, float delta, float harhsness, bool reverse)
-{
-	float diff = abs(val-ref);
-	float output = remap_range(diff, harhsness/2.0, delta/2.0, 0.0, 1.0);
+func _ready() -> void:
+	visible = true
 	
-	return (reverse) ? 1.0 - output : output;
-}
+	Console.add_command(\"toggle_debug\", self, \"toggle\")\\
+	.set_description(\"Toggles debug info in HUD\")\\
+	.register()
+	
+func toggle():
+	set_text()
+	visible = not visible
 
-uniform float aspect = 1.0;
-uniform float distortion = 1.0;
-uniform float radius = 1.0;
-uniform float alpha = 1.0;
-uniform float crop = 1.0;
-uniform vec4 crop_color : hint_color = vec4(0,0,0,1);
+func _process(delta: float) -> void:
+	if not visible:
+		return
+	set_text()
+		
+func set_text():
+	$Label.text = \"[ERROR] No player found\"
+	
+	if Globals.player:
+		$Label.text = \\
+		\"\"\"FPS: %s (%s)
+		Velocity: %s
+		Direction: %s
+		Environment: %s\"\"\" % \\
+		[Engine.get_frames_per_second(), Engine.target_fps,
+		Utils.round_vec3(Globals.player.mover.velocity, 2),
+		Utils.round_vec3(Globals.player.mover.direction, 2),
+		Globals.player.env_chk.env_type]
+"
 
-vec2 distort(vec2 p)
-{
-	float d = length(p);
-	float z = sqrt(distortion + d * d * -distortion);
-	float r = atan(d, z) / 3.1415926535;
-	float phi = atan(p.y, p.x);
-	return vec2(r * cos(phi) * (1.0 / aspect) + 0.5, r * sin(phi) + 0.5);
-}
+[sub_resource type="DynamicFont" id=44]
+font_data = ExtResource( 9 )
 
-void fragment()
-{
-	discard;
-	vec2 xy = (SCREEN_UV * 2.0 - 1.0); // move origin of UV coordinates to center of screen
-
-	xy = vec2(xy.x * aspect, xy.y); // adjust aspect ratio
-
-	float d = length(xy); // distance from center
-
-	vec4 tex;
-
-	xy = distort(xy);
-	tex = texture(SCREEN_TEXTURE, xy);
-	COLOR = tex;
-	COLOR.a = alpha;
-}"
-
-[sub_resource type="ShaderMaterial" id=38]
-shader = SubResource( 37 )
-shader_param/aspect = 1.0
-shader_param/distortion = 0.256
-shader_param/radius = 0.649
-shader_param/alpha = 1.0
-shader_param/crop = 1.0
-shader_param/crop_color = Color( 0, 0, 0, 1 )
+[sub_resource type="StyleBoxEmpty" id=42]
 
 [node name="Hud" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 11 )
 script = SubResource( 12 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 38 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Crosshair" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -540,9 +657,6 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="Notifications"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Compass" type="Control" parent="."]
 anchor_top = 1.0
@@ -585,7 +699,6 @@ margin_right = 381.0
 theme = SubResource( 16 )
 script = SubResource( 20 )
 __meta__ = {
-"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -620,6 +733,26 @@ anchor_left = 0.5
 anchor_right = 0.5
 script = SubResource( 28 )
 
+[node name="OxyAlert" type="PanelContainer" parent="HP Bar"]
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -354.0
+margin_top = 62.0
+margin_right = -222.0
+margin_bottom = 113.0
+custom_styles/panel = SubResource( 45 )
+script = SubResource( 48 )
+
+[node name="Label" type="Label" parent="HP Bar/OxyAlert"]
+margin_left = 10.0
+margin_top = 5.0
+margin_right = 122.0
+margin_bottom = 46.0
+custom_fonts/font = SubResource( 47 )
+custom_styles/normal = SubResource( 46 )
+text = "Oxygen!"
+
 [node name="Panel" type="PanelContainer" parent="HP Bar"]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -627,21 +760,13 @@ margin_left = -394.0
 margin_right = 394.0
 margin_bottom = 62.0
 custom_styles/panel = SubResource( 24 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HP Bar/Panel"]
+[node name="ProgressBar" type="ProgressBar" parent="HP Bar/Panel"]
 margin_left = 40.0
-margin_top = 8.0
+margin_top = 24.0
 margin_right = 748.0
-margin_bottom = 54.0
-alignment = 1
-
-[node name="ProgressBar" type="ProgressBar" parent="HP Bar/Panel/VBoxContainer"]
-margin_top = 16.0
-margin_right = 708.0
-margin_bottom = 30.0
+margin_bottom = 37.5
+size_flags_vertical = 6
 custom_colors/font_color = Color( 0, 0, 0, 0 )
 custom_fonts/font = SubResource( 27 )
 custom_styles/fg = SubResource( 34 )
@@ -649,7 +774,7 @@ custom_styles/bg = SubResource( 35 )
 value = 50.0
 script = SubResource( 36 )
 
-[node name="Tween" type="Tween" parent="HP Bar/Panel/VBoxContainer/ProgressBar"]
+[node name="Tween" type="Tween" parent="HP Bar/Panel/ProgressBar"]
 
 [node name="DamageLabel" type="Label" parent="HP Bar"]
 anchor_left = 0.5
@@ -668,16 +793,25 @@ valign = 1
 [node name="Timer" type="Timer" parent="HP Bar"]
 one_shot = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource( 38 )
+[node name="DebugInfo" type="PanelContainer" parent="."]
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = -422.0
+margin_bottom = 344.0
+custom_styles/panel = SubResource( 41 )
+script = SubResource( 43 )
+
+[node name="Label" type="Label" parent="DebugInfo"]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 402.0
+margin_bottom = 334.0
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 44 )
+custom_styles/normal = SubResource( 42 )
+text = "FPS: 69
+Current env: ur mom"
+align = 2
 
 [connection signal="timeout" from="Notifications/Timer" to="Notifications" method="_on_timeout"]
 [connection signal="timeout" from="Weapon Wheel/Timer" to="Weapon Wheel" method="_on_timeout"]
