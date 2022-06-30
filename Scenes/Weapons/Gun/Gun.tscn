@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/UI/crosshairs/gun_ch.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=7]
@@ -45,7 +45,7 @@ script = SubResource( 7 )
 icon = ExtResource( 9 )
 entry_name = "Gun Bullet"
 muzze_path = NodePath("Muzzle")
-crosshair_text = ExtResource( 3 )
+crosshair_text = ExtResource( 2 )
 fire_rate = 20
 max_mags = 5
 

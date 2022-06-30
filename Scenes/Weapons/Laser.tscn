@@ -2,15 +2,13 @@
 
 [ext_resource path="res://Assets/Models/weapons/laser/laser.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Scripts/Weapons/RayGun.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Sprites/crosshair3.svg" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/UI/crosshairs/railgun_ch.png" type="Texture" id=3]
 
 [node name="Laser" type="MeshInstance"]
 portal_mode = 2
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )
-material/0 = null
-material/1 = null
 script = ExtResource( 2 )
 aimable = false
 crosshair_text = ExtResource( 3 )

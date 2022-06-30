@@ -10,7 +10,7 @@ func _setup() -> void:
 func _compute(delta: float):
 	set_direction()
 	
-	var target_vel = direction * current_speed
+	var target_vel = direction * current_speed * slowdown
 	h_velocity = h_velocity.linear_interpolate(target_vel, h_acceleration * delta)
 	
 	set_gravity_vec(delta)
@@ -36,7 +36,7 @@ func set_direction():
 		
 func set_gravity_vec(delta):
 	h_acceleration = player.std_acceleration * slowdown
-	var grav = player.gravity_strength * (slowdown)
+	var grav = player.gravity_strength * slowdown
 
 	if Input.is_action_pressed("jump"):
 		gravity_vec = Vector3.ZERO

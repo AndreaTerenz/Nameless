@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/rifle/rifle.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Sprites/crosshair2.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/UI/crosshairs/rifle_ch.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Materials/muzzle_flash_outer_mat.tres" type="Material" id=4]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=5]

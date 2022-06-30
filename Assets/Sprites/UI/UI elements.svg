@@ -9,12 +9,12 @@
    id="svg5"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
    sodipodi:docname="UI elements.svg"
+   xml:space="preserve"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
      id="namedview7"
      pagecolor="#000000"
      bordercolor="#ffffff"
@@ -23,27 +23,43 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="false"
      inkscape:document-units="mm"
-     showgrid="false"
+     showgrid="true"
      units="px"
      inkscape:snap-page="true"
-     inkscape:zoom="0.32"
-     inkscape:cx="-4039.0625"
-     inkscape:cy="2820.3125"
+     inkscape:zoom="8"
+     inkscape:cx="1469.1875"
+     inkscape:cy="498.0625"
      inkscape:window-width="1920"
      inkscape:window-height="1020"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="g2429"
      showguides="false"
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-center="true"
      inkscape:showpageshadow="0"
-     inkscape:deskcolor="#000000" />
-  <defs
-     id="defs2">
-    <inkscape:path-effect
+     inkscape:deskcolor="#000000"><inkscape:grid
+       type="xygrid"
+       id="grid2316" /></sodipodi:namedview><defs
+     id="defs2"><linearGradient
+       inkscape:collect="always"
+       id="linearGradient1212"><stop
+         style="stop-color:#414141;stop-opacity:1;"
+         offset="0"
+         id="stop1208" /><stop
+         style="stop-color:#040404;stop-opacity:1;"
+         offset="1"
+         id="stop1210" /></linearGradient><linearGradient
+       inkscape:collect="always"
+       id="linearGradient1196"><stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop1192" /><stop
+         style="stop-color:#ffffff;stop-opacity:0.16524275;"
+         offset="1"
+         id="stop1194" /></linearGradient><inkscape:path-effect
        effect="copy_rotate"
        starting_point="2.6096128,-89.930593"
        origin="-860.05536,-89.930593"
@@ -59,8 +75,7 @@
        copies_to_360="true"
        mirror_copies="false"
        split_items="false"
-       link_styles="true" />
-    <inkscape:path-effect
+       link_styles="true" /><inkscape:path-effect
        effect="copy_rotate"
        starting_point="315.49416,-93.551627"
        origin="-753.4495,-93.551627"
@@ -76,56 +91,40 @@
        copies_to_360="true"
        mirror_copies="false"
        split_items="false"
-       link_styles="false" />
-    <linearGradient
+       link_styles="false" /><linearGradient
        inkscape:collect="always"
-       id="linearGradient1163">
-      <stop
+       id="linearGradient1163"><stop
          style="stop-color:#000000;stop-opacity:0;"
          offset="0.45875329"
-         id="stop1153" />
-      <stop
+         id="stop1153" /><stop
          style="stop-color:#ff2121;stop-opacity:0.10346727;"
          offset="0.59975314"
-         id="stop1155" />
-      <stop
+         id="stop1155" /><stop
          style="stop-color:#ff2121;stop-opacity:0.52453983;"
          offset="0.75700986"
-         id="stop1157" />
-      <stop
+         id="stop1157" /><stop
          style="stop-color:#ff1414;stop-opacity:0.71191478;"
          offset="0.87258065"
-         id="stop1159" />
-      <stop
+         id="stop1159" /><stop
          style="stop-color:#ff0000;stop-opacity:1;"
          offset="1"
-         id="stop1161" />
-    </linearGradient>
-    <linearGradient
+         id="stop1161" /></linearGradient><linearGradient
        inkscape:collect="always"
-       id="linearGradient949">
-      <stop
+       id="linearGradient949"><stop
          style="stop-color:#ffffff;stop-opacity:1;"
          offset="0"
-         id="stop945" />
-      <stop
+         id="stop945" /><stop
          style="stop-color:#ffffff;stop-opacity:0.45882353;"
          offset="0.12407129"
-         id="stop953" />
-      <stop
+         id="stop953" /><stop
          style="stop-color:#ffffff;stop-opacity:0;"
          offset="0.37977365"
-         id="stop947" />
-    </linearGradient>
-    <linearGradient
+         id="stop947" /></linearGradient><linearGradient
        id="linearGradient3659"
-       inkscape:swatch="solid">
-      <stop
+       inkscape:swatch="solid"><stop
          style="stop-color:#ff3131;stop-opacity:1;"
          offset="0"
-         id="stop3657" />
-    </linearGradient>
-    <radialGradient
+         id="stop3657" /></linearGradient><radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient1163"
        id="radialGradient1032"
@@ -135,8 +134,7 @@
        fy="92.918121"
        r="68.321983"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(3.149692,1.3046452,-1.3046452,3.149692,-972.23487,-479.80647)" />
-    <linearGradient
+       gradientTransform="matrix(3.149692,1.3046452,-1.3046452,3.149692,-972.23487,-479.80647)" /><linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient949"
        id="linearGradient951"
@@ -145,19 +143,31 @@
        x2="-244.20337"
        y2="72.365341"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-613.95019,-162.0412)" />
-  </defs>
-  <g
+       gradientTransform="translate(-613.95019,-162.0412)" /><linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1196"
+       id="linearGradient1198"
+       x1="-394.55545"
+       y1="-31.065548"
+       x2="-394.55545"
+       y2="152.93445"
+       gradientUnits="userSpaceOnUse" /><linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1212"
+       id="linearGradient1206"
+       x1="-394.55545"
+       y1="-31.065548"
+       x2="-394.55545"
+       y2="152.93445"
+       gradientUnits="userSpaceOnUse" /></defs><g
      inkscape:label="slider grabber"
      inkscape:groupmode="layer"
-     id="layer1">
-    <g
+     id="layer1"><g
        id="g1956"
        inkscape:label="grabber"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber.png"
        inkscape:export-xdpi="6.3763838"
-       inkscape:export-ydpi="6.3763838">
-      <path
+       inkscape:export-ydpi="6.3763838"><path
          id="rect1874"
          style="fill:#ffffff;fill-opacity:1;stroke:#1e1e1e;stroke-width:3.96875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 16.933334,-1.6666667e-6 16.933332,-1.2e-6 16.93333,1.2e-6 L 67.733333,21.602118 V 43.204239 67.733331 92.262427 113.86455 L 50.799996,135.46667 H 33.866666 16.933334 L 0,113.86455 1.7666667e-6,92.262427 V 67.733331 43.204239 L 0,21.602118 Z"
@@ -165,15 +175,12 @@
          inkscape:label="grabber"
          inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber.png"
          inkscape:export-xdpi="6.3763838"
-         inkscape:export-ydpi="6.3763838" />
-    </g>
-    <g
+         inkscape:export-ydpi="6.3763838" /></g><g
        id="g1952"
        inkscape:label="grabber_highlight"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber_highlight.png"
        inkscape:export-xdpi="6.3763838"
-       inkscape:export-ydpi="6.3763838">
-      <path
+       inkscape:export-ydpi="6.3763838"><path
          id="path8269"
          style="fill:#c2ffb1;fill-opacity:1;stroke:#1e1e1e;stroke-width:3.96875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 95.077082,0 h 16.933328 16.93333 l 16.93334,21.60212 v 21.602121 24.529092 24.529096 21.602121 l -16.93334,21.60212 H 112.01041 95.077082 L 78.143748,113.86455 V 92.262429 67.733333 43.204241 21.60212 Z"
@@ -181,9 +188,7 @@
          inkscape:label="grabber_highlight"
          inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber_highlight.png"
          inkscape:export-xdpi="6.3763838"
-         inkscape:export-ydpi="6.3763838" />
-    </g>
-    <path
+         inkscape:export-ydpi="6.3763838" /></g><path
        id="rect6406"
        style="fill:#ffffff;fill-opacity:1;stroke:#1e1e1e;stroke-width:1.35931;stroke-linecap:round;stroke-linejoin:round"
        inkscape:label="tick"
@@ -191,15 +196,13 @@
        sodipodi:nodetypes="cccccccccccc"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/tick.png"
        inkscape:export-xdpi="5.1199999"
-       inkscape:export-ydpi="5.1199999" />
-    <g
+       inkscape:export-ydpi="5.1199999" /><g
        id="g948"
        inkscape:label="grabber_disabled"
        inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/slider/grabber_off.png"
        inkscape:export-xdpi="6.3763838"
        inkscape:export-ydpi="6.3763838"
-       transform="translate(157.8984)">
-      <path
+       transform="translate(157.8984)"><path
          id="path946"
          style="fill:#a1a1a1;fill-opacity:1;stroke:#1e1e1e;stroke-width:3.96875;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 16.933334,-1.6666667e-6 16.933332,-1.2e-6 16.93333,1.2e-6 L 67.733333,21.602118 V 43.204239 67.733331 92.262427 113.86455 L 50.799996,135.46667 H 33.866666 16.933334 L 0,113.86455 1.7666667e-6,92.262427 V 67.733331 43.204239 L 0,21.602118 Z"
@@ -207,113 +210,92 @@
          inkscape:label="grabber"
          inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/slider/grabber.png"
          inkscape:export-xdpi="6.3763838"
-         inkscape:export-ydpi="6.3763838" />
-    </g>
-  </g>
-  <g
+         inkscape:export-ydpi="6.3763838" /></g></g><g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="checks">
-    <g
+     inkscape:label="checks"><g
        id="g3778"
        transform="matrix(6.2968423,0,0,6.2968423,33.32079,180.45981)"
        inkscape:label="radio_unchecked"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/radio_unchecked.png"
        inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96">
-      <rect
+       inkscape:export-ydpi="96"><rect
          style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
          id="rect3774"
          width="5.2916665"
          height="5.2916665"
          x="0"
          y="0"
-         ry="1.5" />
-      <rect
+         ry="1.5" /><rect
          style="fill:#1b1b1b;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect3776"
          width="4.0338912"
          height="4.0338912"
          x="0.62888759"
          y="0.62888759"
-         ry="1.5" />
-    </g>
-    <g
+         ry="1.5" /></g><g
        id="g3373"
        transform="matrix(6.2968423,0,0,6.2968423,33.32079,147.13906)"
        inkscape:label="radio_checked"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/radio_checked.png"
        inkscape:export-xdpi="95.989998"
-       inkscape:export-ydpi="95.989998">
-      <rect
+       inkscape:export-ydpi="95.989998"><rect
          style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
          id="rect3369"
          width="5.2919998"
          height="5.2916665"
          x="0"
          y="0"
-         ry="1.5" />
-      <rect
+         ry="1.5" /><rect
          style="fill:#bbbbbb;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect3371"
          width="4.0338912"
          height="4.0338912"
          x="0.62888759"
          y="0.62888759"
-         ry="1.5" />
-    </g>
-    <g
+         ry="1.5" /></g><g
        id="g1014"
        transform="matrix(6.2968423,0,0,6.2968423,0,180.45981)"
        style="fill:#bbbbbb;fill-opacity:1"
        inkscape:label="unchecked"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/unchecked.png"
        inkscape:export-xdpi="192"
-       inkscape:export-ydpi="192">
-      <rect
+       inkscape:export-ydpi="192"><rect
          style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
          id="rect1010"
          width="5.2916665"
          height="5.2916665"
          x="0"
-         y="0" />
-      <rect
+         y="0" /><rect
          style="fill:#1b1b1b;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect1012"
          width="4.0338912"
          height="4.0338912"
          x="0.62888759"
-         y="0.62888759" />
-    </g>
-    <g
+         y="0.62888759" /></g><g
        id="g1008"
        inkscape:label="checked"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/checkboxes/checked.png"
        inkscape:export-xdpi="192"
        inkscape:export-ydpi="192"
-       transform="matrix(6.2968423,0,0,6.2968423,0,147.13906)">
-      <rect
+       transform="matrix(6.2968423,0,0,6.2968423,0,147.13906)"><rect
          style="fill:#bbbbbb;fill-opacity:1;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
          id="rect846"
          width="5.2916665"
          height="5.2916665"
          x="0"
-         y="0" />
-      <rect
+         y="0" /><rect
          style="fill:#94ff77;fill-opacity:1;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect950"
          width="4.0338912"
          height="4.0338912"
          x="0.62888759"
-         y="0.62888759" />
-    </g>
-    <g
+         y="0.62888759" /></g><g
        id="g5872"
        inkscape:label="check_on"
        inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/checkbtns/check_on.png"
        inkscape:export-xdpi="37.740002"
-       inkscape:export-ydpi="37.740002">
-      <rect
+       inkscape:export-ydpi="37.740002"><rect
          style="fill:#94ff77;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.129;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
          id="rect5868"
          width="60.547485"
@@ -321,8 +303,7 @@
          x="3.0470469"
          y="222.56378"
          inkscape:label="bg"
-         ry="2.0884116" />
-      <rect
+         ry="2.0884116" /><rect
          style="fill:#ffffff;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.65384;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
          id="rect10420"
          width="23.969156"
@@ -330,16 +311,13 @@
          x="39.625378"
          y="222.56378"
          inkscape:label="bg"
-         ry="2.0884116" />
-    </g>
-    <g
+         ry="2.0884116" /></g><g
        id="g17667"
        transform="rotate(180,33.320789,257.01273)"
        inkscape:label="check_off"
        inkscape:export-filename="/home/andrea/Projects/Godot/NAMELESS/Assets/Sprites/UI/checkbtns/check_off.png"
        inkscape:export-xdpi="37.740002"
-       inkscape:export-ydpi="37.740002">
-      <rect
+       inkscape:export-ydpi="37.740002"><rect
          style="fill:#1b1b1b;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.129;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
          id="rect17658"
          width="60.547485"
@@ -347,8 +325,7 @@
          x="3.0470469"
          y="222.56378"
          inkscape:label="bg"
-         ry="2.0884116" />
-      <rect
+         ry="2.0884116" /><rect
          style="fill:#bbbbbb;fill-opacity:1;stroke:#1b1b1b;stroke-width:1.65384;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
          id="rect17660"
          width="23.969156"
@@ -356,20 +333,15 @@
          x="39.625378"
          y="222.56378"
          inkscape:label="bg"
-         ry="2.0884116" />
-    </g>
-  </g>
-  <g
+         ry="2.0884116" /></g></g><g
      inkscape:label="screen ratios"
      id="layer1-3"
-     transform="matrix(7.7254091,0,0,7.7254091,81.03193,150.55352)">
-    <g
+     transform="matrix(7.7254091,0,0,7.7254091,81.03193,150.55352)"><g
        id="g1063"
        inkscape:label="16_9"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_169_icon.png"
        inkscape:export-xdpi="12.43"
-       inkscape:export-ydpi="12.43">
-      <rect
+       inkscape:export-ydpi="12.43"><rect
          style="fill:#ffffff;stroke:none;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
          id="rect8072"
          width="8.4666662"
@@ -378,8 +350,7 @@
          y="0"
          inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_169_icon.png"
          inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <text
+         inkscape:export-ydpi="96" /><text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:3.86668px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0966671"
          x="4.156868"
@@ -392,15 +363,12 @@
            id="tspan10464"
            style="text-align:center;text-anchor:middle;stroke-width:0.0966671"
            x="4.156868"
-           y="3.7887743">16:9</tspan></text>
-    </g>
-    <g
+           y="3.7887743">16:9</tspan></text></g><g
        id="g1069"
        inkscape:label="4_3"
        inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
        inkscape:export-xdpi="12.43"
-       inkscape:export-ydpi="12.43">
-      <rect
+       inkscape:export-ydpi="12.43"><rect
          style="fill:#000000;stroke:none;stroke-width:2.44528;stroke-linecap:round;stroke-linejoin:round"
          id="rect8178"
          width="8.4666662"
@@ -409,8 +377,7 @@
          y="5.3365941"
          inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
          inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <rect
+         inkscape:export-ydpi="96" /><rect
          style="fill:#ffffff;stroke:none;stroke-width:2.11768;stroke-linecap:round;stroke-linejoin:round"
          id="rect8176"
          width="6.3499999"
@@ -419,8 +386,7 @@
          y="5.3365941"
          inkscape:export-filename="/home/andrea/Projects/Godot/FPS test/Assets/Sprites/UI/screen_ratio_43_icon.png"
          inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <text
+         inkscape:export-ydpi="96" /><text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:3.86668px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0966671"
          x="4.2937503"
@@ -433,14 +399,10 @@
            id="tspan13116"
            style="text-align:center;text-anchor:middle;stroke-width:0.0966671"
            x="4.2937503"
-           y="9.1253681">4:3</tspan></text>
-    </g>
-  </g>
-  <g
+           y="9.1253681">4:3</tspan></text></g></g><g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Dmg indicator">
-    <path
+     inkscape:label="Dmg indicator"><path
        id="path2127"
        style="fill:url(#radialGradient1032);fill-opacity:1;stroke:url(#linearGradient951);stroke-width:3.19828;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        inkscape:transform-center-y="-4.5859941e-06"
@@ -456,6 +418,186 @@
        inkscape:export-filename="dmg_dir.png"
        inkscape:export-xdpi="16"
        inkscape:export-ydpi="16"
-       class="UnoptimicedTransforms" />
-  </g>
-</svg>
+       class="UnoptimicedTransforms"
+       transform="translate(786.96141,-66.583965)" /></g><g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="WeaponSlot"><path
+       id="rect536"
+       style="fill:url(#linearGradient1206);fill-opacity:1;stroke:url(#linearGradient1198);stroke-width:3.198;stroke-dasharray:none;paint-order:fill markers stroke"
+       d="m -467.05545,-3.6077958 h 6.52995 24.80118 c 8.83213,0 3.49094,-27.4577522 13.72296,-27.4577522 h 27.44591 27.44591 c 10.23202,0 7.38191,27.4577522 13.72296,27.4577522 h 31.33113 V 152.93445 h -145 z"
+       sodipodi:nodetypes="ccsscszcccc"
+       inkscape:export-filename="weapon_slot.png"
+       inkscape:export-xdpi="24"
+       inkscape:export-ydpi="24" /></g><g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Crosshairs"><g
+       inkscape:label="Raygun ch"
+       id="g876-7"
+       transform="matrix(0.26458333,0,0,0.26458333,409.76854,143.48517)"
+       inkscape:export-filename="crosshairs/railgun_ch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><g
+         id="g3964"
+         transform="matrix(1.2947662,-1.4595041,1.4595041,1.2947662,-35.553484,26.405785)"><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 32.028,20.2418 c 0.0189,0.261 0.0284,0.5246 0.0284,0.7905 v 0"
+           id="path3933" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 27.4394,12.1657 c 1.3117,0.9194 2.4101,2.1225 3.206,3.5201"
+           id="path3931" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 18.2813,10.6208 c 0.9393,-0.2661 1.9306,-0.4085 2.9551,-0.4085 0.6128,0 1.2136,0.0509 1.7986,0.1488"
+           id="path3929" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 11.2982,16.7469 c 0.6409,-1.4843 1.6046,-2.7966 2.8025,-3.8484"
+           id="path3927" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 10.4164,21.0323"
+           id="path3925" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 11.6391,26.0288 C 10.9029,24.6147 10.4826,23.0444 10.4236,21.4276"
+           id="path3923" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 13.5855,28.6832"
+           id="path3921" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 19.0507,31.6293 C 17.4804,31.3054 15.9981,30.6356 14.7142,29.6657"
+           id="path3919" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 21.2364,31.8524"
+           id="path3917" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 28.071,29.4209 c -1.2255,0.9997 -2.6742,1.7362 -4.2599,2.1232"
+           id="path3915" /><path
+           style="fill:none;stroke:#ff5022;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 32.0564,21.0323 c 0,1.6625 -0.3749,3.2373 -1.0448,4.6447"
+           id="path3775" /></g><g
+         id="g4346"
+         transform="matrix(0.9906114,-1.12136,1.12136,0.9906114,-22.019724,25.586415)"><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 32.028,20.2418 c 0.0189,0.261 0.0284,0.5246 0.0284,0.7905 v 0"
+           id="path4324" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 27.4394,12.1657 c 1.3117,0.9194 2.4101,2.1225 3.206,3.5201"
+           id="path4326" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 18.2813,10.6208 c 0.9393,-0.2661 1.9306,-0.4085 2.9551,-0.4085 0.6128,0 1.2136,0.0509 1.7986,0.1488"
+           id="path4328" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 11.2982,16.7469 c 0.6409,-1.4843 1.6046,-2.7966 2.8025,-3.8484"
+           id="path4330" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 10.4164,21.0323"
+           id="path4332" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 11.6391,26.0288 C 10.9029,24.6147 10.4826,23.0444 10.4236,21.4276"
+           id="path4334" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 13.5855,28.6832"
+           id="path4336" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 19.0507,31.6293 C 17.4804,31.3054 15.9981,30.6356 14.7142,29.6657"
+           id="path4338" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 21.2364,31.8524"
+           id="path4340" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 28.071,29.4209 c -1.2255,0.9997 -2.6742,1.7362 -4.2599,2.1232"
+           id="path4342" /><path
+           style="fill:none;stroke:#f3ac00;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 32.0564,21.0323 c 0,1.6625 -0.3749,3.2373 -1.0448,4.6447"
+           id="path4344" /></g></g><g
+       inkscape:label="Rifle ch"
+       id="g876-3"
+       transform="matrix(0.26458333,0,0,0.26458333,388.21998,143.46836)"><path
+         id="rect982"
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-linejoin:round"
+         d="m 1.19593,0 h 14.961585 c 0.662545,0 1.19593,0.53338478 1.19593,1.19593 v 6.1169176 c 0,0.6625452 -0.533385,1.19593 -1.19593,1.19593 H 1.19593 C 0.53338478,8.5087776 0,7.9753928 0,7.3128476 V 1.19593 C 0,0.53338478 0.53338478,0 1.19593,0 Z" /><path
+         id="rect1108"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="M 0,0 V 8.5078125 45 H 8.5078125 V 8.5078125 H 17.353516 V 0 H 8.5078125 Z" /><path
+         id="rect1196-6"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="M 36.492188,0 V 36.492188 H 27.646484 V 45 H 36.492188 45 V 36.492188 0 Z" /></g><g
+       inkscape:label="Gun ch"
+       id="g876"
+       transform="matrix(0.26458333,0,0,0.26458333,366.45694,143.46836)"><path
+         id="rect1196"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 27.646484,0 v 8.5078125 h 8.845704 V 36.492188 H 27.646484 V 45 H 36.492188 45 V 8.5078125 0 h -8.507812 z" /><path
+         id="path1803"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1.09984253;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 17.353516,45 V 36.492187 H 8.507812 V 8.507812 h 8.845704 V 0 H 8.507812 0 V 36.492187 45 h 8.507812 z" /></g><g
+       id="g2429"
+       inkscape:label="Rifle ch 2"
+       transform="matrix(0.26458333,0,0,0.26458333,389.17956,142.55474)"
+       inkscape:export-filename="crosshairs/rifle_ch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       style="stroke:#ffdf00;stroke-width:6.29291;stroke-dasharray:none;stroke-opacity:1"><path
+         style="fill:none;stroke:#ffdf00;stroke-width:6.29291;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         d="m 11.261276,-47.745889 -14.3523236,4.100679 v 32.80533 l 14.3523236,4.1006036"
+         id="path2318"
+         sodipodi:nodetypes="cccc" /><path
+         style="fill:none;stroke:#ffdf00;stroke-width:6.29291;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         d="M 25.613574,-6.7392764 39.965897,-10.839956 V -43.645285 L 25.613574,-47.745889"
+         id="path2320"
+         sodipodi:nodetypes="cccc" /></g><path
+       style="fill:none;stroke:#ffdf00;stroke-width:1.28693;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 369.78067,120.6166 h 3.99197 m 2.09344,-2.09343 v 0 m 0,4.18687 v 0 m 0,0 -2.09344,-2.09344 2.09344,-2.09343"
+       id="path2662"
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:label="Gun ch base"
+       inkscape:export-filename="crosshairs/gun_ch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:transform-center-x="5.9763485"
+       inkscape:tile-cx="373.05088"
+       inkscape:tile-cy="132.56786"
+       inkscape:tile-w="6.6842649"
+       inkscape:tile-h="4.7857249"
+       inkscape:tile-x0="363.7324"
+       inkscape:tile-y0="130.175" /><g
+       id="g3847"
+       inkscape:label="Gun ch clones"
+       inkscape:export-filename="crosshairs/gun_ch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><use
+         x="0"
+         y="0"
+         inkscape:tiled-clone-of="#path2662"
+         xlink:href="#path2662"
+         id="use3835"
+         inkscape:transform-center-x="-268.3715"
+         inkscape:transform-center-y="97.49262"
+         transform="translate(-5.748841,11.951265)"
+         inkscape:label="Gun ch clone 1" /><use
+         x="0"
+         y="0"
+         inkscape:tiled-clone-of="#path2662"
+         xlink:href="#path2662"
+         transform="rotate(90,369.94967,123.7178)"
+         id="use3837"
+         inkscape:transform-center-x="-274.34784"
+         inkscape:transform-center-y="91.51627"
+         inkscape:label="Gun ch clone 2" /><use
+         x="0"
+         y="0"
+         inkscape:tiled-clone-of="#path2662"
+         xlink:href="#path2662"
+         transform="rotate(180,375.92531,126.59223)"
+         id="use3839"
+         inkscape:transform-center-x="-280.32419"
+         inkscape:transform-center-y="97.49261"
+         inkscape:label="Gun ch clone 3" /><use
+         x="0"
+         y="0"
+         inkscape:tiled-clone-of="#path2662"
+         xlink:href="#path2662"
+         transform="rotate(-90,381.90094,129.46665)"
+         id="use3841"
+         inkscape:transform-center-x="-274.34785"
+         inkscape:transform-center-y="103.46896"
+         inkscape:label="Gun ch clone 4" /></g></g></svg>

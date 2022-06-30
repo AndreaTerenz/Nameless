@@ -1,6 +1,6 @@
 [gd_scene load_steps=44 format=2]
 
-[ext_resource path="res://Assets/Sprites/crosshair.svg" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/UI/crosshairs/gun_ch.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/compass_center.svg" type="Texture" id=2]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Scripts/UI/ProceduralShape.gd" type="Script" id=4]
@@ -444,7 +444,7 @@ var amnt : float
 
 func _ready() -> void:
 	initial_pos = rect_position.y
-	amnt = rect_size.y
+	amnt = rect_size.y + 4
 	rect_position.y -= amnt
 	
 func slide_down():
@@ -610,14 +610,14 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Control" type="Control" parent="Crosshair"]
+[node name="DmgIndicator" type="Control" parent="Crosshair"]
 margin_left = 960.0
 margin_top = 540.0
 margin_right = 960.0
 margin_bottom = 540.0
 script = SubResource( 39 )
 
-[node name="Control2" type="Control" parent="Crosshair"]
+[node name="Center" type="Control" parent="Crosshair"]
 margin_left = 960.0
 margin_top = 540.0
 margin_right = 960.0
@@ -626,16 +626,15 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fill = Color( 1, 0.956863, 0.113725, 1 )
-stroke = Color( 0.134766, 0.134156, 0.0379028, 1 )
-stroke_weight = 1.481
-radius = 8.064
+stroke = Color( 0.0941176, 0.0941176, 0.0941176, 0.372549 )
+stroke_weight = 1.021
+radius = 5.479
 
 [node name="TextureRect" type="TextureRect" parent="Crosshair"]
-margin_left = 934.0
-margin_top = 514.0
-margin_right = 986.0
-margin_bottom = 566.0
+margin_left = 928.0
+margin_top = 508.0
+margin_right = 992.0
+margin_bottom = 572.0
 theme = SubResource( 1 )
 texture = ExtResource( 1 )
 __meta__ = {
@@ -703,25 +702,25 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="Weapon Wheel"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -21.0
-margin_top = -18.0
-margin_right = 23.0
 custom_styles/panel = SubResource( 18 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Weapon Wheel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 327.0
+margin_bottom = 52.0
+rect_scale = Vector2( 0.7, 0.7 )
+custom_constants/separation = 0
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Weapon Slot" parent="Weapon Wheel/HBoxContainer" instance=ExtResource( 6 )]
-margin_left = 308.0
-margin_right = 453.0
-margin_bottom = 121.0
+margin_left = 472.0
+margin_right = 617.0
+margin_bottom = 173.0
+rect_scale = Vector2( 1, 1 )
 
 [node name="Timer" type="Timer" parent="Weapon Wheel"]
 one_shot = true
