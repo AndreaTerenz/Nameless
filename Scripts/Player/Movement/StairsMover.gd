@@ -5,8 +5,9 @@ var ladders := []
 
 func _compute(delta: float):
 	var dir : Vector3 = Vector3.ZERO
-	var mult : float = player.h_speed * \
-		sign(clamp(player.head.rotation.x + deg2rad(12.0), -player.head_rot_limit, player.head_rot_limit))
+	var hrl = player.head_rot_limit
+	var r = clamp(player.head.rotation.x + deg2rad(12.0), -hrl, hrl)
+	var mult : float = player.h_speed * sign(r)
 	
 	if player.inventory.is_overweight():
 		mult *= player.speed_crouch_mult
@@ -24,13 +25,10 @@ func add_ladder(l: Spatial):
 	ladders.append(l)
 	
 	if len(ladders) == 1:
-		var p_pos := Utils.get_global_pos(player)
-		var snap_to := l.to_local(p_pos)
-		
-		snap_to.z = 0
+		var snap_to = l.get_snap_for_obj(player)
 		
 		var tween = create_tween()
-		tween.tween_property(player, "global_transform:origin", l.to_global(snap_to), .1)
+		tween.tween_property(player, "global_transform:origin", snap_to, .1)
 
 func remove_ladder(l):
 	ladders.erase(l)

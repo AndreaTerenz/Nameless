@@ -26,6 +26,7 @@ func set_focused(f: bool):
 
 [sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 140, 177 )
 
 [node name="Control" type="Control"]
 margin_right = 145.0

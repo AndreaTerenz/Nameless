@@ -138,12 +138,12 @@ func _physics_process(delta: float) -> void:
 	
 	set_mode(mover.new_mode())
 
-func entered_ladder(l: Spatial):
+func entered_ladder(l: Ladder):
 	set_mode(MODE.STAIRS)
 		
 	(mover as StairsMover).add_ladder(l)
 
-func left_ladder(l: Spatial):
+func left_ladder(l: Ladder):
 	if mode == MODE.STAIRS and mover is StairsMover:
 		(mover as StairsMover).remove_ladder(l)
 
@@ -283,9 +283,6 @@ func _on_entered_env(area: Area) -> void:
 func _on_exited_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
 		set_env(ENVIRONMENT.NORMAL)
-		
-
-
 
 func _on_hit(damage) -> void:
 	var voice_dir = "res://Assets/Audio/Voices/Suit"

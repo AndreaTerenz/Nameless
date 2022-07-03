@@ -118,67 +118,6 @@ func _on_hook_ready(h) -> void:
 	weapons_slots.load_weapons(h)
 "
 
-[sub_resource type="Shader" id=37]
-code = "shader_type canvas_item;
-
-bool compare(float v, float target, float delta) {
-	return abs(v - target) <= delta/2.0;
-}
-
-float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
-    return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
-}
-
-float smooth_compare(float val, float ref, float delta, float harhsness, bool reverse)
-{
-	float diff = abs(val-ref);
-	float output = remap_range(diff, harhsness/2.0, delta/2.0, 0.0, 1.0);
-	
-	return (reverse) ? 1.0 - output : output;
-}
-
-uniform float aspect = 1.0;
-uniform float distortion = 1.0;
-uniform float radius = 1.0;
-uniform float alpha = 1.0;
-uniform float crop = 1.0;
-uniform vec4 crop_color : hint_color = vec4(0,0,0,1);
-
-vec2 distort(vec2 p)
-{
-	float d = length(p);
-	float z = sqrt(distortion + d * d * -distortion);
-	float r = atan(d, z) / 3.1415926535;
-	float phi = atan(p.y, p.x);
-	return vec2(r * cos(phi) * (1.0 / aspect) + 0.5, r * sin(phi) + 0.5);
-}
-
-void fragment()
-{
-	discard;
-	vec2 xy = (SCREEN_UV * 2.0 - 1.0); // move origin of UV coordinates to center of screen
-
-	xy = vec2(xy.x * aspect, xy.y); // adjust aspect ratio
-
-	float d = length(xy); // distance from center
-
-	vec4 tex;
-
-	xy = distort(xy);
-	tex = texture(SCREEN_TEXTURE, xy);
-	COLOR = tex;
-	COLOR.a = alpha;
-}"
-
-[sub_resource type="ShaderMaterial" id=38]
-shader = SubResource( 37 )
-shader_param/aspect = 1.0
-shader_param/distortion = 0.256
-shader_param/radius = 0.649
-shader_param/alpha = 1.0
-shader_param/crop = 1.0
-shader_param/crop_color = Color( 0, 0, 0, 1 )
-
 [sub_resource type="GDScript" id=39]
 script/source = "extends Control
 
@@ -554,7 +493,7 @@ script/source = "extends PanelContainer
 
 
 func _ready() -> void:
-	visible = true
+	visible = false
 	
 	Console.add_command(\"toggle_debug\", self, \"toggle\")\\
 	.set_description(\"Toggles debug info in HUD\")\\
@@ -589,22 +528,123 @@ font_data = ExtResource( 9 )
 
 [sub_resource type="StyleBoxEmpty" id=42]
 
+[sub_resource type="Shader" id=37]
+code = "shader_type canvas_item;
+
+uniform float uvx_divisor = 3.0;
+uniform float uvx_exponent = 2.0;
+uniform float uvy_divisor = 3.0;
+uniform float uvy_exponent = 2.0;
+
+
+uniform float lens_k1 = 1.2;
+uniform float lens_k2 = 1.0;
+uniform float lens_k3 = -3.2;
+
+
+
+uniform float alpha = 1.0;
+
+bool compare(float v, float target, float delta) {
+	return abs(v - target) <= delta/2.0;
+}
+
+float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
+    return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
+}
+
+float smooth_compare(float val, float ref, float delta, float harhsness, bool reverse)
+{
+	float diff = abs(val-ref);
+	float output = remap_range(diff, harhsness/2.0, delta/2.0, 0.0, 1.0);
+	
+	return (reverse) ? 1.0 - output : output;
+}
+
+vec2 uv_curve(vec2 uv)
+{
+	uv = (uv - 0.5) * 2.0;
+	
+	//You can modify the numbers and try different values
+	uv.x *= 1.0 + pow(abs(uv.y) / uvx_divisor, uvx_exponent);
+	uv.y *= 1.0 + pow(abs(uv.x) / uvx_divisor, uvx_exponent);
+	
+	//The scale part (you can delete it when you want)
+	uv /= 1.2;
+	
+	uv = (uv/2.0) + 0.5;
+	return uv;
+}
+
+float aspect_ratio(vec2 sps) {
+	return (sps.x > sps.y) ? (sps.y / sps.x) : (sps.x / sps.y);
+}
+
+vec2 resolution(vec2 sps) {
+	return 1.0 / sps;
+}
+
+vec4 mainImage(vec2 uv, vec2 sps, sampler2D screen_txt)
+{
+	float aspect = aspect_ratio(sps);
+	vec2 disorsion = uv-.5;
+
+	disorsion.x*=aspect; // aspect correction
+    
+    // take distance from center
+	float len = length(disorsion);
+    
+    // these are the lens parameters
+	float k1 = lens_k1;
+	float k2 = lens_k2;
+	float k3 = lens_k3;
+    
+	disorsion 
+		= disorsion*k1 
+		+ disorsion*len*k2 
+		+ disorsion*len*len*k3;
+		// higher powers may be added if necessary
+
+	disorsion.x/=aspect; // aspect correction
+    
+	vec4 col = texture(screen_txt, disorsion+.5);
+    
+	float edge = 0.7;
+	float dispersion = 0.03;
+	col *= vec4(
+		pow(max(edge-len, 0.0), 0.2),
+		pow(max(edge-dispersion-len, 0.0), 0.2),
+		pow(max(edge-dispersion*2.0-len, 0.0), 0.2),
+		1);
+		
+	col*=1.2;
+
+	return col;
+}
+
+void fragment()
+{
+	discard;
+	COLOR = mainImage(SCREEN_UV * 2.0 - .5, SCREEN_PIXEL_SIZE, SCREEN_TEXTURE);
+	COLOR.a = alpha;
+}"
+
+[sub_resource type="ShaderMaterial" id=38]
+shader = SubResource( 37 )
+shader_param/uvx_divisor = 0.592
+shader_param/uvx_exponent = 19.96
+shader_param/uvy_divisor = 3.0
+shader_param/uvy_exponent = 2.0
+shader_param/lens_k1 = -5.148
+shader_param/lens_k2 = 4.334
+shader_param/lens_k3 = -9.057
+shader_param/alpha = 1.0
+
 [node name="Hud" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 11 )
 script = SubResource( 12 )
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource( 38 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Crosshair" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -747,7 +787,7 @@ script = SubResource( 48 )
 margin_left = 10.0
 margin_top = 5.0
 margin_right = 122.0
-margin_bottom = 46.0
+margin_bottom = 47.0
 custom_fonts/font = SubResource( 47 )
 custom_styles/normal = SubResource( 46 )
 text = "Oxygen!"
@@ -764,7 +804,7 @@ custom_styles/panel = SubResource( 24 )
 margin_left = 40.0
 margin_top = 24.0
 margin_right = 748.0
-margin_bottom = 37.5
+margin_bottom = 38.0
 size_flags_vertical = 6
 custom_colors/font_color = Color( 0, 0, 0, 0 )
 custom_fonts/font = SubResource( 27 )
@@ -793,6 +833,7 @@ valign = 1
 one_shot = true
 
 [node name="DebugInfo" type="PanelContainer" parent="."]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -422.0
@@ -811,6 +852,12 @@ custom_styles/normal = SubResource( 42 )
 text = "FPS: 69
 Current env: ur mom"
 align = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource( 38 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 
 [connection signal="timeout" from="Notifications/Timer" to="Notifications" method="_on_timeout"]
 [connection signal="timeout" from="Weapon Wheel/Timer" to="Weapon Wheel" method="_on_timeout"]

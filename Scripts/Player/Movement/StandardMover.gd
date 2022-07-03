@@ -1,10 +1,18 @@
 class_name StandardMover
 extends PlayerMover
 
+enum CROUCH_STATE {
+	ACTIVE,
+	RELEASED,
+	INACTIVE
+}
+
 var sprinting: bool = false
 var crouching: bool = false
+var crouch_state = CROUCH_STATE.INACTIVE
 var bonked_head: bool = false
 var crouch_released: bool = false
+var sprint_released: bool = false
 
 func _compute(delta: float):
 	set_direction()
@@ -21,17 +29,26 @@ func _compute(delta: float):
 	return gravity_vec + h_velocity*Vector3(1,0,1)
 	
 func set_direction():
-	direction *= 0.0
+	var prsd : Dictionary = {
+		"f" : Input.is_action_pressed("move_f"),
+		"b" : Input.is_action_pressed("move_b"),
+		"l" : Input.is_action_pressed("move_l"),
+		"r" : Input.is_action_pressed("move_r"),
+	}
+	# if I'm pressing at least one key and I'm on the floor
+	# then reset the direction vector
+	if prsd.values().find(true) != -1 or player.is_on_floor():
+		direction *= 0.0
 	
 	# WHY -= ?????
-	if Input.is_action_pressed("move_f"):
+	if prsd["f"]:
 		direction -= Utils.local_direction(player, Vector3.FORWARD)
-	elif Input.is_action_pressed("move_b"):
+	elif prsd["b"]:
 		direction -= Utils.local_direction(player, Vector3.BACK)
 	
-	if Input.is_action_pressed("move_l"):
+	if prsd["l"]:
 		direction -= Utils.local_direction(player, Vector3.LEFT)
-	elif Input.is_action_pressed("move_r"):
+	elif prsd["r"]:
 		direction -= Utils.local_direction(player, Vector3.RIGHT)
 		
 	direction = direction.normalized()
@@ -52,6 +69,7 @@ func set_gravity_vec(delta):
 		
 	var can_jump = (player.is_on_floor() or player.grnd_chk.is_colliding()) and not(crouching)
 	if Input.is_action_just_pressed("jump") and can_jump:
+			direction *= 0.0
 			gravity_vec = Vector3.UP * player.jump_strength
 			
 func check_stairs(delta: float):
@@ -62,36 +80,44 @@ func check_stairs(delta: float):
 			
 func check_crouch():
 	if not(sprinting):
-		if Input.is_action_just_pressed("crouch"):
-			crouching = true
-			player.head_anim.play("Crouch", -1, player.crouch_anim_mult)
-		elif Input.is_action_just_released("crouch"):
-			crouch_released = true
-			
-		if crouch_released and not(player.roof_chk.is_colliding()):
-			crouch_released = false
-			crouching = false
-			player.head_anim.play("Crouch", -1, -player.crouch_anim_mult, true)
-			
-		current_speed = player.h_speed
-		if crouching:
-			current_speed *= player.speed_crouch_mult 
+		match crouch_state:
+			CROUCH_STATE.INACTIVE:
+				current_speed = player.h_speed
+				if Input.is_action_just_pressed("crouch"):
+					if not(player.roof_chk.is_colliding()):
+						crouch_state = CROUCH_STATE.ACTIVE
+						player.head_anim.play("Crouch", -1, player.crouch_anim_mult)
+			CROUCH_STATE.ACTIVE:
+				current_speed = player.h_speed * player.speed_crouch_mult
+				if Input.is_action_just_pressed("crouch"):
+					crouch_state = CROUCH_STATE.RELEASED
+			CROUCH_STATE.RELEASED:
+				if Input.is_action_just_pressed("crouch"):
+					crouch_state = CROUCH_STATE.ACTIVE
+				elif not(player.roof_chk.is_colliding()):
+					crouch_state = CROUCH_STATE.INACTIVE
+					player.head_anim.play("Crouch", -1, -player.crouch_anim_mult, true)
 
 func check_sprinting():
 	if not(crouching or \
 			player.inventory.is_overweight()):
-		if not(player.is_on_floor()):
-			if Input.is_action_just_released("sprint"):
-				sprinting = false 
+		
+		var just_pressed := Input.is_action_just_pressed("sprint")
+		
+		if sprinting:
+			if player.is_on_floor():
+				if direction == Vector3.ZERO or just_pressed or sprint_released:
+					sprinting = false
+					sprint_released = false
+			elif just_pressed:
+				sprint_released = true
 		else:
-			if Input.is_action_pressed("sprint"):
+			if player.is_on_floor() and direction != Vector3.ZERO and just_pressed:
 				sprinting = true
-			elif Input.is_action_just_released("sprint"):
-				sprinting = false 
-				
-			current_speed = player.h_speed
-			if sprinting:
-				current_speed *= player.speed_sprint_mult 
+		
+		current_speed = player.h_speed
+		if sprinting:
+			current_speed *= player.speed_sprint_mult 
 			
 		player.camera.toggle_sprint_fov(sprinting)
 

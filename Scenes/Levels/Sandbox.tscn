@@ -15,6 +15,7 @@
 [ext_resource path="res://Scripts/EnvElements/Doors/BaseDoor.gd" type="Script" id=13]
 [ext_resource path="res://Scripts/EnvElements/Pickups/HealthPickup.gd" type="Script" id=14]
 [ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
+[ext_resource path="res://Scripts/EnvElements/Ladder.gd" type="Script" id=16]
 [ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=19]
@@ -122,25 +123,6 @@ emission_operator = 0
 emission_on_uv2 = false
 uv1_triplanar = true
 
-[sub_resource type="GDScript" id=51]
-script/source = "extends Area
-
-
-
-func _ready() -> void:
-	pass
-
-
-func _on_body_entered(body: Node) -> void:
-	if body == Globals.player:
-		Globals.player.entered_ladder(self)
-
-
-func _on_body_exited(body: Node) -> void:
-	if body == Globals.player:
-		Globals.player.left_ladder(self)
-"
-
 [sub_resource type="BoxShape" id=49]
 extents = Vector3( 3.04537, 1, 1 )
 
@@ -191,16 +173,17 @@ viewport_path = NodePath("Env/Monitor test/MeshInstance/Viewport")
 [sub_resource type="ShaderMaterial" id=26]
 resource_local_to_scene = true
 shader = ExtResource( 7 )
+shader_param/scanline_count = 0.0
 shader_param/hue = Color( 0.482353, 0.65098, 0.376471, 1 )
 shader_param/flip = true
 shader_param/run = true
-shader_param/uv_mult = 3.0
-shader_param/lines_speed = 0.46
-shader_param/line_alpha = 0.47
-shader_param/distortion = 0.67
+shader_param/uv_mult = 5.0
+shader_param/lines_speed = 0.79
+shader_param/line_alpha = 0.52
+shader_param/distortion = 1.0
 shader_param/intensity = 2.0
-shader_param/line_definition = 0.6
-shader_param/min_thickness = 0.26
+shader_param/line_definition = 0.03
+shader_param/min_thickness = 0.3
 shader_param/base_texture = SubResource( 27 )
 shader_param/overlay_texture = ExtResource( 17 )
 
@@ -579,7 +562,7 @@ material = ExtResource( 3 )
 
 [node name="Area" type="Area" parent="Env/CSGCombiner/Stairs/Stair 3"]
 collision_layer = 2
-script = SubResource( 51 )
+script = ExtResource( 16 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 3/Area"]
 transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
@@ -602,7 +585,7 @@ material = ExtResource( 3 )
 
 [node name="Area" type="Area" parent="Env/CSGCombiner/Stairs/Stair 4"]
 collision_layer = 2
-script = SubResource( 51 )
+script = ExtResource( 16 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 4/Area"]
 transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
@@ -731,7 +714,3 @@ zoom_fov = 30.0
 [connection signal="switched" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3" method="_on_btn_switched"]
 [connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_pressed"]
 [connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_released"]
-[connection signal="body_entered" from="Env/CSGCombiner/Stairs/Stair 3/Area" to="Env/CSGCombiner/Stairs/Stair 3/Area" method="_on_body_entered"]
-[connection signal="body_exited" from="Env/CSGCombiner/Stairs/Stair 3/Area" to="Env/CSGCombiner/Stairs/Stair 3/Area" method="_on_body_exited"]
-[connection signal="body_entered" from="Env/CSGCombiner/Stairs/Stair 4/Area" to="Env/CSGCombiner/Stairs/Stair 4/Area" method="_on_body_entered"]
-[connection signal="body_exited" from="Env/CSGCombiner/Stairs/Stair 4/Area" to="Env/CSGCombiner/Stairs/Stair 4/Area" method="_on_body_exited"]

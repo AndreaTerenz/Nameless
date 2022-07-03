@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Platforms"
+description="Platforming test"
+scene_file="@/Platforms.tscn"
