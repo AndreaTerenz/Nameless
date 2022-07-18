@@ -67,11 +67,13 @@ func set_gravity_vec(delta):
 		bonked_head = false
 		gravity_vec = -player.get_floor_normal() * player.gravity_strength
 		
-	var can_jump = (player.is_on_floor() or player.grnd_chk.is_colliding()) and not(crouching)
-	if Input.is_action_just_pressed("jump") and can_jump:
+	if Input.is_action_just_pressed("jump") and can_jump():
 			direction *= 0.0
 			gravity_vec = Vector3.UP * player.jump_strength
-			
+
+func can_jump():
+	return player.touching_floor() and crouch_state == CROUCH_STATE.INACTIVE
+
 func check_stairs(delta: float):
 	if (player.leaving_stairs):
 		var forw = -Utils.local_direction(player, Vector3.FORWARD)
@@ -99,8 +101,7 @@ func check_crouch():
 					player.head_anim.play("Crouch", -1, -player.crouch_anim_mult, true)
 
 func check_sprinting():
-	if not(crouching or \
-			player.inventory.is_overweight()):
+	if crouch_state == CROUCH_STATE.INACTIVE and not player.inventory.is_overweight():
 		
 		var just_pressed := Input.is_action_just_pressed("sprint")
 		

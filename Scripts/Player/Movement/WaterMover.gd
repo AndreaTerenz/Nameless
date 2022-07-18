@@ -35,14 +35,16 @@ func set_direction():
 	direction = direction.normalized()
 		
 func set_gravity_vec(delta):
-	h_acceleration = player.std_acceleration * slowdown
-	var grav = player.gravity_strength * slowdown
+	var sd = slowdown
+	
+	h_acceleration = player.std_acceleration * sd
+	var grav = player.gravity_strength * sd
 
 	if Input.is_action_pressed("jump"):
 		gravity_vec = Vector3.ZERO
 		
-		if player.is_fully_in_env(.25):
-			gravity_vec = Vector3.UP * player.jump_strength * slowdown
+		if player.env_chk.is_fully_in_env(.05):
+			gravity_vec = Vector3.UP * player.jump_strength * sd
 	else:
 		if not(player.is_on_floor()):
 			if not(bonked_head) and player.roof_chk.is_colliding():
@@ -55,7 +57,7 @@ func set_gravity_vec(delta):
 			gravity_vec = -player.get_floor_normal() * grav
 			
 func new_mode():
-	if player.mode == player.MODE.WATER and (player.environment != player.ENVIRONMENT.WATER):
+	if (player.environment != player.ENVIRONMENT.WATER):
 		return player.MODE.GAME
 			
 	return player.mode

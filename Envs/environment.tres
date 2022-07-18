@@ -9,6 +9,7 @@ background_energy = 3.08
 ambient_light_color = Color( 1, 1, 1, 1 )
 tonemap_mode = 4
 auto_exposure_min_luma = 0.0
+ss_reflections_enabled = true
 glow_levels/1 = true
 glow_levels/2 = true
 glow_levels/4 = true

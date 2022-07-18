@@ -4,8 +4,8 @@ extends Tabs
 signal apply
 signal cancel
 
-export(NodePath) var apply_btn_path = "SettingsPanel/VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn"
-export(NodePath) var cancel_btn_path = "SettingsPanel/VBoxContainer/PanelContainer/HBoxContainer/CancelSettsBtn"
+export(String) var apply_btn_path = "%ApplySettsBtn"
+export(String) var cancel_btn_path = "%CancelSettsBtn"
 
 func _ready() -> void:
 	var a_b : Button = get_node(apply_btn_path)

@@ -54,7 +54,14 @@ func get_mouse_btn_texture(key, theme = Globals.UI_BTN_THEME) -> Image:
 	return load(get_mouse_btn_path(key, theme)).get_data()
 
 func get_action_btn(action_name, theme := Globals.UI_BTN_THEME, idx := 0) -> Image:
-	var action_list = InputMap.get_action_list(action_name)
+	var action_list := []
+	
+	if Engine.editor_hint:
+		var proj_act_list = ProjectSettings.get("input/%s" % action_name)
+		if proj_act_list:
+			action_list = proj_act_list.events
+	else:
+		action_list = InputMap.get_action_list(action_name)
 	
 	if len(action_list) > 0:
 		if not(idx in range(0, len(action_list))):

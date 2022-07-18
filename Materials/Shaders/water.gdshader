@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode cull_disabled;
 
+uniform float height_mult : hint_range(0.0, 4.0) = 1.0;
 uniform float noise_scale : hint_range(.5, 80.0) = 1.0;
 uniform float time_mult : hint_range(0.0, 6.0) = 4.0;
 uniform float fresnel_scale : hint_range(0.0, 2.0) = .05;
@@ -55,7 +56,7 @@ float noise_sum(vec2 uv, float time) {
 float height(vec2 position, float time) {
 	vec2 offset = .1 * vec2(cos(time), sin(time));
 	
-	return noise_sum((position + offset) / noise_scale, time);
+	return noise_sum((position + offset) / noise_scale, time) * height_mult;
 }
 
 vec3 edge_color(sampler2D depth_txt, vec2 uv_pos, vec4 fragcoord) {

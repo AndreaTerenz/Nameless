@@ -1,17 +1,27 @@
 class_name SceneManager
 extends Spatial
 
-var world_env : WorldEnvironment = null
+export(String) var scene_name = ""
+export(NodePath) var player_spawn_ref = ""
+
+const SAVES_DIR := "user://saves"
+
+onready var player_spawn : Position3D = get_node(player_spawn_ref)
+
+var world_env : Environment = null
 var sun_light : DirectionalLight = null
 var gi_probes := []
 var ref_probes := []
 var global_audio_srcs : Dictionary = {}
 
-func _ready() -> void:	
+func _ready() -> void:
+	if scene_name == "":
+		scene_name = name
+	
 	for child in get_children():
 		if child is WorldEnvironment:
 			Console.write_line("Detected world environment")
-			world_env = child
+			world_env = child.environment
 		if child is DirectionalLight:
 			Console.write_line("Detected directional sun light")
 			sun_light = child
@@ -42,27 +52,24 @@ func _ready() -> void:
 	Console.add_command("toggle_ref_probes", self, "toggle_ref_probes")\
 	.set_description("toggles GIProbes")\
 	.register()
-		
-	Console.add_command("env_set_tonemapper", self, "env_set_tonemapper")\
-	.set_description("sets environment ToneMapper")\
-	.add_argument("type", TYPE_INT)\
-	.register()
-		
-	Console.add_command("env_toggle_bloom", self, "env_toggle_bloom")\
-	.set_description("toggle environment bloom")\
-	.register()
-		
-	Console.add_command("env_toggle_auto_exp", self, "env_toggle_auto_exp")\
-	.set_description("toggle environment automatic exposure")\
-	.register()
-		
+	
 	Console.add_command("env_set_property", self, "env_set_property")\
 	.set_description("set value for world env property")\
 	.add_argument("prop", TYPE_STRING)\
-	.add_argument("value", TYPE_OBJECT)\
+	.add_argument("value", TYPE_STRING)\
+	.register()
+	
+	Console.add_command("save_scene", self, "save_scene")\
+	.set_description("save state of current scene")\
 	.register()
 	
 	Globals.set_scene_manager(self)
+	Globals.connect_to_player_set(self, "spawn_player")
+	
+func spawn_player(p: Player):
+	if player_spawn:
+		Utils.copy_global_pos(player_spawn, p)
+		p.look_at(Utils.local_direction(player_spawn, Vector3.FORWARD), Vector3.UP)
 
 func toggle_sun():
 	if sun_light:
@@ -75,19 +82,49 @@ func toggle_gi_probes():
 func toggle_ref_probes():
 	for rp in ref_probes:
 		rp.visible = not rp.visible
-
-func env_set_tonemapper(type):
-	if world_env:
-		world_env.environment.tonemap_mode = type
-
-func env_toggle_bloom():
-	if world_env:
-		world_env.environment.glow_enabled = not world_env.environment.glow_enabled
-
-func env_toggle_auto_exp():
-	if world_env:
-		world_env.environment.auto_exposure_enabled = not world_env.environment.auto_exposure_enabled
-
+		
 func env_set_property(prop, value):
-	if world_env:
-		world_env.set(prop, value)
+	if world_env and prop in world_env:
+		#Console.write_line("Property '%s' found" % prop)
+		var p = world_env.get(prop)
+		var val = value
+		
+		match typeof(p):
+			TYPE_INT:
+				val = int(value)
+			TYPE_BOOL:
+				val = true if (value.to_lower() == "true") else false
+			TYPE_REAL:
+				val = float(value)
+		
+		#Console.write_line("%s %s" % [value, val])
+		
+		world_env.set(prop, val)
+		
+func save_scene():
+	var packed_scene = PackedScene.new()
+	var scn = get_tree().current_scene
+	
+	var now_date = Time.get_date_string_from_system(true)
+	var now_time = Time.get_time_string_from_system(true)
+	var elapse = OS.get_ticks_msec()
+	
+	var save_name = "SAVE_%s_%s_%s_%s" % [scene_name, elapse, now_time, now_date]
+	
+	packed_scene.pack(scn)
+	
+	var err = ResourceSaver.save("%s/%s.scn" % [SAVES_DIR, save_name], packed_scene)
+	
+	Console.write_line(err)
+
+static func unpack_save_name(sn : String) -> Dictionary:
+	var toks = sn.replace(".scn", "").split("_", false)
+	
+	#toks[0] is 'SAVE'
+	
+	return {
+		"name": toks[1],
+		"elapse": toks[2],
+		"now_time": toks[3],
+		"now_date": toks[4],
+	}

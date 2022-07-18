@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scripts/EnvElements/SceneManager.gd" type="Script" id=20]
 
 [sub_resource type="CubeMesh" id=36]
 
@@ -193,6 +194,8 @@ shader_param/overlay_texture = ExtResource( 17 )
 points = PoolVector3Array( -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1 )
 
 [node name="Spatial" type="Spatial"]
+script = ExtResource( 20 )
+scene_name = "Sandbox"
 
 [node name="Env" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.663, 0 )

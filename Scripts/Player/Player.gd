@@ -51,6 +51,7 @@ var others_dict: Dictionary = {
 }
 var compass_range := 0.0
 var drowning := false
+var head_in_env := false
 
 onready var mover = null
 onready var mode = -1 setget set_mode
@@ -64,6 +65,7 @@ onready var foot = $Foot
 onready var camera : CameraController = $Head/Camera
 onready var water_hemisphere = get_node("%WaterFX")
 onready var env_chk = get_node("%EnvCheck")
+onready var full_env_chk = get_node("%Submrg_Check")
 onready var drown_timer = get_node("%DrownTimer")
 onready var hud = get_node("%Hud")
 onready var compass = $Head/Camera/Hud/Compass
@@ -137,6 +139,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide(mover.get_velocity(delta), Vector3.UP)
 	
 	set_mode(mover.new_mode())
+	
+func touching_floor():
+	return is_on_floor() or grnd_chk.is_colliding()
 
 func entered_ladder(l: Ladder):
 	set_mode(MODE.STAIRS)
@@ -321,7 +326,9 @@ func is_fully_in_env(offset = 1.0):
 	return env_chk.is_fully_in_env(offset)
 
 func _on_WaterFX_Trig_entered(area: Area) -> void:
+	head_in_env = true
 	drown_timer.start(5.0)
 
 func _on_WaterFX_Trig_exited(area: Area) -> void:
+	head_in_env = false
 	stop_drown()

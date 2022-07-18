@@ -5,6 +5,7 @@ signal failed_to_load(error)
 signal settings_saved
 signal failed_to_save(error)
 signal changed_setting(sett_name, newVal)
+signal deleted_setting(sett_name)
 
 enum SECTIONS {
 	CONTROLS,
@@ -12,25 +13,16 @@ enum SECTIONS {
 	AUDIO
 }
 
-class SettingsEdit:
+class SettingsEdit extends TempEdit:
 	var section : String
 	var key : String
-	var original_value
-	var current_value
 	
-	func _init(s: String, k: String) -> void:
+	func _init(s: String, k: String).(Settings.get_value(s, k)) -> void:
 		section = s
 		key = k
-		original_value = Settings.get_value(section, key)
-		current_value = original_value
-				
-	func reset():
-		current_value = original_value
 		
-	func apply():
-		if current_value != original_value:
-			Settings.set_value(section, key, current_value)
-			original_value = current_value
+	func _on_apply():
+		Settings.set_value(section, key, current_value)
 
 var config := ConfigFile.new()
 var target_file := "res://settings.cfg"
@@ -70,6 +62,9 @@ const AUDIO := "Audio"
 
 const MASTER_VOL := "master_volume"
 const MASTER_VOL_MUTED := "master_volume_mute"
+
+######################################
+const CUSTOM_KEYS := "CustKeys"
 
 const defaults : Dictionary = {
 	CONTROLS : {
@@ -125,12 +120,23 @@ func load_defaults():
 func get_value(section: String, key: String, default = null):
 	return config.get_value(section, key, default)
 	
+func has_value(section: String, key: String):
+	return config.get_value(section, key) != null
+	
 func set_value(section: String, key: String, value, apply := true, emit_change := true):
 	config.set_value(section, key, value)
-	apply_setting(section, key, value)
+	
+	if apply:
+		apply_setting(section, key, value)
 	
 	if emit_change:
 		emit_signal("changed_setting", get_section_key_str(section, key), value)
+	
+func delete_value(section: String, key: String, apply := true, emit_change := true):
+	config.set_value(section, key, null)
+	
+	if emit_change:
+		emit_signal("deleted_setting", get_section_key_str(section, key))
 		
 func apply_setting(section: String, key: String, value):
 	if section == CONTROLS:

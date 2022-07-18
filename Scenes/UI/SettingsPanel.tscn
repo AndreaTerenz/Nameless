@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_unchecked.png" type="Texture" id=2]
@@ -57,10 +57,14 @@ size = 40
 use_filter = true
 font_data = ExtResource( 1 )
 
+[sub_resource type="DynamicFontData" id=589]
+font_path = "res://Assets/Fonts/Default Font.ttf"
+
 [sub_resource type="DynamicFont" id=581]
 size = 40
+use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 1 )
+font_data = SubResource( 589 )
 
 [sub_resource type="DynamicFont" id=313]
 size = 25
@@ -110,7 +114,9 @@ shadow_color = Color( 1, 1, 1, 0.6 )
 shadow_offset = Vector2( 0, -2 )
 
 [sub_resource type="Theme" id=314]
-Label/colors/font_color = Color( 0, 0, 0, 1 )
+Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0.317647 )
+Label/constants/shadow_as_outline = 1
 Label/fonts/font = SubResource( 581 )
 PopupMenu/fonts/font = SubResource( 313 )
 PopupMenu/icons/radio_checked = ExtResource( 3 )
@@ -165,6 +171,98 @@ func _on_apply_settings() -> void:
 func _on_cancel_edits() -> void:
 	edit.reset()
 	set_pressed_no_signal(edit.current_value)
+"
+
+[sub_resource type="GDScript" id=590]
+script/source = "extends SettingsTab
+"
+
+[sub_resource type="StyleBoxFlat" id=586]
+bg_color = Color( 0.176471, 0.176471, 0.176471, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 8.0
+expand_margin_bottom = 8.0
+shadow_color = Color( 0, 0, 0, 0.278431 )
+
+[sub_resource type="StyleBoxFlat" id=588]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_blend = true
+
+[sub_resource type="GDScript" id=587]
+script/source = "extends VBoxContainer
+
+export(PackedScene) var input_bind_scn = preload(\"res://Scenes/UI/InputBind.tscn\")
+
+var kids := []
+
+func _ready() -> void:
+	var actions := {
+		\"move_f\": \"forward\",
+		\"move_b\": \"back\",
+		\"move_l\": \"left\",
+		\"move_r\": \"right\",
+		\"jump\": \"\",
+		\"sprint\": \"\",
+		\"crouch\": \"\",
+		\"zoom\": \"\",
+		\"reload\": \"reload weapon\",
+		\"pause\": \"pause game\",
+		\"interact\": \"interact/use\",
+		\"open_inventory\": \"inventory\",
+		\"flashlight\": \"toggle flashlight\",
+		\"quentincaffeino_console_toggle\": \"open dev console\",
+	}
+	
+	for a in actions.keys():
+		var bind = input_bind_scn.instance()
+		bind.action_name = a
+		bind.display_name = actions[a]
+		bind.size_flags_horizontal = SIZE_EXPAND_FILL
+		bind.connect(\"bind_edit_start\", self, \"_on_edit_started\")
+		bind.connect(\"bind_edit_done\", self, \"_on_edit_cancelled\")
+		bind.connect(\"bind_edit_cancel\", self, \"_on_edit_done\")
+		
+		kids.append(bind)
+		add_child(bind)
+
+func _on_edit_started(from):
+	for k in kids:
+		if k != from:
+			k.set_disabled(true)
+			
+func _on_edit_cancelled(from):
+	enable_all()
+			
+func _on_edit_done(from):
+	enable_all()
+
+func enable_all():
+	for k in kids:
+		k.set_disabled(false)
+
+
+func _on_apply() -> void:
+	for k in kids:
+		k.apply()
+
+
+func _on_cancel() -> void:
+	for k in kids:
+		k.reset()
 "
 
 [sub_resource type="GDScript" id=456]
@@ -395,25 +493,22 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -558.0
-margin_top = -374.0
+margin_top = -433.0
 margin_right = 558.0
-margin_bottom = 374.0
+margin_bottom = 433.0
 theme = SubResource( 583 )
 custom_styles/panel = SubResource( 10 )
 script = SubResource( 60 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 1112.0
-margin_bottom = 744.0
+margin_bottom = 862.0
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 margin_right = 1108.0
-margin_bottom = 60.0
+margin_bottom = 44.0
 custom_fonts/font = SubResource( 55 )
 text = "Settings"
 align = 1
@@ -423,9 +518,9 @@ __meta__ = {
 }
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
-margin_top = 68.0
+margin_top = 52.0
 margin_right = 1108.0
-margin_bottom = 632.0
+margin_bottom = 750.0
 size_flags_vertical = 3
 theme = SubResource( 314 )
 tab_align = 0
@@ -435,7 +530,7 @@ use_hidden_tabs_for_min_size = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 60.0
-margin_top = 69.0
+margin_top = 57.0
 margin_right = -60.0
 margin_bottom = -4.0
 script = SubResource( 438 )
@@ -445,29 +540,30 @@ cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Controls"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 21.0
+margin_bottom = -21.0
+custom_constants/separation = 150
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Controls/VBoxContainer"]
-margin_top = 90.0
+margin_top = 172.0
 margin_right = 988.0
-margin_bottom = 150.0
+margin_bottom = 222.0
 rect_min_size = Vector2( 0, 50 )
-size_flags_vertical = 6
+custom_constants/separation = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer"]
-margin_right = 490.0
-margin_bottom = 60.0
+margin_top = 3.0
+margin_right = 494.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Mouse Sensitivity"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer"]
-margin_left = 498.0
+margin_left = 494.0
 margin_right = 988.0
-margin_bottom = 60.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 min_value = 1.0
@@ -479,32 +575,99 @@ ticks_on_borders = true
 script = SubResource( 475 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Controls/VBoxContainer"]
-margin_top = 340.0
+margin_top = 372.0
 margin_right = 988.0
-margin_bottom = 400.0
+margin_bottom = 422.0
 rect_min_size = Vector2( 0, 50 )
-size_flags_vertical = 6
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2"]
+margin_top = 3.0
 margin_right = 490.0
-margin_bottom = 60.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Invert Y axis"
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2"]
 margin_left = 498.0
 margin_right = 988.0
-margin_bottom = 60.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
 script = SubResource( 420 )
+
+[node name="Binds" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 60.0
+margin_top = 57.0
+margin_right = -60.0
+margin_bottom = -4.0
+script = SubResource( 590 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Binds"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 21.0
+margin_bottom = -21.0
+custom_constants/separation = 35
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer"]
+margin_right = 988.0
+margin_bottom = 45.0
+alignment = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/HBoxContainer"]
+margin_left = 562.0
+margin_right = 704.0
+margin_bottom = 44.0
+text = "Keyboard"
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/HBoxContainer"]
+margin_left = 712.0
+margin_right = 804.0
+margin_bottom = 45.0
+
+[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/HBoxContainer"]
+margin_left = 812.0
+margin_right = 988.0
+margin_bottom = 44.0
+text = "controller"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer"]
+margin_top = 80.0
+margin_right = 988.0
+margin_bottom = 595.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 586 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/PanelContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 984.0
+margin_bottom = 511.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/bg = SubResource( 588 )
+
+[node name="BindsCont" type="VBoxContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/PanelContainer/ScrollContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 975.0
+margin_bottom = 502.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+script = SubResource( 587 )
 
 [node name="Graphics" type="Tabs" parent="VBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 60.0
-margin_top = 69.0
+margin_top = 57.0
 margin_right = -60.0
 margin_bottom = -4.0
 script = SubResource( 456 )
@@ -520,66 +683,69 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
-margin_top = 49.0
+margin_top = 78.0
 margin_right = 988.0
-margin_bottom = 109.0
+margin_bottom = 128.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_vertical = 6
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer"]
+margin_top = 3.0
 margin_right = 630.0
-margin_bottom = 60.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Use vsync"
 
 [node name="VsyncBtn" type="CheckBox" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer"]
 margin_left = 638.0
 margin_right = 988.0
-margin_bottom = 60.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 350, 0 )
 flat = true
 align = 1
 script = SubResource( 225 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
-margin_top = 215.0
+margin_top = 293.0
 margin_right = 988.0
-margin_bottom = 275.0
+margin_bottom = 343.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_vertical = 6
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2"]
+margin_top = 3.0
 margin_right = 630.0
-margin_bottom = 60.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Resolution"
 
 [node name="ResolutionsList" type="OptionButton" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2"]
 margin_left = 638.0
 margin_right = 988.0
-margin_bottom = 60.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 350, 50 )
 align = 1
 script = SubResource( 295 )
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
-margin_top = 381.0
+margin_top = 508.0
 margin_right = 988.0
-margin_bottom = 441.0
+margin_bottom = 558.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_vertical = 6
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
+margin_top = 3.0
 margin_right = 630.0
-margin_bottom = 60.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Window mode"
 
 [node name="WinModeList" type="OptionButton" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
 margin_left = 638.0
 margin_right = 988.0
-margin_bottom = 60.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 350, 50 )
 text = "fullscreen"
 align = 1
@@ -592,7 +758,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 60.0
-margin_top = 69.0
+margin_top = 57.0
 margin_right = -60.0
 margin_bottom = -4.0
 script = SubResource( 457 )
@@ -605,17 +771,17 @@ anchor_bottom = 1.0
 columns = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_top = 49.0
+margin_top = 81.0
 margin_right = 440.0
-margin_bottom = 109.0
+margin_bottom = 125.0
 size_flags_vertical = 6
 text = "Master Volume"
 
 [node name="MasterVol_Slider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 448.0
-margin_top = 61.0
+margin_top = 86.0
 margin_right = 888.0
-margin_bottom = 96.0
+margin_bottom = 121.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 max_value = 1.0
@@ -627,9 +793,9 @@ toggle_ref = NodePath("../MuteMaster_Btn")
 
 [node name="MuteMaster_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 896.0
-margin_top = 56.0
+margin_top = 81.0
 margin_right = 988.0
-margin_bottom = 101.0
+margin_bottom = 126.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -638,18 +804,18 @@ flat = true
 script = SubResource( 585 )
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_top = 215.0
+margin_top = 296.0
 margin_right = 440.0
-margin_bottom = 275.0
+margin_bottom = 340.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "SFX Volume"
 
 [node name="SfxVol_Slider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 448.0
-margin_top = 227.0
+margin_top = 301.0
 margin_right = 888.0
-margin_bottom = 262.0
+margin_bottom = 336.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 max_value = 1.0
@@ -658,9 +824,9 @@ value = 1.0
 
 [node name="MuteSfx_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 896.0
-margin_top = 222.0
+margin_top = 296.0
 margin_right = 988.0
-margin_bottom = 267.0
+margin_bottom = 341.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -668,18 +834,18 @@ pressed = true
 flat = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_top = 381.0
+margin_top = 511.0
 margin_right = 440.0
-margin_bottom = 441.0
+margin_bottom = 555.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Music Volume"
 
 [node name="MusicVol_Slider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 448.0
-margin_top = 393.0
+margin_top = 516.0
 margin_right = 888.0
-margin_bottom = 428.0
+margin_bottom = 551.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 max_value = 1.0
@@ -688,9 +854,9 @@ value = 1.0
 
 [node name="MuteMusic_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
 margin_left = 896.0
-margin_top = 388.0
+margin_top = 511.0
 margin_right = 988.0
-margin_bottom = 433.0
+margin_bottom = 556.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -698,9 +864,9 @@ pressed = true
 flat = true
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-margin_top = 640.0
+margin_top = 758.0
 margin_right = 1108.0
-margin_bottom = 740.0
+margin_bottom = 858.0
 rect_min_size = Vector2( 0, 100 )
 custom_styles/panel = SubResource( 57 )
 
@@ -713,9 +879,10 @@ custom_constants/separation = 55
 alignment = 1
 
 [node name="ResetSettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
-margin_top = 27.0
+unique_name_in_owner = true
+margin_top = 33.0
 margin_right = 324.0
-margin_bottom = 72.0
+margin_bottom = 66.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 text = "Defaults"
@@ -731,10 +898,11 @@ __meta__ = {
 target_node_path = NodePath("..")
 
 [node name="ApplySettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 379.0
-margin_top = 27.0
+margin_top = 33.0
 margin_right = 704.0
-margin_bottom = 72.0
+margin_bottom = 66.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 text = "Apply"
@@ -749,10 +917,11 @@ __meta__ = {
 target_node_path = NodePath("..")
 
 [node name="CancelSettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 759.0
-margin_top = 27.0
+margin_top = 33.0
 margin_right = 1084.0
-margin_bottom = 72.0
+margin_bottom = 66.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 text = "Cancel"
@@ -772,6 +941,8 @@ target_node_path = NodePath("..")
 [connection signal="cancel" from="VBoxContainer/TabContainer/Controls" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" method="_on_cancel_edits"]
 [connection signal="drag_ended" from="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer/HSlider" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer/HSlider" method="_on_drag_ended"]
 [connection signal="toggled" from="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" to="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2/CheckBox" method="_on_toggled"]
+[connection signal="apply" from="VBoxContainer/TabContainer/Binds" to="VBoxContainer/TabContainer/Binds/VBoxContainer/PanelContainer/ScrollContainer/BindsCont" method="_on_apply"]
+[connection signal="cancel" from="VBoxContainer/TabContainer/Binds" to="VBoxContainer/TabContainer/Binds/VBoxContainer/PanelContainer/ScrollContainer/BindsCont" method="_on_cancel"]
 [connection signal="apply" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer/VsyncBtn" method="_on_apply_settings"]
 [connection signal="apply" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2/ResolutionsList" method="_on_apply_settings"]
 [connection signal="apply" from="VBoxContainer/TabContainer/Graphics" to="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6/WinModeList" method="_on_apply_settings"]

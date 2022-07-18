@@ -22,6 +22,9 @@ func _on_Resume_Btn_pressed() -> void:
 func _on_Hub_Btn_pressed() -> void:
 	set_paused(false)
 	Globals.load_hub()
+
+func _on_Save_Btn_pressed() -> void:
+	Globals.scene_mngr.save_scene()
 "
 
 [node name="Pause menu" type="Control"]
@@ -48,9 +51,9 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 pause_mode = 2
 margin_left = 855.0
-margin_top = 366.0
+margin_top = 367.0
 margin_right = 1065.0
-margin_bottom = 714.0
+margin_bottom = 712.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
@@ -58,8 +61,9 @@ custom_constants/separation = 20
 alignment = 1
 
 [node name="Restart Btn" type="Button" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
 margin_right = 210.0
-margin_bottom = 72.0
+margin_bottom = 53.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 210, 0 )
@@ -71,9 +75,10 @@ text = "Restart"
 script = ExtResource( 3 )
 
 [node name="Resume Btn" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 92.0
+unique_name_in_owner = true
+margin_top = 73.0
 margin_right = 210.0
-margin_bottom = 164.0
+margin_bottom = 126.0
 rect_min_size = Vector2( 210, 0 )
 focus_next = NodePath("../Quit Btn")
 focus_previous = NodePath("../Restart Btn")
@@ -82,11 +87,29 @@ size_flags_vertical = 5
 text = "Resume"
 script = ExtResource( 3 )
 
-[node name="Hub Btn" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Save Btn" type="Button" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
 show_behind_parent = true
-margin_top = 184.0
+margin_top = 146.0
 margin_right = 210.0
-margin_bottom = 256.0
+margin_bottom = 199.0
+rect_min_size = Vector2( 210, 0 )
+focus_next = NodePath("../Restart Btn")
+focus_previous = NodePath("../Resume Btn")
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Save"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hub Btn" type="Button" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+show_behind_parent = true
+margin_top = 219.0
+margin_right = 210.0
+margin_bottom = 272.0
 rect_min_size = Vector2( 210, 0 )
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
@@ -99,10 +122,11 @@ __meta__ = {
 }
 
 [node name="Quit Btn" type="Button" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
 show_behind_parent = true
-margin_top = 276.0
+margin_top = 292.0
 margin_right = 210.0
-margin_bottom = 348.0
+margin_bottom = 345.0
 rect_min_size = Vector2( 210, 0 )
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
@@ -116,5 +140,6 @@ __meta__ = {
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Restart Btn" to="." method="_on_Restart_Btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Resume Btn" to="." method="_on_Resume_Btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Save Btn" to="." method="_on_Save_Btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Hub Btn" to="." method="_on_Hub_Btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Quit Btn" to="." method="_on_Quit_Btn_pressed"]
