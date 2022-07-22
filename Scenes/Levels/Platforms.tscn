@@ -93,7 +93,6 @@ extents = Vector3( 2, 15, 0.5 )
 
 [node name="Platforms" type="Spatial"]
 script = ExtResource( 13 )
-player_spawn_ref = NodePath("PoolSpawner")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 9 )

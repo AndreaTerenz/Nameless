@@ -339,7 +339,8 @@ func _ready() -> void:
 	dmg_lbl.visible = false
 	
 func _on_player_set(pl: Player):
-	bar.setup(pl.hitbox.health)
+	print(\"Player health: %s\" % [pl.hitbox.health])
+	bar.setup(pl.hitbox)
 	
 	pl.hitbox.connect(\"changed\", self, \"_on_hp_change\")
 	pl.connect(\"drown_started\", self, \"_on_drown_start\")
@@ -451,9 +452,9 @@ script/source = "extends ProgressBar
 
 onready var tween := $Tween
 
-func setup(max_hp: float):
-	max_value = max_hp
-	value = max_value
+func setup(hb: Hitbox):
+	max_value = 100
+	value = hb.health
 	
 func hp_changed(amount):
 	var fg_style : StyleBoxFlat = get_stylebox(\"fg\") as StyleBoxFlat

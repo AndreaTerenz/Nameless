@@ -70,7 +70,7 @@ func set_oneshot(value):
 	
 func _on_body_entered(body: Node):
 	if body in get_targets() and (not oneshot or state == TARGET_STATE.NEVER_IN):
-		Console.write(body)
+		#Console.write(body)
 		if oneshot:
 			# If the target was detected and this is a oneshot zone,
 			# disable all collision detection

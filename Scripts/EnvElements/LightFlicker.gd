@@ -1,5 +1,6 @@
 extends Light
 
+export var enabled := true
 export var max_char: int = 3
 export var length: int = 12
 export(float, 0.0, 0.99, 0.01) var frequency = .8
@@ -19,14 +20,15 @@ func _ready() -> void:
 			sequence_str += str(val)
 
 func _physics_process(delta: float) -> void:
-	offset += delta
-	
-	if (offset >= 1 - frequency):
-		offset = 0.0
-		var _char = sequence_str[cursor]
-		cursor += 1
+	if enabled:
+		offset += delta
 		
-		light_energy = base_energy*(float(_char)/float(max_char))
-		
-		if cursor >= len(sequence_str):
-			cursor = randi()%len(sequence_str)
+		if (offset >= 1 - frequency):
+			offset = 0.0
+			var _char = sequence_str[cursor]
+			cursor += 1
+			
+			light_energy = base_energy*(float(_char)/float(max_char))
+			
+			if cursor >= len(sequence_str):
+				cursor = randi()%len(sequence_str)
