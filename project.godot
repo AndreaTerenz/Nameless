@@ -353,7 +353,7 @@ window/stretch/aspect="keep"
 
 [editor]
 
-main_run_args="--skip_splash --console --defaut=soft"
+main_run_args="--skip_splash --defaut=soft --console"
 
 [editor_plugins]
 
@@ -694,5 +694,6 @@ cpu_lightmapper/quality/medium_quality_ray_count=512
 cpu_lightmapper/quality/high_quality_ray_count=1024
 cpu_lightmapper/quality/ultra_quality_ray_count=2048
 quality/filters/msaa=3
+quality/filters/use_fxaa=true
 quality/filters/use_debanding=true
 environment/default_environment="res://default_env.tres"

@@ -39,7 +39,7 @@ func _on_animation_finished(anim_name: String) -> void:
 resource_name = "LogoAnim"
 length = 2.5
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("TextureRect:modulate:r")
+tracks/0/path = NodePath("Control/TextureRect:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -49,7 +49,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.8, 1.7, 2.5 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("TextureRect:modulate:g")
+tracks/1/path = NodePath("Control/TextureRect:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -59,7 +59,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.8, 1.7, 2.5 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("TextureRect:modulate:b")
+tracks/2/path = NodePath("Control/TextureRect:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -69,7 +69,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.8, 1.7, 2.5 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("TextureRect:modulate:a")
+tracks/3/path = NodePath("Control/TextureRect:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -82,7 +82,7 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=7]
 length = 0.001
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("TextureRect:modulate:r")
+tracks/0/path = NodePath("Control/TextureRect:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -92,7 +92,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("TextureRect:modulate:g")
+tracks/1/path = NodePath("Control/TextureRect:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -102,7 +102,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("TextureRect:modulate:b")
+tracks/2/path = NodePath("Control/TextureRect:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -112,7 +112,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("TextureRect:modulate:a")
+tracks/3/path = NodePath("Control/TextureRect:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -133,20 +133,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 script = SubResource( 1 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -210.0
-margin_top = -212.0
-margin_right = 210.0
-margin_bottom = 213.0
-rect_pivot_offset = Vector2( 210, 212 )
-texture = ExtResource( 1 )
-expand = true
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/LogoAnim = SubResource( 6 )
 anims/RESET = SubResource( 7 )
@@ -160,5 +146,22 @@ margin_right = 210.0
 custom_fonts/font = SubResource( 5 )
 text = "Loading..."
 align = 2
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 626.0
+margin_top = 205.0
+margin_right = -626.0
+margin_bottom = -205.0
+rect_pivot_offset = Vector2( 210, 212 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

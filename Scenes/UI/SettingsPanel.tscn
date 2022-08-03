@@ -224,8 +224,10 @@ func _ready() -> void:
 		\"interact\": \"interact/use\",
 		\"open_inventory\": \"inventory\",
 		\"flashlight\": \"toggle flashlight\",
-		\"quentincaffeino_console_toggle\": \"open dev console\",
 	}
+	
+	if Args.find_option(Args.USE_CONSOLE):
+		actions.merge({\"quentincaffeino_console_toggle\": \"open dev console\"})
 	
 	for a in actions.keys():
 		var bind = input_bind_scn.instance()
@@ -527,6 +529,7 @@ tab_align = 0
 use_hidden_tabs_for_min_size = true
 
 [node name="Controls" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 60.0
@@ -596,7 +599,6 @@ size_flags_horizontal = 3
 script = SubResource( 420 )
 
 [node name="Binds" type="Tabs" parent="VBoxContainer/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 60.0

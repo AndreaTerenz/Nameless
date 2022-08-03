@@ -8,16 +8,20 @@ signal changed(amnt)
 signal healed(amnt)
 
 var last_change_from := Vector3.ZERO
-var initial_health : float = 100
-var health : float = 100 
+var max_health : float = 100
+export var health : float = 100 
 
 func _ready() -> void:
 	connect("body_entered", self, "_on_collided")
 	connect("area_entered", self, "_on_area_collided")
 	
 func set_initial_hp(h):
-	initial_health = h
 	set_health(h, Vector3.ZERO, true)
+	
+func would_change(delta: float):
+	var v := health + delta
+	
+	return health != clamp(v, 0, max_health)
 	
 func decrease_hp(delta = health, from := Vector3.ZERO):
 	set_health(health - delta, from)
@@ -27,6 +31,8 @@ func increase_hp(delta, from := Vector3.ZERO):
 	
 func set_health(val, from := Vector3.ZERO, quiet := false):
 	last_change_from = from
+	val = clamp(val, 0, max_health)
+	
 	if val != health:
 		var orig_hp = health
 		health = max(0.0, val)
