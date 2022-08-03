@@ -9,9 +9,8 @@ var tween : Tween
 var base_scale : Vector2
 
 func _ready() -> void:
-	var trgt = get_node(target_node_path)
-	if trgt:
-		target = trgt
+	if find_node(target_node_path):
+		target = get_node(target_node_path)
 	
 	target.connect("mouse_entered", self, "_on_enter")
 	target.connect("mouse_exited", self, "_on_exit")
