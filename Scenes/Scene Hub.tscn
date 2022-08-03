@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=1]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=2]
@@ -34,7 +34,6 @@ onready var main_pan = get_node(\"%MainPanel\")
 onready var scene_hub_pan = get_node(\"%SceneHubPanel\")
 onready var saves_pan = get_node(\"%SavesPanel\")
 onready var settings_pan = get_node(\"%SettingsPanel\")
-onready var help_pan = get_node(\"%HelpPanel\")
 onready var about_pan = get_node(\"%AboutPanel\")
 
 var current_panel : PanelContainer = null
@@ -60,9 +59,6 @@ func _on_NewBtn_pressed() -> void:
 
 func _on_LoadBtn_pressed() -> void:
 	set_current_panel(saves_pan)
-
-func _on_HelpBtn_pressed() -> void:
-	set_current_panel(help_pan)
 
 func _on_SettingsBtn_pressed() -> void:
 	set_current_panel(settings_pan)
@@ -379,25 +375,47 @@ func _on_hide_visible_panels() -> void:
 "
 
 [sub_resource type="DynamicFont" id=55]
-size = 40
+size = 79
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=54]
+[sub_resource type="StyleBoxEmpty" id=1078]
+content_margin_left = 20.0
+content_margin_right = 20.0
+content_margin_top = 20.0
+content_margin_bottom = 40.0
+
+[sub_resource type="DynamicFont" id=1075]
 size = 24
+use_mipmaps = true
 use_filter = true
+extra_spacing_space = 3
 font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=1076]
+default_font = SubResource( 1075 )
+
+[sub_resource type="GDScript" id=1079]
+script/source = "extends RichTextLabel
+
+
+func _ready() -> void:
+	connect(\"meta_clicked\", self, \"meta_pressed\")
+
+func meta_pressed(meta):
+	OS.shell_open(meta)
+"
 
 [sub_resource type="GDScript" id=474]
 script/source = "extends Label
 
 
 func _ready() -> void:
-	var eng_info = Engine.get_version_info()
-	
-	text = \"Godot %s.%s.%s (%s - %s)\" % \\
-		[eng_info.major, eng_info.minor, eng_info.patch, eng_info.status, eng_info.build]
+	text = Utils.engine_description()
 "
+
+[sub_resource type="StyleBoxFlat" id=1077]
+bg_color = Color( 0.266667, 0.286275, 0.431373, 0 )
 
 [sub_resource type="StyleBoxFlat" id=931]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -456,6 +474,11 @@ func _on_mouse_exited() -> void:
 [sub_resource type="ShaderMaterial" id=61]
 shader = ExtResource( 7 )
 shader_param/amount = 1.2
+
+[sub_resource type="DynamicFont" id=54]
+size = 24
+use_filter = true
+font_data = ExtResource( 3 )
 
 [sub_resource type="Animation" id=985]
 resource_name = "FadeIn"
@@ -749,9 +772,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 1347.0
+margin_left = -573.0
 margin_top = -166.0
-margin_right = 2327.0
+margin_right = 407.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50
@@ -903,6 +926,7 @@ size_flags_vertical = 3
 
 [node name="SavesPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1033,28 +1057,31 @@ size_flags_vertical = 3
 
 [node name="AboutPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -387.0
-margin_top = -242.0
-margin_right = 387.0
-margin_bottom = 242.0
+margin_left = -476.0
+margin_top = -286.0
+margin_right = 394.0
+margin_bottom = 287.0
 custom_styles/panel = SubResource( 10 )
 script = SubResource( 85 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AboutPanel"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 770.0
-margin_bottom = 480.0
+margin_right = 866.0
+margin_bottom = 569.0
+grow_vertical = 2
+alignment = 1
 
 [node name="Label2" type="Label" parent="AboutPanel/VBoxContainer"]
-margin_right = 766.0
-margin_bottom = 60.0
+margin_right = 862.0
+margin_bottom = 146.0
+size_flags_vertical = 1
 custom_fonts/font = SubResource( 55 )
+custom_styles/normal = SubResource( 1078 )
 text = "So...what is this?"
 align = 1
 valign = 1
@@ -1063,92 +1090,120 @@ __meta__ = {
 }
 
 [node name="RichTextLabel" type="Label" parent="AboutPanel/VBoxContainer"]
-margin_top = 68.0
-margin_right = 766.0
-margin_bottom = 281.0
-size_flags_vertical = 3
+margin_top = 154.0
+margin_right = 862.0
+margin_bottom = 323.5
+size_flags_vertical = 1
+custom_styles/normal = SubResource( 1078 )
 text = "This is a mess of game mechanic tests and prototype levels. Ideally, it's the beginning of an FPS game. In practice, who knows if anything will ever come of this."
+align = 1
 valign = 1
 autowrap = true
 
 [node name="MarginContainer" type="MarginContainer" parent="AboutPanel/VBoxContainer"]
-margin_top = 289.0
-margin_right = 766.0
-margin_bottom = 476.0
-custom_constants/margin_right = 80
-custom_constants/margin_left = 80
+margin_top = 331.0
+margin_right = 862.0
+margin_bottom = 565.0
+rect_min_size = Vector2( 0, 196.779 )
+size_flags_vertical = 3
+custom_constants/margin_right = 15
+custom_constants/margin_left = 15
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="GridContainer" type="GridContainer" parent="AboutPanel/VBoxContainer/MarginContainer"]
-margin_left = 80.0
-margin_right = 686.0
-margin_bottom = 187.0
+[node name="HBoxContainer" type="HBoxContainer" parent="AboutPanel/VBoxContainer/MarginContainer"]
+margin_left = 15.0
+margin_top = 34.0
+margin_right = 847.0
+margin_bottom = 200.0
+size_flags_vertical = 4
+custom_constants/separation = 38
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer"]
+margin_right = 444.045
+margin_bottom = 166.0
+rect_min_size = Vector2( 444.045, 0 )
+theme = SubResource( 1076 )
+custom_constants/hseparation = 76
 columns = 2
 
-[node name="Label" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/GridContainer"]
-margin_right = 299.0
-margin_bottom = 57.793
-rect_min_size = Vector2( 0, 57.793 )
+[node name="Label" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+margin_right = 156.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 54 )
+custom_colors/font_color = Color( 0.639216, 0.639216, 0.639216, 1 )
 text = "Author"
 
-[node name="Label3" type="RichTextLabel" parent="AboutPanel/VBoxContainer/MarginContainer/GridContainer"]
-margin_left = 307.0
-margin_right = 606.0
-margin_bottom = 57.793
-rect_min_size = Vector2( 0, 57.793 )
+[node name="Label3" type="RichTextLabel" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+margin_left = 232.0
+margin_right = 444.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
-custom_fonts/normal_font = SubResource( 54 )
+size_flags_vertical = 5
 bbcode_enabled = true
 bbcode_text = "[right][url=https://github.com/AndreaTerenz]AndreaTerenz[/url][/right]"
 text = "AndreaTerenz"
+script = SubResource( 1079 )
 
-[node name="Label4" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/GridContainer"]
-margin_top = 65.0
-margin_right = 299.0
-margin_bottom = 122.793
-rect_min_size = Vector2( 0, 57.793 )
+[node name="Label4" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+margin_top = 58.0
+margin_right = 156.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 54 )
+custom_colors/font_color = Color( 0.639216, 0.639216, 0.639216, 1 )
 text = "Game Version"
 
-[node name="GameVersion" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/GridContainer"]
-margin_left = 307.0
-margin_top = 65.0
-margin_right = 606.0
-margin_bottom = 122.793
-rect_min_size = Vector2( 0, 57.793 )
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 54 )
+[node name="GameVersion" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+margin_left = 232.0
+margin_top = 58.0
+margin_right = 444.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
 text = "peepee.poopoo [alpha]"
 align = 2
 
-[node name="Label2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/GridContainer"]
-margin_top = 130.0
-margin_right = 299.0
-margin_bottom = 187.793
-rect_min_size = Vector2( 0, 57.793 )
+[node name="Label2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+margin_top = 116.0
+margin_right = 156.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 54 )
-text = "Engine Version"
+custom_colors/font_color = Color( 0.639216, 0.639216, 0.639216, 1 )
+text = "engine version"
 
-[node name="Engine Version2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/GridContainer"]
-margin_left = 307.0
-margin_top = 130.0
-margin_right = 606.0
-margin_bottom = 187.793
-rect_min_size = Vector2( 0, 57.793 )
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 54 )
-text = "Godot 3.5 b3"
+[node name="Engine Version2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+margin_left = 232.0
+margin_top = 116.0
+margin_right = 444.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+text = "Godot 3.5 rc8"
 align = 2
 script = SubResource( 474 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PanelContainer" type="PanelContainer" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer"]
+margin_left = 482.0
+margin_right = 832.0
+margin_bottom = 166.0
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 1077 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/PanelContainer"]
+margin_right = 350.0
+margin_bottom = 166.0
+bbcode_enabled = true
+bbcode_text = "[url=https://godotengine.org/][img=350x166]res://Assets/godot logos/logo_large_monochrome_dark.svg[/img][/url]"
+scroll_active = false
+script = SubResource( 1079 )
 
 [node name="SettingsPanel" parent="." instance=ExtResource( 10 )]
 unique_name_in_owner = true
@@ -1280,7 +1335,7 @@ size_flags_vertical = 6
 custom_colors/font_color = Color( 0.507834, 0.507834, 0.507834, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 54 )
-text = "Godot 3.5 b3"
+text = "Godot 3.X"
 align = 2
 valign = 1
 script = SubResource( 474 )

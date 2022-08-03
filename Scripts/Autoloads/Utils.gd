@@ -242,3 +242,10 @@ static func aabb_from_center(c: Vector3, size: Vector3) -> AABB:
 
 static func aabb_at_origin(size: Vector3) -> AABB:
 	return aabb_from_center(Vector3.ZERO, size)
+	
+static func engine_description() -> String:
+	var eng_info = Engine.get_version_info()
+	
+	return "Godot %s.%s.%s (%s)" % \
+		[eng_info.major, eng_info.minor, eng_info.patch, eng_info.status]
+
