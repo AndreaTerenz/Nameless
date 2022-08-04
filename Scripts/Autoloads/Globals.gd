@@ -5,6 +5,7 @@ signal unpaused
 signal pause_changed(state)
 signal player_set(p)
 signal scene_manager_set(sm)
+signal screenshot(path)
 
 enum GROUPS  {
 	ENEMIES,
@@ -258,6 +259,8 @@ func _input(event: InputEvent) -> void:
 		image.flip_y()
 		image.save_png(filename)
 		Console.write_line("Screenshot saved @ '%s'" % filename)
+		
+		emit_signal("screenshot", filename)
 
 func get_layer_bit(name: String):
 	return layers.find(name)

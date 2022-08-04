@@ -36,6 +36,7 @@ export(float, .05, .2, .01) var fov_tween_speed = .1
 export(float, 60.0, 80.0, .5) var std_fov = 65.0
 export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
 export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
+export(float, 1.0, 100.0, .1) var hitbox_max_hp = 100.0
 export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
 export(bool) var get_fall_damage = true
@@ -68,7 +69,7 @@ onready var env_chk = get_node("%EnvCheck")
 onready var full_env_chk = get_node("%Submrg_Check")
 onready var drown_timer = get_node("%DrownTimer")
 onready var hud = get_node("%Hud")
-onready var compass = $Head/Camera/Hud/Compass
+onready var compass = hud.get_node("Compass")
 onready var gun_camera = get_node("%GunCamera")
 onready var grnd_chk := $Foot/GroundCheck
 onready var roof_chk = $Head/RoofCheck
@@ -95,7 +96,8 @@ func _ready() -> void:
 	
 	compass_range = (others_chck.get_child(0) as CollisionShape).shape.radius + 5
 	
-	hitbox.health = hitbox_start_hp
+	hitbox.max_health = hitbox_max_hp
+	hitbox.health = min(hitbox_start_hp, hitbox_max_hp)
 	
 	grnd_chk.debug_ignore_dmg = not get_fall_damage
 	
@@ -132,6 +134,7 @@ func _input(event: InputEvent) -> void:
 		var invert_y = Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y)
 		
 		Utils.rotate_with_mouse(event, self, head, mouse_sensitivity, head_rot_limit, invert_y)
+		compass.rot_with_mouse(event)
 		
 func _physics_process(delta: float) -> void:
 	gun_camera.global_transform = camera.global_transform
@@ -290,6 +293,8 @@ func _on_exited_env(area: Area) -> void:
 		set_env(ENVIRONMENT.NORMAL)
 
 func _on_hit(damage) -> void:
+	hitbox_start_hp = hitbox.health
+	
 	var voice_dir = "res://Assets/Audio/Voices/Suit"
 	var sample1 = load("/".join([voice_dir, "major_fracture.ogg"]))
 	#alerts_queue.enqueue(sample1)
@@ -297,6 +302,9 @@ func _on_hit(damage) -> void:
 	if (hitbox.health / hitbox.initial_health < 0.2):
 		var sample2 = load("/".join([voice_dir, "critical.ogg"]))
 		#alerts_queue.enqueue(sample2)
+
+func _on_healed(amnt) -> void:
+	hitbox_start_hp = hitbox.health
 
 func _on_start_drown() -> void:
 	if not drowning:
@@ -332,3 +340,12 @@ func _on_WaterFX_Trig_entered(area: Area) -> void:
 func _on_WaterFX_Trig_exited(area: Area) -> void:
 	head_in_env = false
 	stop_drown()
+	
+func get_data() -> Dictionary:
+	return {
+		"health": hitbox.health
+	}
+
+func load_data(d: Dictionary):
+	if "health" in d.keys():
+		hitbox.health = d["health"]

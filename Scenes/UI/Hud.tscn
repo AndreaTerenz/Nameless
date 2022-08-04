@@ -9,6 +9,7 @@
 [ext_resource path="res://Assets/Sprites/compass.svg" type="Texture" id=7]
 [ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://addons/quentincaffeino/console/assets/fonts/source-code-pro/OTF/SourceCodePro-Medium.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://Assets/Textures/Missing.jpg" type="Texture" id=10]
 
 [sub_resource type="DynamicFont" id=8]
 size = 48
@@ -118,6 +119,17 @@ func _on_hook_ready(h) -> void:
 	weapons_slots.load_weapons(h)
 "
 
+[sub_resource type="StyleBoxFlat" id=51]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 18
+border_width_top = 18
+border_width_right = 18
+border_width_bottom = 18
+border_color = Color( 1, 1, 1, 1 )
+border_blend = true
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
 [sub_resource type="GDScript" id=39]
 script/source = "extends Control
 
@@ -164,6 +176,12 @@ var notif_queue : Array = []
 onready var timer = $Timer
 onready var container := $VBoxContainer
 
+func _ready() -> void:
+	Globals.connect(\"screenshot\", self, \"_on_screenshot\")
+	
+func _on_screenshot(p):
+	queue_notification(\"Screenshot saved\")
+
 func queue_notification(msg: String):
 	var lbl := Label.new()
 	lbl.text = msg
@@ -205,8 +223,8 @@ onready var center = $CenterDot
 		
 func _process(delta: float) -> void:
 	for i in range(0, len(dots)):
-		var playerPos = Globals.player.global_transform.origin
-		var tPos = (targets[i] as Spatial).global_transform.origin
+		var playerPos = Globals.player.global_translation
+		var tPos = (targets[i] as Spatial).global_translation
 		var p_delta = tPos - playerPos
 		
 		dots[i].position = pos_to_scrn_pos(Utils.vec3_horizontal(p_delta))
@@ -246,11 +264,10 @@ func pos_to_scrn_pos(p: Vector2):
 	pos.y = range_lerp(p.y, -_range, _range, -1, 1)
 	
 	return pos * text_size/2
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		var y_rot = deg2rad(-event.relative.x * .1)
-		bg.rotate(y_rot)
+		
+func rot_with_mouse(event: InputEventMouseMotion):
+	var y_rot = deg2rad(-event.relative.x * .1)
+	bg.rotate(y_rot)
 "
 
 [sub_resource type="StyleBoxEmpty" id=17]
@@ -529,123 +546,16 @@ font_data = ExtResource( 9 )
 
 [sub_resource type="StyleBoxEmpty" id=42]
 
-[sub_resource type="Shader" id=37]
-code = "shader_type canvas_item;
-
-uniform float uvx_divisor = 3.0;
-uniform float uvx_exponent = 2.0;
-uniform float uvy_divisor = 3.0;
-uniform float uvy_exponent = 2.0;
-
-
-uniform float lens_k1 = 1.2;
-uniform float lens_k2 = 1.0;
-uniform float lens_k3 = -3.2;
-
-
-
-uniform float alpha = 1.0;
-
-bool compare(float v, float target, float delta) {
-	return abs(v - target) <= delta/2.0;
-}
-
-float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
-    return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
-}
-
-float smooth_compare(float val, float ref, float delta, float harhsness, bool reverse)
-{
-	float diff = abs(val-ref);
-	float output = remap_range(diff, harhsness/2.0, delta/2.0, 0.0, 1.0);
-	
-	return (reverse) ? 1.0 - output : output;
-}
-
-vec2 uv_curve(vec2 uv)
-{
-	uv = (uv - 0.5) * 2.0;
-	
-	//You can modify the numbers and try different values
-	uv.x *= 1.0 + pow(abs(uv.y) / uvx_divisor, uvx_exponent);
-	uv.y *= 1.0 + pow(abs(uv.x) / uvx_divisor, uvx_exponent);
-	
-	//The scale part (you can delete it when you want)
-	uv /= 1.2;
-	
-	uv = (uv/2.0) + 0.5;
-	return uv;
-}
-
-float aspect_ratio(vec2 sps) {
-	return (sps.x > sps.y) ? (sps.y / sps.x) : (sps.x / sps.y);
-}
-
-vec2 resolution(vec2 sps) {
-	return 1.0 / sps;
-}
-
-vec4 mainImage(vec2 uv, vec2 sps, sampler2D screen_txt)
-{
-	float aspect = aspect_ratio(sps);
-	vec2 disorsion = uv-.5;
-
-	disorsion.x*=aspect; // aspect correction
-    
-    // take distance from center
-	float len = length(disorsion);
-    
-    // these are the lens parameters
-	float k1 = lens_k1;
-	float k2 = lens_k2;
-	float k3 = lens_k3;
-    
-	disorsion 
-		= disorsion*k1 
-		+ disorsion*len*k2 
-		+ disorsion*len*len*k3;
-		// higher powers may be added if necessary
-
-	disorsion.x/=aspect; // aspect correction
-    
-	vec4 col = texture(screen_txt, disorsion+.5);
-    
-	float edge = 0.7;
-	float dispersion = 0.03;
-	col *= vec4(
-		pow(max(edge-len, 0.0), 0.2),
-		pow(max(edge-dispersion-len, 0.0), 0.2),
-		pow(max(edge-dispersion*2.0-len, 0.0), 0.2),
-		1);
-		
-	col*=1.2;
-
-	return col;
-}
-
-void fragment()
-{
-	discard;
-	COLOR = mainImage(SCREEN_UV * 2.0 - .5, SCREEN_PIXEL_SIZE, SCREEN_TEXTURE);
-	COLOR.a = alpha;
-}"
-
-[sub_resource type="ShaderMaterial" id=38]
-shader = SubResource( 37 )
-shader_param/uvx_divisor = 0.592
-shader_param/uvx_exponent = 19.96
-shader_param/uvy_divisor = 3.0
-shader_param/uvy_exponent = 2.0
-shader_param/lens_k1 = -5.148
-shader_param/lens_k2 = 4.334
-shader_param/lens_k3 = -9.057
-shader_param/alpha = 1.0
-
 [node name="Hud" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 11 )
 script = SubResource( 12 )
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 51 )
 
 [node name="Crosshair" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -734,12 +644,13 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -381.0
-margin_top = -121.0
+margin_top = -122.0
 margin_right = 381.0
+margin_bottom = -1.0
 theme = SubResource( 16 )
 script = SubResource( 20 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_group_": true
 }
 
 [node name="Panel" type="Panel" parent="Weapon Wheel"]
@@ -772,6 +683,9 @@ one_shot = true
 anchor_left = 0.5
 anchor_right = 0.5
 script = SubResource( 28 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="OxyAlert" type="PanelContainer" parent="HP Bar"]
 anchor_top = 0.5
@@ -854,11 +768,13 @@ text = "FPS: 69
 Current env: ur mom"
 align = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource( 38 )
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 2
 
 [connection signal="timeout" from="Notifications/Timer" to="Notifications" method="_on_timeout"]
 [connection signal="timeout" from="Weapon Wheel/Timer" to="Weapon Wheel" method="_on_timeout"]

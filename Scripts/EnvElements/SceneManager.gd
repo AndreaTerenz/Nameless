@@ -26,13 +26,13 @@ func _ready() -> void:
 			Console.write_line("Detected directional sun light")
 			sun_light = child
 		if child is GIProbe:
-			Console.write_line("Detected GIProbe #%d" % [len(gi_probes)])
+			Console.write_line("Detected GIProbe #%d (%s)" % [len(gi_probes), child.name])
 			gi_probes.append(child)
 		if child is ReflectionProbe:
-			Console.write_line("Detected ReflectionProbe #%d" % [len(ref_probes)])
+			Console.write_line("Detected ReflectionProbe #%d (%s)" % [len(ref_probes), child.name])
 			ref_probes.append(child)
 		if child is AudioStreamPlayer:
-			Console.write_line("Detected global audio player #%d" % [len(global_audio_srcs)])
+			Console.write_line("Detected global audio player #%d (%s)" % [len(global_audio_srcs), child.name])
 			global_audio_srcs[child] = child.volume_db
 			
 	if not world_env:
@@ -43,6 +43,10 @@ func _ready() -> void:
 	
 	Console.add_command("toggle_sun", self, "toggle_sun")\
 	.set_description("toggles scene directional light")\
+	.register()
+	
+	Console.add_command("toggle_sun_shadow", self, "toggle_sun_shadow")\
+	.set_description("toggles scene directional light shadows")\
 	.register()
 	
 	Console.add_command("toggle_gi_probes", self, "toggle_gi_probes")\
@@ -75,6 +79,10 @@ func toggle_sun():
 	if sun_light:
 		sun_light.visible = not sun_light.visible
 
+func toggle_sun_shadow():
+	if sun_light:
+		sun_light.shadow_enabled = not sun_light.shadow_enabled
+
 func toggle_gi_probes():
 	for gip in gi_probes:
 		gip.visible = not gip.visible
@@ -103,22 +111,22 @@ func env_set_property(prop, value):
 		
 func save_scene():
 	var packed_scene = PackedScene.new()
-	var scn = get_tree().current_scene
+	packed_scene.pack(get_tree().current_scene)
 	
+	var err = ResourceSaver.save("%s/%s.tscn" % [SAVES_DIR, get_save_name()], packed_scene)
+	
+	Console.write_line(err)
+	
+func get_save_name():
 	var now_date = Time.get_date_string_from_system(true)
 	var now_time = Time.get_time_string_from_system(true)
 	var elapse = OS.get_ticks_msec()
 	
-	var save_name = "SAVE_%s_%s_%s_%s" % [scene_name, elapse, now_time, now_date]
+	return "SAVE_%s_%s_%s_%s" % [scene_name, elapse, now_time, now_date]
 	
-	packed_scene.pack(scn)
-	
-	var err = ResourceSaver.save("%s/%s.scn" % [SAVES_DIR, save_name], packed_scene)
-	
-	Console.write_line(err)
 
 static func unpack_save_name(sn : String) -> Dictionary:
-	var toks = sn.replace(".scn", "").split("_", false)
+	var toks = sn.replace(".tscn", "").split("_", false)
 	
 	#toks[0] is 'SAVE'
 	

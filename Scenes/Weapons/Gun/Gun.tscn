@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gun/gun.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Sprites/UI/crosshairs/gun_ch.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=7]
 [ext_resource path="res://Materials/muzzle_flash_outer_mat.tres" type="Material" id=8]
@@ -11,15 +10,16 @@
 [sub_resource type="GDScript" id=7]
 script/source = "extends BulletGun
 
-onready var ammoPane = $PanelContainer
 onready var muzzle_flash = $Muzzle/Flash
+onready var a_text = $AmmoTxt
+onready var t_text = $TotTxt
 
 func _ready() -> void:
 	print(ammo_per_mag)
-	ammoPane.gun = self
 		
 func _ui():
-	ammoPane.set_count()
+	a_text.text = \"%02d\" % ammo_count
+	t_text.text = \"%02d\" % reserve_ammo
 	
 func _on_shot():
 	._on_shot()
@@ -76,4 +76,19 @@ light_cull_mask = 4294967294
 omni_range = 2.42258
 omni_attenuation = 0.183011
 
-[node name="PanelContainer" parent="." instance=ExtResource( 5 )]
+[node name="AmmoTxt" type="Label3D" parent="."]
+transform = Transform( -4.00688e-08, 0.306476, -0.951878, 1.13133e-08, 0.951878, 0.306476, 1, 1.51122e-09, -4.16079e-08, -2.41088, 1.63846, 7.45058e-09 )
+layers = 2
+cast_shadow = 0
+pixel_size = 0.0248
+alpha_cut = 1
+text = "00"
+
+[node name="TotTxt" type="Label3D" parent="."]
+transform = Transform( -4.00688e-08, 0.306476, -0.951878, 1.13133e-08, 0.951878, 0.306476, 1, 1.51122e-09, -4.16079e-08, -2.57127, 1.14034, 6.51926e-09 )
+layers = 2
+cast_shadow = 0
+pixel_size = 0.0144
+alpha_cut = 1
+modulate = Color( 0.623529, 0.623529, 0.623529, 1 )
+text = "00"
