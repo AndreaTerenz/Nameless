@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=1]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=2]
@@ -476,6 +476,14 @@ size = 24
 use_filter = true
 font_data = ExtResource( 3 )
 
+[sub_resource type="GDScript" id=1080]
+script/source = "extends Label
+
+
+func _ready() -> void:
+	text = \"v%s\" % load(\"res://version.gd\").VERSION
+"
+
 [sub_resource type="Animation" id=985]
 resource_name = "FadeIn"
 length = 2.0
@@ -625,9 +633,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 1347.0
+margin_left = -573.0
 margin_top = -166.0
-margin_right = 2327.0
+margin_right = 407.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50
@@ -1176,6 +1184,7 @@ custom_fonts/font = SubResource( 54 )
 text = "version peepee.poopoo [alpha]"
 align = 2
 valign = 1
+script = SubResource( 1080 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
