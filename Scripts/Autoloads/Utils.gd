@@ -249,3 +249,8 @@ static func engine_description() -> String:
 	return "Godot %s.%s.%s (%s)" % \
 		[eng_info.major, eng_info.minor, eng_info.patch, eng_info.status]
 
+func try_get_node(node_name: String, default = null):
+	if find_node(node_name):
+		return get_node(node_name)
+		
+	return default

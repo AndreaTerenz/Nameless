@@ -6,7 +6,7 @@ export(NodePath) var player_spawn_ref = ""
 
 const SAVES_DIR := "user://saves"
 
-onready var player_spawn : Position3D = get_node(player_spawn_ref)
+onready var player_spawn : Position3D
 
 var world_env : Environment = null
 var sun_light : DirectionalLight = null
@@ -17,6 +17,8 @@ var global_audio_srcs : Dictionary = {}
 func _ready() -> void:
 	if scene_name == "":
 		scene_name = name
+	
+	player_spawn = Utils.try_get_node(player_spawn_ref)
 	
 	for child in get_children():
 		if child is WorldEnvironment:
