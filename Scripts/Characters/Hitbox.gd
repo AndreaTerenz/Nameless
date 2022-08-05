@@ -9,6 +9,7 @@ signal healed(amnt)
 
 var last_change_from := Vector3.ZERO
 var max_health : float = 100
+var start_health : float = 100
 export var health : float = 100 
 
 func _ready() -> void:

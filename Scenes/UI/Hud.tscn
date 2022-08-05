@@ -121,14 +121,13 @@ func _on_hook_ready(h) -> void:
 
 [sub_resource type="StyleBoxFlat" id=51]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 18
-border_width_top = 18
-border_width_right = 18
-border_width_bottom = 18
-border_color = Color( 1, 1, 1, 1 )
-border_blend = true
-expand_margin_left = 5.0
-expand_margin_right = 5.0
+border_width_top = 30
+border_width_bottom = 30
+border_color = Color( 0, 0, 0, 0.811765 )
+expand_margin_left = 15.0
+expand_margin_right = 15.0
+expand_margin_top = 15.0
+expand_margin_bottom = 15.0
 
 [sub_resource type="GDScript" id=39]
 script/source = "extends Control

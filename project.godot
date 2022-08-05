@@ -328,6 +328,7 @@ boot_splash/show_image=false
 boot_splash/image="res://WaterMonke.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
@@ -357,7 +358,7 @@ main_run_args="--skip_splash --defaut=soft --console"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/argparse/plugin.cfg", "res://addons/native_dialogs/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/AutoExportVersion/plugin.cfg", "res://addons/argparse/plugin.cfg", "res://addons/native_dialogs/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
 
 [gui]
 

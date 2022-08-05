@@ -297,11 +297,11 @@ func _on_hit(damage) -> void:
 	
 	var voice_dir = "res://Assets/Audio/Voices/Suit"
 	var sample1 = load("/".join([voice_dir, "major_fracture.ogg"]))
-	#alerts_queue.enqueue(sample1)
+	"""alerts_queue.enqueue(sample1)
 	
 	if (hitbox.health / hitbox.initial_health < 0.2):
 		var sample2 = load("/".join([voice_dir, "critical.ogg"]))
-		#alerts_queue.enqueue(sample2)
+		alerts_queue.enqueue(sample2)"""
 
 func _on_healed(amnt) -> void:
 	hitbox_start_hp = hitbox.health
