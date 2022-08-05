@@ -358,7 +358,7 @@ main_run_args="--skip_splash --defaut=soft --console"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/AutoExportVersion/plugin.cfg", "res://addons/argparse/plugin.cfg", "res://addons/native_dialogs/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/AutoExportVersion/plugin.cfg", "res://addons/argparse/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
 
 [gui]
 
