@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode unshaded,cull_front;
 
 uniform vec4 tint : hint_color = vec4(.16, .2, .38, 1.0);
 uniform float clarity : hint_range(0.0, 1.0) = .3;
