@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/UI/GameUI.gd"
 }, {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
 "base": "BasePickup",
 "class": "HealthPickup",
 "language": "GDScript",
@@ -281,6 +286,7 @@ _global_script_class_icons={
 "DoorSide": "",
 "EnvVolume": "",
 "GameUI": "",
+"GitAPI": "",
 "HealthPickup": "",
 "Hitbox": "",
 "Interactable": "",
@@ -355,6 +361,8 @@ window/stretch/aspect="keep"
 [editor]
 
 main_run_args="--skip_splash --defaut=soft --console"
+version_control_autoload_on_startup=true
+version_control_plugin_name="GitAPI"
 
 [editor_plugins]
 
@@ -688,6 +696,7 @@ common/enable_pause_aware_picking=true
 quality/filters/sharpen_intensity=0.5
 quality/directional_shadow/size=8192
 quality/shadow_atlas/cubemap_size=2048
+quality/shadows/filter_mode=2
 quality/filters/anisotropic_filter_level=16
 gles3/shaders/shader_compilation_mode=1
 quality/voxel_cone_tracing/high_quality=true

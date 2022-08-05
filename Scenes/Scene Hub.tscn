@@ -402,6 +402,14 @@ func meta_pressed(meta):
 	OS.shell_open(meta)
 "
 
+[sub_resource type="GDScript" id=1080]
+script/source = "extends Label
+
+
+func _ready() -> void:
+	text = \"v%s\" % load(\"res://version.gd\").VERSION
+"
+
 [sub_resource type="GDScript" id=474]
 script/source = "extends Label
 
@@ -612,14 +620,6 @@ shader_param/amount = 1.2
 size = 24
 use_filter = true
 font_data = ExtResource( 3 )
-
-[sub_resource type="GDScript" id=1080]
-script/source = "extends Label
-
-
-func _ready() -> void:
-	text = \"v%s\" % load(\"res://version.gd\").VERSION
-"
 
 [sub_resource type="Animation" id=985]
 resource_name = "FadeIn"
@@ -1164,6 +1164,7 @@ rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 text = "peepee.poopoo [alpha]"
 align = 2
+script = SubResource( 1080 )
 
 [node name="Label2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
 margin_top = 116.0
