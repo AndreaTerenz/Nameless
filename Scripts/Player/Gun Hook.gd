@@ -136,13 +136,17 @@ func set_gun_state(state):
 	
 	match gun_stat:
 		GUN_STATE.INACTIVE:
-			gun.enabled = false
+			toggle_gun_enabled(false)
 		GUN_STATE.SWITCHING:
-			gun.enabled = false
+			toggle_gun_enabled(false)
 			can_hide = false
 		GUN_STATE.ACTIVE:
 			can_hide = true
-			gun.enabled = true
+			toggle_gun_enabled(true)
+				
+func toggle_gun_enabled(e : bool):
+	if gun:
+		gun.enabled = e
 
 func _on_interact_data(d) -> void:
 	pass

@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Real level"
+description="Playable level test"
+scene_file="res://Scenes/Levels/real_level.tscn"

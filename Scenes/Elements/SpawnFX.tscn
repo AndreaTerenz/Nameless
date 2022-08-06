@@ -1,0 +1,119 @@
+[gd_scene load_steps=11 format=2]
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends Spatial
+
+onready var mesh := $MeshInstance
+
+var o := 0.0
+var mat : ShaderMaterial
+var in_scene := true
+
+func _ready() -> void:
+	mat = mesh.get_surface_material(0)
+	in_scene = get_tree().current_scene is SceneManager
+	
+	if not in_scene:
+		o = 1.0
+	else:
+		Globals.connect_to_player_set(self, \"player_set\")
+		
+	set_mat_offset(o)
+	
+func player_set(p: Player):
+	p.mode = Player.MODE.CINEMATIC
+	p.camera.show_ui(true)
+
+func _process(delta: float) -> void:
+	if visible:
+		if o < 1.0:
+			set_mat_offset(o)
+			o += 0.6 * delta
+		else:
+			if in_scene:
+				Globals.player.mode = Player.MODE.GAME
+			visible = false
+	
+func set_mat_offset(v : float):
+	mat.set_shader_param(\"offset\", v)
+"
+
+[sub_resource type="CapsuleMesh" id=6]
+radius = 1.2
+mid_height = 2.8
+
+[sub_resource type="Shader" id=2]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.5.stable's SpatialMaterial.
+
+shader_type spatial;
+render_mode unshaded,shadows_disabled,ambient_light_disabled,cull_front;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+
+uniform sampler2D tint : hint_white;
+uniform sampler2D noiseTxt : hint_white;
+uniform sampler2D turbNoiseTxt : hint_white;
+uniform float speed : hint_range(0.0, 1.0, 0.01) = .3;
+uniform float offset : hint_range(0.0, .99, 0.01) = 0.;
+
+varying float base_time;
+
+void vertex() {
+	base_time = TIME * speed + offset;
+	
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+	base_uv.x += fract(base_time);
+	
+	float t_noise = texture(turbNoiseTxt, UV).r;
+	float noise = texture(noiseTxt, base_uv + t_noise).r;
+	
+	float s = fract(base_time);
+	noise = smoothstep(noise, 0.,  s);
+	
+	ALBEDO = texture(tint, vec2(noise, 0.)).rgb * 4.;
+	ALPHA = (noise);
+}
+"
+
+[sub_resource type="OpenSimplexNoise" id=4]
+
+[sub_resource type="NoiseTexture" id=5]
+seamless = true
+noise = SubResource( 4 )
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0.158974, 0.364103, 0.569231, 0.733333, 0.912821 )
+colors = PoolColorArray( 0.179688, 0.00140381, 0.00140381, 1, 0.408203, 0.175422, 0.0135536, 1, 0.818359, 0.604179, 0, 1, 1, 0.914062, 0, 1, 1, 0.98674, 0.845703, 1 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="OpenSimplexNoise" id=7]
+
+[sub_resource type="NoiseTexture" id=8]
+seamless = true
+noise = SubResource( 7 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/uv1_scale = Vector3( 1, 1.5, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/speed = 0.0
+shader_param/offset = 0.4
+shader_param/tint = SubResource( 10 )
+shader_param/noiseTxt = SubResource( 5 )
+shader_param/turbNoiseTxt = SubResource( 8 )
+
+[node name="SpawnFX" type="Spatial"]
+script = SubResource( 11 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+cast_shadow = 0
+mesh = SubResource( 6 )
+material/0 = SubResource( 3 )
