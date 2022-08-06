@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/rifle/rifle.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Sprites/UI/crosshairs/rifle_ch.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Weapons/GunDebugPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Materials/muzzle_flash_outer_mat.tres" type="Material" id=4]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=5]
 [ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
@@ -11,14 +10,16 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends BulletGun
 
-onready var ammoPane = $PanelContainer
 onready var muzzle_flash = $Muzzle/Flash
+onready var a_text = $AmmoTxt
+onready var t_text = $TotTxt
 
 func _ready() -> void:
 	ammoPane.gun = self
 
 func _ui():
-	ammoPane.set_count()
+	a_text.text = \"%02d\" % ammo_count
+	t_text.text = \"%02d\" % reserve_ammo
 	
 func _on_shot():
 	._on_shot()
@@ -41,11 +42,14 @@ cast_shadow = 0
 mesh = ExtResource( 1 )
 script = SubResource( 1 )
 icon = ExtResource( 7 )
+aimable = null
 entry_name = "Rifle Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 2 )
 continuous = true
 fire_rate = 200
+ammo_per_mag = null
+max_mags = null
 
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7938, 2.43835, 0 )
@@ -77,4 +81,17 @@ light_cull_mask = 4294967293
 omni_range = 12.1562
 omni_attenuation = 3.36359
 
-[node name="PanelContainer" parent="." instance=ExtResource( 3 )]
+[node name="AmmoTxt" type="Label3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24495, 2, -1.15113 )
+layers = 2
+pixel_size = 0.025
+alpha_cut = 1
+text = "00"
+
+[node name="TotTxt" type="Label3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.891345, 2, -1.15113 )
+layers = 2
+pixel_size = 0.015
+alpha_cut = 1
+modulate = Color( 0.623529, 0.623529, 0.623529, 1 )
+text = "00"

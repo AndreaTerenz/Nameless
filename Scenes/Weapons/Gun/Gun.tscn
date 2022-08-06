@@ -80,7 +80,7 @@ omni_attenuation = 0.183011
 transform = Transform( -4.00688e-08, 0.306476, -0.951878, 1.13133e-08, 0.951878, 0.306476, 1, 1.51122e-09, -4.16079e-08, -2.41088, 1.63846, 7.45058e-09 )
 layers = 2
 cast_shadow = 0
-pixel_size = 0.0248
+pixel_size = 0.025
 alpha_cut = 1
 text = "00"
 
@@ -88,7 +88,7 @@ text = "00"
 transform = Transform( -4.00688e-08, 0.306476, -0.951878, 1.13133e-08, 0.951878, 0.306476, 1, 1.51122e-09, -4.16079e-08, -2.57127, 1.14034, 6.51926e-09 )
 layers = 2
 cast_shadow = 0
-pixel_size = 0.0144
+pixel_size = 0.015
 alpha_cut = 1
 modulate = Color( 0.623529, 0.623529, 0.623529, 1 )
 text = "00"
