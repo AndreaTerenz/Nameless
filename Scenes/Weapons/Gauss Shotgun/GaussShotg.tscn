@@ -20,15 +20,11 @@ layers = 2
 cast_shadow = 0
 mesh = ExtResource( 1 )
 script = SubResource( 1 )
-icon = null
-aimable = null
+aimable = false
 entry_name = "GaussShotg Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 2 )
-continuous = null
 fire_rate = 8
-ammo_per_mag = null
-max_mags = null
 
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.56948, 1.91206, 0 )

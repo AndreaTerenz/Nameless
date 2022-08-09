@@ -39,14 +39,12 @@ cast_shadow = 0
 mesh = ExtResource( 1 )
 script = SubResource( 1 )
 icon = ExtResource( 7 )
-aimable = null
+aimable = false
 entry_name = "Rifle Bullet"
 muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 2 )
 continuous = true
 fire_rate = 200
-ammo_per_mag = null
-max_mags = null
 
 [node name="Muzzle" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7938, 2.43835, 0 )

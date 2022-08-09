@@ -17,22 +17,21 @@ enum MARKER_MODE {
 
 onready var camera = get_viewport().get_camera()
 onready var parent = get_parent()
-onready var label = $Label
-onready var marker = $Marker
+onready var canvas = $CanvasLayer
+onready var label = $CanvasLayer/Label
+onready var marker = $CanvasLayer/Marker
 
-# The waypoint's text.
 export var text = \"Waypoint\" setget set_text
-
 export(Color) var mod_color = Color.white
-
-# If `true`, the waypoint sticks to the viewport's edges when moving off-screen.
+export(int) var layer = -1
 export(MARKER_MODE) var marker_mode = MARKER_MODE.ALWAYS
 
 func _ready() -> void:
 	self.text = text
 	self.modulate = mod_color
-	
 	self.marker.visible = (marker_mode != MARKER_MODE.NEVER)
+	
+	canvas.layer = layer
 	
 	if not parent is Spatial:
 		push_error(\"The waypoint's parent node must inherit from Spatial.\")
@@ -66,8 +65,8 @@ func _process(_delta):
 	if not sticky:
 		# For non-sticky waypoints, we don't need to clamp and calculate
 		# the position if the waypoint goes off screen.
-		rect_position = unprojected_position
-		visible = not is_behind
+		canvas.offset = unprojected_position
+		canvas.visible = not is_behind
 		return
 
 	# We need to handle the axes differently.
@@ -91,37 +90,37 @@ func _process(_delta):
 		var diff = angle_diff(look.basis.get_euler().x, camera_transform.basis.get_euler().x)
 		unprojected_position.y = viewport_base_size.y * (0.5 + (diff / deg2rad(camera.fov)))
 
-	rect_position = Vector2(
+	canvas.offset = Vector2(
 			clamp(unprojected_position.x, MARGIN, viewport_base_size.x - MARGIN),
 			clamp(unprojected_position.y, MARGIN, viewport_base_size.y - MARGIN)
 	)
 
 	marker.visible = (marker_mode != MARKER_MODE.NEVER)
 	label.visible = true
-	rect_rotation = 0
+	canvas.rotation = 0
 	# Used to display a diagonal arrow when the waypoint is displayed in
 	# one of the screen corners.
 	var overflow = 0
 
-	if rect_position.x <= MARGIN:
+	if canvas.offset.x <= MARGIN:
 		# Left overflow.
-		overflow = -45
+		overflow = -PI/4
 		label.visible = false
-		rect_rotation = 90
-	elif rect_position.x >= viewport_base_size.x - MARGIN:
+		canvas.rotation = PI/2
+	elif canvas.offset.x >= viewport_base_size.x - MARGIN:
 		# Right overflow.
-		overflow = 45
+		overflow = PI/4
 		label.visible = false
-		rect_rotation = 270
+		canvas.rotation = PI*3/2
 
-	if rect_position.y <= MARGIN:
+	if canvas.offset.y <= MARGIN:
 		# Top overflow.
 		label.visible = false
-		rect_rotation = 180 + overflow
-	elif rect_position.y >= viewport_base_size.y - MARGIN:
+		canvas.rotation = PI + overflow
+	elif canvas.offset.y >= viewport_base_size.y - MARGIN:
 		# Bottom overflow.
 		label.visible = false
-		rect_rotation = -overflow
+		canvas.rotation = -overflow
 		
 	if marker_mode == MARKER_MODE.OFFSCREEN:
 		marker.visible = not label.visible
@@ -143,12 +142,15 @@ static func angle_diff(from, to):
 [node name="Waypoint" type="Control"]
 script = SubResource( 1 )
 
-[node name="Label" type="Label" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Label" type="Label" parent="CanvasLayer"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -54.5
+margin_left = -1014.5
 margin_top = -51.0
-margin_right = 54.5
+margin_right = -905.5
 margin_bottom = -18.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.501961 )
 custom_constants/shadow_offset_x = 1
@@ -156,11 +158,8 @@ custom_constants/shadow_offset_y = 1
 text = "Waypoint"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Marker" type="TextureRect" parent="."]
+[node name="Marker" type="TextureRect" parent="CanvasLayer"]
 visible = false
 margin_left = -8.0
 margin_top = -16.0

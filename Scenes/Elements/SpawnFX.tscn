@@ -43,9 +43,7 @@ radius = 1.2
 mid_height = 2.8
 
 [sub_resource type="Shader" id=2]
-code = "// NOTE: Shader automatically converted from Godot Engine 3.5.stable's SpatialMaterial.
-
-shader_type spatial;
+code = "shader_type spatial;
 render_mode unshaded,shadows_disabled,ambient_light_disabled,cull_front;
 
 uniform vec3 uv1_scale;
@@ -56,6 +54,7 @@ uniform sampler2D noiseTxt : hint_white;
 uniform sampler2D turbNoiseTxt : hint_white;
 uniform float speed : hint_range(0.0, 1.0, 0.01) = .3;
 uniform float offset : hint_range(0.0, .99, 0.01) = 0.;
+uniform float brightness : hint_range(0.1, 20., 0.01) = 10.;
 
 varying float base_time;
 
@@ -75,7 +74,7 @@ void fragment() {
 	float s = fract(base_time);
 	noise = smoothstep(noise, 0.,  s);
 	
-	ALBEDO = texture(tint, vec2(noise, 0.)).rgb * 4.;
+	ALBEDO = texture(tint, vec2(noise, 0.)).rgb * brightness;
 	ALPHA = (noise);
 }
 "
@@ -104,7 +103,8 @@ shader = SubResource( 2 )
 shader_param/uv1_scale = Vector3( 1, 1.5, 1 )
 shader_param/uv1_offset = Vector3( 0, 0, 0 )
 shader_param/speed = 0.0
-shader_param/offset = 0.4
+shader_param/offset = 0.32
+shader_param/brightness = 20.0
 shader_param/tint = SubResource( 10 )
 shader_param/noiseTxt = SubResource( 5 )
 shader_param/turbNoiseTxt = SubResource( 8 )
