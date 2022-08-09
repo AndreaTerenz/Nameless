@@ -74,7 +74,7 @@ func set_gravity_vec(delta):
 func can_jump():
 	return player.touching_floor() and crouch_state == CROUCH_STATE.INACTIVE
 
-func check_stairs(delta: float):
+func check_stairs(_delta: float):
 	if (player.leaving_stairs):
 		var forw = -Utils.local_direction(player, Vector3.FORWARD)
 		h_velocity = forw * current_speed 

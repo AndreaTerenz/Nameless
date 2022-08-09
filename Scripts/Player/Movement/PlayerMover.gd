@@ -38,5 +38,5 @@ func get_velocity(delta: float):
 	velocity = _compute(delta)
 	return velocity
 	
-func _compute(delta: float) -> Vector3:
+func _compute(_delta: float) -> Vector3:
 	return Vector3.ZERO

@@ -3,7 +3,7 @@ extends PlayerMover
 
 var ladders := []
 
-func _compute(delta: float):
+func _compute(_delta: float):
 	var dir : Vector3 = Vector3.ZERO
 	var hrl = player.head_rot_limit
 	var r = clamp(player.head.rotation.x + deg2rad(12.0), -hrl, hrl)

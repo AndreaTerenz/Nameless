@@ -37,7 +37,7 @@ func _ready():
 	
 	apply_impulse(Vector3.ZERO, -transform.basis.z * speed)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_too_far():
 		delete()
 		

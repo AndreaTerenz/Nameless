@@ -9,9 +9,6 @@ script/source = "extends BulletGun
 onready var a_text = $AmmoTxt
 onready var t_text = $TotTxt
 
-func _ready() -> void:
-	ammoPane.gun = self
-
 func _ui():
 	a_text.text = \"%02d\" % ammo_count
 	t_text.text = \"%02d\" % reserve_ammo

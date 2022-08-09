@@ -151,7 +151,7 @@ func toggle_killzones():
 	if not toggle_group(KILL_ZN_GRP):
 		Console.Log.warn("No killzones in scene")
 		
-func show_colliders(t):
+func show_colliders(_t):
 	# kinda broken
 	# get_tree().debug_collisions_hint = bool(t)
 	pass
@@ -237,7 +237,7 @@ func set_resolution(w := 0, h := 0):
 		
 	OS.window_size = Vector2(w, h)
 	
-func set_gravity(value: float):
+func set_gravity(_value: float):
 	"""
 	well...maybe this'll be useful one day
 	
@@ -249,7 +249,7 @@ func set_gravity(value: float):
 
 ########################################################
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("screenshot"):
 		var image = get_viewport().get_texture().get_data()
 		var usr_dir = OS.get_user_data_dir()
@@ -326,8 +326,8 @@ func quit():
 	Settings.save_data()
 	get_tree().quit()
 
-	
 func reset_state():
+	player.unbind_keys()
 	set_player(null)
 	
 func _restart():

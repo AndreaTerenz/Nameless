@@ -16,7 +16,7 @@ signal reactivated(zone)
 export(bool) var oneshot = true setget set_oneshot
 export(bool) var show = false
 export(int, LAYERS_3D_PHYSICS) var mask = 1
-export(NodePath) var debug_shape_path = "MeshInstance"
+export(NodePath) var debug_shape_path = NodePath("MeshInstance")
 
 var contains_player : bool = false
 var zone_id := -1

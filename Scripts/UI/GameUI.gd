@@ -26,7 +26,7 @@ func _ready() -> void:
 	
 	grab_focus()
 	
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
 	var action_pressed = Input.is_action_just_pressed(action)
 	var console_shown = Console.is_console_shown
 	#TEMPORARY

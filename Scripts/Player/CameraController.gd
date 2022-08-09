@@ -33,7 +33,6 @@ func tween_fov(trgt):
 		tween.start()
 	
 func check_zoom():
-	var z := zoomed
 	if Input.is_action_just_pressed("zoom"):
 		zoomed = true
 		tween_fov(zoom_fov)

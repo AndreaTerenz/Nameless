@@ -2,7 +2,7 @@ class_name SceneManager
 extends Spatial
 
 export(String) var scene_name = ""
-export(NodePath) var player_spawn_ref = ""
+export(NodePath) var player_spawn_ref
 
 const SAVES_DIR := "user://saves"
 

@@ -36,13 +36,11 @@ func set_mask_bits_in_object(obj: Spatial, names: PoolStringArray, value := true
 			set_mask_bit_in_object(obj, n, value)
 	
 func toggle_layer_bit_in_object(obj: CollisionObject, name: String):
-	var bit = get_layer_bit(name)
 	var current = get_layer_bit_in_object(obj, name)
 	set_layer_bit_in_object(obj, name, not current)
 	
 func toggle_mask_bit_in_object(obj: Spatial, name: String):
 	if obj is CollisionObject or obj is RayCast:
-		var bit = get_layer_bit(name)
 		var current = get_mask_bit_in_object(obj, name)
 		set_mask_bit_in_object(obj, name, not current)
 	
@@ -145,7 +143,6 @@ static func local_direction(obj: Spatial, direction : Vector3) -> Vector3:
 
 static func lerp_rot_towards(obj: Spatial, target: Spatial, amount: float = 1.0) -> Quat:
 	var target_pos = Utils.get_global_pos(target)
-	var obj_pos = Utils.get_global_pos(obj)
 	var obj_global_tr = obj.global_transform
 	
 	var wtransform = obj_global_tr.looking_at(target_pos,Vector3.UP)

@@ -273,15 +273,15 @@ func get_other_type(_other: Node):
 			
 	return Globals.GROUPS.NEUTRAL
 
-func _on_other_detected(body: Node) -> void:
-	var type = get_other_type(body)
+func _on_other_detected(other: Node) -> void:
+	var type = get_other_type(other)
 	others_dict[type] += 1
-	compass.add_target(body, type)
+	compass.add_target(other, type)
 
-func _on_other_lost(body: Node) -> void:
-	var type = get_other_type(body)
+func _on_other_lost(other: Node) -> void:
+	var type = get_other_type(other)
 	others_dict[type] -= 1
-	compass.remove_target(body)
+	compass.remove_target(other)
 
 func _on_entered_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
@@ -292,18 +292,18 @@ func _on_exited_env(area: Area) -> void:
 	if area.has_meta("ENV_TYPE"):
 		set_env(ENVIRONMENT.NORMAL)
 
-func _on_hit(damage) -> void:
+func _on_hit(_damage) -> void:
 	hitbox_start_hp = hitbox.health
 	
 	var voice_dir = "res://Assets/Audio/Voices/Suit"
-	var sample1 = load("/".join([voice_dir, "major_fracture.ogg"]))
+	var _sample1 = load("/".join([voice_dir, "major_fracture.ogg"]))
 	"""alerts_queue.enqueue(sample1)
 	
 	if (hitbox.health / hitbox.initial_health < 0.2):
 		var sample2 = load("/".join([voice_dir, "critical.ogg"]))
 		alerts_queue.enqueue(sample2)"""
 
-func _on_healed(amnt) -> void:
+func _on_healed(_amnt) -> void:
 	hitbox_start_hp = hitbox.health
 
 func _on_start_drown() -> void:
@@ -333,11 +333,11 @@ func stop_drown():
 func is_fully_in_env(offset = 1.0):
 	return env_chk.is_fully_in_env(offset)
 
-func _on_WaterFX_Trig_entered(area: Area) -> void:
+func _on_WaterFX_Trig_entered(_area: Area) -> void:
 	head_in_env = true
 	drown_timer.start(5.0)
 
-func _on_WaterFX_Trig_exited(area: Area) -> void:
+func _on_WaterFX_Trig_exited(_area: Area) -> void:
 	head_in_env = false
 	stop_drown()
 	
