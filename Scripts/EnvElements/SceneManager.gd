@@ -18,7 +18,7 @@ func _ready() -> void:
 	if scene_name == "":
 		scene_name = name
 	
-	player_spawn = Utils.try_get_node(player_spawn_ref)
+	player_spawn = Utils.try_get_node(player_spawn_ref, self)
 	
 	for child in get_children():
 		if child is WorldEnvironment:

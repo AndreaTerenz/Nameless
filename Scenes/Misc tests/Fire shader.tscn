@@ -31,9 +31,6 @@ uniform sampler2D tint_gradient_text: hint_white;
 uniform float speed = 1.0;
 uniform float speed_b = 2.0;
 
-uniform float threshold : hint_range(0.0, 1.0) = .8;
-uniform float fuzziness = 1.4;
-
 float remap_range(float value, float InputA, float InputB, float OutputA, float OutputB) {
     return(value - InputA) / (InputB - InputA) * (OutputB - OutputA) + OutputA;
 }
@@ -107,8 +104,6 @@ gradient = SubResource( 19 )
 shader = SubResource( 11 )
 shader_param/speed = 1.0
 shader_param/speed_b = 2.0
-shader_param/threshold = 0.462
-shader_param/fuzziness = 1.202
 shader_param/noise_text = SubResource( 14 )
 shader_param/noise_text_b = SubResource( 16 )
 shader_param/alpha_gradient_text = SubResource( 18 )

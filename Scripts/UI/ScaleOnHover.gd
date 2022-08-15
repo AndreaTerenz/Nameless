@@ -9,7 +9,7 @@ var tween : Tween
 var base_scale : Vector2
 
 func _ready() -> void:
-	target = Utils.try_get_node(target_node_path, self)
+	target = Utils.try_get_node(target_node_path, get_tree().root, self)
 	
 	target.connect("mouse_entered", self, "_on_enter")
 	target.connect("mouse_exited", self, "_on_exit")

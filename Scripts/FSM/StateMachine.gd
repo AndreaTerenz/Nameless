@@ -18,7 +18,7 @@ var child_states := []
 func _ready() -> void:
 	yield(owner, "ready")
 
-	state_target = Utils.try_get_node(state_target_ref, get_parent())
+	state_target = Utils.try_get_node(state_target_ref, get_tree().root, get_parent())
 	
 	# The state machine assigns itself to the State objects' state_machine property.
 	for child in get_children():
@@ -26,7 +26,7 @@ func _ready() -> void:
 			child_states.append(child)
 			child.state_machine = self
 			
-	state = Utils.try_get_node(initial_state, child_states[0])
+	state = Utils.try_get_node(initial_state, self, child_states[0])
 			
 	state.enter(state_target)
 

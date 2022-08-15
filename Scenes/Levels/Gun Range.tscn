@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Characters/Hitbox.gd" type="Script" id=1]
 [ext_resource path="res://Materials/Grids/grid_dark.tres" type="Material" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scenes/Actors/Turret.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scripts/EnvElements/SceneManager.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/UI/waypoint.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/UI/waypoint.svg" type="Texture" id=16]
 
 [sub_resource type="SphereMesh" id=33]
 radius = 2.0
@@ -195,7 +196,22 @@ shape = SubResource( 32 )
 transform = Transform( 1, 0, 0, 0, 1, 0, -7.10543e-15, -5.55112e-17, 1, 1.19209e-07, 2, 0 )
 
 [node name="Waypoint" parent="Fellas/Enemy/WaypointRef" instance=ExtResource( 15 )]
-text = "amgery"
+main_content_ref = NodePath("Label")
+marker_content_ref = NodePath("TextureRect")
+
+[node name="Label" type="Label" parent="Fellas/Enemy/WaypointRef/Waypoint"]
+margin_right = 40.0
+margin_bottom = 33.0
+text = "angery"
+align = 1
+valign = 1
+
+[node name="TextureRect" type="TextureRect" parent="Fellas/Enemy/WaypointRef/Waypoint"]
+margin_right = 28.0
+margin_bottom = 28.0
+texture = ExtResource( 16 )
+expand = true
+stretch_mode = 5
 
 [node name="Turret" parent="Fellas" instance=ExtResource( 13 )]
 transform = Transform( 1, 8.83524e-29, 0, 0, 1, 0, 0, 0, 1, -20.7716, 1.98169, -21.9333 )

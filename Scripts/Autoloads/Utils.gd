@@ -167,12 +167,13 @@ static func delete_children(node):
 		n.queue_free()
 		
 func transfer_node(obj: Node, new_parent: Node = null):
-	obj.get_parent().remove_child(obj)
-	
-	if new_parent:
-		new_parent.add_child(obj)
-	else:
-		get_tree().root.add_child(obj)
+	if obj != new_parent:
+		obj.get_parent().remove_child(obj)
+		
+		if new_parent:
+			new_parent.add_child(obj)
+		else:
+			get_tree().root.add_child(obj)
 
 static func log_line(obj: Node, msg: String):
 	var time = OS.get_time()
@@ -246,8 +247,8 @@ static func engine_description() -> String:
 	return "Godot %s.%s.%s (%s)" % \
 		[eng_info.major, eng_info.minor, eng_info.patch, eng_info.status]
 
-func try_get_node(node_name: String, default = null):
-	if find_node(node_name):
-		return get_node(node_name)
+static func try_get_node(node_name: String, from: Node, default = null):
+	if from.find_node(node_name):
+		return from.get_node(node_name)
 		
 	return default

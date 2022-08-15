@@ -261,6 +261,9 @@ func check_stairs() -> void:
 
 func _on_killed() -> void:
 	Globals._restart()
+	
+func unbind_keys():
+	Console.unbind_key(OS.find_scancode_from_string("n"))
 
 func get_other_type(_other: Node):
 	var other = _other as CollisionObject

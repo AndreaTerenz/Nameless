@@ -327,7 +327,8 @@ func quit():
 	get_tree().quit()
 
 func reset_state():
-	player.unbind_keys()
+	if player:
+		player.unbind_keys()
 	set_player(null)
 	
 func _restart():
