@@ -1,45 +1,53 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/UI/ProceduralShape.gd" type="Script" id=1]
-
-[sub_resource type="GDScript" id=1]
-script/source = "# fuck you gdscript
-extends \"res://Scripts/UI/ProceduralShape.gd\"
-
-# class_name ProceduralRectangle
-
-
-func _ready() -> void:
-	pass
-"
+[ext_resource path="res://Scripts/UI/ProceduralCircle.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/UI/ProceduralRect.gd" type="Script" id=2]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Shape" type="Control" parent="."]
+[node name="Rect" type="Control" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 20, 20 )
+margin_left = -88.0
+margin_top = -120.0
+margin_right = -16.947
+margin_bottom = -59.869
+rect_min_size = Vector2( 71.053, 60.131 )
+rect_pivot_offset = Vector2( 35.5265, 30.0655 )
+script = ExtResource( 2 )
+fill = Color( 0.294118, 0.764706, 0.266667, 1 )
+stroke = Color( 0.839216, 0.0745098, 0.0745098, 1 )
+stroke_weight = 12.0
+width = 71.053
+height = 60.131
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1056.0
+margin_bottom = 232.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_top = 99.0
+margin_right = 126.0
+margin_bottom = 132.0
+text = "AAAAAAAAA"
+
+[node name="Circle" type="Control" parent="HBoxContainer"]
+margin_left = 134.0
+margin_right = 365.492
+margin_bottom = 231.492
+rect_min_size = Vector2( 231.492, 231.492 )
 script = ExtResource( 1 )
-radius = 20.0
+stroke_weight = 26.4
+pivot_centered = false
+radius = 69.383
 
-[node name="Shape2" type="Control" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -66.0
-margin_top = -40.0
-margin_right = -26.0
-rect_pivot_offset = Vector2( 20, 20 )
-script = SubResource( 1 )
+[node name="Label2" type="Label" parent="HBoxContainer"]
+margin_left = 373.0
+margin_top = 99.0
+margin_right = 499.0
+margin_bottom = 132.0
+text = "AAAAAAAAA"
