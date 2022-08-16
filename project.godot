@@ -89,11 +89,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/UI/GameUI.gd"
 }, {
-"base": "",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://addons/godot-git-plugin/git_api.gdns"
-}, {
 "base": "BasePickup",
 "class": "HealthPickup",
 "language": "GDScript",
@@ -286,7 +281,6 @@ _global_script_class_icons={
 "DoorSide": "",
 "EnvVolume": "",
 "GameUI": "",
-"GitAPI": "",
 "HealthPickup": "",
 "Hitbox": "",
 "Interactable": "",
