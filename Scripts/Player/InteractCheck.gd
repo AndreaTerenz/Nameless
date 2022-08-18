@@ -15,7 +15,7 @@ func _input(event: InputEvent) -> void:
 		elif Input.is_action_just_pressed("interact"):
 			send_data(target.interact())
 			
-		if target.is_queued_for_deletion():
+		if (not target) or target.is_queued_for_deletion():
 			target_gone()
 
 
@@ -29,7 +29,7 @@ func send_data(data):
 
 func _on_body_entered(body: Node) -> void:
 	target = body as Interactable
-	if target:
+	if target and target.enabled:
 		$InteractTip.show_tip(target.interact_txt)
 		target.entered_range()
 	# ugly ugly ugly

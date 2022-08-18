@@ -4,6 +4,7 @@ extends StaticBody
 signal interacted_with(sender)
 signal interaction_ended
 
+export(bool) var enabled = true
 export(bool) var continuous = false
 export(String) var interact_txt = "Interact"
 
@@ -32,7 +33,7 @@ func stop_interaction():
 		return output
 		
 func can_interact():
-	return true
+	return enabled
 	
 func _on_interact(sender: Node = null):
 	pass

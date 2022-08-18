@@ -774,13 +774,18 @@ text = "FPS: 69
 Current env: ur mom"
 align = 2
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="DebugTexture" type="TextureRect" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 10 )
 expand = true
 stretch_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [connection signal="timeout" from="Notifications/Timer" to="Notifications" method="_on_timeout"]
 [connection signal="timeout" from="Weapon Wheel/Timer" to="Weapon Wheel" method="_on_timeout"]

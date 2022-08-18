@@ -3,6 +3,8 @@
 [sub_resource type="GDScript" id=11]
 script/source = "extends Spatial
 
+export(bool) var active := false
+
 onready var mesh := $MeshInstance
 
 var o := 0.0
@@ -21,11 +23,12 @@ func _ready() -> void:
 	set_mat_offset(o)
 	
 func player_set(p: Player):
-	p.mode = Player.MODE.CINEMATIC
-	p.camera.show_ui(true)
+	if active:
+		p.mode = Player.MODE.CINEMATIC
+		p.camera.show_ui(true)
 
 func _process(delta: float) -> void:
-	if visible:
+	if visible and active:
 		if o < 1.0:
 			set_mat_offset(o)
 			o += 0.6 * delta
@@ -35,7 +38,8 @@ func _process(delta: float) -> void:
 			visible = false
 	
 func set_mat_offset(v : float):
-	mat.set_shader_param(\"offset\", v)
+	if active:
+		mat.set_shader_param(\"offset\", v)
 "
 
 [sub_resource type="CapsuleMesh" id=6]

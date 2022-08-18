@@ -1,0 +1,72 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=2]
+
+[sub_resource type="Shader" id=58]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.5.stable's CanvasItemMaterial.
+
+shader_type canvas_item;
+render_mode blend_mix;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+
+uniform sampler2D tint : hint_white;
+uniform sampler2D noiseTxt : hint_white;
+uniform sampler2D turbNoiseTxt : hint_white;
+uniform float speed : hint_range(0.0, 1.0, 0.01) = .3;
+uniform float offset : hint_range(0.0, .99, 0.01) = 0.;
+uniform float brightness : hint_range(0.1, 20., 0.01) = 10.;
+
+varying float base_time;
+
+void vertex() {
+	base_time = TIME * speed + offset;
+	
+	//UV=UV*uv1_scale.xy+uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV*uv1_scale.xy+uv1_offset.xy;
+	base_uv.x += fract(base_time);
+	
+	float t_noise = texture(turbNoiseTxt, UV).r;
+	float noise = texture(noiseTxt, base_uv + t_noise).r;
+	
+	float s = fract(base_time);
+	noise = smoothstep(noise, 0.,  s);
+	
+	COLOR.rgb = texture(tint, vec2(noise, 0.)).rgb * brightness;
+	COLOR.a = (noise);
+}
+"
+
+[sub_resource type="OpenSimplexNoise" id=64]
+
+[sub_resource type="NoiseTexture" id=65]
+seamless = true
+noise = SubResource( 64 )
+
+[sub_resource type="Gradient" id=61]
+offsets = PoolRealArray( 0.158974, 0.364103, 0.569231, 0.733333, 0.912821 )
+colors = PoolColorArray( 0.179688, 0.00140381, 0.00140381, 1, 0.408203, 0.175422, 0.0135536, 1, 0.818359, 0.604179, 0, 1, 1, 0.914062, 0, 1, 1, 0.98674, 0.845703, 1 )
+
+[sub_resource type="GradientTexture" id=62]
+gradient = SubResource( 61 )
+
+[sub_resource type="OpenSimplexNoise" id=66]
+seed = 2
+
+[sub_resource type="NoiseTexture" id=67]
+seamless = true
+noise = SubResource( 66 )
+noise_offset = Vector2( 6.299, 0 )
+
+[resource]
+shader = SubResource( 58 )
+shader_param/uv1_scale = Vector3( 0, 0, 0 )
+shader_param/uv1_offset = null
+shader_param/speed = 0.3
+shader_param/offset = 0.0
+shader_param/brightness = 10.0
+shader_param/tint = SubResource( 62 )
+shader_param/noiseTxt = SubResource( 65 )
+shader_param/turbNoiseTxt = SubResource( 67 )

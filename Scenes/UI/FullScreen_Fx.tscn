@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ColorRect
+
+signal fade_done
+
+export var start_color := Color(\"#00000000\")
+export var end_color := Color(\"#00000000\")
+export var delay := 0.1
+export var fade_len := 0.1
+export var autostart := true
+export var lock_player := false
+
+func _ready() -> void:
+	color = start_color
+	
+	if autostart:
+		lerp_color()
+
+func lerp_color(reverse := false, custom_delay := -1.0):
+	var to : Color = start_color if reverse else end_color
+	var d = delay if (custom_delay < 0.0) else custom_delay
+	var tween := create_tween()
+	
+	if not Globals.player:
+		yield(Globals, \"player_set\")
+	
+	tween.tween_property(self, \"color\", to, fade_len).set_delay(d)
+	
+	if lock_player:
+		Globals.player.mode = Player.MODE.CINEMATIC
+	
+	yield(tween, \"finished\")
+	
+	Globals.player.mode = Player.MODE.GAME
+	
+	emit_signal(\"fade_done\")
+"
+
+[node name="FullScreen_Fx" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 1, 1, 0 )
+script = SubResource( 1 )

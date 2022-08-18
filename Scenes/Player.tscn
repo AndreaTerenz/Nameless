@@ -529,6 +529,7 @@ zoom_fov = 20.0
 
 [node name="SpawnFX" parent="." instance=ExtResource( 13 )]
 unique_name_in_owner = true
+visible = false
 
 [node name="Head" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41822, 0 )
@@ -538,7 +539,7 @@ shape = SubResource( 5 )
 transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0.925081, -9.85961e-15 )
 enabled = true
 cast_to = Vector3( 0, 1, 0 )
-collision_mask = 4
+collision_mask = 5
 collide_with_areas = true
 debug_shape_thickness = 4
 
@@ -558,7 +559,7 @@ one_shot = true
 [node name="Camera" type="Camera" parent="Head"]
 cull_mask = 1048573
 fov = 65.0
-far = 8192.0
+far = 4000.0
 script = ExtResource( 2 )
 
 [node name="Tween" type="Tween" parent="Head/Camera"]
@@ -570,8 +571,6 @@ msaa = 3
 fxaa = true
 debanding = true
 sharpen_intensity = 1.0
-hdr = false
-usage = 0
 shadow_atlas_quad_0 = 0
 shadow_atlas_quad_1 = 0
 shadow_atlas_quad_2 = 0
