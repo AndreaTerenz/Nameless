@@ -29,12 +29,12 @@ func set_open(value):
 		
 func tween_pos():
 	tween.interpolate_property(self, "translation", \
-		null, current_trgt_pos, speed, \
+		null, current_trgt_pos, amount / speed, \
 		Tween.TRANS_EXPO, Tween.EASE_OUT)
 	tween.start()
 		
 func door_ready(door):
-	speed = door.speed
+	speed = door.speed / 10.0
 	amount = door.amount
 	
 	door.connect("opened", self, "_on_open")
