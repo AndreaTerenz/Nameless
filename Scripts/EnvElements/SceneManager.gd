@@ -3,45 +3,50 @@ extends Spatial
 
 export(String) var scene_name = ""
 export(NodePath) var player_spawn_ref
+export(NodePath) var world_env_ref
+export(NodePath) var sun_light_ref
+export(Array, String) var gi_probes_refs = []
 
 const SAVES_DIR := "user://saves"
 
-onready var player_spawn : Position3D
+onready var player_spawn : Position3D = Utils.try_get_node(player_spawn_ref, self)
+onready var world_env : Environment = Utils.try_get_node(world_env_ref, self)
+onready var sun_light : DirectionalLight = Utils.try_get_node(sun_light_ref, self)
 
-var world_env : Environment = null
-var sun_light : DirectionalLight = null
 var gi_probes := []
-var ref_probes := []
 var global_audio_srcs : Dictionary = {}
 
 func _ready() -> void:
 	if scene_name == "":
 		scene_name = name
 	
-	player_spawn = Utils.try_get_node(player_spawn_ref, self)
-	
 	for child in get_children():
-		if child is WorldEnvironment:
-			Console.write_line("Detected world environment")
+		if not(world_env) and child is WorldEnvironment:
 			world_env = child.environment
-		if child is DirectionalLight:
-			Console.write_line("Detected directional sun light")
+		if not(sun_light) and child is DirectionalLight:
 			sun_light = child
 		if child is GIProbe:
 			Console.write_line("Detected GIProbe #%d (%s)" % [len(gi_probes), child.name])
 			gi_probes.append(child)
-		if child is ReflectionProbe:
-			Console.write_line("Detected ReflectionProbe #%d (%s)" % [len(ref_probes), child.name])
-			ref_probes.append(child)
 		if child is AudioStreamPlayer:
 			Console.write_line("Detected global audio player #%d (%s)" % [len(global_audio_srcs), child.name])
 			global_audio_srcs[child] = child.volume_db
 			
+	for gp_r in gi_probes_refs:
+		var gp = Utils.try_get_node(gp_r, self)
+		if gp and not(gp.parent == self) and gp is GIProbe:
+			Console.write_line("Added GIProbe #%d (%s)" % [len(gi_probes), gp.name])
+			gi_probes.append(gp)
+			
 	if not world_env:
 		Console.Log.warn("NO WORLD ENVIRONMENT DETECTED")
+	else:
+		Console.write_line("Detected world environment")
 			
 	if not sun_light:
 		Console.Log.warn("NO DIRECTIONAL SUN DETECTED")
+	else:
+		Console.write_line("Detected directional sun light")
 	
 	Console.add_command("toggle_sun", self, "toggle_sun")\
 	.set_description("toggles scene directional light")\
@@ -52,10 +57,6 @@ func _ready() -> void:
 	.register()
 	
 	Console.add_command("toggle_gi_probes", self, "toggle_gi_probes")\
-	.set_description("toggles GIProbes")\
-	.register()
-		
-	Console.add_command("toggle_ref_probes", self, "toggle_ref_probes")\
 	.set_description("toggles GIProbes")\
 	.register()
 	
@@ -70,28 +71,33 @@ func _ready() -> void:
 	.register()
 	
 	Globals.set_scene_manager(self)
-	Globals.connect_to_player_set(self, "spawn_player")
 	
-func spawn_player(p: Player):
+	if not Globals.player:
+		yield(Globals, "player_set")
+		
+	spawn_player()
+	
+func spawn_player():
 	if player_spawn:
+		var p = Globals.player
 		Utils.copy_global_pos(player_spawn, p)
 		p.look_at(Utils.local_direction(player_spawn, Vector3.FORWARD), Vector3.UP)
 
 func toggle_sun():
 	if sun_light:
 		sun_light.visible = not sun_light.visible
+	else:
+		Console.Log.warn("NO SUN FOUND IN SCENE - command failed")
 
 func toggle_sun_shadow():
 	if sun_light:
 		sun_light.shadow_enabled = not sun_light.shadow_enabled
+	else:
+		Console.Log.warn("NO SUN FOUND IN SCENE - command failed")
 
 func toggle_gi_probes():
 	for gip in gi_probes:
 		gip.visible = not gip.visible
-
-func toggle_ref_probes():
-	for rp in ref_probes:
-		rp.visible = not rp.visible
 		
 func env_set_property(prop, value):
 	if world_env and prop in world_env:

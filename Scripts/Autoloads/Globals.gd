@@ -271,7 +271,7 @@ func get_layer_bit_in_object(obj: CollisionObject, name: String):
 func get_mask_bit_in_object(obj: CollisionObject, name: String):
 	return obj.get_collision_mask_bit(get_layer_bit(name))
 
-func set_player(p: Player):
+func set_player(p):
 	player = p
 	player_set = (p != null)
 	inventory = p.inventory if (p != null) else null
@@ -279,7 +279,7 @@ func set_player(p: Player):
 	if player_set:
 		emit_signal("player_set", player)
 
-func set_scene_manager(sm: SceneManager):
+func set_scene_manager(sm):
 	scene_mngr = sm
 	scn_mngr_set = (sm != null)
 	
