@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Part 0"
+description=""
+scene_file="@/part_0.tscn"

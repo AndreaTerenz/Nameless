@@ -113,24 +113,48 @@ shadow_size = 10
 script/source = "extends PanelContainer
 
 enum SCENE_LIST {
+	STORY,
 	LEVELS,
 	DEMOS
 }
 
+export(String, DIR) var story_dir = \"res://Scenes/Story\"
 export(String, DIR) var levels_dir = \"res://Scenes/Levels\"
 export(String, DIR) var demos_dir = \"res://Scenes/Misc tests\"
+export(SCENE_LIST) var default_list = SCENE_LIST.STORY
 
 var files := []
 var selected : MapFile = null
-var current_dir = levels_dir
+var dirs_dict := {
+	SCENE_LIST.STORY: [story_dir, \"Story\"],
+	SCENE_LIST.LEVELS: [levels_dir, \"Test levels\"],
+	SCENE_LIST.DEMOS: [demos_dir, \"Tech demos\"],
+}
+var current_dir
 
 onready var map_error_popup := $Control/AcceptDialog
 onready var search_bar := $VBoxContainer/SearchBar
 onready var list : ItemList = $VBoxContainer/ScrollContainer/ItemList
-onready var dir_list : OptionButton = $VBoxContainer/HBoxContainer/OptionButton
+onready var dir_list_btn : OptionButton = $VBoxContainer/HBoxContainer/OptionButton
+onready var start_btn := $VBoxContainer/HBoxContainer/StartBtn
 
 func _ready() -> void:
 	visible = false
+	var tests_enabled = Args.find_option(Args.ENABLE_TESTS)
+	
+	if not tests_enabled:
+		current_dir = dirs_dict[SCENE_LIST.STORY][0]
+		
+		dir_list_btn.visible = false
+		start_btn.size_flags_horizontal = SIZE_SHRINK_CENTER
+	else:
+		dir_list_btn.clear()
+		for d in dirs_dict:
+			dir_list_btn.add_item(dirs_dict[d][1])
+			
+		dir_list_btn.select(default_list)
+	
+		current_dir = dirs_dict[default_list][0]
 	
 	set_list(\"\", true)
 		
@@ -139,11 +163,14 @@ func set_list(filter = \"\", notify_not_found := false):
 	files.clear()
 	
 	var faulty_maps := []
-	
 	var regex := RegEx.new()
+	
 	regex.compile(\"(?i)\" + filter)
+	
 	Console.write_line(\"Scanning folder '%s'...\" % current_dir)
+	
 	var count = 0
+	
 	for fr in Utils.list_files_in_directory(current_dir, [\"map\"]):
 		var path = current_dir + \"/\" + fr
 		var map := MapFile.new(path)
@@ -162,7 +189,7 @@ func set_list(filter = \"\", notify_not_found := false):
 			MapFile.MF_SCENE_FILE_NOT_FOUND:
 				Console.Log.error(\"Source scene '%s' not found [from map '%s']\" % [map.get_raw_scene_file(), map.display_name])
 				faulty_maps.append(path)
-	
+				
 	Console.write_line(\"Found %d scene files (loaded: %d)\" % [len(files), len(files) - len(faulty_maps)])
 	
 	if len(files) > 0:
@@ -171,6 +198,11 @@ func set_list(filter = \"\", notify_not_found := false):
 	if len(faulty_maps) > 0 and notify_not_found:
 		map_error_popup.missing_scenes = faulty_maps.duplicate(true)
 		map_error_popup.popup_centered()
+		
+		if Args.find_option(Args.DEL_FAULTY_MAPS):
+			for fm in faulty_maps:
+				var dir = Directory.new()
+				dir.remove(fm)
 
 func _on_hide_visible_panels() -> void:
 	visible = false
@@ -189,9 +221,7 @@ func load_scene(map_file: MapFile):
 	Globals.load_scene(map_file.scene_file)
 
 func _on_directory_selected(index: int) -> void:
-	match index:
-		SCENE_LIST.LEVELS: current_dir = levels_dir
-		SCENE_LIST.DEMOS: current_dir = demos_dir
+	current_dir = dirs_dict[index][0]
 		
 	set_list()
 	search_bar.text = \"\"
@@ -797,7 +827,6 @@ __meta__ = {
 
 [node name="SceneHubPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -826,13 +855,13 @@ placeholder_text = "Enter scene name..."
 [node name="ScrollContainer" type="ScrollContainer" parent="SceneHubPanel/VBoxContainer"]
 margin_top = 70.0
 margin_right = 542.0
-margin_bottom = 383.0
+margin_bottom = 384.0
 rect_min_size = Vector2( 320, 210 )
 size_flags_vertical = 3
 
 [node name="ItemList" type="ItemList" parent="SceneHubPanel/VBoxContainer/ScrollContainer"]
 margin_right = 542.0
-margin_bottom = 313.0
+margin_bottom = 314.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 20
@@ -840,7 +869,7 @@ custom_fonts/font = ExtResource( 2 )
 items = [ "a", null, false, "b", null, true, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false, "Item 9", null, false, "Item 10", null, false, "Item 11", null, false, "Item 12", null, false, "Item 13", null, false, "Item 14", null, false, "Item 15", null, false, "Item 16", null, false ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SceneHubPanel/VBoxContainer"]
-margin_top = 401.0
+margin_top = 402.0
 margin_right = 542.0
 margin_bottom = 434.0
 alignment = 1
@@ -852,14 +881,12 @@ margin_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 351 )
-text = "Levels"
-items = [ "Levels", null, false, 0, null, "Tech demos", null, false, 1, null ]
-selected = 0
 
 [node name="StartBtn" type="Button" parent="SceneHubPanel/VBoxContainer/HBoxContainer"]
-margin_left = 457.0
+margin_left = 458.0
+margin_top = -1.0
 margin_right = 542.0
-margin_bottom = 33.0
+margin_bottom = 31.5
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
 size_flags_vertical = 6
@@ -1055,6 +1082,7 @@ size_flags_vertical = 3
 
 [node name="AboutPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

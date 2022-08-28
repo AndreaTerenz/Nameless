@@ -354,7 +354,7 @@ window/stretch/aspect="keep"
 
 [editor]
 
-main_run_args="--skip_splash --defaut=soft --console"
+main_run_args="--skip_splash --console=yes"
 version_control_autoload_on_startup=true
 version_control_plugin_name="GitAPI"
 
