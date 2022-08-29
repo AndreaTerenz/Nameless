@@ -271,6 +271,44 @@ surfaces/0 = {
 
 [sub_resource id=12 type="ArrayMesh"]
 
+resource_name = "Cube011"
+surfaces/0 = {
+	"primitive":4,
+	"arrays":[
+		Vector3Array(0.1, -2.40618, -0.742706, 0.1, 2.40618, -0.742706, 0.0327561, 2.40618, -0.742706, 0.0327561, -2.40618, -0.742706, -0.1, -2.86, -1.0, -0.1, 2.86, -1.0, 0.1, 2.86, -1.0, 0.1, -2.86, -1.0, 0.1, -2.40618, 0.34966, 0.1, -2.40618, -0.742706, 0.0327561, -2.40618, -0.742706, 0.0327561, -2.40618, 0.34966, -0.1, -2.40618, 0.34966, -0.1, -2.40618, -0.742706, -0.1, -2.86, -1.0, -0.1, -2.86, 1.0, -0.1, 2.40618, 0.34966, -0.1, 2.86, 1.0, -0.1, 2.40618, -0.742706, -0.1, 2.40618, 0.34966, -0.1, 2.86, 1.0, -0.1, 2.86, -1.0, -0.1, -2.40618, -0.742706, -0.1, 2.40618, -0.742706, -0.1, 2.86, -1.0, -0.1, -2.86, -1.0, 0.1, 2.40618, -0.742706, 0.1, -2.40618, -0.742706, 0.1, -2.86, -1.0, 0.1, 2.86, -1.0, 0.1, -2.40618, -0.742706, 0.1, -2.40618, 0.34966, 0.1, -2.86, 1.0, 0.1, -2.86, -1.0, 0.1, 2.40618, 0.34966, 0.1, 2.40618, -0.742706, 0.1, 2.86, -1.0, 0.1, 2.86, 1.0, 0.1, 2.40618, 0.34966, 0.1, 2.86, 1.0, -0.0327561, -2.40618, 0.34966, -0.0327561, 2.40618, 0.34966, -0.0327561, 2.40618, -0.742706, -0.0327561, -2.40618, -0.742706, 0.0327561, -2.40618, -0.742706, 0.0327561, 2.40618, -0.742706, 0.0327561, 2.40618, 0.34966, 0.0327561, -2.40618, 0.34966, -0.1, -2.40618, 0.34966, -0.1, 2.40618, 0.34966, -0.0327561, 2.40618, 0.34966, -0.0327561, -2.40618, 0.34966, 0.1, 2.40618, -0.742706, 0.1, 2.40618, 0.34966, 0.0327561, 2.40618, 0.34966, 0.0327561, 2.40618, -0.742706, -0.1, 2.40618, -0.742706, -0.1, -2.40618, -0.742706, -0.0327561, -2.40618, -0.742706, -0.0327561, 2.40618, -0.742706, -0.1, 2.40618, 0.34966, -0.1, 2.40618, -0.742706, -0.0327561, 2.40618, -0.742706, -0.0327561, 2.40618, 0.34966, -0.1, -2.40618, -0.742706, -0.1, -2.40618, 0.34966, -0.0327561, -2.40618, 0.34966, -0.0327561, -2.40618, -0.742706, 0.1, 2.40618, 0.34966, 0.1, -2.40618, 0.34966, 0.0327561, -2.40618, 0.34966, 0.0327561, 2.40618, 0.34966),
+		Vector3Array(0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0),
+		FloatArray(1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.975936, -0.218056, 1.0, 0.0, 0.917652, -0.397384, 1.0, 0.0, 0.917652, -0.397384, 1.0, 0.0, 0.987561, -0.157237, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.917652, -0.397384, 1.0, 0.0, 0.975936, -0.218056, 1.0, 0.0, 0.987561, -0.157237, 1.0, 0.0, 0.917652, -0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 0.917652, 0.397384, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, -1.0),
+		null, ; no Vertex Colors,
+		Vector2Array(0.394835, 0.443273, 0.605165, 0.443273, 0.605165, 0.443273, 0.394835, 0.443273, 0.375, 0.75, 0.625, 0.75, 0.625, 0.5, 0.375, 0.5, 0.394835, 0.306727, 0.394835, 0.443273, 0.394835, 0.443273, 0.394835, 0.306727, 0.394835, 0.943273, 0.394835, 0.806727, 0.375, 0.75, 0.375, 1.0, 0.605165, 0.943273, 0.625, 1.0, 0.605165, 0.806727, 0.605165, 0.943273, 0.625, 1.0, 0.625, 0.75, 0.394835, 0.806727, 0.605165, 0.806727, 0.625, 0.75, 0.375, 0.75, 0.605165, 0.443273, 0.394835, 0.443273, 0.375, 0.5, 0.625, 0.5, 0.394835, 0.443273, 0.394835, 0.306727, 0.375, 0.25, 0.375, 0.5, 0.605165, 0.306727, 0.605165, 0.443273, 0.625, 0.5, 0.625, 0.25, 0.605165, 0.306727, 0.625, 0.25, 0.394835, 0.943273, 0.605165, 0.943273, 0.605165, 0.806727, 0.394835, 0.806727, 0.394835, 0.443273, 0.605165, 0.443273, 0.605165, 0.306727, 0.394835, 0.306727, 0.394835, 0.943273, 0.605165, 0.943273, 0.605165, 0.943273, 0.394835, 0.943273, 0.605165, 0.443273, 0.605165, 0.306727, 0.605165, 0.306727, 0.605165, 0.443273, 0.605165, 0.806727, 0.394835, 0.806727, 0.394835, 0.806727, 0.605165, 0.806727, 0.605165, 0.943273, 0.605165, 0.806727, 0.605165, 0.806727, 0.605165, 0.943273, 0.394835, 0.806727, 0.394835, 0.943273, 0.394835, 0.943273, 0.394835, 0.806727, 0.605165, 0.306727, 0.394835, 0.306727, 0.394835, 0.306727, 0.605165, 0.306727),
+		null, ; No UV2,
+		null, ; No Bones,
+		null, ; No Weights,
+		IntArray(0, 2, 1, 0, 3, 2, 4, 6, 5, 4, 7, 6, 8, 10, 9, 8, 11, 10, 12, 14, 13, 12, 15, 14, 16, 15, 12, 16, 17, 15, 18, 20, 19, 18, 21, 20, 22, 24, 23, 22, 25, 24, 26, 28, 27, 26, 29, 28, 30, 32, 31, 30, 33, 32, 34, 36, 35, 34, 37, 36, 31, 39, 38, 31, 32, 39, 40, 42, 41, 40, 43, 42, 44, 46, 45, 44, 47, 46, 48, 50, 49, 48, 51, 50, 52, 54, 53, 52, 55, 54, 56, 58, 57, 56, 59, 58, 60, 62, 61, 60, 63, 62, 64, 66, 65, 64, 67, 66, 68, 70, 69, 68, 71, 70)
+	],
+	"morph_arrays":[]
+}
+
+[sub_resource id=13 type="ArrayMesh"]
+
+resource_name = "Cube012"
+surfaces/0 = {
+	"primitive":4,
+	"arrays":[
+		Vector3Array(-1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0),
+		Vector3Array(-1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0),
+		FloatArray(0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0),
+		null, ; no Vertex Colors,
+		Vector2Array(0.375, 1.0, 0.625, 1.0, 0.625, 0.75, 0.375, 0.75, 0.375, 0.75, 0.625, 0.75, 0.625, 0.5, 0.375, 0.5, 0.375, 0.5, 0.625, 0.5, 0.625, 0.25, 0.375, 0.25, 0.375, 0.25, 0.625, 0.25, 0.625, 0.0, 0.375, 0.0, 0.125, 0.5, 0.375, 0.5, 0.375, 0.25, 0.125, 0.25),
+		null, ; No UV2,
+		null, ; No Bones,
+		null, ; No Weights,
+		IntArray(0, 2, 1, 0, 3, 2, 4, 6, 5, 4, 7, 6, 8, 10, 9, 8, 11, 10, 12, 14, 13, 12, 15, 14, 16, 18, 17, 16, 19, 18)
+	],
+	"morph_arrays":[]
+}
+
+[sub_resource id=14 type="ArrayMesh"]
+
 resource_name = "Cube002"
 surfaces/0 = {
 	"primitive":4,
@@ -288,7 +326,7 @@ surfaces/0 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=13 type="ArrayMesh"]
+[sub_resource id=15 type="ArrayMesh"]
 
 resource_name = "Sphere003"
 surfaces/0 = {
@@ -322,7 +360,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=14 type="ArrayMesh"]
+[sub_resource id=16 type="ArrayMesh"]
 
 resource_name = "Sphere016"
 surfaces/0 = {
@@ -356,7 +394,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=15 type="ArrayMesh"]
+[sub_resource id=17 type="ArrayMesh"]
 
 resource_name = "Sphere007"
 surfaces/0 = {
@@ -390,7 +428,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=16 type="ArrayMesh"]
+[sub_resource id=18 type="ArrayMesh"]
 
 resource_name = "Sphere012"
 surfaces/0 = {
@@ -424,7 +462,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=17 type="ArrayMesh"]
+[sub_resource id=19 type="ArrayMesh"]
 
 resource_name = "Sphere"
 surfaces/0 = {
@@ -458,7 +496,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=18 type="ArrayMesh"]
+[sub_resource id=20 type="ArrayMesh"]
 
 resource_name = "Sphere002"
 surfaces/0 = {
@@ -492,7 +530,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=19 type="ArrayMesh"]
+[sub_resource id=21 type="ArrayMesh"]
 
 resource_name = "Sphere011"
 surfaces/0 = {
@@ -526,7 +564,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=20 type="ArrayMesh"]
+[sub_resource id=22 type="ArrayMesh"]
 
 resource_name = "Sphere004"
 surfaces/0 = {
@@ -560,7 +598,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=21 type="ArrayMesh"]
+[sub_resource id=23 type="ArrayMesh"]
 
 resource_name = "Sphere008"
 surfaces/0 = {
@@ -594,7 +632,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=22 type="ArrayMesh"]
+[sub_resource id=24 type="ArrayMesh"]
 
 resource_name = "Sphere013"
 surfaces/0 = {
@@ -628,7 +666,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=23 type="ArrayMesh"]
+[sub_resource id=25 type="ArrayMesh"]
 
 resource_name = "Sphere005"
 surfaces/0 = {
@@ -662,7 +700,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=24 type="ArrayMesh"]
+[sub_resource id=26 type="ArrayMesh"]
 
 resource_name = "Sphere017"
 surfaces/0 = {
@@ -696,7 +734,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=25 type="ArrayMesh"]
+[sub_resource id=27 type="ArrayMesh"]
 
 resource_name = "Sphere009"
 surfaces/0 = {
@@ -730,7 +768,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=26 type="ArrayMesh"]
+[sub_resource id=28 type="ArrayMesh"]
 
 resource_name = "Sphere014"
 surfaces/0 = {
@@ -764,7 +802,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=27 type="ArrayMesh"]
+[sub_resource id=29 type="ArrayMesh"]
 
 resource_name = "Sphere006"
 surfaces/0 = {
@@ -798,7 +836,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=28 type="ArrayMesh"]
+[sub_resource id=30 type="ArrayMesh"]
 
 resource_name = "Sphere018"
 surfaces/0 = {
@@ -832,7 +870,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=29 type="ArrayMesh"]
+[sub_resource id=31 type="ArrayMesh"]
 
 resource_name = "Sphere010"
 surfaces/0 = {
@@ -866,7 +904,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=30 type="ArrayMesh"]
+[sub_resource id=32 type="ArrayMesh"]
 
 resource_name = "Sphere015"
 surfaces/0 = {
@@ -900,7 +938,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=31 type="ArrayMesh"]
+[sub_resource id=33 type="ArrayMesh"]
 
 resource_name = "Sphere020"
 surfaces/0 = {
@@ -934,7 +972,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=32 type="ArrayMesh"]
+[sub_resource id=34 type="ArrayMesh"]
 
 resource_name = "Sphere019"
 surfaces/0 = {
@@ -968,7 +1006,7 @@ surfaces/1 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=33 type="ArrayMesh"]
+[sub_resource id=35 type="ArrayMesh"]
 
 resource_name = "Cube003"
 surfaces/0 = {
@@ -987,7 +1025,7 @@ surfaces/0 = {
 	"morph_arrays":[]
 }
 
-[sub_resource id=34 type="ArrayMesh"]
+[sub_resource id=36 type="ArrayMesh"]
 
 resource_name = "Cube005"
 surfaces/0 = {
@@ -1166,9 +1204,44 @@ mesh = SubResource(11)
 visible = true
 transform = Transform(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0)
 
-[node name="Elevator" type="MeshInstance" parent="Env"]
+[node name="OuterDoor" type="Spatial" parent="Env/CorridorLow"]
+
+transform = Transform(0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.25, -1.82688, -6.38962e-05, 3.5118e-08)
+
+[node name="OD_L" type="MeshInstance" parent="Env/CorridorLow/OuterDoor"]
 
 mesh = SubResource(12)
+visible = true
+transform = Transform(-1.0, 0.0, -3.25841e-07, 0.0, 1.0, 0.0, 3.25841e-07, 0.0, -1.0, 0.0, 0.0, -1.0)
+
+[node name="OD_R" type="MeshInstance" parent="Env/CorridorLow/OuterDoor"]
+
+mesh = SubResource(12)
+visible = true
+transform = Transform(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0)
+
+[node name="Spot" type="SpotLight" parent="Env/CorridorLow"]
+
+light_specular = 1.0
+light_color = Color(1.0, 1.0, 1.0, 1.0)
+shadow_color = Color(0.0, 0.0, 0.0, 1.0)
+light_energy = 1.0
+spot_angle = 22.5
+spot_angle_attenuation = 1.25
+spot_range = 40.0
+transform = Transform(0.25, 0.0, 0.0, 0.0, -1.09278e-08, 0.25, 0.0, -0.25, -1.09278e-08, -1.19452, 0.645974, 0.0)
+light_negative = false
+shadow_enabled = false
+
+[node name="Cube004" type="MeshInstance" parent="Env/CorridorLow/Spot"]
+
+mesh = SubResource(13)
+visible = true
+transform = Transform(1.0, 0.0, 0.0, 0.0, 0.0946277, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+
+[node name="Elevator" type="MeshInstance" parent="Env"]
+
+mesh = SubResource(14)
 visible = true
 transform = Transform(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, -7.03139, -3.21545, -5.84435e-07)
 
@@ -1189,7 +1262,7 @@ shadow_enabled = false
 
 [node name="Sphere002" type="MeshInstance" parent="Env/Elevator/ElevLights/Point"]
 
-mesh = SubResource(13)
+mesh = SubResource(15)
 visible = true
 transform = Transform(0.954283, 0.0, 0.0, 0.0, 0.875013, 0.0, 0.0, 0.0, 1.0, 0.0, 4.76837e-07, 0.0)
 
@@ -1206,7 +1279,7 @@ shadow_enabled = false
 
 [node name="Sphere015" type="MeshInstance" parent="Env/Elevator/ElevLights/Point001"]
 
-mesh = SubResource(14)
+mesh = SubResource(16)
 visible = true
 transform = Transform(-0.954283, 0.0, -3.10945e-07, 0.0, 0.875013, 0.0, 3.25841e-07, 0.0, -1.0, -1.90735e-06, 4.76837e-07, 0.0)
 
@@ -1223,7 +1296,7 @@ shadow_enabled = false
 
 [node name="Sphere006" type="MeshInstance" parent="Env/Elevator/ElevLights/Point002"]
 
-mesh = SubResource(15)
+mesh = SubResource(17)
 visible = true
 transform = Transform(0.687384, 0.0, 3.55271e-15, 0.0, 0.875013, 0.0, 7.10543e-15, 0.0, 1.0, 0.0, 4.76837e-07, -1.90735e-06)
 
@@ -1240,7 +1313,7 @@ shadow_enabled = false
 
 [node name="Sphere011" type="MeshInstance" parent="Env/Elevator/ElevLights/Point003"]
 
-mesh = SubResource(16)
+mesh = SubResource(18)
 visible = true
 transform = Transform(-0.687384, 0.0, 2.18495e-08, 0.0, 0.875013, 0.0, -3.17865e-08, 0.0, -1.0, 0.0, 4.76837e-07, -1.90735e-06)
 
@@ -1257,7 +1330,7 @@ shadow_enabled = false
 
 [node name="Sphere" type="MeshInstance" parent="Env/Elevator/ElevLights/Point004"]
 
-mesh = SubResource(17)
+mesh = SubResource(19)
 visible = true
 transform = Transform(1.0, 0.0, 0.0, 0.0, 0.875013, 0.0, 0.0, 0.0, 1.0, 0.0, -2.38419e-07, 0.0)
 
@@ -1274,7 +1347,7 @@ shadow_enabled = false
 
 [node name="Sphere001" type="MeshInstance" parent="Env/Elevator/ElevLights/Point006"]
 
-mesh = SubResource(18)
+mesh = SubResource(20)
 visible = true
 transform = Transform(0.687384, 0.0, 3.55271e-15, 0.0, 0.875013, 0.0, 7.10543e-15, 0.0, 1.0, 0.0, 0.0, -1.90735e-06)
 
@@ -1291,7 +1364,7 @@ shadow_enabled = false
 
 [node name="Sphere010" type="MeshInstance" parent="Env/Elevator/ElevLights/Point007"]
 
-mesh = SubResource(19)
+mesh = SubResource(21)
 visible = true
 transform = Transform(-0.687384, 0.0, 2.18495e-08, 0.0, 0.875013, 0.0, -3.17865e-08, 0.0, -1.0, 0.0, 0.0, -1.90735e-06)
 
@@ -1308,7 +1381,7 @@ shadow_enabled = false
 
 [node name="Sphere003" type="MeshInstance" parent="Env/Elevator/ElevLights/Point008"]
 
-mesh = SubResource(20)
+mesh = SubResource(22)
 visible = true
 transform = Transform(0.954283, 0.0, 0.0, 0.0, 0.875013, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
@@ -1325,7 +1398,7 @@ shadow_enabled = false
 
 [node name="Sphere007" type="MeshInstance" parent="Env/Elevator/ElevLights/Point010"]
 
-mesh = SubResource(21)
+mesh = SubResource(23)
 visible = true
 transform = Transform(0.687384, 0.0, 3.55271e-15, 0.0, 0.875013, 0.0, 7.10543e-15, 0.0, 1.0, 0.0, 0.0, -1.90735e-06)
 
@@ -1342,7 +1415,7 @@ shadow_enabled = false
 
 [node name="Sphere012" type="MeshInstance" parent="Env/Elevator/ElevLights/Point011"]
 
-mesh = SubResource(22)
+mesh = SubResource(24)
 visible = true
 transform = Transform(-0.687384, 0.0, 2.18495e-08, 0.0, 0.875013, 0.0, -3.17865e-08, 0.0, -1.0, 0.0, 0.0, -1.90735e-06)
 
@@ -1359,7 +1432,7 @@ shadow_enabled = false
 
 [node name="Sphere004" type="MeshInstance" parent="Env/Elevator/ElevLights/Point012"]
 
-mesh = SubResource(23)
+mesh = SubResource(25)
 visible = true
 transform = Transform(0.954283, 0.0, 0.0, 0.0, 0.875013, 0.0, 0.0, 0.0, 1.0, 0.0, 9.53674e-07, 0.0)
 
@@ -1376,7 +1449,7 @@ shadow_enabled = false
 
 [node name="Sphere016" type="MeshInstance" parent="Env/Elevator/ElevLights/Point013"]
 
-mesh = SubResource(24)
+mesh = SubResource(26)
 visible = true
 transform = Transform(-0.954283, 0.0, -3.10945e-07, 0.0, 0.875013, 0.0, 3.25841e-07, 0.0, -1.0, -1.90735e-06, 9.53674e-07, 0.0)
 
@@ -1393,7 +1466,7 @@ shadow_enabled = false
 
 [node name="Sphere008" type="MeshInstance" parent="Env/Elevator/ElevLights/Point014"]
 
-mesh = SubResource(25)
+mesh = SubResource(27)
 visible = true
 transform = Transform(0.687384, 0.0, 3.55271e-15, 0.0, 0.875013, 0.0, 7.10543e-15, 0.0, 1.0, 0.0, 0.0, -1.90735e-06)
 
@@ -1410,7 +1483,7 @@ shadow_enabled = false
 
 [node name="Sphere013" type="MeshInstance" parent="Env/Elevator/ElevLights/Point015"]
 
-mesh = SubResource(26)
+mesh = SubResource(28)
 visible = true
 transform = Transform(-0.687384, 0.0, 2.18495e-08, 0.0, 0.875013, 0.0, -3.17865e-08, 0.0, -1.0, 0.0, 0.0, -1.90735e-06)
 
@@ -1427,7 +1500,7 @@ shadow_enabled = false
 
 [node name="Sphere005" type="MeshInstance" parent="Env/Elevator/ElevLights/Point016"]
 
-mesh = SubResource(27)
+mesh = SubResource(29)
 visible = true
 transform = Transform(0.954283, 0.0, 0.0, 0.0, 0.875013, 0.0, 0.0, 0.0, 1.0, 0.0, 2.38419e-07, 0.0)
 
@@ -1444,7 +1517,7 @@ shadow_enabled = false
 
 [node name="Sphere017" type="MeshInstance" parent="Env/Elevator/ElevLights/Point017"]
 
-mesh = SubResource(28)
+mesh = SubResource(30)
 visible = true
 transform = Transform(-0.954283, 0.0, -3.10945e-07, 0.0, 0.875013, 0.0, 3.25841e-07, 0.0, -1.0, -1.90735e-06, 0.0, 0.0)
 
@@ -1461,7 +1534,7 @@ shadow_enabled = false
 
 [node name="Sphere009" type="MeshInstance" parent="Env/Elevator/ElevLights/Point018"]
 
-mesh = SubResource(29)
+mesh = SubResource(31)
 visible = true
 transform = Transform(0.687384, 0.0, 3.55271e-15, 0.0, 0.875013, 0.0, 7.10543e-15, 0.0, 1.0, 0.0, -2.38419e-07, -1.90735e-06)
 
@@ -1478,7 +1551,7 @@ shadow_enabled = false
 
 [node name="Sphere014" type="MeshInstance" parent="Env/Elevator/ElevLights/Point019"]
 
-mesh = SubResource(30)
+mesh = SubResource(32)
 visible = true
 transform = Transform(-0.687384, 0.0, 2.18495e-08, 0.0, 0.875013, 0.0, -3.17865e-08, 0.0, -1.0, 0.0, -2.38419e-07, -1.90735e-06)
 
@@ -1495,7 +1568,7 @@ shadow_enabled = false
 
 [node name="Sphere019" type="MeshInstance" parent="Env/Elevator/ElevLights/PointTop_L"]
 
-mesh = SubResource(31)
+mesh = SubResource(33)
 visible = true
 transform = Transform(-5.88179e-08, 0.0, -1.3456, 0.0, 1.0, 0.0, 1.0, 0.0, -4.37114e-08, 0.0, -4.76837e-07, 1.90735e-06)
 
@@ -1512,13 +1585,13 @@ shadow_enabled = false
 
 [node name="Sphere018" type="MeshInstance" parent="Env/Elevator/ElevLights/PointTop_R"]
 
-mesh = SubResource(32)
+mesh = SubResource(34)
 visible = true
 transform = Transform(-5.88179e-08, 0.0, -1.3456, 0.0, 1.0, 0.0, 1.0, 0.0, -4.37114e-08, 0.0, 0.320322, 1.90735e-06)
 
 [node name="ElevatorPlat" type="MeshInstance" parent="Env"]
 
-mesh = SubResource(33)
+mesh = SubResource(35)
 visible = true
 transform = Transform(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, -7.03139, -1.00017, -6.94494e-07)
 
@@ -1532,6 +1605,6 @@ transform = Transform(0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 
 
 [node name="MainRoom" type="MeshInstance" parent="Env"]
 
-mesh = SubResource(34)
+mesh = SubResource(36)
 visible = true
 transform = Transform(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 8.01342, -6.87911, 0.0)
