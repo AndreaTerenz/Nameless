@@ -757,7 +757,8 @@ anims/RESET = SubResource( 14 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453955, 0 )
 shape = SubResource( 4 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Body"]
+[node name="DebugBall" type="MeshInstance" parent="Body"]
+unique_name_in_owner = true
 portal_mode = 2
 cast_shadow = 0
 mesh = SubResource( 15 )
@@ -767,7 +768,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 33 )
 
 [node name="GroundCheck" type="RayCast" parent="Foot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25431, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.08274, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
 collision_mask = 804

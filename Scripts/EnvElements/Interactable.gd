@@ -6,7 +6,7 @@ signal interaction_ended
 
 export(bool) var enabled = true
 export(bool) var continuous = false
-export(String) var interact_txt = "Interact"
+export(String) var interact_txt = ""
 
 func _ready():
 	Utils.set_layer_bit_in_object(self, "Interactables")
