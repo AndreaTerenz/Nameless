@@ -40,6 +40,7 @@ export(float, 1.0, 100.0, .1) var hitbox_max_hp = 100.0
 export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
 export(bool) var get_fall_damage = true
+export(bool) var show_debug_ball = true
 
 var mouse_sensitivity: float = .0
 var bonked_head: bool = false
@@ -53,6 +54,8 @@ var others_dict: Dictionary = {
 var compass_range := 0.0
 var drowning := false
 var head_in_env := false
+var initial_self_rot := 0.0
+var initial_pos := Vector3.ZERO
 
 onready var mover = null
 onready var mode = -1 setget set_mode
@@ -82,9 +85,15 @@ onready var others_chck = $OthersDetection
 onready var gun_hook = get_node("%GunHook")
 onready var light = $"Head/Flashlight"
 onready var alerts_queue := get_node("%AlertsQueue")
+onready var debug_ball := get_node("%DebugBall")
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	initial_self_rot = rotation_degrees.y
+	initial_pos = global_translation
+	
+	debug_ball.visible = show_debug_ball
 	
 	mouse_sens_std *= Settings.get_value(Settings.CONTROLS, Settings.MOUSE_SENS)
 	mouse_sensitivity = mouse_sens_std
@@ -142,6 +151,12 @@ func _physics_process(delta: float) -> void:
 	move_and_slide(mover.get_velocity(delta), Vector3.UP)
 	
 	set_mode(mover.new_mode())
+	
+func reset_transform():
+	self.rotation_degrees.y = initial_self_rot
+	head.rotation_degrees.x = 0.0
+	
+	global_translation = initial_pos
 	
 func touching_floor():
 	return is_on_floor() or grnd_chk.is_colliding()
