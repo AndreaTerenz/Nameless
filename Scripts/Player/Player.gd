@@ -4,6 +4,7 @@ extends KinematicBody
 signal mode_changed(new_mode)
 signal mover_changed(new_mov)
 signal env_changed(new_env)
+signal killed
 signal drown_started
 signal drown_stopped
 
@@ -275,7 +276,16 @@ func check_stairs() -> void:
 	return
 
 func _on_killed() -> void:
-	Globals._restart()
+	emit_signal("killed")
+	#Globals._restart()
+	
+func on_respawn():
+	hitbox.max_health = hitbox_max_hp
+	hitbox.health = min(hitbox_start_hp, hitbox_max_hp)
+	
+	grnd_chk.debug_ignore_dmg = not get_fall_damage
+	
+	set_mode(start_mode)
 	
 func unbind_keys():
 	Console.unbind_key(OS.find_scancode_from_string("n"))

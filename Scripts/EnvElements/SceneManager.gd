@@ -75,6 +75,7 @@ func _ready() -> void:
 	if not Globals.player:
 		yield(Globals, "player_set")
 		
+	Globals.player.connect("killed", self, "on_player_dead")
 	spawn_player()
 	
 func spawn_player():
@@ -84,6 +85,10 @@ func spawn_player():
 			player_spawn.global_translation,
 			player_spawn.rotation_degrees.x,
 			player_spawn.rotation_degrees.y)
+			
+func on_player_dead():
+	Globals.player.on_respawn()
+	spawn_player()
 
 func toggle_sun():
 	if sun_light:

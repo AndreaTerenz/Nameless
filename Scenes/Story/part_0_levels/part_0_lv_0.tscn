@@ -13,11 +13,20 @@
 [sub_resource type="GDScript" id=4]
 script/source = "extends Spatial
 
+### Automatic References Start ###
+onready var _trap_spawn: Position3D = $Trap_spawn
+### Automatic References Stop ###
+
 signal done
 
 onready var anim_p := $AnimationPlayer
+onready var spawn := $Spawnpoint
+
+func _ready() -> void:
+	Globals.scene_mngr.player_spawn = spawn
 
 func _on_target_interacted_with(sender) -> void:
+	Globals.scene_mngr.player_spawn = _trap_spawn
 	anim_p.play(\"target_taken\")
 
 
@@ -352,6 +361,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("Trap/StaticBody")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
 
 [node name="part_0_lv_0" instance=ExtResource( 1 )]
 script = SubResource( 4 )
@@ -442,6 +465,12 @@ anims/trap_fade = SubResource( 12 )
 [node name="Trigger" parent="." index="4" instance=ExtResource( 7 )]
 transform = Transform( 0.42516, 0, 0, 0, 1, 0, 0, 0, 1.96205, -4.13697, 0.468717, 0 )
 start_active = false
+
+[node name="Spawnpoint" type="Position3D" parent="." index="5"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8.53871, 0.745319, 0 )
+
+[node name="Trap_spawn" type="Position3D" parent="." index="6"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.32933, 0.745319, 4.75057e-07 )
 
 [connection signal="target_entered" from="Trap/TrapTrigger" to="." method="_on_TrapTrigger_entered"]
 [connection signal="interacted_with" from="Target/StaticBody" to="." method="_on_target_interacted_with"]
