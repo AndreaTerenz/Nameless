@@ -1,9 +1,9 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=1]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Scenes/Scene Hub BG.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Story/Backdrops/part_0_backdrop.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=7]
 [ext_resource path="res://Scenes/UI/SettingsPanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/Fonts/AldoApache/AldotheApache.ttf" type="DynamicFontData" id=13]
@@ -73,6 +73,10 @@ func set_current_panel(p: PanelContainer = null):
 	else:
 		grab_focus()
 "
+
+[sub_resource type="ShaderMaterial" id=1083]
+shader = ExtResource( 7 )
+shader_param/amount = 2.0
 
 [sub_resource type="Gradient" id=62]
 offsets = PoolRealArray( 0 )
@@ -673,7 +677,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
@@ -788,6 +792,11 @@ focus_mode = 2
 theme = SubResource( 316 )
 script = SubResource( 14 )
 
+[node name="ColorRect2" type="ColorRect" parent="."]
+material = SubResource( 1083 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="ColorRect" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
@@ -814,7 +823,7 @@ __meta__ = {
 margin_top = 63.0
 margin_right = 930.0
 margin_bottom = 271.0
-custom_colors/font_color_shadow = Color( 0.603922, 0.603922, 0.603922, 1 )
+custom_colors/font_color_shadow = Color( 0.152941, 0.152941, 0.152941, 1 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 custom_fonts/font = SubResource( 13 )
@@ -1388,7 +1397,7 @@ autoplay = "FadeIn"
 anims/FadeIn = SubResource( 985 )
 anims/RESET = SubResource( 1003 )
 
-[node name="Background" parent="." instance=ExtResource( 4 )]
+[node name="part_0_backdrop" parent="." instance=ExtResource( 4 )]
 
 [connection signal="hide_visible_panels" from="." to="SceneHubPanel" method="_on_hide_visible_panels"]
 [connection signal="hide_visible_panels" from="." to="SavesPanel" method="_on_hide_visible_panels"]
