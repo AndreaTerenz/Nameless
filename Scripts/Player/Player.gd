@@ -152,11 +152,11 @@ func _physics_process(delta: float) -> void:
 	
 	set_mode(mover.new_mode())
 	
-func reset_transform():
-	self.rotation_degrees.y = initial_self_rot
-	head.rotation_degrees.x = 0.0
+func reset_transform(pos_override := initial_pos, elev_override := 0.0, azimuth_override := initial_self_rot):
+	self.rotation_degrees.y = azimuth_override
+	head.rotation_degrees.x = elev_override
 	
-	global_translation = initial_pos
+	global_translation = pos_override
 	
 func touching_floor():
 	return is_on_floor() or grnd_chk.is_colliding()

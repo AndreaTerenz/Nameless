@@ -79,9 +79,11 @@ func _ready() -> void:
 	
 func spawn_player():
 	if player_spawn:
-		var p = Globals.player
-		Utils.copy_global_pos(player_spawn, p)
-		p.look_at(Utils.local_direction(player_spawn, Vector3.FORWARD), Vector3.UP)
+		var p : Player = Globals.player
+		p.reset_transform(
+			player_spawn.global_translation,
+			player_spawn.rotation_degrees.x,
+			player_spawn.rotation_degrees.y)
 
 func toggle_sun():
 	if sun_light:

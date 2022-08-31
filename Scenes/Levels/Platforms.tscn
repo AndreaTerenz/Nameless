@@ -93,6 +93,7 @@ extents = Vector3( 2, 15, 0.5 )
 
 [node name="Platforms" type="Spatial"]
 script = ExtResource( 13 )
+player_spawn_ref = NodePath("PoolSpawner")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 9 )
@@ -440,7 +441,4 @@ shadow_bias = -0.212
 transform = Transform( 112.672, 0, 0, 0, 1, 0, 0, 0, 112.672, 35.4055, -21.1082, -23.5317 )
 
 [node name="PoolSpawner" type="Position3D" parent="."]
-transform = Transform( -0.202001, 0, 0.979385, 0, 1, 0, -0.979385, 0, -0.202001, 52.6024, 24.2684, 17.6598 )
-
-[node name="PoolSpawner2" type="Position3D" parent="."]
-transform = Transform( -0.202001, 0, 0.979385, 0, 1, 0, -0.979385, 0, -0.202001, 17.5024, -1.70044, -58.2706 )
+transform = Transform( -0.205316, 0, 0.978695, 0, 1, 0, -0.978695, 0, -0.205316, 52.6024, 24.2684, 17.6598 )
