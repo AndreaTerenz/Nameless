@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=1]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=2]
@@ -441,7 +441,7 @@ script/source = "extends Label
 
 
 func _ready() -> void:
-	text = \"#%s [alpha]\" % load(\"res://version.gd\").VERSION
+	text = Globals.get_version(\"#%s [alpha]\")
 "
 
 [sub_resource type="GDScript" id=474]
@@ -465,17 +465,25 @@ font_data = ExtResource( 3 )
 script/source = "extends LinkButton
 
 onready var label = $RichTextLabel
+onready var fb_dialog : WindowDialog = get_node(\"%FeedbackDialog\")
+
 var body := \"\"
 
 func _pressed() -> void:
 	var id = OS.get_unique_id()
 	
-	var subject = (\"Nameless dev feedback (%s)\" % id).replace(\" \", \"%20\")
-	generate_body()
-	var email = \"contact.me@terenz.dev\"
-	var url = \"mailto:%s?subject=%s&body=%s\" % [email, subject, body]
+	fb_dialog.popup_centered()
+	yield(fb_dialog, \"popup_hide\")
 	
-	OS.shell_open(url)
+	if not fb_dialog.canceled:
+		var subject = (\"Nameless dev feedback (%s)\" % id).replace(\" \", \"%20\")
+		
+		generate_body(fb_dialog.feedback_txt, fb_dialog.include_info)
+		
+		var email = \"contact.me@terenz.dev\"
+		var url = \"mailto:%s?subject=%s&body=%s\" % [email, subject, body]
+		
+		OS.shell_open(url)
 	
 func datetime_to_string(date):
 	if (
@@ -515,81 +523,92 @@ func add_header(header):
 		header = header,
 	}))
 
-
 func add_line(key, value):
 	body += (\"{key}: {value}\\n\".format({
 		key = key,
 		value = value if str(value) != \"\" else \"(NaN)\",
 	}))
 
-func generate_body():
-	body += (\"\\n[DEBUG INFO]\\n\")
+func sanitize_str_for_url(s):
+	return s\\
+		.replace(\"\\n\", \"%0A\")\\
+		.replace(\" \", \"%20\")\\
+		.replace(\"#\", \"%23\")
+
+func generate_body(extra_feedback := \"\", include_info := true):
 	
-	add_header(\"Game\")
-	add_line(\"Version\", \"v%s\" % load(\"res://version.gd\").VERSION)
+	if include_info:
+		body += (\"\\n[DEBUG INFO]\\n\")
+		
+		add_header(\"Game\")
+		add_line(\"Version\", Globals.get_version(\"#%s [alpha]\"))
+		add_line(\"Running standalone\", OS.has_feature(\"standalone\"))
+		add_line(\"Uptime (milliseconds)\", OS.get_ticks_msec())
+		
+		add_header(\"Time\")
+		add_line(\"Date and time (local)\", datetime_to_string(OS.get_datetime()))
+		add_line(\"Timezone\", OS.get_time_zone_info())
+		add_line(\"System time (milliseconds)\", OS.get_system_time_msecs())
+		add_line(\"UNIX time\", OS.get_unix_time())
+
+		add_header(\"System\")
+		add_line(\"OS name\", OS.get_name())
+		add_line(\"Process ID\", OS.get_process_id())
+		add_line(\"Locale\", OS.get_locale())
+
+		add_header(\"Engine\")
+		add_line(\"Version\", Engine.get_version_info()[\"string\"])
+		add_line(\"Command-line arguments\", str(OS.get_cmdline_args()))
+		add_line(\"Is debug build\", OS.is_debug_build())
+		add_line(\"Executable path\", OS.get_executable_path())
+		add_line(\"User data directory\", OS.get_user_data_dir())
+		add_line(\"Filesystem is persistent\", OS.is_userfs_persistent())
+
+		add_header(\"Hardware\")
+		add_line(\"Processor count\", OS.get_processor_count())
+		add_line(\"Video adapter name\", VisualServer.get_video_adapter_name())
+		add_line(\"Video adapter vendor\", VisualServer.get_video_adapter_vendor())
+
+		add_header(\"Video\")
+		var video_drivers = PoolStringArray()
+		for i in OS.get_video_driver_count():
+			video_drivers.push_back(OS.get_video_driver_name(i))
+		add_line(\"Available drivers\", video_drivers.join(\", \"))
+		add_line(\"Current driver\", OS.get_video_driver_name(OS.get_current_video_driver()))
+
+		add_header(\"Display\")
+		add_line(\"Screen count\", OS.get_screen_count())
+		add_line(\"DPI\", OS.get_screen_dpi())
+		add_line(\"Refresh rate\", OS.get_screen_refresh_rate())
+		add_line(\"Startup screen position\", OS.get_screen_position())
+		add_line(\"Startup screen size\", OS.get_screen_size())
+		add_line(\"Safe area rectangle\", OS.get_window_safe_area())
+		add_line(\"Screen orientation\", [
+			\"Landscape\",
+			\"Portrait\",
+			\"Landscape (reverse)\",
+			\"Portrait (reverse)\",
+			\"Landscape (defined by sensor)\",
+			\"Portrait (defined by sensor)\",
+			\"Defined by sensor\",
+		][OS.screen_orientation])
+
+		add_header(\"Input\")
+		add_line(\"Latin keyboard variant\", OS.get_latin_keyboard_variant())
+		add_line(\"Device has touch screen\", OS.has_touchscreen_ui_hint())
+		add_line(\"Device has virtual keyboard\", OS.has_virtual_keyboard())
+		add_line(\"Virtual keyboard height\", OS.get_virtual_keyboard_height())
+		
+		add_header(\"Audio\")
+		var audio_drivers = PoolStringArray()
+		for i in OS.get_audio_driver_count():
+			audio_drivers.push_back(OS.get_audio_driver_name(i))
+		add_line(\"Available drivers\", audio_drivers.join(\", \"))
+
+	add_header(\"Extra feedback\")
+	body += extra_feedback + \"\\n\"
 	
-	add_header(\"Time\")
-	add_line(\"Date and time (local)\", datetime_to_string(OS.get_datetime()))
-	add_line(\"Timezone\", OS.get_time_zone_info())
-	add_line(\"System time (milliseconds)\", OS.get_system_time_msecs())
-	add_line(\"UNIX time\", OS.get_unix_time())
-	add_line(\"Uptime (milliseconds)\", OS.get_ticks_msec())
-
-	add_header(\"System\")
-	add_line(\"OS name\", OS.get_name())
-	add_line(\"Process ID\", OS.get_process_id())
-	add_line(\"Locale\", OS.get_locale())
-
-	add_header(\"Engine\")
-	add_line(\"Version\", Engine.get_version_info()[\"string\"])
-	add_line(\"Command-line arguments\", str(OS.get_cmdline_args()))
-	add_line(\"Is debug build\", OS.is_debug_build())
-	add_line(\"Executable path\", OS.get_executable_path())
-	add_line(\"User data directory\", OS.get_user_data_dir())
-	add_line(\"Filesystem is persistent\", OS.is_userfs_persistent())
-
-	add_header(\"Hardware\")
-	add_line(\"Processor count\", OS.get_processor_count())
-	add_line(\"Video adapter name\", VisualServer.get_video_adapter_name())
-	add_line(\"Video adapter vendor\", VisualServer.get_video_adapter_vendor())
-
-	add_header(\"Video\")
-	var video_drivers = PoolStringArray()
-	for i in OS.get_video_driver_count():
-		video_drivers.push_back(OS.get_video_driver_name(i))
-	add_line(\"Available drivers\", video_drivers.join(\", \"))
-	add_line(\"Current driver\", OS.get_video_driver_name(OS.get_current_video_driver()))
-
-	add_header(\"Display\")
-	add_line(\"Screen count\", OS.get_screen_count())
-	add_line(\"DPI\", OS.get_screen_dpi())
-	add_line(\"Refresh rate\", OS.get_screen_refresh_rate())
-	add_line(\"Startup screen position\", OS.get_screen_position())
-	add_line(\"Startup screen size\", OS.get_screen_size())
-	add_line(\"Safe area rectangle\", OS.get_window_safe_area())
-	add_line(\"Screen orientation\", [
-		\"Landscape\",
-		\"Portrait\",
-		\"Landscape (reverse)\",
-		\"Portrait (reverse)\",
-		\"Landscape (defined by sensor)\",
-		\"Portrait (defined by sensor)\",
-		\"Defined by sensor\",
-	][OS.screen_orientation])
-
-	add_header(\"Input\")
-	add_line(\"Latin keyboard variant\", OS.get_latin_keyboard_variant())
-	add_line(\"Device has touch screen\", OS.has_touchscreen_ui_hint())
-	add_line(\"Device has virtual keyboard\", OS.has_virtual_keyboard())
-	add_line(\"Virtual keyboard height\", OS.get_virtual_keyboard_height())
-	
-	add_header(\"Audio\")
-	var audio_drivers = PoolStringArray()
-	for i in OS.get_audio_driver_count():
-		audio_drivers.push_back(OS.get_audio_driver_name(i))
-	add_line(\"Available drivers\", audio_drivers.join(\", \"))
-	
-	body = body.replace(\"\\n\", \"%0A\").replace(\" \", \"%20\")
+	body = sanitize_str_for_url(body)
 "
 
 [sub_resource type="StyleBoxFlat" id=931]
@@ -654,6 +673,35 @@ shader_param/amount = 1.2
 size = 24
 use_filter = true
 font_data = ExtResource( 3 )
+
+[sub_resource type="GDScript" id=1084]
+script/source = "extends WindowDialog
+
+### Automatic References Start ###
+onready var _cancel_btn: Button = $MarginContainer/VBoxContainer/HBoxContainer/CancelBtn
+onready var _check_box: CheckBox = $MarginContainer/VBoxContainer/CheckBox
+onready var _send_btn: Button = $MarginContainer/VBoxContainer/HBoxContainer/SendBtn
+onready var _text_edit: TextEdit = $MarginContainer/VBoxContainer/TextEdit
+### Automatic References Stop ###
+
+var canceled := false
+var feedback_txt := \"\"
+var include_info := true
+
+func _on_SendBtn_pressed() -> void:
+	feedback_txt = _text_edit.text
+	include_info = _check_box.pressed
+	hide()
+
+func _on_CancelBtn_pressed() -> void:
+	canceled = true
+	hide()
+
+func _on_about_to_show() -> void:
+	canceled = false
+	_check_box.pressed = true
+	_text_edit.text = \"\"
+"
 
 [sub_resource type="Animation" id=985]
 resource_name = "FadeIn"
@@ -1389,6 +1437,74 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="FeedbackDialog" type="WindowDialog" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -262.0
+margin_top = -206.5
+margin_right = 262.0
+margin_bottom = 206.5
+window_title = "send feedback"
+script = SubResource( 1084 )
+
+[node name="MarginContainer" type="MarginContainer" parent="FeedbackDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FeedbackDialog/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 514.0
+margin_bottom = 403.0
+
+[node name="CheckBox" type="CheckBox" parent="FeedbackDialog/MarginContainer/VBoxContainer"]
+margin_right = 504.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+pressed = true
+text = "include debug info about your system"
+
+[node name="TextEdit" type="TextEdit" parent="FeedbackDialog/MarginContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 504.0
+margin_bottom = 325.0
+size_flags_vertical = 3
+wrap_enabled = true
+caret_blink = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FeedbackDialog/MarginContainer/VBoxContainer"]
+margin_top = 333.0
+margin_right = 504.0
+margin_bottom = 393.0
+rect_min_size = Vector2( 0, 60 )
+custom_constants/separation = 42
+alignment = 1
+
+[node name="CancelBtn" type="Button" parent="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 141.0
+margin_top = 13.0
+margin_right = 231.0
+margin_bottom = 45.5
+rect_min_size = Vector2( 90, 0 )
+size_flags_vertical = 4
+text = "cancel"
+
+[node name="SendBtn" type="Button" parent="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 273.0
+margin_top = 13.0
+margin_right = 363.0
+margin_bottom = 45.5
+rect_min_size = Vector2( 90, 0 )
+size_flags_vertical = 4
+text = "send"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../MarginContainer")
 autoplay = "FadeIn"
@@ -1421,3 +1537,6 @@ anims/RESET = SubResource( 1003 )
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/QuitBtn" to="." method="_on_QuitBtn_pressed"]
+[connection signal="about_to_show" from="FeedbackDialog" to="FeedbackDialog" method="_on_about_to_show"]
+[connection signal="pressed" from="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer/CancelBtn" to="FeedbackDialog" method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer/SendBtn" to="FeedbackDialog" method="_on_SendBtn_pressed"]

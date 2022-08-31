@@ -360,7 +360,7 @@ version_control_plugin_name="GitAPI"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/AutoExportVersion/plugin.cfg", "res://addons/argparse/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/AutoExportVersion/plugin.cfg", "res://addons/argparse/plugin.cfg", "res://addons/node_referencer/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
 
 [gui]
 
