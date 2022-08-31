@@ -145,10 +145,10 @@ layer = -1
 
 [node name="MainUI" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true
-margin_left = -61.0
-margin_top = -52.0
-margin_right = 65.0
-margin_bottom = -16.0
+margin_left = 2.0
+margin_top = -34.0
+margin_right = 2.0
+margin_bottom = -34.0
 __meta__ = {
 "_edit_group_": true
 }

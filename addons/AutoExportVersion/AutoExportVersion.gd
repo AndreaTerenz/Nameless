@@ -13,12 +13,12 @@ func _fetch_version(features: PoolStringArray, is_debug: bool, path: String, fla
 	# Version is number of commits. Requires git installed
 	# and project inside git repository with at least 1 commit.
 	
-	var output := []
-	OS.execute("git", PoolStringArray(["rev-list", "--count", "HEAD"]), true, output)
-	if output.empty() or output[0].empty():
-		push_error("Failed to fetch version. Make sure you have git installed and project is inside valid git directory.")
-	else:
-		return output[0].trim_suffix("\n")
+#	var output := []
+#	OS.execute("git", PoolStringArray(["rev-list", "--count", "HEAD"]), true, output)
+#	if output.empty() or output[0].empty():
+#		push_error("Failed to fetch version. Make sure you have git installed and project is inside valid git directory.")
+#	else:
+#		return output[0].trim_suffix("\n")
 
 	### Git branch version ### --------------------------------------------------------------------
 	
@@ -31,6 +31,18 @@ func _fetch_version(features: PoolStringArray, is_debug: bool, path: String, fla
 #		push_error("Failed to fetch version. Make sure you have git installed and project is inside valid git directory.")
 #	else:
 #		return output[0].trim_suffix("\n")
+		
+	### Git last commit ID version ### --------------------------------------------------------------------
+	
+	# Version is the id of the latest commit.
+	# Requires git installed and project inside git repository.
+
+	var output := []
+	OS.execute("git", PoolStringArray(["log", "--format=%h", "-n", "1"]), true, output)
+	if output.empty() or output[0].empty():
+		push_error("Failed to fetch version. Make sure you have git installed and project is inside valid git directory.")
+	else:
+		return output[0].trim_suffix("\n")
 	
 	### Profile version ### -----------------------------------------------------------------------
 	

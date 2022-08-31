@@ -71,10 +71,10 @@ func set_active(value):
 	
 	if active:
 		emit_signal("reactivated", self)
-		Console.write_line("Activated trigger: %s" % [get_path()])
+		#Console.write_line("Activated zone: %s" % [get_path()])
 	else:
 		emit_signal("deactivated", self)
-		Console.write_line("Deactivated trigger: %s" % [get_path()])
+		#Console.write_line("Deactivated zone: %s" % [get_path()])
 	
 func _on_body_entered(body: Node):
 	if body in get_targets() and (not oneshot or state == TARGET_STATE.NEVER_IN):

@@ -95,8 +95,9 @@ interior = true
 data = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="." index="1"]
-transform = Transform( 0.999876, -0.0157422, 0, 0.0119401, 0.758382, 0.651701, -0.0102592, -0.651621, 0.758476, 0, 8.06759, 0 )
+transform = Transform( 0.2734, 0.624437, -0.731663, 0.0119401, 0.758382, 0.651701, 0.961826, -0.186911, 0.199886, 0, 8.06759, 0 )
 script = SubResource( 3 )
+speed = 0.04
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." index="2"]
 environment = SubResource( 12 )

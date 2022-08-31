@@ -441,7 +441,7 @@ script/source = "extends Label
 
 
 func _ready() -> void:
-	text = \"v%s\" % load(\"res://version.gd\").VERSION
+	text = \"#%s [alpha]\" % load(\"res://version.gd\").VERSION
 "
 
 [sub_resource type="GDScript" id=474]
@@ -1091,7 +1091,6 @@ size_flags_vertical = 3
 
 [node name="AboutPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1350,25 +1349,25 @@ __meta__ = {
 position = Vector2( 347.272, 543 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -418.0
-margin_top = -92.0
-margin_right = -21.0
+margin_left = 15.0
+margin_top = -85.0
+margin_right = 302.0
 grow_vertical = 0
 custom_constants/separation = 9
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="GameVersion" type="Label" parent="VBoxContainer"]
-margin_top = 7.0
-margin_right = 397.0
-margin_bottom = 34.0
+margin_top = 5.0
+margin_right = 287.0
+margin_bottom = 32.0
 size_flags_vertical = 6
 custom_colors/font_color = Color( 0.507834, 0.507834, 0.507834, 1 )
 custom_fonts/font = SubResource( 54 )
-text = "version peepee.poopoo [alpha]"
-align = 2
+text = "demo_1022 [alpha]"
 valign = 1
 script = SubResource( 1080 )
 __meta__ = {
@@ -1376,15 +1375,14 @@ __meta__ = {
 }
 
 [node name="Engine Version" type="Label" parent="VBoxContainer"]
-margin_top = 57.0
-margin_right = 397.0
-margin_bottom = 84.0
+margin_top = 52.0
+margin_right = 287.0
+margin_bottom = 79.0
 size_flags_vertical = 6
 custom_colors/font_color = Color( 0.507834, 0.507834, 0.507834, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 54 )
 text = "Godot 3.X"
-align = 2
 valign = 1
 script = SubResource( 474 )
 __meta__ = {

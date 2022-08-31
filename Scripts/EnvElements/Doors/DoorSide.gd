@@ -2,6 +2,7 @@ class_name DoorSide
 extends Spatial
 
 export(Vector3) var dir = Vector3.LEFT
+export(NodePath) var parent_door_ref
 
 var parent_door : BaseDoor = null
 var amount: float = 0.0
@@ -21,8 +22,13 @@ func _ready() -> void:
 	add_child(tween)
 	tween.connect("tween_completed", self, "_tween_done")
 	
-	if get_parent() is BaseDoor:
-		parent_door = get_parent()
+	var p = get_parent()
+	
+	if parent_door_ref != "":
+		p = get_node(parent_door_ref)
+	
+	if p is BaseDoor:
+		parent_door = p
 		
 		amount = parent_door.amount
 		tween_time = parent_door.time

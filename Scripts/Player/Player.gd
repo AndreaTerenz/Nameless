@@ -279,6 +279,7 @@ func _on_killed() -> void:
 	
 func unbind_keys():
 	Console.unbind_key(OS.find_scancode_from_string("n"))
+	Console.remove_command("noclip")
 
 func get_other_type(_other: Node):
 	var other = _other as CollisionObject
