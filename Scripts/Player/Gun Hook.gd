@@ -11,7 +11,7 @@ signal hook_ready(h)
 
 export(NodePath) var anim_player_node
 export(PoolStringArray) var weapons_scenes
-export(int) var slots = 5
+export(int) var slots = 6
 
 var weapons: Array = []
 var hidden: bool = false setget set_hidden
@@ -31,12 +31,20 @@ onready var gun : BaseWeapon = null
 func _ready() -> void:
 	slots = min(len(weapons_scenes), slots)
 	
-	Globals.connect("player_set", self, "_on_player_set")
+	for i in range(slots):
+		var num = i+1
+		var act_name = "weapon slot %d" % num
+		InputMap.add_action(act_name)
+		
+		var ev = InputEventKey.new()
+		ev.scancode = KEY_0 + num
+		InputMap.action_add_event(act_name, ev)
 	
-func _on_player_set(p: Player):
+	yield(Globals, "player_set")
+	
 	for s in range(0, slots):
 		var g : BaseWeapon = load(weapons_scenes[s]).instance()
-		g.player_inventory = p.inventory
+		g.player_inventory = Globals.player.inventory
 		weapons.append(g)
 		
 	load_gun()

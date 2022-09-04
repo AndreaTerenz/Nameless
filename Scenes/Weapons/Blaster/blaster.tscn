@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Models/weapons/blaster_assetforge/blaster.glb" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Scripts/Weapons/MuzzleFlash.gd" type="Script" id=3]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends BulletGun
+
+onready var muzzle_flash = $Muzzle/Flash
+#onready var a_text = $AmmoTxt
+#onready var t_text = $TotTxt
+
+func _ready() -> void:
+	print(ammo_per_mag)
+		
+func _ui():
+	return
+#	a_text.text = \"%02d\" % ammo_count
+#	t_text.text = \"%02d\" % reserve_ammo
+	
+func _on_shot():
+	._on_shot()
+	
+	muzzle_flash.show()
+"
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 0.0823529, 0.568627, 1, 1 )
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 0.286275, 0.976471, 0.909804, 1 )
+
+[node name="blaster" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-07, 0, 10, 0, 10, 0, -10, 0, -4.37114e-07, 0, 0, 0 )
+script = SubResource( 3 )
+aimable = false
+entry_name = "Gun Bullet"
+muzze_path = NodePath("Muzzle")
+
+[node name="mergedBlocks" parent="." index="0"]
+layers = 2
+cast_shadow = 0
+
+[node name="Muzzle" type="Position3D" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209083, 2.0644 )
+
+[node name="Flash" type="MeshInstance" parent="Muzzle" index="0"]
+transform = Transform( 2.26494e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, 2.26494e-08, 0, 0, 0 )
+layers = 2
+mesh = ExtResource( 2 )
+material/0 = SubResource( 1 )
+material/1 = SubResource( 2 )
+script = ExtResource( 3 )

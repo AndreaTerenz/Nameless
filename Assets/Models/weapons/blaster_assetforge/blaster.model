@@ -1,0 +1,25 @@
+# Made using Asset Forge (2.2.1)
+
+:materials
+
+[name:metalDark;color:RGBA(0.388, 0.647, 0.631, 1.000);scale:(1.0, 1.0);texture:Metal/scratched.png;shader:Default;valueA:0.35;valueB:0.5;]
+[name:_defaultMat;color:RGBA(0.939, 0.953, 1.000, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.35;valueB:0.25;]
+[name:dark;color:RGBA(0.224, 0.235, 0.275, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.35;valueB:0;]
+[name:custom3;color:RGBA(0.647, 0.431, 0.388, 1.000);scale:(1.0, 1.0);texture:Metal/scratched.png;shader:Default;valueA:0.35;valueB:0.5;]
+[name:metalOrange;color:RGBA(1.000, 0.702, 0.000, 1.000);scale:(1.0, 1.0);shader:Default;valueA:0.5;valueB:0.2;]
+
+:models
+
+[name:;collection:Blasters;type:blaster_center;position:(0.0000, 0.0000, -1.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:metalDark+_defaultMat;]
+[name:;collection:Blasters;type:attachment_handle;position:(0.0000, -0.0500, -1.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:_defaultMat+metalDark+dark;]
+[name:;collection:Blasters;type:blaster_barrelLarge;position:(0.0000, 0.0000, 0.0000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:metalDark+_defaultMat+dark;]
+[name:;collection:Blasters;type:detailRail;position:(0.2000, 0.7000, -1.2000);rotation:(0.0000, 180.0000, 270.0000);scale:(1.0000, -1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:detailRail;position:(-0.2000, 0.7000, -1.2000);rotation:(0.0000, 180.0000, 90.0000);scale:(-1.0000, -1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:detailRail_front;position:(0.2000, 0.7000, -0.2000);rotation:(0.0000, 0.0000, 90.0000);scale:(1.0000, -1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:detailRail_front;position:(-0.2000, 0.7000, -0.2000);rotation:(0.0000, 0.0000, 270.0000);scale:(-1.0000, -1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:detailTargetSight;position:(0.0000, 1.0000, -0.5000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark;]
+[name:;collection:Blasters;type:detailTargetSightFront;position:(0.0000, 1.0000, -0.1500);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:_defaultMat+dark;]
+[name:;collection:Blasters;type:blaster_handle;position:(0.0000, 0.0000, -1.9000);rotation:(0.0000, 0.0000, 0.0000);scale:(1.0000, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:metalDark+_defaultMat+dark;]
+[name:;collection:Blasters;type:stock_stealth;position:(-0.0055, -0.0500, -2.9000);rotation:(0.0000, 0.0000, 0.0000);scale:(0.6300, 1.0000, 1.0000);group:;locked:False;hidden:False;materials:dark+metalDark+_defaultMat;]
+[name:;collection:Mech;type:foot_claw;position:(0.1900, 0.8000, -2.1000);rotation:(90.0000, 90.0000, 0.0000);scale:(1.4000, 0.4500, 0.4000);group:;locked:False;hidden:False;materials:_defaultMat+dark+metalOrange;]
+[name:;collection:Mech;type:foot_claw;position:(-0.1900, 0.8000, -2.1000);rotation:(90.0000, 270.0000, 0.0000);scale:(-1.4000, 0.4500, 0.4000);group:;locked:False;hidden:False;materials:_defaultMat+dark+metalOrange;]
