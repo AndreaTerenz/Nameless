@@ -20,6 +20,9 @@ func _ready() -> void:
 	if scene_name == "":
 		scene_name = name
 	
+	if not OS.has_feature("debug"):
+		reset_debug_vars()
+	
 	for child in get_children():
 		if not(world_env) and child is WorldEnvironment:
 			world_env = child.environment
@@ -85,6 +88,9 @@ func spawn_player():
 			player_spawn.global_translation,
 			player_spawn.rotation_degrees.x,
 			player_spawn.rotation_degrees.y)
+
+func reset_debug_vars():
+	pass
 			
 func on_player_dead():
 	Globals.player.on_respawn()

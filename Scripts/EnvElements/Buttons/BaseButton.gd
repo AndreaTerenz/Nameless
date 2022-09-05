@@ -10,7 +10,7 @@ export(NodePath) var toggle_path
 
 var pressed := false
 
-onready var toggle: Togglable = get_node(toggle_path) as Togglable
+onready var toggle: Togglable = Utils.try_get_node(toggle_path, owner)
 
 func _ready() -> void:
 	continuous = false

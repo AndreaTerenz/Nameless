@@ -1,8 +1,702 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Assets/Models/story levels/part_0/levels/part_0_lv_1.escn" type="PackedScene" id=1]
+[ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
+[ext_resource path="res://Materials/Grids/grid_dark.tres" type="Material" id=3]
+[ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=4]
+[ext_resource path="res://Scripts/EnvElements/Interactable.gd" type="Script" id=5]
+[ext_resource path="res://Materials/tutorial_target_mat.tres" type="Material" id=6]
+[ext_resource path="res://Assets/Grids/grid_purple.png" type="Texture" id=7]
+[ext_resource path="res://Materials/Shaders/disappearing_plat.gdshader" type="Shader" id=8]
+[ext_resource path="res://Assets/Grids/grid_norm.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=10]
+
+[sub_resource type="GDScript" id=24]
+script/source = "extends Spatial
+
+signal done
+
+### Automatic References Start ###
+onready var _animation_player: AnimationPlayer = $AnimationPlayer
+onready var _end_trigger: TriggerZone = $EndTrigger
+### Automatic References Stop ###
+
+var started_fall := false
+
+
+func _on_StartDissolve_entered(zone, target) -> void:
+	if not started_fall:
+		_animation_player.play(\"falling_plats\")
+		started_fall = true
+
+
+func _on_StartDissolve2_entered(zone, target) -> void:
+	if not started_fall:
+		_animation_player.play(\"falling_plats_reverse\")
+		started_fall = true
+
+
+func _on_Target_interacted_with(sender) -> void:
+	_animation_player.play(\"target_taken\")
+	_end_trigger.active = true
+
+
+func _on_EndTrigger_entered(zone, target) -> void:
+	emit_signal(\"done\")
+"
+
+[sub_resource type="ConcavePolygonShape" id=2]
+data = PoolVector3Array( -5.035, -0.2886, 1.3177, 5.035, -0.2886, -1.3177, -5.035, -0.2886, -1.3177, -5.035, -0.2886, 1.3177, 5.035, -0.2886, 1.3177, 5.035, -0.2886, -1.3177, -5.035, 1.4257, -0.9134, 5.035, 1.4256, 0.9134, -5.035, 1.4256, 0.9134, -5.035, 1.4257, -0.9134, 5.035, 1.4257, -0.9134, 5.035, 1.4256, 0.9134, 5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 0, -0.3866, -5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.0214, 1.3177, -5.035, 0, 1.3177, -5.035, 0.8892, 0.3866, 5.035, 0.8893, -0.3866, -5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 0.8893, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, -5.035, 0, 0.3866, 5.035, 0, 0.3866, 5.035, 0.8892, 0.3866, -5.035, 0.8892, 0.3866, -5.035, 0, 0.3866, -5.035, 0, 1.3177, 5.035, -0.2886, 1.3177, -5.035, -0.2886, 1.3177, 5.035, 0, -1.3177, -5.035, -0.2886, -1.3177, 5.035, -0.2886, -1.3177, 5.035, 0.8892, 0.3866, 5.035, 0, 1.3177, 5.035, 1.0214, 1.3177, 5.035, 1.0214, -1.3177, 5.035, 0, -1.3177, 5.035, 0.8893, -0.3866, 5.035, 1.4257, -0.9134, 5.035, 0.8893, -0.3866, 5.035, 1.4256, 0.9134, -5.035, 0.8893, -0.3866, -5.035, 0, -1.3177, -5.035, 1.0214, -1.3177, -5.035, 0, -0.3866, 5.035, 0, 0.3866, -5.035, 0, 0.3866, -5.035, 0, -0.3866, 5.035, 0, -0.3866, 5.035, 0, 0.3866, -5.035, 1.0214, 1.3177, -5.035, 1.2238, 0.9674, -5.035, 1.4256, 0.9134, -5.035, 1.4257, -0.9134, -5.035, 1.2239, -0.9674, -5.035, 1.0214, -1.3177, 5.035, 1.4256, 0.9134, 5.035, 1.2238, 0.9674, 5.035, 1.0214, 1.3177, 5.035, 1.0214, -1.3177, 5.035, 1.2239, -0.9674, 5.035, 1.4257, -0.9134, -5.035, 1.4257, -0.9134, 5.035, 1.0214, -1.3177, 5.035, 1.4257, -0.9134, -5.035, 1.4257, -0.9134, -5.035, 1.0214, -1.3177, 5.035, 1.0214, -1.3177, -5.035, 1.0214, 1.3177, 5.035, 1.4256, 0.9134, 5.035, 1.0214, 1.3177, -5.035, 1.0214, 1.3177, -5.035, 1.4256, 0.9134, 5.035, 1.4256, 0.9134, -5.035, 0.8892, 0.3866, -5.035, 1.4256, 0.9134, -5.035, 1.2238, 0.9674, -5.035, 1.2238, 0.9674, -5.035, 1.0214, 1.3177, -5.035, 0.8892, 0.3866, -5.035, 0.8892, 0.3866, -5.035, 0, 1.3177, -5.035, 0, 0.3866, 5.035, -0.2886, 1.3177, -5.035, 0, 1.3177, 5.035, 0, 1.3177, 5.035, 0, 1.3177, -5.035, 0, 1.3177, 5.035, 1.0214, 1.3177, 5.035, 1.0214, 1.3177, -5.035, 0, 1.3177, -5.035, 1.0214, 1.3177, -5.035, -0.2886, -1.3177, 5.035, 0, -1.3177, -5.035, 0, -1.3177, -5.035, 0, -1.3177, 5.035, 0, -1.3177, -5.035, 1.0214, -1.3177, -5.035, 1.0214, -1.3177, 5.035, 0, -1.3177, 5.035, 1.0214, -1.3177, 5.035, 0, 1.3177, 5.035, 0.8892, 0.3866, 5.035, 0, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 1.0214, 1.3177, 5.035, 1.2238, 0.9674, 5.035, 1.2239, -0.9674, 5.035, 1.0214, -1.3177, 5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 0, -1.3177, 5.035, 0, -0.3866, 5.035, 1.2238, 0.9674, 5.035, 1.4256, 0.9134, 5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 1.4256, 0.9134, 5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 1.4257, -0.9134, 5.035, 1.2239, -0.9674, -5.035, 0, -1.3177, -5.035, 0.8893, -0.3866, -5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.0214, -1.3177, -5.035, 1.2239, -0.9674, -5.035, 1.2239, -0.9674, -5.035, 1.4257, -0.9134, -5.035, 0.8893, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.4256, 0.9134, -5.035, 0.8892, 0.3866, -5.035, 1.4257, -0.9134, -5.035, 1.4256, 0.9134, -5.035, 0.8893, -0.3866 )
+
+[sub_resource type="GDScript" id=23]
+script/source = "extends MeshInstance
+
+
+# Declare member variables here. Examples:
+# var a: int = 2
+# var b: String = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta: float) -> void:
+#	pass
+"
+
+[sub_resource type="OpenSimplexNoise" id=10]
+
+[sub_resource type="NoiseTexture" id=11]
+seamless = true
+noise = SubResource( 10 )
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = ExtResource( 8 )
+shader_param/dissolve_fact = 1.0
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/emission = Color( 0.105882, 0.862745, 0.788235, 1 )
+shader_param/emission_strength = 5.0
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/normal_scale = 3.0
+shader_param/uv1_blend_sharpness = 1.0
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/dissolve_txt = SubResource( 11 )
+shader_param/texture_albedo = ExtResource( 7 )
+shader_param/texture_normal = ExtResource( 9 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.862405, 0.145629, 1.31746 )
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = ExtResource( 8 )
+shader_param/dissolve_fact = 1.0
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/emission = Color( 0.105882, 0.862745, 0.788235, 1 )
+shader_param/emission_strength = 5.0
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/normal_scale = 3.0
+shader_param/uv1_blend_sharpness = 1.0
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/dissolve_txt = SubResource( 11 )
+shader_param/texture_albedo = ExtResource( 7 )
+shader_param/texture_normal = ExtResource( 9 )
+
+[sub_resource type="ShaderMaterial" id=15]
+shader = ExtResource( 8 )
+shader_param/dissolve_fact = 1.0
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/emission = Color( 0.105882, 0.862745, 0.788235, 1 )
+shader_param/emission_strength = 5.0
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/normal_scale = 3.0
+shader_param/uv1_blend_sharpness = 1.0
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/dissolve_txt = SubResource( 11 )
+shader_param/texture_albedo = ExtResource( 7 )
+shader_param/texture_normal = ExtResource( 9 )
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = ExtResource( 8 )
+shader_param/dissolve_fact = 1.0
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/emission = Color( 0.105882, 0.862745, 0.788235, 1 )
+shader_param/emission_strength = 5.0
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/normal_scale = 3.0
+shader_param/uv1_blend_sharpness = 1.0
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/dissolve_txt = SubResource( 11 )
+shader_param/texture_albedo = ExtResource( 7 )
+shader_param/texture_normal = ExtResource( 9 )
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 8 )
+shader_param/dissolve_fact = 1.0
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/emission = Color( 0.105882, 0.862745, 0.788235, 1 )
+shader_param/emission_strength = 5.0
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/normal_scale = 3.0
+shader_param/uv1_blend_sharpness = 1.0
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+shader_param/dissolve_txt = SubResource( 11 )
+shader_param/texture_albedo = ExtResource( 7 )
+shader_param/texture_normal = ExtResource( 9 )
+
+[sub_resource type="SphereShape" id=17]
+radius = 0.339
+
+[sub_resource type="CylinderShape" id=19]
+height = 0.534212
+radius = 0.537856
+
+[sub_resource type="CylinderShape" id=20]
+height = 0.203458
+radius = 0.415002
+
+[sub_resource type="ConcavePolygonShape" id=18]
+data = PoolVector3Array( -6.9037, 0, 2.0416, -9.0443, 0, 0, -6.9037, 0, 0, -6.9037, 0, 2.0416, -6.9037, -0.2886, 0, -6.9037, -0.2886, 2.0416, -6.9037, 0, 2.0416, -6.9037, 0, 0, -6.9037, -0.2886, 0, -9.0443, -0.2886, 0, -6.9037, -0.2886, 2.0416, -6.9037, -0.2886, 0, -6.9037, 0, 2.0416, -5.4401, 0, 4.677, -6.9037, 0, 4.677, -6.9037, 0, 2.0416, -5.4401, 0, 2.0416, -5.4401, 0, 4.677, -6.9037, -0.2886, 2.0416, -5.4401, 0, 2.0416, -6.9037, 0, 2.0416, -6.9037, -0.2886, 2.0416, -5.4401, -0.2886, 2.0416, -5.4401, 0, 2.0416, -6.9037, -0.2887, 4.677, -5.4401, -0.2886, 2.0416, -6.9037, -0.2886, 2.0416, -6.9037, -0.2887, 4.677, -5.4401, -0.2887, 4.677, -5.4401, -0.2886, 2.0416, -6.9037, 0, 4.677, -9.0443, -0.2887, 4.677, -9.0443, 0, 4.677, 4.6299, -0.2886, 2.0416, 6.9037, 0, 2.0416, 4.6299, 0, 2.0416, 4.6299, -0.2886, 2.0416, 6.9037, -0.2886, 2.0416, 6.9037, 0, 2.0416, 8.1973, -0.2887, 4.677, 4.6299, -0.2886, 2.0416, 4.6299, -0.2887, 4.677, 8.1973, -0.2887, 4.677, 6.9037, -0.2886, 2.0416, 4.6299, -0.2886, 2.0416, 8.1973, 0, 4.677, 7.8976, 0, 0, 10.2842, 0, 0, 8.1973, 0, 4.677, 6.9037, 0, 2.0416, 7.8976, 0, 0, 6.9037, -0.2886, 2.0416, 10.2842, -0.2886, 0, 7.8976, -0.2886, 0, 6.9037, -0.2886, 2.0416, 8.1973, -0.2887, 4.677, 10.2842, -0.2886, 0, 4.6299, -0.2887, 4.677, 8.1973, 0, 4.677, 8.1973, -0.2887, 4.677, 4.6299, -0.2887, 4.677, 4.6299, 0, 4.677, 8.1973, 0, 4.677, 6.9037, -0.2886, 2.0416, 7.8976, 0, 0, 6.9037, 0, 2.0416, 6.9037, -0.2886, 2.0416, 7.8976, -0.2886, 0, 7.8976, 0, 0, 8.1973, -0.2887, 4.677, 10.2842, 0, 0, 10.2842, -0.2886, 0, 8.1973, -0.2887, 4.677, 8.1973, 0, 4.677, 10.2842, 0, 0, 4.6299, 0, 4.677, 4.6299, -0.2886, 2.0416, 4.6299, 0, 2.0416, 4.6299, 0, 4.677, 4.6299, -0.2887, 4.677, 4.6299, -0.2886, 2.0416, -5.4401, 0, 4.677, -5.4401, -0.2886, 2.0416, -5.4401, -0.2887, 4.677, -5.4401, 0, 4.677, -5.4401, 0, 2.0416, -5.4401, -0.2886, 2.0416, 4.6299, 0, 4.677, 6.9037, 0, 2.0416, 8.1973, 0, 4.677, 4.6299, 0, 4.677, 4.6299, 0, 2.0416, 6.9037, 0, 2.0416, -9.0443, 0, 0, -6.9037, 0, -2.0416, -6.9037, 0, 0, -6.9037, 0, -2.0416, -6.9037, -0.2886, 0, -6.9037, 0, 0, -6.9037, 0, -2.0416, -6.9037, -0.2886, -2.0416, -6.9037, -0.2886, 0, -6.9037, -0.2886, -2.0416, -9.0443, -0.2886, 0, -6.9037, -0.2886, 0, -6.9037, 0, -2.0416, -5.4401, 0, -4.677, -5.4401, 0, -2.0416, -6.9037, 0, -2.0416, -6.9037, 0, -4.677, -5.4401, 0, -4.677, -6.9037, -0.2886, -2.0416, -5.4401, 0, -2.0416, -5.4401, -0.2886, -2.0416, -6.9037, -0.2886, -2.0416, -6.9037, 0, -2.0416, -5.4401, 0, -2.0416, -6.9037, -0.2887, -4.677, -5.4401, -0.2886, -2.0416, -5.4401, -0.2887, -4.677, -6.9037, -0.2887, -4.677, -6.9037, -0.2886, -2.0416, -5.4401, -0.2886, -2.0416, -6.9037, 0, -4.677, -5.4401, -0.2887, -4.677, -5.4401, 0, -4.677, 4.6299, -0.2886, -2.0416, 6.9037, 0, -2.0416, 6.9037, -0.2886, -2.0416, 4.6299, -0.2886, -2.0416, 4.6299, 0, -2.0416, 6.9037, 0, -2.0416, 8.1973, -0.2887, -4.677, 4.6299, -0.2886, -2.0416, 6.9037, -0.2886, -2.0416, 8.1973, -0.2887, -4.677, 4.6299, -0.2887, -4.677, 4.6299, -0.2886, -2.0416, 8.1973, 0, -4.677, 7.8976, 0, 0, 6.9037, 0, -2.0416, 8.1973, 0, -4.677, 10.2842, 0, 0, 7.8976, 0, 0, 6.9037, -0.2886, -2.0416, 10.2842, -0.2886, 0, 8.1973, -0.2887, -4.677, 6.9037, -0.2886, -2.0416, 7.8976, -0.2886, 0, 10.2842, -0.2886, 0, 4.6299, -0.2887, -4.677, 8.1973, 0, -4.677, 4.6299, 0, -4.677, 4.6299, -0.2887, -4.677, 8.1973, -0.2887, -4.677, 8.1973, 0, -4.677, 6.9037, -0.2886, -2.0416, 7.8976, 0, 0, 7.8976, -0.2886, 0, 6.9037, -0.2886, -2.0416, 6.9037, 0, -2.0416, 7.8976, 0, 0, 8.1973, -0.2887, -4.677, 10.2842, 0, 0, 8.1973, 0, -4.677, 8.1973, -0.2887, -4.677, 10.2842, -0.2886, 0, 10.2842, 0, 0, 4.6299, 0, -4.677, 4.6299, -0.2886, -2.0416, 4.6299, -0.2887, -4.677, 4.6299, 0, -4.677, 4.6299, 0, -2.0416, 4.6299, -0.2886, -2.0416, -5.4401, 0, -4.677, -5.4401, -0.2886, -2.0416, -5.4401, 0, -2.0416, -5.4401, 0, -4.677, -5.4401, -0.2887, -4.677, -5.4401, -0.2886, -2.0416, 4.6299, 0, -4.677, 6.9037, 0, -2.0416, 4.6299, 0, -2.0416, 4.6299, 0, -4.677, 8.1973, 0, -4.677, 6.9037, 0, -2.0416, -9.0443, 0, 0, -6.9037, 0, 2.0416, -9.0443, 0, 4.677, -9.0443, 0, 4.677, -6.9037, 0, 2.0416, -6.9037, 0, 4.677, -6.9037, -0.2887, 4.677, -6.9037, -0.2886, 2.0416, -9.0443, -0.2887, 4.677, -9.0443, -0.2887, 4.677, -6.9037, -0.2886, 2.0416, -9.0443, -0.2886, 0, -9.0443, -0.2887, 4.677, -6.9037, 0, 4.677, -6.9037, -0.2887, 4.677, -6.9037, -0.2887, 4.677, -6.9037, 0, 4.677, -5.4401, -0.2887, 4.677, -5.4401, -0.2887, 4.677, -6.9037, 0, 4.677, -5.4401, 0, 4.677, -6.9037, 0, -4.677, -6.9037, 0, -2.0416, -9.0443, 0, -4.677, -9.0443, 0, -4.677, -6.9037, 0, -2.0416, -9.0443, 0, 0, -9.0443, -0.2886, 0, -6.9037, -0.2886, -2.0416, -9.0443, -0.2887, -4.677, -9.0443, -0.2887, -4.677, -6.9037, -0.2886, -2.0416, -6.9037, -0.2887, -4.677, -5.4401, -0.2887, -4.677, -6.9037, 0, -4.677, -6.9037, -0.2887, -4.677, -6.9037, -0.2887, -4.677, -6.9037, 0, -4.677, -9.0443, -0.2887, -4.677, -9.0443, -0.2887, -4.677, -6.9037, 0, -4.677, -9.0443, 0, -4.677 )
+
+[sub_resource type="Animation" id=22]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainFloor/Sprint/Sprint005:material/0:shader_param/dissolve_fact")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainFloor/Sprint/Sprint001:material/0:shader_param/dissolve_fact")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainFloor/Sprint/Sprint002:material/0:shader_param/dissolve_fact")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainFloor/Sprint/Sprint003:material/0:shader_param/dissolve_fact")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainFloor/Sprint/Sprint004:material/0:shader_param/dissolve_fact")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainFloor/TargetBase/Target:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0.864915, 0.864915, 0.864915 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainFloor/TargetBase/Target/TargetLight:light_energy")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2.0 ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "falling_plats"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainFloor/Sprint/Sprint001:material/0:shader_param/dissolve_fact")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.9, 2.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainFloor/Sprint/Sprint002:material/0:shader_param/dissolve_fact")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.4, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainFloor/Sprint/Sprint003:material/0:shader_param/dissolve_fact")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.9, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainFloor/Sprint/Sprint004:material/0:shader_param/dissolve_fact")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainFloor/Sprint/Sprint005:material/0:shader_param/dissolve_fact")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/9/type = "method"
+tracks/9/path = NodePath("MainFloor/Crouch/StaticBody")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 2.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "falling_plats_reverse"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainFloor/Sprint/Sprint001:material/0:shader_param/dissolve_fact")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainFloor/Sprint/Sprint002:material/0:shader_param/dissolve_fact")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MainFloor/Sprint/Sprint003:material/0:shader_param/dissolve_fact")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.9, 1.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MainFloor/Sprint/Sprint004:material/0:shader_param/dissolve_fact")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.4, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MainFloor/Sprint/Sprint005:material/0:shader_param/dissolve_fact")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.9, 2.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 2.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/9/type = "method"
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "target_taken"
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainFloor/TargetBase/Target:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.864915, 0.864915, 0.864915 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MainFloor/TargetBase/Target/TargetLight:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 2.0, 0.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("MainFloor/TargetBase/Target")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
 
 [node name="part_0_lv_1" instance=ExtResource( 1 )]
+script = SubResource( 24 )
 
-[node name="Cylinder" parent="." index="0"]
+[node name="MainFloor" parent="." index="0"]
 use_in_baked_light = true
+material/0 = ExtResource( 2 )
+
+[node name="Crouch" parent="MainFloor" index="0"]
+use_in_baked_light = true
+material/0 = ExtResource( 4 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/Crouch" index="0"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MainFloor/Crouch/StaticBody" index="0"]
+shape = SubResource( 2 )
+
+[node name="Sprint" parent="MainFloor" index="1"]
+transform = Transform( 1.08172, 0, 0, 0, 1, 0, 0, 0, 1, -0.405101, -1.67191e-05, -3.35929 )
+script = SubResource( 23 )
+
+[node name="Sprint001" parent="MainFloor/Sprint" index="0"]
+material/0 = SubResource( 13 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint001" index="0"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MainFloor/Sprint/Sprint001/StaticBody" index="0"]
+shape = SubResource( 4 )
+
+[node name="Sprint002" parent="MainFloor/Sprint" index="1"]
+material/0 = SubResource( 14 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint002" index="0"]
+
+[node name="CollisionShape2" type="CollisionShape" parent="MainFloor/Sprint/Sprint002/StaticBody" index="0"]
+shape = SubResource( 4 )
+
+[node name="Sprint003" parent="MainFloor/Sprint" index="2"]
+material/0 = SubResource( 15 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint003" index="0"]
+
+[node name="CollisionShape3" type="CollisionShape" parent="MainFloor/Sprint/Sprint003/StaticBody" index="0"]
+shape = SubResource( 4 )
+
+[node name="Sprint004" parent="MainFloor/Sprint" index="3"]
+material/0 = SubResource( 16 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint004" index="0"]
+
+[node name="CollisionShape4" type="CollisionShape" parent="MainFloor/Sprint/Sprint004/StaticBody" index="0"]
+shape = SubResource( 4 )
+
+[node name="Sprint005" parent="MainFloor/Sprint" index="4"]
+material/0 = SubResource( 12 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint005" index="0"]
+
+[node name="CollisionShape5" type="CollisionShape" parent="MainFloor/Sprint/Sprint005/StaticBody" index="0"]
+shape = SubResource( 4 )
+
+[node name="StartDissolve" parent="MainFloor/Sprint" index="5" instance=ExtResource( 10 )]
+transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.10563, 0.502766, 0 )
+
+[node name="StartDissolve2" parent="MainFloor/Sprint" index="6" instance=ExtResource( 10 )]
+transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.106, 0.503, 0 )
+
+[node name="TargetBase" parent="MainFloor" index="2"]
+use_in_baked_light = true
+material/0 = ExtResource( 3 )
+
+[node name="Target" parent="MainFloor/TargetBase" index="0"]
+use_in_baked_light = true
+material/0 = ExtResource( 6 )
+
+[node name="TargetLight" parent="MainFloor/TargetBase/Target" index="0"]
+layers = 3
+shadow_enabled = true
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/TargetBase/Target" index="1"]
+script = ExtResource( 5 )
+interact_txt = "Take"
+
+[node name="CollisionShape" type="CollisionShape" parent="MainFloor/TargetBase/Target/StaticBody" index="0"]
+shape = SubResource( 17 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor/TargetBase" index="1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MainFloor/TargetBase/StaticBody" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.266685, 0 )
+shape = SubResource( 19 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="MainFloor/TargetBase/StaticBody" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44132, 0 )
+shape = SubResource( 20 )
+
+[node name="StaticBody" type="StaticBody" parent="MainFloor" index="3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MainFloor/StaticBody" index="0"]
+shape = SubResource( 18 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+anims/RESET = SubResource( 22 )
+anims/falling_plats = SubResource( 21 )
+anims/falling_plats_reverse = SubResource( 25 )
+anims/target_taken = SubResource( 26 )
+
+[node name="EndTrigger" parent="." index="2" instance=ExtResource( 10 )]
+transform = Transform( 0.340318, 0, 0, 0, 1.3213, 0, 0, 0, 2.0209, -9.7036, 0.578387, 0 )
+start_active = false
+
+[connection signal="target_entered" from="MainFloor/Sprint/StartDissolve" to="." method="_on_StartDissolve_entered"]
+[connection signal="target_entered" from="MainFloor/Sprint/StartDissolve2" to="." method="_on_StartDissolve2_entered"]
+[connection signal="interacted_with" from="MainFloor/TargetBase/Target/StaticBody" to="." method="_on_Target_interacted_with"]
+[connection signal="target_entered" from="EndTrigger" to="." method="_on_EndTrigger_entered"]
