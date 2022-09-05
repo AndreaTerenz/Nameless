@@ -10,6 +10,7 @@ onready var mesh := $MeshInstance
 var o := 0.0
 var mat : ShaderMaterial
 var in_scene := true
+var p
 
 func _ready() -> void:
 	mat = mesh.get_surface_material(0)
@@ -18,14 +19,14 @@ func _ready() -> void:
 	if not in_scene:
 		o = 1.0
 	else:
-		Globals.connect_to_player_set(self, \"player_set\")
+		yield(Globals, \"player_set\")
+		p = Globals.player
+		
+		if active:
+			p.mode = Player.MODE.CINEMATIC
+			p.camera.show_ui(true)
 		
 	set_mat_offset(o)
-	
-func player_set(p: Player):
-	if active:
-		p.mode = Player.MODE.CINEMATIC
-		p.camera.show_ui(true)
 
 func _process(delta: float) -> void:
 	if visible and active:
@@ -34,7 +35,7 @@ func _process(delta: float) -> void:
 			o += 0.6 * delta
 		else:
 			if in_scene:
-				Globals.player.mode = Player.MODE.GAME
+				p.mode = Player.MODE.GAME
 			visible = false
 	
 func set_mat_offset(v : float):

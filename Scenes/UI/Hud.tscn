@@ -91,9 +91,10 @@ onready var notif_list := $Notifications
 onready var weapons_slots = $\"Weapon Wheel\"
 
 func _ready() -> void:
-	Globals.connect(\"player_set\", self, \"_on_player_set\")
+	yield(Globals, \"player_set\")
 	
-func _on_player_set(p: Player):
+	var p := Globals.player
+	
 	p.inventory.connect(\"new_entry\", self, \"_on_new_entry\")
 	p.inventory.connect(\"updated_entry\", self, \"_on_updated_entry\")
 	p.inventory.connect(\"overweight\", self, \"inv_overw_notif\")
@@ -137,8 +138,6 @@ export(StreamTexture) var indicator_txt = preload(\"res://Assets/Sprites/UI/dmg_
 func _ready() -> void:
 	modulate.a = 0.0
 	
-	Globals.connect(\"player_set\", self, \"_on_player_set\")
-	
 	for i in range(0, 8):
 		var s = Sprite.new()
 		s.texture = indicator_txt
@@ -147,8 +146,9 @@ func _ready() -> void:
 		s.offset.x = -s.texture.get_width()/2
 		s.rotation = (TAU/8) * i
 	
-func _on_player_set(pl: Player):
-	pl.hitbox.connect(\"hit\", self, \"_on_damage\")
+	yield(Globals, \"player_set\")
+	
+	Globals.player.hitbox.connect(\"hit\", self, \"_on_damage\")
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -351,10 +351,10 @@ onready var dmg_timer := $Timer
 onready var bar_tween := $Panel/ProgressBar/Tween
 
 func _ready() -> void:
-	Globals.connect_to_player_set(self, \"_on_player_set\")
 	dmg_lbl.visible = false
+	yield(Globals, \"player_set\")
 	
-func _on_player_set(pl: Player):
+	var pl := Globals.player
 	print(\"Player health: %s\" % [pl.hitbox.health])
 	bar.setup(pl.hitbox)
 	

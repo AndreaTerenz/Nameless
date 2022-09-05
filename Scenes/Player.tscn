@@ -290,11 +290,10 @@ onready var s_chk = get_node(\"%Submrg_Check\")
 
 func _ready() -> void:
 	visible = false
-	Globals.connect_to_player_set(self, \"_on_player_set\")
+	yield(Globals, \"player_set\")
 
-func _on_player_set(pl: Player):
-	pl.connect(\"env_changed\", self, \"_on_env_changed\")
-	visible = (pl.environment == Player.ENVIRONMENT.WATER)
+	Globals.player.connect(\"env_changed\", self, \"_on_env_changed\")
+	visible = (Globals.player.environment == Player.ENVIRONMENT.WATER)
 	
 func _on_env_changed(env):
 	if env == Player.ENVIRONMENT.WATER:
@@ -472,11 +471,10 @@ var debug_ignore_dmg := false
 var is_falling := true
 
 func _ready() -> void:
-	Globals.connect_to_player_set(self, \"get_player\")
+	yield(Globals, \"player_set\")
+	
+	player = Globals.player
 	reset()
-
-func get_player(p):
-	player = p
 
 func _process(delta: float) -> void:
 	if check_enabled():

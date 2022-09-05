@@ -54,8 +54,8 @@ func toggle_mask_bits_in_object(obj: Spatial, names: PoolStringArray):
 			toggle_mask_bit_in_object(obj, n)
 			
 static func toggle_area(a: Area, stat: bool):
-	a.monitorable = stat
-	a.monitoring = stat
+	a.set_deferred("monitorable", stat)
+	a.set_deferred("monitoring", stat)
 
 static func bool_to_sign(b: bool):
 	return 1 if b else -1
