@@ -86,9 +86,8 @@ func check_crouch():
 			CROUCH_STATE.INACTIVE:
 				current_speed = player.h_speed
 				if Input.is_action_just_pressed("crouch"):
-					if not(player.roof_chk.is_colliding()):
-						crouch_state = CROUCH_STATE.ACTIVE
-						player.head_anim.play("Crouch", -1, player.crouch_anim_mult)
+					crouch_state = CROUCH_STATE.ACTIVE
+					player.head_anim.play("Crouch", -1, player.crouch_anim_mult)
 			CROUCH_STATE.ACTIVE:
 				current_speed = player.h_speed * player.speed_crouch_mult
 				if Input.is_action_just_pressed("crouch"):
