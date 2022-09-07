@@ -336,6 +336,7 @@ func _restart():
 	get_tree().reload_current_scene()
 	
 func load_scene(path: String, game := true, skip_loading := false):
+	Console.write_line("Now loading: " + path)
 	Settings.save_data()
 	in_game = game
 	

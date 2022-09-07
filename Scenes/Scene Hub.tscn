@@ -221,7 +221,6 @@ func _on_StartBtn_pressed() -> void:
 	load_scene(selected)
 
 func load_scene(map_file: MapFile):
-	Console.write_line(\"Now loading: \" + map_file.scene_file)
 	Globals.load_scene(map_file.scene_file)
 
 func _on_directory_selected(index: int) -> void:

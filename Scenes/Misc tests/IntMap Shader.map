@@ -1,0 +1,5 @@
+[Generic]
+
+display_name="Interior mapping"
+description="Fake interior mapping shader test"
+scene_file="res://Scenes/Misc tests/Interior Mapping Shader.tscn"
