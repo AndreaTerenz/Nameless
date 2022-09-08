@@ -42,6 +42,7 @@ export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
 export(MODE) var start_mode = MODE.GAME
 export(bool) var get_fall_damage = true
 export(bool) var show_debug_ball = true
+export(bool) var guns_enabled = true
 
 var mouse_sensitivity: float = .0
 var bonked_head: bool = false
@@ -113,6 +114,7 @@ func _ready() -> void:
 	
 	set_mode(start_mode)
 	
+	gun_hook.switching_enabled = guns_enabled
 	gun_hook.player_hud = hud
 	#hud.weapons_slots.load_weapons(gun_hook)
 	

@@ -12,6 +12,7 @@ signal hook_ready(h)
 export(NodePath) var anim_player_node
 export(PoolStringArray) var weapons_scenes
 export(int) var slots = 6
+export(bool) var switching_enabled = true
 
 var weapons: Array = []
 var hidden: bool = false setget set_hidden
@@ -20,10 +21,7 @@ var current_weapon := 0
 var can_hide := true
 
 var player_hud : Control
-
 var gun_stat setget set_gun_state
-func switching():
-	return (gun_stat == GUN_STATE.SWITCHING)
 
 onready var anim_player := get_node(anim_player_node) as AnimationPlayer
 onready var gun : BaseWeapon = null
@@ -60,8 +58,11 @@ func set_crosshair():
 		
 	Globals.player.hud.set_crosshair_text(cross)
 
+func switching():
+	return (gun_stat == GUN_STATE.SWITCHING)
+
 func _input(_event: InputEvent) -> void:
-	if not keep_hidden_state:
+	if not keep_hidden_state and switching_enabled:
 		if gun.aimable:
 			var pressed = Input.is_action_just_pressed("aim")
 			var released = Input.is_action_just_released("aim")

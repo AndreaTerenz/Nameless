@@ -84,13 +84,30 @@ PanelContainer/styles/panel = SubResource( 10 )
 [sub_resource type="GDScript" id=12]
 script/source = "extends Control
 
-var c := 0
+enum FEATURE_FLAGS {
+	COMPASS = 1,
+	HEALTHBAR = 2,
+	#WEAPONS = 4,
+	CROSSHAIR = 8,
+	NOTIFICATIONS = 16,
+}
 
+export(int, FLAGS, 
+	\"Compass\", \"HealthBar\",
+	\"Crosshair\",#\"WeaponWheel\", 
+	\"Notifications\") var features = 0b11111 setget set_features
+
+### Automatic References Start ###
+onready var _crosshair: CenterContainer = get_node(\"%Crosshair\")
+onready var _hp_bar: Control = get_node(\"%HP Bar\")
+### Automatic References Stop ###
 onready var compass = $Compass
 onready var notif_list := $Notifications
 onready var weapons_slots = $\"Weapon Wheel\"
 
 func _ready() -> void:
+	set_features(features)
+	
 	yield(Globals, \"player_set\")
 	
 	var p := Globals.player
@@ -100,6 +117,15 @@ func _ready() -> void:
 	p.inventory.connect(\"overweight\", self, \"inv_overw_notif\")
 	
 	compass._range = p.compass_range
+	
+func set_features(f):
+	features = f
+	print(features)
+	
+	compass.visible = bool(features & FEATURE_FLAGS.COMPASS)
+	_hp_bar.visible = bool(features & FEATURE_FLAGS.HEALTHBAR)
+	_crosshair.visible = bool(features & FEATURE_FLAGS.CROSSHAIR)
+	notif_list.visible = bool(features & FEATURE_FLAGS.NOTIFICATIONS)
 
 func set_crosshair_text(text : Texture):
 	$Crosshair/TextureRect.texture = text
@@ -573,6 +599,7 @@ stroke_on_top = false
 radius = 6.877
 
 [node name="Crosshair" type="CenterContainer" parent="."]
+unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -599,14 +626,12 @@ __meta__ = {
 }
 
 [node name="Notifications" type="Control" parent="."]
+unique_name_in_owner = true
 margin_left = 40.0
 margin_top = 32.0
 margin_right = 282.0
 margin_bottom = 473.0
 script = SubResource( 15 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="Notifications"]
 
@@ -615,6 +640,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Compass" type="Control" parent="."]
+unique_name_in_owner = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -300.0
@@ -622,9 +648,6 @@ margin_right = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource( 19 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="BG" type="Sprite" parent="Compass"]
 position = Vector2( 150, 150 )
@@ -645,6 +668,7 @@ __meta__ = {
 }
 
 [node name="Weapon Wheel" type="Control" parent="."]
+unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -686,6 +710,7 @@ one_shot = true
 [node name="Tween" type="Tween" parent="Weapon Wheel"]
 
 [node name="HP Bar" type="Control" parent="."]
+unique_name_in_owner = true
 anchor_left = 0.5
 anchor_right = 0.5
 script = SubResource( 28 )
