@@ -23,6 +23,10 @@ onready var _end_trigger: TriggerZone = $EndTrigger
 
 var started_fall := false
 
+func _ready() -> void:
+	pass
+#	Globals.quicksave()
+
 
 func _on_StartDissolve_entered(zone, target) -> void:
 	if not started_fall:
@@ -39,10 +43,12 @@ func _on_StartDissolve2_entered(zone, target) -> void:
 func _on_Target_interacted_with(sender) -> void:
 	_animation_player.play(\"target_taken\")
 	_end_trigger.active = true
+#	Globals.quicksave()
 
 
 func _on_EndTrigger_entered(zone, target) -> void:
 	emit_signal(\"done\")
+#	Globals.quicksave()
 "
 
 [sub_resource type="ConcavePolygonShape" id=2]

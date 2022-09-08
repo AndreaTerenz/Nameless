@@ -25,16 +25,20 @@ signal done
 onready var anim_p := $AnimationPlayer
 onready var spawn := $Spawnpoint
 
+var sm : SceneManager = null
+
 func _ready() -> void:
-	Globals.scene_mngr.player_spawn = spawn
+	Globals.quicksave()
 
 func _on_target_interacted_with(sender) -> void:
-	Globals.scene_mngr.player_spawn = _trap_spawn
+	#Globals.scene_mngr.player_spawn = _trap_spawn
 	anim_p.play(\"target_taken\")
+	Globals.quicksave()
 
 
 func _on_EndTrigger_entered(zone, target) -> void:
 	emit_signal(\"done\")
+	Globals.quicksave()
 
 
 func _on_TrapTrigger_entered(zone, target) -> void:

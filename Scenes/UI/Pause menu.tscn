@@ -24,7 +24,7 @@ func _on_Hub_Btn_pressed() -> void:
 	Globals.load_hub()
 
 func _on_Save_Btn_pressed() -> void:
-	Globals.scene_mngr.save_scene()
+	Globals.save_scene()
 "
 
 [node name="Pause menu" type="Control"]

@@ -35,6 +35,9 @@ enum UI_BTN_THEMES {
 	LIGHT
 }
 
+const SAVES_DIR := "user://saves"
+const QUICKSAVE_PREFIX := "QUICKSV"
+
 const THEMES_SUFFIX : Dictionary = {
 	UI_BTN_THEMES.DARK : "Dark",
 	UI_BTN_THEMES.LIGHT : "Light",
@@ -70,6 +73,8 @@ var scn_mngr_set := false
 
 var inventory : Inventory = null
 var current_ui : GameUI = null
+
+var last_quicksave := ""
 
 func _ready() -> void:
 	var args = OS.get_cmdline_args()
@@ -128,6 +133,10 @@ func _ready() -> void:
 	.add_argument("height", TYPE_INT)\
 	.register()
 	
+	Console.add_command("save_scene", self, "save_scene")\
+	.set_description("save state of current scene")\
+	.register()
+	
 #	Console.add_command("set_gravity", self, "set_gravity")\
 #	.set_description("Set world gravity value (0 for default)")\
 #	.add_argument("value", TYPE_REAL)\
@@ -138,6 +147,12 @@ func _ready() -> void:
 #	.add_argument("name", TYPE_STRING)\
 #	.add_argument("quantity", TYPE_INT)\
 #	.register()
+
+	for fr in Utils.list_files_in_directory(SAVES_DIR, ["scn", "tscn"]):
+		if fr.begins_with(QUICKSAVE_PREFIX):
+			last_quicksave = fr
+			print(last_quicksave)
+			break
 
 func _on_console_toggled(val: bool):
 	if current_ui == null and in_game:
@@ -342,15 +357,72 @@ func load_scene(path: String, game := true, skip_loading := false):
 	
 	reset_state()
 	
+	var err 
+	
 	if not skip_loading:
 		scene_to_load = path
-		print(scene_to_load)
-		get_tree().change_scene("res://Scenes/LoadingScene.tscn")
-	else:
-		get_tree().change_scene(path)
+		path = ("res://Scenes/LoadingScene.tscn")
+	
+	err = get_tree().change_scene(path)
+	Console.write_line("Scene change returned: %s" % err)
 	
 func load_hub():
 	load_scene("res://Scenes/Scene Hub.tscn", false, true)
+	
+func load_quicksave():
+	load_scene("%s/%s.tscn" % [SAVES_DIR, last_quicksave], true, true)
+
+func save_scene(save_name := get_save_name()) -> int:
+	var packed_scene = PackedScene.new()
+	packed_scene.pack(get_tree().current_scene)
+	
+	var err = ResourceSaver.save("%s/%s.tscn" % [Globals.SAVES_DIR, save_name], packed_scene)
+	
+	Console.write_line(err)
+	return err
+	
+func quicksave():
+	var next_save = get_save_name(true)
+
+	if last_quicksave != "":
+		var d := Directory.new()
+		var p1 := "%s/%s.tscn" % [Globals.SAVES_DIR, last_quicksave]
+		print("Delete result: %d" % d.remove(p1))
+	
+	save_scene(next_save)
+	
+	last_quicksave = next_save
+	
+func get_save_name(is_quicksv := false) -> String:
+	var now_date = Time.get_date_string_from_system()
+	var now_time = Time.get_time_string_from_system()
+	var elapse = OS.get_ticks_msec()
+	
+	var output = "%s_%s_%s" %  [now_date, now_time, elapse]
+	
+	if not is_quicksv:
+		output = "SAVE_%s_%s" % [output, scene_mngr.scene_name]
+	else:
+		output = "%s_%s_%s" % [QUICKSAVE_PREFIX, output, scene_mngr.scene_name]
+		
+	return output
+
+static func unpack_save_name(sn : String) -> Dictionary:
+	sn = sn.replace(".tscn", "")
+	var toks = sn.split("_", false)
+	var output := {
+		"is_quicksave": (toks[0] == QUICKSAVE_PREFIX),
+		"now_date": toks[1],
+		"now_time": toks[2],
+		"elapse": toks[3],
+		}
+	
+	if not output["is_quicksave"]:
+		output.merge({
+			"name": toks[4]
+		})
+		
+	return output
 
 func get_version(format : String = "") -> String:
 	var output := []

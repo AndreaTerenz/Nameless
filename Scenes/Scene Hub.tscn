@@ -281,7 +281,7 @@ content_margin_bottom = 10.0
 [sub_resource type="GDScript" id=1073]
 script/source = "extends PanelContainer
 
-export(String, DIR) var target_dir = SceneManager.SAVES_DIR
+export(String, DIR) var target_dir = Globals.SAVES_DIR
 
 var scenes := []
 var selected := -1
@@ -312,16 +312,25 @@ func set_list(filter = \"\", notify_not_found := false):
 	var count = 0
 	for fr in Utils.list_files_in_directory(current_dir, [\"scn\", \"tscn\"]):
 		var path = current_dir + \"/\" + fr
-		var data = SceneManager.unpack_save_name(fr)
+		var data = Globals.unpack_save_name(fr)
 		data.merge({
 			\"path\": path
 		})
 		
-		Console.write_line(\"Found scene '%s' @ '%s'\" % [data[\"name\"], fr])
+		var list_name = \"[Quicksave]\"
 		
-		list.add_item(data[\"name\"])
+		if data[\"is_quicksave\"]:
+			Console.write_line(\"Found quicksave @ '%s'\" % [fr])
+			data.merge({
+				\"name\": list_name
+			})
+		else:
+			list_name = data[\"name\"]
+			Console.write_line(\"Found scene '%s' @ '%s'\" % [data[\"name\"], fr])
+		
+		list.add_item(list_name)
 		list.set_item_tooltip(list.get_item_count()-1, \\
-			\"Saved at '%s' on '%s'\" % [data[\"now_time\"], data[\"now_date\"]])
+				\"Saved at %s on %s\" % [data[\"now_time\"], data[\"now_date\"]])
 			
 		scenes.append(data)
 	
@@ -369,7 +378,7 @@ func _on_ReloadSaves_pressed() -> void:
 	set_list()
 
 func _on_OpenSavesDir_pressed() -> void:
-	var p = ProjectSettings.globalize_path(SceneManager.SAVES_DIR)
+	var p = ProjectSettings.globalize_path(Globals.SAVES_DIR)
 	refresh_asap = true
 	OS.shell_open(p)
 
@@ -806,9 +815,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -573.0
+margin_left = 1347.0
 margin_top = -166.0
-margin_right = 407.0
+margin_right = 2327.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50

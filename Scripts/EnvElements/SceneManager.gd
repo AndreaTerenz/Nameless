@@ -7,8 +7,6 @@ export(NodePath) var world_env_ref
 export(NodePath) var sun_light_ref
 export(Array, String) var gi_probes_refs = []
 
-const SAVES_DIR := "user://saves"
-
 onready var player_spawn : Position3D = Utils.try_get_node(player_spawn_ref, self)
 onready var world_env : Environment = Utils.try_get_node(world_env_ref, self)
 onready var sun_light : DirectionalLight = Utils.try_get_node(sun_light_ref, self)
@@ -16,7 +14,7 @@ onready var sun_light : DirectionalLight = Utils.try_get_node(sun_light_ref, sel
 var gi_probes := []
 var global_audio_srcs : Dictionary = {}
 
-func _ready() -> void:
+func _ready() -> void:	
 	if scene_name == "":
 		scene_name = name
 	
@@ -69,10 +67,6 @@ func _ready() -> void:
 	.add_argument("value", TYPE_STRING)\
 	.register()
 	
-	Console.add_command("save_scene", self, "save_scene")\
-	.set_description("save state of current scene")\
-	.register()
-	
 	Globals.set_scene_manager(self)
 	
 	if not Globals.player:
@@ -80,6 +74,8 @@ func _ready() -> void:
 		
 	Globals.player.connect("killed", self, "on_player_dead")
 	spawn_player()
+	
+	#Globals.quicksave()
 	
 func spawn_player():
 	if player_spawn:
@@ -93,6 +89,9 @@ func reset_debug_vars():
 	pass
 			
 func on_player_dead():
+	Globals.load_quicksave()
+	
+	return
 	Globals.player.on_respawn()
 	spawn_player()
 
@@ -129,31 +128,3 @@ func env_set_property(prop, value):
 		#Console.write_line("%s %s" % [value, val])
 		
 		world_env.set(prop, val)
-		
-func save_scene():
-	var packed_scene = PackedScene.new()
-	packed_scene.pack(get_tree().current_scene)
-	
-	var err = ResourceSaver.save("%s/%s.tscn" % [SAVES_DIR, get_save_name()], packed_scene)
-	
-	Console.write_line(err)
-	
-func get_save_name():
-	var now_date = Time.get_date_string_from_system(true)
-	var now_time = Time.get_time_string_from_system(true)
-	var elapse = OS.get_ticks_msec()
-	
-	return "SAVE_%s_%s_%s_%s" % [scene_name, elapse, now_time, now_date]
-	
-
-static func unpack_save_name(sn : String) -> Dictionary:
-	var toks = sn.replace(".tscn", "").split("_", false)
-	
-	#toks[0] is 'SAVE'
-	
-	return {
-		"name": toks[1],
-		"elapse": toks[2],
-		"now_time": toks[3],
-		"now_date": toks[4],
-	}
