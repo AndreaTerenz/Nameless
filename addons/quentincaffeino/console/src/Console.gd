@@ -94,7 +94,8 @@ func _ready():
 
 # @param  InputEvent  e
 func _input(e: InputEvent):
-	if Args.find_option(Args.USE_CONSOLE) and Input.is_action_just_pressed(DefaultActions.CONSOLE_TOGGLE):
+	var enabled = Args.find_option(Args.USE_CONSOLE) or OS.has_feature("debug")
+	if enabled and Input.is_action_just_pressed(DefaultActions.CONSOLE_TOGGLE):
 		self.toggle_console()
 		
 	if not self.is_console_shown and e is InputEventKey and not e.pressed:

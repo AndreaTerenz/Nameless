@@ -13,7 +13,7 @@ onready var anim := $AnimationPlayer
 export var hub_path := \"res://Scenes/Scene Hub.tscn\"
 
 func _ready() -> void:
-	if Args.find_option(Args.SKIP_SPLASH):
+	if Args.find_option(Args.SKIP_SPLASH) or OS.has_feature(\"debug\"):
 		get_tree().change_scene(hub_path)
 	else:
 		anim.play(\"LogoAnim\")

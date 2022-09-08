@@ -94,7 +94,7 @@ func _ready() -> void:
 	initial_self_rot = rotation_degrees.y
 	initial_pos = global_translation
 	
-	debug_ball.visible = show_debug_ball
+	debug_ball.visible = show_debug_ball and (OS.has_feature("debug"))
 	
 	mouse_sens_std *= Settings.get_value(Settings.CONTROLS, Settings.MOUSE_SENS)
 	mouse_sensitivity = mouse_sens_std

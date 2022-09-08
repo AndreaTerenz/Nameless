@@ -614,56 +614,6 @@ func generate_body(extra_feedback := \"\", include_info := true):
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_right = 20
 
-[sub_resource type="GDScript" id=967]
-script/source = "extends PanelContainer
-
-export(bool) var effect = false
-
-onready var tween := $Tween
-onready var pos := $Position2D
-
-var width : float
-var width_bord : float
-var d : float
-var entered := false
-
-func _ready() -> void:
-	if effect:
-		width = $MarginContainer.rect_size.x
-		width_bord = rect_size.x
-		d = width_bord - width
-		print(width)
-		rect_position.x -= width
-
-func _process(delta: float) -> void:
-	if effect:
-		var mp := get_global_mouse_position()
-		
-		if mp.x <= pos.global_position.x:
-			_on_mouse_entered()
-			entered = true
-		elif entered:
-			_on_mouse_exited()
-			entered = false
-
-func _on_mouse_entered() -> void:
-	if effect:
-		tween.stop_all()
-		tween.interpolate_property(self, \"margin_left\", null, 0, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
-		tween.interpolate_property(self, \"margin_right\", null, width, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
-		tween.start()
-		margin_bottom = 0.0
-
-
-func _on_mouse_exited() -> void:
-	if effect:
-		tween.stop_all()
-		tween.interpolate_property(self, \"margin_left\", null, -width, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
-		tween.interpolate_property(self, \"margin_right\", null, d, .1, Tween.TRANS_EXPO, Tween.EASE_OUT)
-		tween.start()
-		margin_bottom = 0.0
-"
-
 [sub_resource type="ShaderMaterial" id=61]
 shader = ExtResource( 7 )
 shader_param/amount = 1.2
@@ -856,9 +806,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 1347.0
+margin_left = -573.0
 margin_top = -166.0
-margin_right = 2327.0
+margin_right = 407.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50
@@ -1307,7 +1257,6 @@ unique_name_in_owner = true
 anchor_bottom = 1.0
 margin_right = 309.0
 custom_styles/panel = SubResource( 931 )
-script = SubResource( 967 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -1389,11 +1338,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Tween" type="Tween" parent="MainPanel"]
-
-[node name="Position2D" type="Position2D" parent="MainPanel"]
-position = Vector2( 347.272, 543 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_top = 1.0

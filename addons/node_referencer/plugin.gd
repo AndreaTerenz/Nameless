@@ -243,6 +243,10 @@ func _generate_variable_name(node: Node, code: String) -> String:
 
 
 func _generate_node_path(node: Node, parent: Node) -> String:
+	var unique = node.get("unique_name_in_owner")
+	if unique != null and bool(unique):
+		return "get_node(\"%%%s\")" % node.name
+		
 	var node_path: String = (str(node.get_path())).split(parent.name, true, 1)[1]
 
 	node_path.erase(0, 1)
