@@ -337,10 +337,18 @@ Utils="*res://Scripts/Autoloads/Utils.gd"
 Globals="*res://Scripts/Autoloads/Globals.gd"
 Settings="*res://Scripts/Autoloads/Settings.gd"
 Args="*res://Scripts/Autoloads/Args.gd"
+DebugDraw="*res://addons/debug_draw_3d/debug_draw.gd"
 
 [debug]
 
 settings/fps/force_fps=120
+gdscript/completion/autocomplete_setters_and_getters=true
+gdscript/warnings/unassigned_variable=false
+gdscript/warnings/unassigned_variable_op_assign=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/narrowing_conversion=false
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
@@ -359,7 +367,7 @@ version_control_plugin_name="GitAPI"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/argparse/plugin.cfg", "res://addons/node_referencer/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/argparse/plugin.cfg", "res://addons/debug_draw_3d/plugin.cfg", "res://addons/node_referencer/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg", "res://addons/silicon.vfx.lens_flare/plugin.cfg" )
 
 [gui]
 
@@ -668,10 +676,6 @@ quality/shadows/filter_mode=2
 quality/filters/anisotropic_filter_level=16
 gles3/shaders/shader_compilation_mode=1
 quality/voxel_cone_tracing/high_quality=true
-cpu_lightmapper/quality/low_quality_ray_count=128
-cpu_lightmapper/quality/medium_quality_ray_count=512
-cpu_lightmapper/quality/high_quality_ray_count=1024
-cpu_lightmapper/quality/ultra_quality_ray_count=2048
 quality/filters/msaa=3
 quality/filters/use_fxaa=true
 quality/filters/use_debanding=true
