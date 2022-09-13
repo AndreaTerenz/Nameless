@@ -22,33 +22,41 @@ onready var _end_trigger: TriggerZone = $EndTrigger
 ### Automatic References Stop ###
 
 var started_fall := false
+var reset_plats_on_died := true
 
 func _ready() -> void:
-	pass
-#	Globals.quicksave()
+	Globals.scene_mngr.connect(\"player_died\", self, \"player_dead\")
 
+func player_dead():
+	if reset_plats_on_died:
+		_animation_player.play(\"RESET\")
 
 func _on_StartDissolve_entered(zone, target) -> void:
 	if not started_fall:
-		_animation_player.play(\"falling_plats\")
-		started_fall = true
-
+		dissolve_platforms()
+	else:
+		reset_plats_on_died = false
 
 func _on_StartDissolve2_entered(zone, target) -> void:
 	if not started_fall:
-		_animation_player.play(\"falling_plats_reverse\")
-		started_fall = true
+		dissolve_platforms(true)
+	else:
+		reset_plats_on_died = false
+		
+func dissolve_platforms(reverse := false):
+	var anim = \"falling_plats\" if not reverse else \"falling_plats_reverse\"
+	_animation_player.play(anim)
+	started_fall = true
+	reset_plats_on_died = true
 
 
 func _on_Target_interacted_with(sender) -> void:
 	_animation_player.play(\"target_taken\")
 	_end_trigger.active = true
-#	Globals.quicksave()
-
+	Globals.player.tracker_save()
 
 func _on_EndTrigger_entered(zone, target) -> void:
 	emit_signal(\"done\")
-#	Globals.quicksave()
 "
 
 [sub_resource type="ConcavePolygonShape" id=2]
@@ -282,6 +290,66 @@ tracks/6/keys = {
 "update": 0,
 "values": [ 2.0 ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=21]
 resource_name = "falling_plats"
@@ -346,75 +414,65 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 1.0, 0.0 ]
 }
-tracks/5/type = "method"
-tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody")
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/6/type = "method"
-tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody")
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/7/type = "method"
-tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody")
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 1.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/8/type = "method"
-tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody")
+tracks/8/type = "value"
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 2 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0, 1.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/9/type = "method"
-tracks/9/path = NodePath("MainFloor/Crouch/StaticBody")
+tracks/9/type = "value"
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 2.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0, 2.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=25]
@@ -480,75 +538,65 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
-tracks/5/type = "method"
-tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody")
+tracks/5/type = "value"
+tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 2.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 2.4, 2.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/6/type = "method"
-tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody")
+tracks/6/type = "value"
+tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 2 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 1.9, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/7/type = "method"
-tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody")
+tracks/7/type = "value"
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 1.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/8/type = "method"
-tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody")
+tracks/8/type = "value"
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/9/type = "method"
-tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody")
+tracks/9/type = "value"
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray( 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=26]
@@ -654,9 +702,19 @@ shape = SubResource( 4 )
 
 [node name="StartDissolve" parent="MainFloor/Sprint" index="5" instance=ExtResource( 10 )]
 transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.10563, 0.502766, 0 )
+debug_shape_path = null
 
-[node name="StartDissolve2" parent="MainFloor/Sprint" index="6" instance=ExtResource( 10 )]
+[node name="Dissolve_save1" parent="MainFloor/Sprint" index="6" instance=ExtResource( 10 )]
+transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.9438, 0.502766, 0 )
+save_mode = 1
+
+[node name="Dissolve_save2" parent="MainFloor/Sprint" index="7" instance=ExtResource( 10 )]
+transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.99193, 0.503, 0 )
+save_mode = 1
+
+[node name="StartDissolve2" parent="MainFloor/Sprint" index="8" instance=ExtResource( 10 )]
 transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.106, 0.503, 0 )
+debug_shape_path = null
 
 [node name="TargetBase" parent="MainFloor" index="2"]
 use_in_baked_light = true
@@ -701,6 +759,7 @@ anims/target_taken = SubResource( 26 )
 [node name="EndTrigger" parent="." index="2" instance=ExtResource( 10 )]
 transform = Transform( 0.340318, 0, 0, 0, 1.3213, 0, 0, 0, 2.0209, -9.7036, 0.578387, 0 )
 start_active = false
+debug_shape_path = null
 
 [connection signal="target_entered" from="MainFloor/Sprint/StartDissolve" to="." method="_on_StartDissolve_entered"]
 [connection signal="target_entered" from="MainFloor/Sprint/StartDissolve2" to="." method="_on_StartDissolve2_entered"]

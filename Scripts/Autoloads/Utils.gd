@@ -252,3 +252,12 @@ static func try_get_node(node_name: String, from: Node, default = null):
 		return from.get_node(node_name)
 		
 	return default
+
+static func is_debug():
+	return OS.has_feature("debug")
+	
+static func is_editor():
+	return OS.has_feature("editor")
+	
+static func is_release():
+	return OS.has_feature("release")

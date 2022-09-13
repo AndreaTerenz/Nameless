@@ -1,6 +1,8 @@
 class_name SceneManager
 extends Spatial
 
+signal player_died
+
 export(String) var scene_name = ""
 export(NodePath) var player_spawn_ref
 export(NodePath) var world_env_ref
@@ -75,7 +77,7 @@ func _ready() -> void:
 	Globals.player.connect("killed", self, "on_player_dead")
 	spawn_player()
 	
-	#Globals.quicksave()
+	Globals.player.tracker_save()
 	
 func spawn_player():
 	if player_spawn:
@@ -89,11 +91,9 @@ func reset_debug_vars():
 	pass
 			
 func on_player_dead():
-	Globals.load_quicksave()
+	emit_signal("player_died")
 	
-	return
-	Globals.player.on_respawn()
-	spawn_player()
+	Globals.player.tracker_load(false)
 
 func toggle_sun():
 	if sun_light:

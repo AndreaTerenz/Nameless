@@ -40,3 +40,11 @@ func get_velocity(delta: float):
 	
 func _compute(_delta: float) -> Vector3:
 	return Vector3.ZERO
+
+func stop():
+	current_speed *= 0.0
+	direction *= 0.0
+	h_velocity *= 0.0
+	h_acceleration *= 0.0
+	velocity *= 0.0
+	gravity_vec *= 0.0

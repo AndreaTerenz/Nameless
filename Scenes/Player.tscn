@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/CameraController.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/UI/ButtonText.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Assets/Models/hollow_dome.obj" type="ArrayMesh" id=12]
 [ext_resource path="res://Scenes/Elements/SpawnFX.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scripts/Player/PlayerTracker.gd" type="Script" id=14]
 [ext_resource path="res://base font.tres" type="DynamicFont" id=15]
 [ext_resource path="res://Scripts/AudioQueue.gd" type="Script" id=16]
 [ext_resource path="res://Assets/Models/hud_visor.obj" type="ArrayMesh" id=17]
@@ -566,6 +567,8 @@ msaa = 3
 fxaa = true
 debanding = true
 sharpen_intensity = 1.0
+hdr = false
+usage = 0
 shadow_atlas_quad_0 = 0
 shadow_atlas_quad_1 = 0
 shadow_atlas_quad_2 = 0
@@ -626,6 +629,7 @@ anims/RESET = SubResource( 8 )
 [node name="WaterFX" type="MeshInstance" parent="Head/Camera"]
 unique_name_in_owner = true
 transform = Transform( 1.92118, 0, 0, 0, -2.78484e-08, 1.92118, 0, -0.637098, -8.39776e-08, 0, 0, -1.42396 )
+visible = false
 cast_shadow = 0
 mesh = ExtResource( 12 )
 material/0 = SubResource( 54 )
@@ -787,6 +791,10 @@ visible = false
 [node name="AlertsQueue" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 script = ExtResource( 16 )
+
+[node name="Tracker" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource( 14 )
 
 [connection signal="area_entered" from="Head/EnvCheck" to="." method="_on_entered_env"]
 [connection signal="area_entered" from="Head/EnvCheck" to="Head/EnvCheck" method="_on_area_entered"]

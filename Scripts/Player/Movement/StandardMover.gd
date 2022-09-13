@@ -8,10 +8,8 @@ enum CROUCH_STATE {
 }
 
 var sprinting: bool = false
-var crouching: bool = false
 var crouch_state = CROUCH_STATE.INACTIVE
 var bonked_head: bool = false
-var crouch_released: bool = false
 var sprint_released: bool = false
 
 func _compute(delta: float):
@@ -123,3 +121,9 @@ func check_sprinting():
 
 func _to_string() -> String:
 	return "STANDARD"
+
+func stop():
+	.stop()
+	
+	sprinting = false
+	crouch_state = CROUCH_STATE.RELEASED

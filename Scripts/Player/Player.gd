@@ -63,6 +63,13 @@ var head_in_env := false
 var initial_self_rot := 0.0
 var initial_pos := Vector3.ZERO
 
+var health : float setget set_health,get_health
+# ONLY USE TO RESET HP
+func set_health(value):
+	hitbox.set_initial_hp(value)
+func get_health():
+	return hitbox.health if hitbox else -1.0
+
 onready var mover = null
 onready var mode = -1 setget set_mode
 onready var environment = ENVIRONMENT.NONE setget set_env
@@ -92,6 +99,9 @@ onready var gun_hook = get_node("%GunHook")
 onready var light = $"Head/Flashlight"
 onready var alerts_queue := get_node("%AlertsQueue")
 onready var debug_ball := get_node("%DebugBall")
+### Automatic References Start ###
+onready var _tracker: PlayerTracker = get_node("%Tracker")
+### Automatic References Stop ###
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -164,7 +174,13 @@ func reset_transform(pos_override := initial_pos, elev_override := 0.0, azimuth_
 	head.rotation_degrees.x = elev_override
 	
 	global_translation = pos_override
-	
+
+func tracker_save():
+	_tracker.save_data()
+
+func tracker_load(keep_mov := true):
+	_tracker.load_data(keep_mov)
+
 func touching_floor():
 	return is_on_floor() or grnd_chk.is_colliding()
 
