@@ -17,19 +17,20 @@ export(bool) var oneshot = true
 export(bool) var start_active = true
 export(bool) var show = false
 export(int, LAYERS_3D_PHYSICS) var mask = 1
-export(NodePath) var debug_shape_path = NodePath("MeshInstance")
+
+onready var debug_shape : MeshInstance = $MeshInstance
 
 var active := true setget set_active
 var contains_player := false
 var zone_id := -1
 var show_debug_shape : bool setget show_shape
 var state = TARGET_STATE.NEVER_IN
-var debug_shape : MeshInstance
 
 func _ready() -> void:
-	debug_shape = get_node(debug_shape_path) as MeshInstance
 	if debug_shape:
 		show_shape(show)
+	else:
+		Console.Log.warn("TRIGGER '%s' HAS NO DEBUG SHAPE" % get_path())
 		
 	set_collision_layer_bit(6, true)
 	collision_mask = mask
@@ -49,11 +50,13 @@ func _ready() -> void:
 
 func show_shape(val):
 	show_debug_shape = val
-	debug_shape.visible = val
+	if debug_shape:
+		debug_shape.visible = show_debug_shape
 
 func toggle_shape():
 	show_debug_shape = not show_debug_shape
-	debug_shape.visible = show_debug_shape
+	if debug_shape:
+		debug_shape.visible = show_debug_shape
 
 func _set_id():
 	zone_id = -1
@@ -87,12 +90,20 @@ func _on_body_entered(body: Node):
 		set_state(TARGET_STATE.IS_IN)
 		contains_player = true
 		emit_signal("target_entered", self, body)
+		_on_entered()
+		
+func _on_entered():
+	pass
 
 func _on_body_exited(body: Node):
 	if body in get_targets():
 		set_state(TARGET_STATE.WAS_IN)
 		contains_player = false
 		emit_signal("target_exited", self, body)
+		_on_exited()
+		
+func _on_exited():
+	pass
 		
 func set_state(value):
 	state = value
