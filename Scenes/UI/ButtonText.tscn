@@ -16,8 +16,7 @@ image = SubResource( 3 )
 size = Vector2( 60, 60 )
 
 [node name="TextureRect" type="TextureRect"]
-margin_right = 70.0
-margin_bottom = 70.0
 texture = SubResource( 2 )
+expand = true
 stretch_mode = 4
 script = ExtResource( 2 )

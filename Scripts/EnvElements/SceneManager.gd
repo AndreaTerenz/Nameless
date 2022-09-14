@@ -20,7 +20,7 @@ func _ready() -> void:
 	if scene_name == "":
 		scene_name = name
 	
-	if not OS.has_feature("debug"):
+	if Utils.is_release():
 		reset_debug_vars()
 	
 	for child in get_children():

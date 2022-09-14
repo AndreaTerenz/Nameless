@@ -253,6 +253,12 @@ static func try_get_node(node_name: String, from: Node, default = null):
 		
 	return default
 
+static func control_center_pivot(ctrl: Control):
+	control_set_relative_pivot(ctrl, Vector2.ONE * 0.5)
+
+static func control_set_relative_pivot(ctrl: Control, pivot_rel: Vector2):
+	ctrl.rect_pivot_offset = ctrl.rect_size * pivot_rel
+
 static func is_debug():
 	return OS.has_feature("debug")
 	

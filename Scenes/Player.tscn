@@ -672,25 +672,26 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="Head/InteractRay/InteractTip"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 177.0
+margin_right = 163.0
 margin_bottom = 64.0
 custom_constants/margin_right = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Head/InteractRay/InteractTip/MarginContainer"]
-margin_right = 168.0
+margin_right = 154.0
 margin_bottom = 60.0
 alignment = 1
 
 [node name="TextureRect" parent="Head/InteractRay/InteractTip/MarginContainer/HBoxContainer" instance=ExtResource( 11 )]
-margin_right = 60.0
+margin_left = 23.0
+margin_right = 23.0
 margin_bottom = 60.0
 texture = SubResource( 56 )
 action = "interact"
 
 [node name="Label" type="Label" parent="Head/InteractRay/InteractTip/MarginContainer/HBoxContainer"]
-margin_left = 68.0
+margin_left = 31.0
 margin_top = 13.0
-margin_right = 168.0
+margin_right = 131.0
 margin_bottom = 46.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
 custom_constants/shadow_as_outline = 1

@@ -1,19 +1,23 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/EnvElements/LookTrigger.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Sprites/Debug/triggerZone.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/Zones/lookat_tex.png" type="Texture" id=2]
 
 [sub_resource type="BoxShape" id=34]
 
 [sub_resource type="CubeMesh" id=35]
 
-[sub_resource type="SpatialMaterial" id=37]
+[sub_resource type="SpatialMaterial" id=36]
 flags_transparent = true
 flags_unshaded = true
+flags_world_triplanar = true
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true
-albedo_color = Color( 0.172549, 1, 0.796078, 0.705882 )
+albedo_color = Color( 1, 1, 1, 0.392157 )
 albedo_texture = ExtResource( 2 )
+uv1_scale = Vector3( 0.5, 0.5, 0.5 )
+uv1_offset = Vector3( 0.5, 0.5, 0.5 )
+uv1_triplanar = true
 
 [node name="LookTrigger" type="Area"]
 script = ExtResource( 1 )
@@ -25,4 +29,4 @@ shape = SubResource( 34 )
 portal_mode = 3
 cast_shadow = 0
 mesh = SubResource( 35 )
-material/0 = SubResource( 37 )
+material/0 = SubResource( 36 )
