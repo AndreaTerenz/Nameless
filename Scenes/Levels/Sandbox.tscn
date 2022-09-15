@@ -289,8 +289,6 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = ExtResource( 9 )
-left_side_path = NodePath("CSGBox/Left Side")
-right_side_path = NodePath("CSGBox/Right Side")
 trigger_path = NodePath("Trigger")
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 1"]
@@ -340,8 +338,6 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = ExtResource( 13 )
-left_side_path = NodePath("CSGBox/Left Side")
-right_side_path = NodePath("CSGBox/Right Side")
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 2"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -405,8 +401,6 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = SubResource( 47 )
-left_side_path = NodePath("CSGBox/Left Side")
-right_side_path = NodePath("CSGBox/Right Side")
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 3"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -467,8 +461,6 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = SubResource( 45 )
-left_side_path = NodePath("CSGBox/Left Side")
-right_side_path = NodePath("CSGBox/Right Side")
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 4"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -711,9 +703,3 @@ speed_sprint_mult = 1.7
 std_fov = 70.0
 sprint_fov = 90.0
 zoom_fov = 30.0
-
-[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 2/Button" to="Env/CSGCombiner/Doors/Door 2/Button/MeshInstance" method="_on_pressed"]
-[connection signal="released" from="Env/CSGCombiner/Doors/Door 2/Button" to="Env/CSGCombiner/Doors/Door 2/Button/MeshInstance" method="_on_released"]
-[connection signal="switched" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3" method="_on_btn_switched"]
-[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_pressed"]
-[connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_released"]

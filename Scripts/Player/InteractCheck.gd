@@ -15,7 +15,9 @@ func _input(event: InputEvent) -> void:
 		elif Input.is_action_just_pressed("interact"):
 			send_data(target.interact())
 			
-		if (not target) or target.is_queued_for_deletion():
+		if (not target) or \
+			target.is_queued_for_deletion() or \
+			(not target.enabled):
 			target_gone()
 
 

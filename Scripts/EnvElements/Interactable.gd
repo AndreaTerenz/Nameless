@@ -5,6 +5,7 @@ signal interacted_with(sender)
 signal interaction_ended
 
 export(bool) var enabled = true
+export(bool) var oneshot = false
 export(bool) var continuous = false
 export(String) var interact_txt = ""
 
@@ -22,6 +23,9 @@ func interact(sender: Node = null):
 		var output = _on_interact(sender)
 		emit_signal("interacted_with", sender)
 		
+		if (not continuous) and oneshot:
+			enabled = false
+		
 		return output
 	
 	return null
@@ -31,6 +35,9 @@ func stop_interaction():
 		var output = _on_interact_stop()
 		emit_signal("interaction_ended")
 		return output
+		
+		if oneshot:
+			enabled = false
 		
 func can_interact():
 	return enabled
