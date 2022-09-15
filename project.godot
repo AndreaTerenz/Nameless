@@ -368,6 +368,7 @@ window/stretch/aspect="keep"
 
 [editor]
 
+main_run_args="--no_db_draw"
 version_control_autoload_on_startup=true
 version_control_plugin_name="GitAPI"
 

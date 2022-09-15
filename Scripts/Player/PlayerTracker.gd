@@ -49,7 +49,7 @@ func save_data():
 	emit_signal("saved")
 	
 func _process(delta: float) -> void:
-	if debug_enabled:
+	if debug_enabled and not Args.find_option(Args.DISABLE_DEBUG_DRAW):
 		DebugDraw.draw_sphere(transf_data.glob_pos)
 	
 func load_data(keep_movement := true):

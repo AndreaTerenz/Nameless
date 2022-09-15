@@ -4,6 +4,7 @@ const SKIP_SPLASH = "skip_splash"
 const USE_CONSOLE = "console"
 const DEL_FAULTY_MAPS = "del_faulty_maps"
 const ENABLE_TESTS = "show_test_levels"
+const DISABLE_DEBUG_DRAW = "no_db_draw"
 
 const DEFAULT_SETTINGS = "defaults"
 const DEFAULT_SETTS_SOFT = "soft"
