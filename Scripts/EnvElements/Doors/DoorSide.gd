@@ -37,6 +37,7 @@ func _ready() -> void:
 		
 		parent_door.connect("start_opening", self, "_on_open")
 		parent_door.connect("start_closing", self, "_on_close")
+		parent_door.connect("forced_stop", self, "_on_forced_stop")
 		
 		base_pos = translation
 		current_trgt_pos = translation
@@ -68,3 +69,6 @@ func _on_open():
 	
 func _on_close():
 	set_open(false)
+	
+func _on_forced_stop():
+	pass

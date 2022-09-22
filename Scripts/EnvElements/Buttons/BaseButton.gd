@@ -5,12 +5,9 @@ signal pressed
 signal released
 signal switched(on)
 
-export(bool) var oneshot = false
 export(NodePath) var toggle_path
 
 var pressed := false
-
-onready var toggle: Togglable = Utils.try_get_node(toggle_path, owner)
 
 func _ready() -> void:
 	continuous = false

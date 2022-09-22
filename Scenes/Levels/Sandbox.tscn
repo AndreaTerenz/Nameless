@@ -12,7 +12,6 @@
 [ext_resource path="res://Scripts/EnvElements/Doors/DoorSide.gd" type="Script" id=10]
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=11]
 [ext_resource path="res://Scripts/EnvElements/Buttons/TimerButton.gd" type="Script" id=12]
-[ext_resource path="res://Scripts/EnvElements/Doors/BaseDoor.gd" type="Script" id=13]
 [ext_resource path="res://Scripts/EnvElements/Pickups/HealthPickup.gd" type="Script" id=14]
 [ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
 [ext_resource path="res://Scripts/EnvElements/Ladder.gd" type="Script" id=16]
@@ -24,6 +23,13 @@
 [sub_resource type="CubeMesh" id=36]
 
 [sub_resource type="BoxShape" id=37]
+
+[sub_resource type="GDScript" id=54]
+script/source = "extends BaseDoor
+
+func _on_Button_switched(on) -> void:
+	switch()
+"
 
 [sub_resource type="BoxShape" id=39]
 
@@ -45,12 +51,9 @@ func _on_released() -> void:
 script/source = "extends BaseDoor
 
 
-func _ready() -> void:
-	pass
-
-
-func _on_btn_switched(on) -> void:
-	set_active(not active)
+func _on_Button2_switched(on) -> void:
+	if state in [STATE.OPEN, STATE.CLOSE]:
+		switch()
 "
 
 [sub_resource type="GDScript" id=48]
@@ -84,11 +87,6 @@ uv1_triplanar = true
 
 [sub_resource type="GDScript" id=45]
 script/source = "extends BaseDoor
-
-
-func _ready() -> void:
-	pass
-
 
 func _on_btn_pressed() -> void:
 	set_active(true)
@@ -289,6 +287,8 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = ExtResource( 9 )
+time = 0.2
+amount = 0.9
 trigger_path = NodePath("Trigger")
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 1"]
@@ -300,6 +300,7 @@ material = ExtResource( 3 )
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 1/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -316,6 +317,7 @@ transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 1/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -337,7 +339,9 @@ use_in_baked_light = true
 width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
-script = ExtResource( 13 )
+script = SubResource( 54 )
+time = 0.2
+amount = 0.9
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 2"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -348,6 +352,7 @@ material = ExtResource( 3 )
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 2/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -364,6 +369,7 @@ transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 2/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -401,6 +407,8 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = SubResource( 47 )
+time = 0.2
+amount = 0.9
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 3"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -411,6 +419,7 @@ material = ExtResource( 3 )
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 3/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -427,6 +436,7 @@ transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 3/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -461,6 +471,8 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = SubResource( 45 )
+time = 0.2
+amount = 0.9
 
 [node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 4"]
 transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
@@ -471,6 +483,7 @@ material = ExtResource( 3 )
 transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 4/CSGBox/Left Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -487,6 +500,7 @@ transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
+parent_door_ref = NodePath("../..")
 
 [node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 4/CSGBox/Right Side"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
@@ -697,9 +711,14 @@ material/0 = ExtResource( 4 )
 shape = SubResource( 53 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -17.6348, 37.7312, 22.2645 )
+transform = Transform( -0.524209, 0, -0.85159, 0, 1, 0, 0.85159, 0, -0.524209, 15.8515, 2.95987, -1.4542 )
 collision_layer = 3
 speed_sprint_mult = 1.7
 std_fov = 70.0
 sprint_fov = 90.0
 zoom_fov = 30.0
+
+[connection signal="switched" from="Env/CSGCombiner/Doors/Door 2/Button" to="Env/CSGCombiner/Doors/Door 2" method="_on_Button_switched"]
+[connection signal="switched" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3" method="_on_Button2_switched"]
+[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_pressed"]
+[connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_released"]
