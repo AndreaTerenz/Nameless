@@ -1,5 +1,0 @@
-[Generic]
-
-display_name=".glb export test"
-description=""
-scene_file="res://Scenes/Levels/GLTF test.tscn"

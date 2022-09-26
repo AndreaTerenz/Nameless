@@ -1,5 +1,0 @@
-[Generic]
-
-display_name="Portals"
-description="Portal culling test"
-scene_file="res://Scenes/Levels/Portals.tscn"

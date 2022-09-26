@@ -1,5 +1,0 @@
-[Generic]
-
-display_name="Rocket Silo"
-description="Clone of that one rocket launch from Half Life"
-scene_file="@/HL Rocket.tscn"
