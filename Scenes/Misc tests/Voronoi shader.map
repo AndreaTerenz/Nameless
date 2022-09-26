@@ -1,5 +1,0 @@
-[Generic]
-
-display_name="Voronoi shader"
-description=""
-scene_file="res://Scenes/Misc tests/Voronoi shader.tscn"
