@@ -1,14 +1,18 @@
 [gd_resource type="SpatialMaterial" load_steps=2 format=2]
 
-[sub_resource type="ViewportTexture" id=73]
+[sub_resource type="ViewportTexture" id=76]
 viewport_path = NodePath("Env/Cell/cell_screen/Viewport")
 
 [resource]
 resource_local_to_scene = true
-flags_unshaded = true
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true
 albedo_color = Color( 0.25098, 0.913725, 1, 1 )
-albedo_texture = SubResource( 73 )
+albedo_texture = SubResource( 76 )
+emission_enabled = true
+emission = Color( 0.286275, 0.976471, 0.909804, 1 )
+emission_energy = 0.31
+emission_operator = 0
+emission_on_uv2 = false
 uv1_scale = Vector3( 1, 1.125, 1 )
 uv1_offset = Vector3( 0, -0.123, 0 )

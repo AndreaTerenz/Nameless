@@ -20,7 +20,7 @@ var tween : Tween = null
 func _ready() -> void:
 	tween = Tween.new()
 	add_child(tween)
-	tween.connect("tween_completed", self, "_tween_done")
+	tween.connect("tween_all_completed", self, "_tween_done")
 	
 	var p = get_parent()
 	

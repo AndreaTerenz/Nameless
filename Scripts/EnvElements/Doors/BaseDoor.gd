@@ -49,6 +49,7 @@ var is_open := false
 var state = STATE.CLOSE
 
 func _ready() -> void:
+	add_child(timer)
 	if start_open:
 		open()
 	add_child(timer)

@@ -312,7 +312,7 @@ anims/target_taken = SubResource( 5 )
 anims/trap_fade = SubResource( 12 )
 
 [node name="Trigger" parent="." index="4" instance=ExtResource( 7 )]
-transform = Transform( 0.42516, 0, 0, 0, 1, 0, 0, 0, 1.96205, -4.31745, 0.835571, 0 )
+transform = Transform( 0.42516, 0, 0, 0, 1, 0, 0, 0, 1.96205, -4.06189, 0.835571, 0 )
 start_active = false
 
 [node name="Spawnpoint" type="Position3D" parent="." index="5"]
