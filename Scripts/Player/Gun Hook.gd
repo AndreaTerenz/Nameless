@@ -32,11 +32,12 @@ func _ready() -> void:
 	for i in range(slots):
 		var num = i+1
 		var act_name = "weapon slot %d" % num
-		InputMap.add_action(act_name)
-		
-		var ev = InputEventKey.new()
-		ev.scancode = KEY_0 + num
-		InputMap.action_add_event(act_name, ev)
+		if not InputMap.has_action(act_name):
+			InputMap.add_action(act_name)
+			
+			var ev = InputEventKey.new()
+			ev.scancode = KEY_0 + num
+			InputMap.action_add_event(act_name, ev)
 	
 	yield(Globals, "player_set")
 	

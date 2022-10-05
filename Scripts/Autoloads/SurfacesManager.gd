@@ -11,6 +11,7 @@ class FootstepsProperties:
 		self.count = c
 
 var bindings := {
+	"default" : FootstepsProperties.new(SFX_FOLDER + "/default/default_step_%d.ogg", 4),
 	"concrete" : FootstepsProperties.new(SFX_FOLDER + "/concrete/concrete_%d.ogg", 4),
 	"dirt" : FootstepsProperties.new(SFX_FOLDER + "/dirt/dirt_%d.ogg", 4),
 }

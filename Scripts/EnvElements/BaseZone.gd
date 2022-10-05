@@ -34,7 +34,8 @@ func _ready() -> void:
 		
 	set_collision_layer_bit(6, true)
 	collision_mask = mask
-	
+
+# Already connected in Area
 	connect("body_entered", self, "_on_body_entered")
 	connect("body_exited", self, "_on_body_exited")
 	connect("area_entered", self, "_on_area_entered")

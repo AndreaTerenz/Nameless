@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/default_step_2.ogg-ba7b1167c5068b11fb6945b70cabf10b.oggstr"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/footsteps/default/default_step_2.ogg"
+dest_files=[ "res://.import/default_step_2.ogg-ba7b1167c5068b11fb6945b70cabf10b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

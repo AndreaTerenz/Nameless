@@ -1,9 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Grids/grid_light.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Materials/Grids/grid_dark.tres" type="Material" id=4]
+[ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=5]
+[ext_resource path="res://Scripts/EnvElements/FootstepFX.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends SceneManager
@@ -31,38 +34,12 @@ size = Vector3( 15, 1, 15 )
 [sub_resource type="BoxShape" id=13]
 extents = Vector3( 7.5, 0.5, 7.4 )
 
-[sub_resource type="GDScript" id=12]
-script/source = "extends Spatial
-
-export(NodePath) var target_shape_path = \"../CollisionShape\"
-export(String) var surf_name = \"concrete\"
-
-var parent_body : StaticBody = null
-var area : Area = null
-
-func _ready() -> void:
-	yield(get_tree(), \"idle_frame\")
-	
-	var ts = get_node(target_shape_path)
-	if ts and ts is CollisionShape and ts.get_parent() is StaticBody:
-		parent_body = ts.get_parent()
-		global_translation = ts.global_translation
-		
-		area = Area.new()
-		add_child(area)
-		
-		var shape := CollisionShape.new()
-		shape.shape = ts.shape
-		
-		area.add_child(shape)
-		area.collision_mask = 0
-		area.collision_layer = 0
-		
-		Utils.set_layer_bit_in_object(area, \"WalkableSurfaces\")
-		Utils.set_mask_bit_in_object(area, \"WalkableSurfaces\")
-	else:
-		Console.Log.error(\"FootstepsFX node '%s' is not child of a StaticBody node!\" % get_path())
-"
+[sub_resource type="DynamicFont" id=14]
+size = 30
+outline_size = 1
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 7 )
 
 [node name="FloorMaterials" type="Spatial"]
 script = SubResource( 1 )
@@ -74,7 +51,7 @@ environment = SubResource( 9 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0748868, 0 )
 mesh = SubResource( 10 )
 skeleton = NodePath("../Player")
-material/0 = ExtResource( 2 )
+material/0 = ExtResource( 5 )
 
 [node name="StaticBody" type="StaticBody" parent="MeshInstance"]
 collision_layer = 4097
@@ -82,8 +59,16 @@ collision_layer = 4097
 [node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
 shape = SubResource( 13 )
 
-[node name="FootstepsFX" type="Spatial" parent="MeshInstance/StaticBody"]
-script = SubResource( 12 )
+[node name="FootstepsFX" type="Node" parent="MeshInstance/StaticBody"]
+script = ExtResource( 6 )
+surf_name = "concrete"
+
+[node name="Label3D" type="Label3D" parent="MeshInstance"]
+transform = Transform( -4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 2, 0 )
+pixel_size = 0.05
+billboard = 2
+text = "CONCRETE"
+font = SubResource( 14 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -0.0748868, 0 )
@@ -97,9 +82,16 @@ collision_layer = 4097
 [node name="CollisionShape" type="CollisionShape" parent="MeshInstance2/StaticBody"]
 shape = SubResource( 13 )
 
-[node name="FootstepsFX2" type="Spatial" parent="MeshInstance2/StaticBody"]
-script = SubResource( 12 )
+[node name="FootstepsFX2" type="Node" parent="MeshInstance2/StaticBody"]
+script = ExtResource( 6 )
 surf_name = "dirt"
+
+[node name="Label3D2" type="Label3D" parent="MeshInstance2"]
+transform = Transform( -4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 2, 0 )
+pixel_size = 0.05
+billboard = 2
+text = "Dirt"
+font = SubResource( 14 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0748868, 15 )
@@ -111,6 +103,54 @@ material/0 = ExtResource( 2 )
 collision_layer = 4097
 
 [node name="CollisionShape" type="CollisionShape" parent="MeshInstance3/StaticBody"]
+shape = SubResource( 13 )
+
+[node name="MeshInstance6" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -0.0748868, 15 )
+mesh = SubResource( 10 )
+skeleton = NodePath("../Player")
+material/0 = ExtResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance6"]
+collision_layer = 4097
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance6/StaticBody"]
+shape = SubResource( 13 )
+
+[node name="MeshInstance7" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.0748868, 15 )
+mesh = SubResource( 10 )
+skeleton = NodePath("../Player")
+material/0 = ExtResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance7"]
+collision_layer = 4097
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance7/StaticBody"]
+shape = SubResource( 13 )
+
+[node name="MeshInstance8" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -0.0748868, -15 )
+mesh = SubResource( 10 )
+skeleton = NodePath("../Player")
+material/0 = ExtResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance8"]
+collision_layer = 4097
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance8/StaticBody"]
+shape = SubResource( 13 )
+
+[node name="MeshInstance9" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.0748868, -15 )
+mesh = SubResource( 10 )
+skeleton = NodePath("../Player")
+material/0 = ExtResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance9"]
+collision_layer = 4097
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance9/StaticBody"]
 shape = SubResource( 13 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="."]

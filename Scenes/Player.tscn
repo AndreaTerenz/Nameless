@@ -469,42 +469,46 @@ script/source = "extends Area
 onready var _audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 ### Automatic References Stop ###
 
-var current_surface = \"\"
+var current_surface = \"default\"
 var streams := \"\"
 var streams_count := 0
 var current_stream := -1
 
 func _ready() -> void:
 	randomize()
+	var fs_props : SurfacesManager.FootstepsProperties = \\
+		SurfacesManager.bindings[current_surface]
+		
+	read_fs_props(fs_props)
+	play_next()
 
-func _on_area_entered(area: Area) -> void:
-	var sn = get_surf_name(area)
-	
+func _on_body_entered(body: Node) -> void:
+	if body is StaticBody:
+		if body.has_meta(\"surf_name\"):
+			var sn = body.get_meta(\"surf_name\")
+			load_surface(sn)
+		else:
+			load_surface()
+
+func read_fs_props(fs_props : SurfacesManager.FootstepsProperties):
+	streams = fs_props.format_str
+	streams_count = fs_props.count
+
+func get_surf_name(area) -> String:
+	var footstep_fx = area.get_parent()
+	return footstep_fx.surf_name
+
+func load_surface(sn := \"default\"):
 	if SurfacesManager.bindings.has(sn):
 		if current_surface == \"\" or current_surface != sn:
 			current_surface = sn
 			var fs_props : SurfacesManager.FootstepsProperties = \\
 				SurfacesManager.bindings[current_surface]
 				
-			streams = fs_props.format_str
-			streams_count = fs_props.count
-			
+			read_fs_props(fs_props)
 			play_next()
 	else:
 		Console.Log.error(\"Unable to find footstepFX properties for surface '%s'\" % sn)
-
-
-func _on_area_exited(area: Area) -> void:
-	return
-	var sn = get_surf_name(area)
-	if current_surface == sn:
-		_audio_stream_player.stop()
-		current_surface = \"\"
-
-func get_surf_name(area) -> String:
-	var footstep_fx = area.get_parent()
-	return footstep_fx.surf_name
-		
 
 func play_next():
 	var i = current_stream
@@ -512,6 +516,7 @@ func play_next():
 		i = randi() % streams_count
 	
 	current_stream = i
+	_audio_stream_player.stop()
 	_audio_stream_player.stream = load(streams % i)
 	_audio_stream_player.play()
 	
@@ -528,8 +533,8 @@ func _process(delta: float) -> void:
 		_audio_stream_player.stream_paused = not(on_floor and moving)
 
 
-func _on_Player_jumped() -> void:
-	return #_audio_stream_player.stream_paused = true
+func _on_AudioStreamPlayer_finished() -> void:
+	print(\"AAAAAAAAA\")
 "
 
 [sub_resource type="RayShape" id=57]
@@ -754,17 +759,17 @@ margin_bottom = 60.0
 alignment = 1
 
 [node name="TextureRect" parent="Head/InteractRay/InteractTip/MarginContainer/HBoxContainer" instance=ExtResource( 11 )]
-margin_right = 97.0
+margin_right = 96.0
 margin_bottom = 60.0
 size_flags_horizontal = 7
 texture = SubResource( 61 )
 action = "interact"
 
 [node name="Label" type="Label" parent="Head/InteractRay/InteractTip/MarginContainer/HBoxContainer"]
-margin_left = 105.0
+margin_left = 104.0
 margin_top = 13.0
 margin_right = 205.0
-margin_bottom = 46.0
+margin_bottom = 45.5
 size_flags_horizontal = 3
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
 custom_constants/shadow_as_outline = 1
@@ -830,7 +835,7 @@ shape = SubResource( 33 )
 [node name="FootstepsCheck" type="Area" parent="Foot"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.08274, 0 )
 collision_layer = 4096
-collision_mask = 4096
+collision_mask = 4097
 script = SubResource( 59 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Foot/FootstepsCheck"]
@@ -904,9 +909,9 @@ script = ExtResource( 14 )
 [connection signal="picked_up" from="Head/PropRay" to="Head/InteractRay" method="_on_prop_picked_up"]
 [connection signal="released" from="Head/PropRay" to="Head/Camera/ViewportContainer/Viewport/GunCamera/GunHook" method="_on_prop_released"]
 [connection signal="released" from="Head/PropRay" to="Head/InteractRay" method="_on_prop_released"]
-[connection signal="area_entered" from="Foot/FootstepsCheck" to="Foot/FootstepsCheck" method="_on_area_entered"]
-[connection signal="area_exited" from="Foot/FootstepsCheck" to="Foot/FootstepsCheck" method="_on_area_exited"]
+[connection signal="body_entered" from="Foot/FootstepsCheck" to="Foot/FootstepsCheck" method="_on_body_entered"]
 [connection signal="finished" from="Foot/FootstepsCheck/AudioStreamPlayer" to="Foot/FootstepsCheck" method="play_next"]
+[connection signal="finished" from="Foot/FootstepsCheck/AudioStreamPlayer" to="Foot/FootstepsCheck" method="_on_AudioStreamPlayer_finished"]
 [connection signal="healed" from="Hitbox" to="." method="_on_healed"]
 [connection signal="hit" from="Hitbox" to="." method="_on_hit"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]
