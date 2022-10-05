@@ -875,8 +875,6 @@ rect_min_size = Vector2( 320, 210 )
 size_flags_vertical = 3
 
 [node name="ItemList" type="ItemList" parent="SceneHubPanel/VBoxContainer/ScrollContainer"]
-margin_right = 542.0
-margin_bottom = 314.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 20

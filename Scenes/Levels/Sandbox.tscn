@@ -287,7 +287,6 @@ width = 8.22187
 height = 8.52282
 material = ExtResource( 3 )
 script = ExtResource( 9 )
-time = 0.2
 amount = 0.9
 trigger_path = NodePath("Trigger")
 

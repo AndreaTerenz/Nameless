@@ -31,11 +31,10 @@ enum STATE {
 	CLOSING
 }
 
-signal start_opening
+signal start_opening(immediate)
 signal opened
-signal start_closing
+signal start_closing(immediate)
 signal closed
-signal forced_stop
 
 export(bool) var start_open := false
 
@@ -43,25 +42,70 @@ export(float, .01, 30.0, .01) var time = 1.0
 export(float, .2, 10.45, .05) var amount = 1.0
 export(TWEEN_TRANSITION) var transition_type = TWEEN_TRANSITION.LINEAR
 export(TWEEN_EASE) var ease_type = TWEEN_EASE.OUT
+export(AudioStreamOGGVorbis) var slide_sfx = \
+	preload("res://Assets/Audio/SFX/door/door_slide2.ogg")
+export(float, -80.0, 80.0, .001) var slide_sfx_db = 6.0
 
 var timer := Timer.new()
+var audio_player : AudioStreamPlayer3D = null
 var is_open := false
 var state = STATE.CLOSE
 
 func _ready() -> void:
-	add_child(timer)
-	if start_open:
-		open()
+	if slide_sfx:
+		slide_sfx.loop = false
+		
+		audio_player = AudioStreamPlayer3D.new()
+		add_child(audio_player)
+		
+		audio_player.stream = slide_sfx
+		audio_player.unit_db = slide_sfx_db
+#		audio_player.attenuation_model = AudioStreamPlayer3D.ATTENUATION_DISABLED
+		
+		var orig_len = slide_sfx.get_length()
+		audio_player.pitch_scale = orig_len / time
+		
 	add_child(timer)
 	timer.connect("timeout", self, "timer_done")
+	
+	if start_open:
+		open(true)
 
-func open():
-	emit_signal("start_opening")
-	_on_open()
+func open(immediate := false):
+	_open_close(true, immediate)
 	
-	state = STATE.OPENING
-	timer.start(time)
+func close(immediate := false):
+	_open_close(false, immediate)
 	
+func _open_close(_open: bool, immediate := false):
+	var sig = "start_opening" if _open else "start_closing"
+	var stat = STATE.OPENING if _open else STATE.CLOSING
+	
+	emit_signal(sig, immediate)
+	state = stat
+	
+	if _open:
+		_on_open()
+	else:
+		_on_closed()
+	
+	timer.start(0 if immediate else time)
+	if not immediate and audio_player:
+		audio_player.stop()
+		audio_player.play()
+	
+func _on_open():
+	pass
+	
+func _on_closed():
+	pass
+	
+func switch():
+	if is_open:
+		close()
+	else:
+		open()
+
 func timer_done():
 	match state:
 		STATE.OPENING:
@@ -72,25 +116,6 @@ func timer_done():
 			state = STATE.CLOSE
 			is_open = false
 			emit_signal("closed")
-	
-func _on_open():
-	pass
-	
-func close():
-	emit_signal("start_closing")
-	_on_closed()
-	
-	state = STATE.CLOSING
-	timer.start(time)
-	
-func _on_closed():
-	pass
-	
-func switch():
-	if is_open:
-		close()
-	else:
-		open()
 	
 func _on_deactivated():
 	close()

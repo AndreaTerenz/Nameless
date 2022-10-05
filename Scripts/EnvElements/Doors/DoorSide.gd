@@ -15,10 +15,9 @@ var open_pos: Vector3
 var current_trgt_pos: Vector3
 var open: bool = false setget set_open
 
-var tween : Tween = null
+var tween := Tween.new()
 
-func _ready() -> void:
-	tween = Tween.new()
+func _ready() -> void:	
 	add_child(tween)
 	tween.connect("tween_all_completed", self, "_tween_done")
 	
@@ -37,7 +36,6 @@ func _ready() -> void:
 		
 		parent_door.connect("start_opening", self, "_on_open")
 		parent_door.connect("start_closing", self, "_on_close")
-		parent_door.connect("forced_stop", self, "_on_forced_stop")
 		
 		base_pos = translation
 		current_trgt_pos = translation
@@ -54,7 +52,8 @@ func set_open(value):
 		current_trgt_pos = open_pos
 	else:
 		current_trgt_pos = base_pos
-	
+
+func open_close_fx():
 	tween.stop_all()
 	tween.interpolate_property(self, "translation", \
 		null, current_trgt_pos, tween_time, \
@@ -64,11 +63,18 @@ func set_open(value):
 func _tween_done():
 	pass
 	
-func _on_open():
+func _on_open(imm):
 	set_open(true)
 	
-func _on_close():
+	if imm:
+		translation = current_trgt_pos
+	else:
+		open_close_fx()
+	
+func _on_close(imm):
 	set_open(false)
 	
-func _on_forced_stop():
-	pass
+	if imm:
+		translation = current_trgt_pos
+	else:
+		open_close_fx()

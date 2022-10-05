@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/door_slide2.ogg-e3ec2bb4fded5adff05be4d1700916f7.oggstr"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/door/door_slide2.ogg"
+dest_files=[ "res://.import/door_slide2.ogg-e3ec2bb4fded5adff05be4d1700916f7.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

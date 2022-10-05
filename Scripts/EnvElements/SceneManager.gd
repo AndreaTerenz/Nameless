@@ -16,7 +16,7 @@ onready var sun_light : DirectionalLight = Utils.try_get_node(sun_light_ref, sel
 var gi_probes := []
 var global_audio_srcs : Dictionary = {}
 
-func _ready() -> void:	
+func _ready() -> void:
 	if scene_name == "":
 		scene_name = name
 	

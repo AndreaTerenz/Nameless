@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/269520__mrauralization__van-sliding-door-open.wav-2a7beeb83908a2412e3c48098fff4312.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Sources/269520__mrauralization__van-sliding-door-open.wav"
+dest_files=[ "res://.import/269520__mrauralization__van-sliding-door-open.wav-2a7beeb83908a2412e3c48098fff4312.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
