@@ -147,7 +147,7 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("flashlight"):
 		light.visible = !light.visible
 	
-	if mode != MODE.STAIRS:
+	if mode != MODE.STAIRS:	
 		mouse_sensitivity = mouse_sens_std
 		
 		camera.check_zoom()
@@ -183,6 +183,9 @@ func tracker_load(keep_mov := true):
 
 func touching_floor():
 	return is_on_floor() or grnd_chk.is_colliding()
+	
+func current_velocity() -> Vector3:
+	return mover.h_velocity
 
 func entered_ladder(l: Ladder):
 	set_mode(MODE.STAIRS)

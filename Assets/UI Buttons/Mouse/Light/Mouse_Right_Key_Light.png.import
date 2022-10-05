@@ -2,30 +2,28 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/Mouse_Right_Key_Light.png-7a390b7185f3648463085fb668663444.s3tc.stex"
-path.etc2="res://.import/Mouse_Right_Key_Light.png-7a390b7185f3648463085fb668663444.etc2.stex"
+path="res://.import/Mouse_Right_Key_Light.png-7a390b7185f3648463085fb668663444.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Assets/UI Buttons/Mouse/Light/Mouse_Right_Key_Light.png"
-dest_files=[ "res://.import/Mouse_Right_Key_Light.png-7a390b7185f3648463085fb668663444.s3tc.stex", "res://.import/Mouse_Right_Key_Light.png-7a390b7185f3648463085fb668663444.etc2.stex" ]
+dest_files=[ "res://.import/Mouse_Right_Key_Light.png-7a390b7185f3648463085fb668663444.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
-flags/filter=false
-flags/mipmaps=true
-flags/anisotropic=true
-flags/srgb=1
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

@@ -344,6 +344,7 @@ Globals="*res://Scripts/Autoloads/Globals.gd"
 Settings="*res://Scripts/Autoloads/Settings.gd"
 Args="*res://Scripts/Autoloads/Args.gd"
 DebugDraw="*res://addons/debug_draw_3d/debug_draw.gd"
+SurfacesManager="*res://Scripts/Autoloads/SurfacesManager.gd"
 
 [debug]
 
@@ -674,6 +675,7 @@ dismiss_popup={
 3d_physics/layer_10="Friendlies"
 3d_physics/layer_11="Water"
 3d_physics/layer_12="Props"
+3d_physics/layer_13="WalkableSurfaces"
 
 [physics]
 
