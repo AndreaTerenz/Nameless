@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/rocket_trail.obj-11aa9f55021591f6d295b00ac8894cac.mesh"
+
+[deps]
+
+files=[ "res://.import/rocket_trail.obj-11aa9f55021591f6d295b00ac8894cac.mesh" ]
+
+source_file="res://Assets/Models/weapons/rocket/rocket_trail.obj"
+dest_files=[ "res://.import/rocket_trail.obj-11aa9f55021591f6d295b00ac8894cac.mesh", "res://.import/rocket_trail.obj-11aa9f55021591f6d295b00ac8894cac.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

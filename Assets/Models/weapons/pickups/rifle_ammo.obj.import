@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/rifle_ammo.obj-0873e9b21dc9d93d1d500dd75faf86f4.mesh"
+
+[deps]
+
+files=[ "res://.import/rifle_ammo.obj-0873e9b21dc9d93d1d500dd75faf86f4.mesh" ]
+
+source_file="res://Assets/Models/weapons/pickups/rifle_ammo.obj"
+dest_files=[ "res://.import/rifle_ammo.obj-0873e9b21dc9d93d1d500dd75faf86f4.mesh", "res://.import/rifle_ammo.obj-0873e9b21dc9d93d1d500dd75faf86f4.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

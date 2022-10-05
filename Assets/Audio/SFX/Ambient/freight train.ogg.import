@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/freight train.ogg-b373d7bcaf7c67876cf3f031a6c25291.oggstr"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Ambient/freight train.ogg"
+dest_files=[ "res://.import/freight train.ogg-b373d7bcaf7c67876cf3f031a6c25291.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

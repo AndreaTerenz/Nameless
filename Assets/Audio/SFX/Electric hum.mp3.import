@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Electric hum.mp3-4e754ecb1130a27cc99126582b9290cb.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Electric hum.mp3"
+dest_files=[ "res://.import/Electric hum.mp3-4e754ecb1130a27cc99126582b9290cb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
