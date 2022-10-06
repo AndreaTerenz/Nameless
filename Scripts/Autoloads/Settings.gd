@@ -25,7 +25,7 @@ class SettingsEdit extends TempEdit:
 		Settings.set_value(section, key, current_value)
 
 var config := ConfigFile.new()
-var target_file := "res://settings.cfg"
+var target_file := ""
 var data_loaded := false
 
 ######################################
@@ -83,6 +83,11 @@ const defaults : Dictionary = {
 }
 
 func _ready():
+	target_file = "user://"
+	if Utils.is_debug():
+		target_file = "res://"
+	target_file = target_file + "settings.cfg"
+	
 	if not data_loaded:
 		var err = config.load(target_file)
 		data_loaded = true

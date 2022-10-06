@@ -338,9 +338,9 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-Console="*res://addons/quentincaffeino/console/src/Console.tscn"
-Utils="*res://Scripts/Autoloads/Utils.gd"
 Globals="*res://Scripts/Autoloads/Globals.gd"
+Utils="*res://Scripts/Autoloads/Utils.gd"
+Console="*res://addons/quentincaffeino/console/src/Console.tscn"
 Settings="*res://Scripts/Autoloads/Settings.gd"
 Args="*res://Scripts/Autoloads/Args.gd"
 DebugDraw="*res://addons/debug_draw_3d/debug_draw.gd"
