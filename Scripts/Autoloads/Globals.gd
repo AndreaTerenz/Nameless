@@ -424,12 +424,11 @@ static func unpack_save_name(sn : String) -> Dictionary:
 		
 	return output
 
-func get_version(format : String = "") -> String:
+func get_version(format : String = "%s") -> String:
 	var output := []
 	OS.execute("git", PoolStringArray(["log", "--format=%h", "-n", "1"]), true, output)
 	if output.empty() or output[0].empty():
 		push_error("Failed to fetch version. Make sure you have git installed and project is inside valid git directory.")
 		return ""
 	
-	var s = output[0].trim_suffix("\n")
-	return s if format.empty() else format % s
+	return format % output[0].trim_suffix("\n")

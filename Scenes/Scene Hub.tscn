@@ -447,9 +447,29 @@ func meta_pressed(meta):
 [sub_resource type="GDScript" id=1080]
 script/source = "extends Label
 
+enum RELEASE_TYPE {
+	ALPHA,
+	BETA,
+	RC,
+	STABLE
+}
+
+var releases := {
+	RELEASE_TYPE.ALPHA : \"alpha\",
+	RELEASE_TYPE.BETA : \"beta\",
+	RELEASE_TYPE.RC : \"rc\",
+	RELEASE_TYPE.STABLE : \"stable\",
+}
+var r_type = RELEASE_TYPE.ALPHA
 
 func _ready() -> void:
-	text = Globals.get_version(\"#%s [alpha]\")
+	# CHANGE THIS MANUALLY
+	var v = \"1022_Demo\"
+	
+	if Utils.is_debug():
+		v = Globals.get_version(\"%s\")
+	
+	text = \"%s [%s]\" % [v, releases[r_type]]
 "
 
 [sub_resource type="GDScript" id=474]
@@ -815,9 +835,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 1347.0
+margin_left = -573.0
 margin_top = -166.0
-margin_right = 2327.0
+margin_right = 407.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50
@@ -875,6 +895,8 @@ rect_min_size = Vector2( 320, 210 )
 size_flags_vertical = 3
 
 [node name="ItemList" type="ItemList" parent="SceneHubPanel/VBoxContainer/ScrollContainer"]
+margin_right = 542.0
+margin_bottom = 314.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 20
