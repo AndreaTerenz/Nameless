@@ -474,6 +474,14 @@ var streams := \"\"
 var streams_count := 0
 var current_stream := -1
 
+var enabled := true setget set_enabled
+func set_enabled(value):
+	enabled = value
+	
+	monitorable = enabled
+	monitoring = enabled
+	_audio_stream_player.stream_paused = not enabled
+
 func _ready() -> void:
 	randomize()
 	var fs_props : SurfacesManager.FootstepsProperties = \\
@@ -519,8 +527,9 @@ func play_next():
 	_audio_stream_player.stop()
 	_audio_stream_player.stream = load(streams % i)
 	_audio_stream_player.play()
-	
+
 func _process(delta: float) -> void:
+	var pause := true
 	if streams != \"\":
 		var on_floor = Globals.player.touching_floor()
 		# not really perfect
@@ -530,11 +539,9 @@ func _process(delta: float) -> void:
 			Input.is_action_pressed(\"move_l\") or \\
 			Input.is_action_pressed(\"move_r\")
 		
-		_audio_stream_player.stream_paused = not(on_floor and moving)
-
-
-func _on_AudioStreamPlayer_finished() -> void:
-	print(\"AAAAAAAAA\")
+		pause = not (on_floor and moving)
+		
+	_audio_stream_player.stream_paused = pause or not enabled
 "
 
 [sub_resource type="RayShape" id=57]
@@ -759,17 +766,17 @@ margin_bottom = 60.0
 alignment = 1
 
 [node name="TextureRect" parent="Head/InteractRay/InteractTip/MarginContainer/HBoxContainer" instance=ExtResource( 11 )]
-margin_right = 96.0
+margin_right = 97.0
 margin_bottom = 60.0
 size_flags_horizontal = 7
 texture = SubResource( 61 )
 action = "interact"
 
 [node name="Label" type="Label" parent="Head/InteractRay/InteractTip/MarginContainer/HBoxContainer"]
-margin_left = 104.0
+margin_left = 105.0
 margin_top = 13.0
 margin_right = 205.0
-margin_bottom = 45.5
+margin_bottom = 46.0
 size_flags_horizontal = 3
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
 custom_constants/shadow_as_outline = 1
@@ -833,6 +840,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 33 )
 
 [node name="FootstepsCheck" type="Area" parent="Foot"]
+unique_name_in_owner = true
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.08274, 0 )
 collision_layer = 4096
 collision_mask = 4097
@@ -911,7 +919,6 @@ script = ExtResource( 14 )
 [connection signal="released" from="Head/PropRay" to="Head/InteractRay" method="_on_prop_released"]
 [connection signal="body_entered" from="Foot/FootstepsCheck" to="Foot/FootstepsCheck" method="_on_body_entered"]
 [connection signal="finished" from="Foot/FootstepsCheck/AudioStreamPlayer" to="Foot/FootstepsCheck" method="play_next"]
-[connection signal="finished" from="Foot/FootstepsCheck/AudioStreamPlayer" to="Foot/FootstepsCheck" method="_on_AudioStreamPlayer_finished"]
 [connection signal="healed" from="Hitbox" to="." method="_on_healed"]
 [connection signal="hit" from="Hitbox" to="." method="_on_hit"]
 [connection signal="killed" from="Hitbox" to="." method="_on_killed"]

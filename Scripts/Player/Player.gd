@@ -30,7 +30,8 @@ export(float, 10, 20, .5) var gravity_strength = 17.0
 export(float, 6, 25, .5) var jump_strength = 10.0
 export(float, .01, .2, .005) var mouse_sens_std = 0.1
 export(float, .01, .9, .005) var zoom_mouse_sensitivity_factor = 0.33
-export(float, 10.0, 90.0, .01) var head_rot_limit = 80.0
+export(float, 10.0, 90.0, .01) var head_rot_limit_up = 80.0
+export(float, 10.0, 90.0, .01) var head_rot_limit_down = 80.0
 export(float, 1, 10, .1) var std_acceleration = 6.0
 export(float, 0.01, 1.0, .01) var air_acc_factor = 0.5
 export(float, .05, .2, .01) var fov_tween_speed = .1
@@ -43,6 +44,7 @@ export(MODE) var start_mode = MODE.GAME
 export(bool) var get_fall_damage = true
 export(bool) var show_debug_ball = true
 export(bool) var guns_enabled = true
+export(bool) var footstep_sfx_enabled = true
 export(int, FLAGS, 
 	"Compass", "HealthBar",
 	"Crosshair", #"WeaponWheel", 
@@ -100,6 +102,7 @@ onready var light = $"Head/Flashlight"
 onready var alerts_queue := get_node("%AlertsQueue")
 onready var debug_ball := get_node("%DebugBall")
 ### Automatic References Start ###
+onready var _footsteps_check: Area = get_node("%FootstepsCheck")
 onready var _tracker: PlayerTracker = get_node("%Tracker")
 ### Automatic References Stop ###
 
@@ -159,7 +162,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var invert_y = Settings.get_value(Settings.CONTROLS, Settings.INVERT_Y)
 		
-		Utils.rotate_with_mouse(event, self, head, mouse_sensitivity, head_rot_limit, invert_y)
+		Utils.rotate_with_mouse(event, self, head, mouse_sensitivity, head_rot_limit_up, head_rot_limit_down, invert_y)
 		compass.rot_with_mouse(event)
 		
 func _physics_process(delta: float) -> void:
@@ -278,6 +281,7 @@ func toggle_collisions(stat: bool):
 	Utils.toggle_area(hitbox, stat)
 	Utils.toggle_area(others_chck, stat)
 	Utils.toggle_area(look_ray, stat)
+	_footsteps_check.enabled = stat
 
 func change_mover(new_mover: PlayerMover):
 	if new_mover and new_mover != mover:

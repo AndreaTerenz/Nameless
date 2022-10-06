@@ -152,15 +152,16 @@ static func lerp_rot_towards(obj: Spatial, target: Spatial, amount: float = 1.0)
 static func transform2quat(tr: Transform) -> Quat:
 	return Quat(tr.basis)
 	
-static func rotate_with_mouse(event: InputEventMouseMotion, node: Spatial, x_rot_node : Spatial, sensitivity := .1 , head_rot_lim := 80.0, invert_y := false):
+static func rotate_with_mouse(event: InputEventMouseMotion, node: Spatial, x_rot_node : Spatial, sensitivity := .1 , hrl_up := 80.0, hrl_down := -1, invert_y := false):
 	var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * sensitivity)
 	var y_rot = event_rel.x
 
 	node.rotate_y(y_rot)
 	x_rot_node.rotate_x(event_rel.y * -bool_to_sign(invert_y))
 
-	var hrl = deg2rad(head_rot_lim)
-	x_rot_node.rotation.x = clamp(x_rot_node.rotation.x, -hrl, hrl)
+	if hrl_down < 0:
+		hrl_down = hrl_up
+	x_rot_node.rotation.x = clamp(x_rot_node.rotation.x, -deg2rad(hrl_down), deg2rad(hrl_up))
 	
 static func delete_children(node):
 	for n in node.get_children():
