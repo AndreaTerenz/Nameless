@@ -1,10 +1,10 @@
 extends Node
 
-const SKIP_SPLASH = "skip_splash"
+const SKIP_SPLASH = "skip-splash"
 const USE_CONSOLE = "console"
-const DEL_FAULTY_MAPS = "del_faulty_maps"
-const ENABLE_TESTS = "show_test_levels"
-const DISABLE_DEBUG_DRAW = "no_db_draw"
+const DEL_FAULTY_MAPS = "del-faulty-maps"
+const ENABLE_TESTS = "show-test-levels"
+const ENABLE_DEBUG_DRAW = "db-draw"
 
 const DEFAULT_SETTINGS = "defaults"
 const DEFAULT_SETTS_SOFT = "soft"

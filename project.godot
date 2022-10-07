@@ -367,12 +367,6 @@ mouse_cursor/custom_image="res://Assets/Sprites/UI/cursor.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
-[editor]
-
-main_run_args="--no_db_draw"
-version_control_autoload_on_startup=true
-version_control_plugin_name="GitAPI"
-
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/argparse/plugin.cfg", "res://addons/debug_draw_3d/plugin.cfg", "res://addons/node_referencer/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg" )

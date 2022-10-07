@@ -835,9 +835,9 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -573.0
+margin_left = 1347.0
 margin_top = -166.0
-margin_right = 407.0
+margin_right = 2327.0
 margin_bottom = 118.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 50

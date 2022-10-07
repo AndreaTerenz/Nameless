@@ -90,7 +90,7 @@ func _open_close(_open: bool, immediate := false):
 		_on_closed()
 	
 	timer.start(0 if immediate else time)
-	if not immediate and audio_player:
+	if (not immediate) and audio_player:
 		audio_player.stop()
 		audio_player.play()
 	
