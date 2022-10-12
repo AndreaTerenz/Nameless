@@ -18,7 +18,7 @@ func find_option(opt: String) -> bool:
 func get_option(opt: String, allowed := []):
 	var value = options.get(opt, null)
 	
-	if allowed.empty() or value in allowed:
+	if allowed.is_empty() or value in allowed:
 		return value
 
 	return null

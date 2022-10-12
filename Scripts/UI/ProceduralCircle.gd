@@ -1,8 +1,12 @@
-tool
+@tool
 extends "res://Scripts/UI/ProceduralShape.gd"
 
 # class_name ProceduralCircle
-export var radius := 20.0 setget set_radius
+@export var radius := 20.0 :
+	get:
+		return radius # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_radius
 func set_radius(value):
 	radius = value
 	update()

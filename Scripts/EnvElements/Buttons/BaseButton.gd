@@ -3,9 +3,9 @@ extends Interactable
 
 signal pressed
 signal released
-signal switched(on)
+signal switched(checked)
 
-export(NodePath) var toggle_path
+@export var toggle_path: NodePath
 
 var pressed := false
 
@@ -44,4 +44,4 @@ func _on_switched() -> void:
 	pass
 
 func can_interact():
-	return not oneshot or not pressed
+	return not one_shot or not pressed

@@ -4,7 +4,7 @@ extends BaseZone
 const SAVE_ENTER = 0b01
 const SAVE_EXIT = 0b10
 
-export(int, FLAGS, "On enter", "On exit") var save_mode = 0
+@export var save_mode = 0 # (int, FLAGS, "On enter", "On exit")
 
 func group():
 	return Globals.TRGGR_ZN_GRP

@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 
@@ -20,8 +20,8 @@ var _valid_parents: Array
 func _enter_tree() -> void:
 	_ref_2d_button = MenuButton.new()
 	_ref_2d_button.flat = true
-	_ref_2d_button.text = "Reference"
-	_ref_2d_button.hint_tooltip = "Reference node(s) in a parent's script."
+	_ref_2d_button.text = "RefCounted"
+	_ref_2d_button.tooltip_text = "RefCounted node(s) in a parent's script."
 	_ref_2d_button.hide()
 	add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, _ref_2d_button)
 
@@ -29,12 +29,12 @@ func _enter_tree() -> void:
 	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, _ref_3d_button)
 
 	_popup_menu_2d = _ref_2d_button.get_popup()
-	_popup_menu_2d.connect("id_pressed", self, "_reference_nodes")
+	_popup_menu_2d.connect("id_pressed",Callable(self,"_reference_nodes"))
 
 	_popup_menu_3d = _ref_3d_button.get_popup()
-	_popup_menu_3d.connect("id_pressed", self, "_reference_nodes")
+	_popup_menu_3d.connect("id_pressed",Callable(self,"_reference_nodes"))
 
-	get_editor_interface().get_selection().connect("selection_changed", self, "_update_button_visibility")
+	get_editor_interface().get_selection().connect("selection_changed",Callable(self,"_update_button_visibility"))
 
 
 func _update_button_visibility() -> void:
@@ -155,7 +155,7 @@ func _find_valid_parents(node: Node) -> Array:
 
 
 func _alter_code(code: String, node: Node, parent: Node) -> String:
-	var split_code: PoolStringArray = _splitup_code(code)
+	var split_code: PackedStringArray = _splitup_code(code)
 	var references: Array = Array(_get_references(split_code))
 
 	# Return if the reference is already in there
@@ -176,13 +176,13 @@ func _alter_code(code: String, node: Node, parent: Node) -> String:
 	references.append(REFERENCE_BLOCK_STOP)
 
 	# Join everything back together
-	var references_pool = PoolStringArray(references)
-	split_code.set(1, references_pool.join("\n"))
-	return split_code.join("")
+	var references_pool = PackedStringArray(references)
+	split_code.set(1, "\n".join(references_pool))
+	return "".join(split_code)
 
 
-func _splitup_code(code: String) -> PoolStringArray:
-	var start_split: PoolStringArray = code.split(REFERENCE_BLOCK_START + "\n", true, 1)
+func _splitup_code(code: String) -> PackedStringArray:
+	var start_split: PackedStringArray = code.split(REFERENCE_BLOCK_START + "\n", true, 1)
 
 	if len(start_split) == 1:
 		var regex = RegEx.new()
@@ -192,7 +192,7 @@ func _splitup_code(code: String) -> PoolStringArray:
 			regex.compile("extends .+\n")
 
 		var split_index: int = regex.search(code).get_end()
-		var split_code: PoolStringArray = [
+		var split_code: PackedStringArray = [
 			code.left(split_index) + "\n\n",
 			"\n" + code.right(split_index)
 		]
@@ -202,13 +202,13 @@ func _splitup_code(code: String) -> PoolStringArray:
 
 		return split_code
 
-	var block_and_end: PoolStringArray = start_split[1].split(REFERENCE_BLOCK_STOP, true, 1)
+	var block_and_end: PackedStringArray = start_split[1].split(REFERENCE_BLOCK_STOP, true, 1)
 
-	return PoolStringArray([start_split[0], block_and_end[0], block_and_end[1]])
+	return PackedStringArray([start_split[0], block_and_end[0], block_and_end[1]])
 
 
-func _get_references(split_code: PoolStringArray) -> PoolStringArray:
-	return split_code[1].split("\n", false) if len(split_code) == 3 else PoolStringArray()
+func _get_references(split_code: PackedStringArray) -> PackedStringArray:
+	return split_code[1].split("\n", false) if len(split_code) == 3 else PackedStringArray()
 
 
 func _generate_reference(node: Node, parent: Node, code: String) -> String:
@@ -266,7 +266,7 @@ func _generate_node_class(node: Node) -> String:
 		return node.get_class()
 
 	var code: String = script.get_source_code()
-	var split_start: PoolStringArray = code.split("class_name ", true, 1)
+	var split_start: PackedStringArray = code.split("class_name ", true, 1)
 
 	if len(split_start) == 1:
 		return code.split("extends ", true, 1)[1].split("\n", true, 1)[0]

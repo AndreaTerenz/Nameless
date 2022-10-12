@@ -15,7 +15,7 @@ const FilterType = preload('Type/FilterType.gd')
 # @param  bool  is_console_shown
 signal toggled(is_console_shown)
 # @param  String       name
-# @param  Reference    target
+# @param  RefCounted    target
 # @param  String|null  target_name
 signal command_added(name, target, target_name)
 # @param  String  name
@@ -26,10 +26,18 @@ signal command_executed(command)
 signal command_not_found(name)
 
 # @var  History
-var History = preload('Misc/History.gd').new(100) setget _set_readonly
+var History = preload('Misc/History.gd').new(100) :
+	get:
+		return History # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of _set_readonly
 
 # @var  Logger
-var Log = preload('Misc/Logger.gd').new() setget _set_readonly
+var Log = preload('Misc/Logger.gd').new() :
+	get:
+		return Log # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of _set_readonly
 
 # @var  Command/CommandService
 var _command_service
@@ -39,7 +47,11 @@ var _command_service
 var _erase_bb_tags_regex
 
 # @var  bool
-var is_console_shown = true setget _set_readonly
+var is_console_shown = true :
+	get:
+		return is_console_shown # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of _set_readonly
 
 # @var  bool
 var consume_input = true
@@ -52,10 +64,18 @@ var bindings : Dictionary = {}
 
 
 ### Console nodes
-onready var _console_box = $ConsoleBox
-onready var Text := $ConsoleBox/Container/ConsoleText setget _set_readonly
-onready var Line := $ConsoleBox/Container/ConsoleLine setget _set_readonly
-onready var _animation_player = $ConsoleBox/AnimationPlayer
+@onready var _console_box = $ConsoleBox
+@onready var Text := $ConsoleBox/Container/ConsoleText :
+	get:
+		return Text # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of _set_readonly
+@onready var Line := $ConsoleBox/Container/ConsoleLine :
+	get:
+		return Line # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of _set_readonly
+@onready var _animation_player = $ConsoleBox/AnimationPlayer
 
 
 func _init():
@@ -70,12 +90,12 @@ func _ready():
 	self.Text.set_selection_enabled(true)
 	# Follow console output (for scrolling)
 	self.Text.set_scroll_follow(true)
-	# React to clicks on console urls
-	self.Text.connect('meta_clicked', self.Line, 'set_text')
+	# React to clicks checked console urls
+	self.Text.connect('meta_clicked',Callable(self.Line,'set_text'))
 
 	# Hide console by default
 	self._console_box.hide()
-	self._animation_player.connect("animation_finished", self, "_toggle_animation_finished")
+	self._animation_player.connect("animation_finished",Callable(self,"_toggle_animation_finished"))
 	self.toggle_console()
 
 	# Console keyboard control
@@ -111,7 +131,7 @@ func get_command_service():
 
 # @param    String  name
 # @returns  Command/Command|null
-func get_command(name):
+func is_command_or_control_pressed(name):
 	return self._command_service.get(name)
 
 # @param    String  name
@@ -131,7 +151,7 @@ func bind_key_command(key_code, command):
 	if not bindings.has(key_code):
 		bindings[key_code] = command
 	else:
-		var key = OS.get_scancode_string(key_code)
+		var key = OS.get_keycode_string(key_code)
 		self.Log.warn("Key %s (%d) is already bound to command '%s' - Ignoring" % \
 			 [key, key_code, bindings[key_code]])
 			
@@ -140,31 +160,31 @@ func bind_key_command(key_code, command):
 # @param    int  key_code
 # @returns  void
 func unbind_key(key_code):
-	var key = OS.get_scancode_string(key_code)
+	var key = OS.get_keycode_string(key_code)
 	
 	if not bindings.erase(key_code):
 		self.Log.warn("No binding found for key %s (%d) - Ignoring" % \
 			 [key, key_code])
 
 func is_key_bound(key):
-	var code = OS.find_scancode_from_string(key)
+	var code = OS.find_keycode_from_string(key)
 	
 	return code != 0 and bindings.has(code)
 
 func find_bound_command(key):
-	var code = OS.find_scancode_from_string(key)
+	var code = OS.find_keycode_from_string(key)
 	
 	return bindings.get(code)
 
 # Example usage:
 # ```gdscript
 # Console.add_command('sayHello', self, 'print_hello')\
-# 	.set_description('Prints "Hello %name%!"')\
-# 	.add_argument('name', TYPE_STRING)\
-# 	.register()
+# 	super.set_description('Prints "Hello %name%!"')\
+# 	super.add_argument('name', TYPE_STRING)\
+# 	super.register()
 # ```
 # @param    String       name
-# @param    Reference    target
+# @param    RefCounted    target
 # @param    String|null  target_name
 # @returns  Command/CommandBuilder
 func add_command(name, target, target_name = null):
@@ -175,7 +195,7 @@ func add_command(name, target, target_name = null):
 # @returns  int
 func remove_command(name):
 	emit_signal("command_removed", name)
-	return self._command_service.remove(name)
+	return self._command_service.remove_at(name)
 
 
 # @param    String  message
@@ -206,7 +226,7 @@ func clear():
 func toggle_console():
 	# Open the console
 	if !self.is_console_shown:
-		previous_focus_owner = self.Line.get_focus_owner()
+		previous_focus_owner = self.Line.get_viewport().gui_get_focus_owner()
 		self._console_box.show()
 		self.Line.clear()
 		self.Line.grab_focus()

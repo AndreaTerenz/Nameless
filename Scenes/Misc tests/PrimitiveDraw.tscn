@@ -12,12 +12,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -88.0
-margin_top = -120.0
-margin_right = -16.947
-margin_bottom = -59.869
-rect_min_size = Vector2( 71.053, 60.131 )
-rect_pivot_offset = Vector2( 35.5265, 30.0655 )
+offset_left = -88.0
+offset_top = -120.0
+offset_right = -16.947
+offset_bottom = -59.869
+minimum_size = Vector2( 71.053, 60.131 )
+pivot_offset = Vector2( 35.5265, 30.0655 )
 script = ExtResource( 2 )
 fill = Color( 0.294118, 0.764706, 0.266667, 1 )
 stroke = Color( 0.839216, 0.0745098, 0.0745098, 1 )
@@ -26,28 +26,28 @@ width = 71.053
 height = 60.131
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 1056.0
-margin_bottom = 232.0
+offset_right = 1056.0
+offset_bottom = 232.0
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_top = 99.0
-margin_right = 126.0
-margin_bottom = 132.0
+offset_top = 99.0
+offset_right = 126.0
+offset_bottom = 132.0
 text = "AAAAAAAAA"
 
 [node name="Circle" type="Control" parent="HBoxContainer"]
-margin_left = 134.0
-margin_right = 365.492
-margin_bottom = 231.492
-rect_min_size = Vector2( 231.492, 231.492 )
+offset_left = 134.0
+offset_right = 365.492
+offset_bottom = 231.492
+minimum_size = Vector2( 231.492, 231.492 )
 script = ExtResource( 1 )
 stroke_weight = 26.4
 pivot_centered = false
 radius = 69.383
 
 [node name="Label2" type="Label" parent="HBoxContainer"]
-margin_left = 373.0
-margin_top = 99.0
-margin_right = 499.0
-margin_bottom = 132.0
+offset_left = 373.0
+offset_top = 99.0
+offset_right = 499.0
+offset_bottom = 132.0
 text = "AAAAAAAAA"

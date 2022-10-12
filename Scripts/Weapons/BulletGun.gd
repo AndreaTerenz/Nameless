@@ -5,16 +5,20 @@ signal out_of_ammo
 signal ammo_updated
 signal new_ammo(amnt)
 
-export(bool) var continuous = false
+@export var continuous: bool = false
 #shots per seconds
-export(int, 1, 1500) var fire_rate = 10
-export(int, 1, 75) var ammo_per_mag = 20
-export(int, 1, 8) var max_mags = 4
+@export var fire_rate = 10 # (int, 1, 1500)
+@export var ammo_per_mag = 20 # (int, 1, 75)
+@export var max_mags = 4 # (int, 1, 8)
 
 var timer := Timer.new()
 var ammo_count := 0
 var reserve_ammo := 0
-var tot_ammo : int setget ,get_tot
+var tot_ammo : int :
+	get:
+		return tot_ammo # TODOConverter40 Copy here content of get_tot 
+	set(mod_value):
+		mod_value  # TODOConverter40  Non existent set function
 func get_tot():
 	return ammo_count + reserve_ammo
 var cooldown : float
@@ -25,7 +29,7 @@ var read_inv := true
 func _ready():
 	cooldown = 1.0/fire_rate
 	
-	timer.connect("timeout", self, "_on_cooldown_over")
+	timer.connect("timeout",Callable(self,"_on_cooldown_over"))
 	timer.wait_time = cooldown
 	timer.one_shot = true
 	add_child(timer)
@@ -97,7 +101,7 @@ func _on_new_ammo() -> void:
 
 func _on_shoot():
 	if timer.is_stopped() and ammo_count > 0 :
-		var bullet : Bullet = _get_entry().item_scene.instance()
+		var bullet : Bullet = _get_entry().item_scene.instantiate()
 		muzzle.add_child(bullet)
 		ammo_count -= 1
 		
@@ -115,7 +119,7 @@ func _check_fire():
 	if continuous:
 		return Input.is_action_pressed("fire")
 	else:
-		return ._check_fire()
+		return super._check_fire()
 	
 func _on_new_entry(entry: Inventory.InventoryEntry) -> void:
 	if entry.name == entry_name:

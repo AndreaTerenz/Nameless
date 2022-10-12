@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/mixkit-industrial-hum-loop-2139.wav-255c301804f7199021f4a4dfaca702fd.sample"
+type="AudioStreamWAV"
+uid="uid://b7jg8un8qs1an"
+path="res://.godot/imported/mixkit-industrial-hum-loop-2139.wav-255c301804f7199021f4a4dfaca702fd.sample"
 
 [deps]
 
 source_file="res://Assets/Audio/Sources/mixkit-industrial-hum-loop-2139.wav"
-dest_files=[ "res://.import/mixkit-industrial-hum-loop-2139.wav-255c301804f7199021f4a4dfaca702fd.sample" ]
+dest_files=["res://.godot/imported/mixkit-industrial-hum-loop-2139.wav-255c301804f7199021f4a4dfaca702fd.sample"]
 
 [params]
 

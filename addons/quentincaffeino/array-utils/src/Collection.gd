@@ -11,7 +11,11 @@ var _collection
 var _iterationCurrent = 0
 
 # @var  int
-var length setget _set_readonly, length
+var length :
+	get:
+		return length # TODOConverter40 Copy here content of length
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of _set_readonly
 
 
 # @param  Variant  collection
@@ -43,7 +47,7 @@ func add(value):
 # Removes an element with a specific key/index from the collection.
 # @param    Variant  key
 # @returns  void
-func remove(key):
+func remove_at(key):
 	self._collection.erase(key)
 
 

@@ -1,25 +1,25 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/rifle/rifle.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Sprites/UI/crosshairs/rifle_ch.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/UI/crosshairs/rifle_ch.png" type="Texture2D" id=2]
 [ext_resource path="res://Materials/muzzle_flash_outer_mat.tres" type="Material" id=4]
 [ext_resource path="res://Assets/Models/weapons/muzzleFlash.obj" type="ArrayMesh" id=5]
 [ext_resource path="res://Materials/muzzle_flash_inner_mat.tres" type="Material" id=6]
-[ext_resource path="res://Assets/Sprites/UI/item_slots/rifle_item_slot.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprites/UI/item_slots/rifle_item_slot.png" type="Texture2D" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends BulletGun
 
-onready var muzzle_flash = $Muzzle/Flash
-onready var a_text = $AmmoTxt
-onready var t_text = $TotTxt
+@onready var muzzle_flash = $Muzzle/Flash
+@onready var a_text = $AmmoTxt
+@onready var t_text = $TotTxt
 
 func _ui():
 	a_text.text = \"%02d\" % ammo_count
 	t_text.text = \"%02d\" % reserve_ammo
 	
 func _on_shot():
-	._on_shot()
+	super._on_shot()
 	
 	muzzle_flash.show()
 "
@@ -32,7 +32,7 @@ func _ready() -> void:
 	pass
 "
 
-[node name="Rifle" type="MeshInstance"]
+[node name="Rifle" type="MeshInstance3D"]
 portal_mode = 2
 layers = 2
 cast_shadow = 0
@@ -46,11 +46,11 @@ crosshair_text = ExtResource( 2 )
 continuous = true
 fire_rate = 200
 
-[node name="Muzzle" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7938, 2.43835, 0 )
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7938, 2.43835, 0 )
 
-[node name="Flash" type="MeshInstance" parent="Muzzle"]
-transform = Transform( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0 )
+[node name="Flash" type="MeshInstance3D" parent="Muzzle"]
+transform = Transform3D( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0 )
 layers = 2
 cast_shadow = 0
 mesh = ExtResource( 5 )
@@ -59,8 +59,8 @@ material/0 = ExtResource( 4 )
 material/1 = ExtResource( 6 )
 script = SubResource( 2 )
 
-[node name="OmniLight2" type="OmniLight" parent="Muzzle/Flash"]
-transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.112119, 0.448411, 0 )
+[node name="OmniLight2" type="OmniLight3D" parent="Muzzle/Flash"]
+transform = Transform3D( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.112119, 0.448411, 0 )
 layers = 2
 light_color = Color( 1, 0.996078, 0.376471, 1 )
 light_energy = 4.337
@@ -68,8 +68,8 @@ light_cull_mask = 4294967294
 omni_range = 2.42258
 omni_attenuation = 0.183011
 
-[node name="OmniLight" type="OmniLight" parent="Muzzle/Flash"]
-transform = Transform( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.3073, 0, 0 )
+[node name="OmniLight3D" type="OmniLight3D" parent="Muzzle/Flash"]
+transform = Transform3D( 0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.3073, 0, 0 )
 light_color = Color( 1, 0.996078, 0.376471, 1 )
 light_energy = 2.058
 light_cull_mask = 4294967293
@@ -77,14 +77,14 @@ omni_range = 12.1562
 omni_attenuation = 3.36359
 
 [node name="AmmoTxt" type="Label3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24495, 2, -1.15113 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24495, 2, -1.15113 )
 layers = 2
 pixel_size = 0.025
 alpha_cut = 1
 text = "00"
 
 [node name="TotTxt" type="Label3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.891345, 2, -1.15113 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.891345, 2, -1.15113 )
 layers = 2
 pixel_size = 0.015
 alpha_cut = 1

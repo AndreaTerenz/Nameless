@@ -6,7 +6,7 @@ class FootstepsProperties:
 	var format_str = ""
 	var count = 0
 	
-	func _init(fs: String, c: int) -> void:
+	func _init(fs: String,c: int):
 		self.format_str = fs
 		self.count = c
 

@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh"
+uid="uid://btvqnjcr4spr2"
+path="res://.godot/imported/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh"
 
 [deps]
 
-files=[ "res://.import/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh" ]
+files=["res://.godot/imported/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh"]
 
 source_file="res://Assets/Models/weapons/pickups/gun_ammo.obj"
-dest_files=[ "res://.import/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh", "res://.import/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh" ]
+dest_files=["res://.godot/imported/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh", "res://.godot/imported/gun_ammo.obj-2b938fcad0ddfbf698b20c6e76d07972.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,13 +1,13 @@
 class_name Interactable
-extends StaticBody
+extends StaticBody3D
 
 signal interacted_with(sender)
 signal interaction_ended
 
-export(bool) var enabled = true
-export(bool) var oneshot = false
-export(bool) var continuous = false
-export(String) var interact_txt = ""
+@export var enabled: bool = true
+@export var one_shot: bool = false
+@export var continuous: bool = false
+@export var interact_txt: String = ""
 
 func _ready():
 	Utils.set_layer_bit_in_object(self, "Interactables")
@@ -23,7 +23,7 @@ func interact(sender: Node = null):
 		var output = _on_interact(sender)
 		emit_signal("interacted_with", sender)
 		
-		if (not continuous) and oneshot:
+		if (not continuous) and one_shot:
 			enabled = false
 		
 		return output
@@ -36,7 +36,7 @@ func stop_interaction():
 		emit_signal("interaction_ended")
 		return output
 		
-		if oneshot:
+		if one_shot:
 			enabled = false
 		
 func can_interact():

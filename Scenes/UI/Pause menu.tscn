@@ -7,7 +7,7 @@
 script/source = "extends GameUI
 	
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT and not visible and not Console.is_console_shown:
+	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT and not visible and not Console.is_console_shown:
 		_on_pause()
 
 func _on_Quit_Btn_pressed() -> void:
@@ -28,11 +28,11 @@ func _on_Save_Btn_pressed() -> void:
 "
 
 [node name="Pause menu" type="Control"]
-pause_mode = 2
+process_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
-focus_neighbour_top = NodePath("CenterContainer/VBoxContainer/Quit Btn")
-focus_neighbour_bottom = NodePath("CenterContainer/VBoxContainer/Restart Btn")
+focus_neighbor_top = NodePath("CenterContainer/VBoxContainer/Quit Btn")
+focus_neighbor_bottom = NodePath("CenterContainer/VBoxContainer/Restart Btn")
 focus_next = NodePath("CenterContainer/VBoxContainer/Restart Btn")
 focus_previous = NodePath("CenterContainer/VBoxContainer/Quit Btn")
 focus_mode = 2
@@ -49,11 +49,11 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-pause_mode = 2
-margin_left = 855.0
-margin_top = 367.0
-margin_right = 1065.0
-margin_bottom = 712.0
+process_mode = 2
+offset_left = 855.0
+offset_top = 367.0
+offset_right = 1065.0
+offset_bottom = 712.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 2
@@ -62,11 +62,11 @@ alignment = 1
 
 [node name="Restart Btn" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 210.0
-margin_bottom = 53.0
+offset_right = 210.0
+offset_bottom = 53.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 210, 0 )
+minimum_size = Vector2( 210, 0 )
 focus_next = NodePath("../Resume Btn")
 focus_previous = NodePath("../Quit Btn")
 size_flags_horizontal = 5
@@ -76,10 +76,10 @@ script = ExtResource( 3 )
 
 [node name="Resume Btn" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 73.0
-margin_right = 210.0
-margin_bottom = 126.0
-rect_min_size = Vector2( 210, 0 )
+offset_top = 73.0
+offset_right = 210.0
+offset_bottom = 126.0
+minimum_size = Vector2( 210, 0 )
 focus_next = NodePath("../Quit Btn")
 focus_previous = NodePath("../Restart Btn")
 size_flags_horizontal = 5
@@ -90,10 +90,10 @@ script = ExtResource( 3 )
 [node name="Save Btn" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 show_behind_parent = true
-margin_top = 146.0
-margin_right = 210.0
-margin_bottom = 199.0
-rect_min_size = Vector2( 210, 0 )
+offset_top = 146.0
+offset_right = 210.0
+offset_bottom = 199.0
+minimum_size = Vector2( 210, 0 )
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
 size_flags_horizontal = 5
@@ -107,10 +107,10 @@ __meta__ = {
 [node name="Hub Btn" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 show_behind_parent = true
-margin_top = 219.0
-margin_right = 210.0
-margin_bottom = 272.0
-rect_min_size = Vector2( 210, 0 )
+offset_top = 219.0
+offset_right = 210.0
+offset_bottom = 272.0
+minimum_size = Vector2( 210, 0 )
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
 size_flags_horizontal = 5
@@ -124,10 +124,10 @@ __meta__ = {
 [node name="Quit Btn" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 show_behind_parent = true
-margin_top = 292.0
-margin_right = 210.0
-margin_bottom = 345.0
-rect_min_size = Vector2( 210, 0 )
+offset_top = 292.0
+offset_right = 210.0
+offset_bottom = 345.0
+minimum_size = Vector2( 210, 0 )
 focus_next = NodePath("../Restart Btn")
 focus_previous = NodePath("../Resume Btn")
 size_flags_horizontal = 5

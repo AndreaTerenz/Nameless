@@ -1,5 +1,5 @@
 class_name Player
-extends KinematicBody
+extends CharacterBody3D
 
 signal mode_changed(new_mode)
 signal mover_changed(new_mov)
@@ -22,30 +22,30 @@ enum MODE {
 	NOCLIP
 }
 
-export(float, 8, 30, .5) var h_speed = 10.0
-export(float, 1.1, 3.5, .1) var speed_sprint_mult = 2.0
-export(float, .1, .9, .05) var speed_crouch_mult = .4
-export(float, .4, 3.0, .1) var crouch_anim_mult = 1.0
-export(float, 10, 20, .5) var gravity_strength = 17.0
-export(float, 6, 25, .5) var jump_strength = 10.0
-export(float, .01, .2, .005) var mouse_sens_std = 0.1
-export(float, .01, .9, .005) var zoom_mouse_sensitivity_factor = 0.33
-export(float, 10.0, 90.0, .01) var head_rot_limit_up = 80.0
-export(float, 10.0, 90.0, .01) var head_rot_limit_down = 80.0
-export(float, 1, 10, .1) var std_acceleration = 6.0
-export(float, 0.01, 1.0, .01) var air_acc_factor = 0.5
-export(float, .05, .2, .01) var fov_tween_speed = .1
-export(float, 60.0, 80.0, .5) var std_fov = 65.0
-export(float, 80.0, 110.0, .5) var sprint_fov = 85.0
-export(float, 20.0, 55.0, .5) var zoom_fov = 50.0
-export(float, 1.0, 100.0, .1) var hitbox_max_hp = 100.0
-export(float, 1.0, 100.0, .1) var hitbox_start_hp = 100.0
-export(MODE) var start_mode = MODE.GAME
-export(bool) var get_fall_damage = true
-export(bool) var show_debug_ball = true
-export(bool) var guns_enabled = true
-export(bool) var footstep_sfx_enabled = true
-export(int, FLAGS, 
+@export var h_speed = 10.0 # (float, 8, 30, .5)
+@export var speed_sprint_mult = 2.0 # (float, 1.1, 3.5, .1)
+@export var speed_crouch_mult = .4 # (float, .1, .9, .05)
+@export var crouch_anim_mult = 1.0 # (float, .4, 3.0, .1)
+@export var gravity_strength = 17.0 # (float, 10, 20, .5)
+@export var jump_strength = 10.0 # (float, 6, 25, .5)
+@export var mouse_sens_std = 0.1 # (float, .01, .2, .005)
+@export var zoom_mouse_sensitivity_factor = 0.33 # (float, .01, .9, .005)
+@export var head_rot_limit_up = 80.0 # (float, 10.0, 90.0, .01)
+@export var head_rot_limit_down = 80.0 # (float, 10.0, 90.0, .01)
+@export var std_acceleration = 6.0 # (float, 1, 10, .1)
+@export var air_acc_factor = 0.5 # (float, 0.01, 1.0, .01)
+@export var fov_tween_speed = .1 # (float, .05, .2, .01)
+@export var std_fov = 65.0 # (float, 60.0, 80.0, .5)
+@export var sprint_fov = 85.0 # (float, 80.0, 110.0, .5)
+@export var zoom_fov = 50.0 # (float, 20.0, 55.0, .5)
+@export var hitbox_max_hp = 100.0 # (float, 1.0, 100.0, .1)
+@export var hitbox_start_hp = 100.0 # (float, 1.0, 100.0, .1)
+@export var start_mode: MODE = MODE.GAME
+@export var get_fall_damage: bool = true
+@export var show_debug_ball: bool = true
+@export var guns_enabled: bool = true
+@export var footstep_sfx_enabled: bool = true
+@export(int, FLAGS, 
 	"Compass", "HealthBar",
 	"Crosshair", #"WeaponWheel", 
 	"Notifications") var hud_features = 0b11111
@@ -65,45 +65,57 @@ var head_in_env := false
 var initial_self_rot := 0.0
 var initial_pos := Vector3.ZERO
 
-var health : float setget set_health,get_health
+var health : float :
+	get:
+		return health # TODOConverter40 Copy here content of get_health
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_health
 # ONLY USE TO RESET HP
 func set_health(value):
 	hitbox.set_initial_hp(value)
 func get_health():
 	return hitbox.health if hitbox else -1.0
 
-onready var mover = null
-onready var mode = -1 setget set_mode
-onready var environment = ENVIRONMENT.NONE setget set_env
+@onready var mover = null
+@onready var mode = -1 :
+	get:
+		return mode # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_mode
+@onready var environment = ENVIRONMENT.NONE :
+	get:
+		return environment # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_env
 
-onready var inventory: Inventory = $Inventory
-onready var head = $Head
-onready var head_anim = $Head/AnimationPlayer
-onready var body = $Body
-onready var foot = $Foot
-onready var camera : CameraController = $Head/Camera
-onready var water_hemisphere = get_node("%WaterFX")
-onready var env_chk = get_node("%EnvCheck")
-onready var full_env_chk = get_node("%Submrg_Check")
-onready var drown_timer = get_node("%DrownTimer")
-onready var hud = get_node("%Hud")
-onready var compass = hud.get_node("Compass")
-onready var gun_camera = get_node("%GunCamera")
-onready var grnd_chk := $Foot/GroundCheck
-onready var roof_chk = $Head/RoofCheck
-onready var interact_chk = get_node("%InteractRay")
-onready var look_ray = get_node("%LookRay")
-onready var aim_ray = get_node("%AimRay")
-onready var prop_ray = get_node("%PropRay")
-onready var hitbox : Hitbox = $Hitbox
-onready var others_chck = $OthersDetection
-onready var gun_hook = get_node("%GunHook")
-onready var light = $"Head/Flashlight"
-onready var alerts_queue := get_node("%AlertsQueue")
-onready var debug_ball := get_node("%DebugBall")
+@onready var inventory: Inventory = $Inventory
+@onready var head = $Head
+@onready var head_anim = $Head/AnimationPlayer
+@onready var body = $Body
+@onready var foot = $Foot
+@onready var camera : CameraController = $Head/Camera3D
+@onready var water_hemisphere = get_node("%WaterFX")
+@onready var env_chk = get_node("%EnvCheck")
+@onready var full_env_chk = get_node("%Submrg_Check")
+@onready var drown_timer = get_node("%DrownTimer")
+@onready var hud = get_node("%Hud")
+@onready var compass = hud.get_node("Compass")
+@onready var gun_camera = get_node("%GunCamera")
+@onready var grnd_chk := $Foot/GroundCheck
+@onready var roof_chk = $Head/RoofCheck
+@onready var interact_chk = get_node("%InteractRay")
+@onready var look_ray = get_node("%LookRay")
+@onready var aim_ray = get_node("%AimRay")
+@onready var prop_ray = get_node("%PropRay")
+@onready var hitbox : Hitbox = $Hitbox
+@onready var others_chck = $OthersDetection
+@onready var gun_hook = get_node("%GunHook")
+@onready var light = $"Head/Flashlight"
+@onready var alerts_queue := get_node("%AlertsQueue")
+@onready var debug_ball := get_node("%DebugBall")
 ### Automatic References Start ###
-onready var _footsteps_check: Area = get_node("%FootstepsCheck")
-onready var _tracker: PlayerTracker = get_node("%Tracker")
+@onready var _footsteps_check: Area3D = get_node("%FootstepsCheck")
+@onready var _tracker: PlayerTracker = get_node("%Tracker")
 ### Automatic References Stop ###
 
 func _ready() -> void:
@@ -122,7 +134,7 @@ func _ready() -> void:
 	camera.sprint_fov = sprint_fov
 	camera.zoom_fov = zoom_fov
 	
-	compass_range = (others_chck.get_child(0) as CollisionShape).shape.radius + 5
+	compass_range = (others_chck.get_child(0) as CollisionShape3D).shape.radius + 5
 	
 	hitbox.max_health = hitbox_max_hp
 	hitbox.health = min(hitbox_start_hp, hitbox_max_hp)
@@ -138,10 +150,10 @@ func _ready() -> void:
 	Globals.set_player(self)
 	
 	Console.add_command("noclip", self, "_noclip")\
-	.set_description("Toggles noclip mode")\
-	.register()
+	super.set_description("Toggles noclip mode")\
+	super.register()
 	
-	Console.bind_key_command(OS.find_scancode_from_string("n"), "noclip")
+	Console.bind_key_command(OS.find_keycode_from_string("n"), "noclip")
 
 func _input(event: InputEvent) -> void:
 	if mode == MODE.CINEMATIC:
@@ -168,7 +180,9 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	gun_camera.global_transform = camera.global_transform
 	
-	move_and_slide(mover.get_velocity(delta), Vector3.UP)
+	set_velocity(mover.get_velocity(delta))
+	set_up_direction(Vector3.UP)
+	move_and_slide()
 	
 	set_mode(mover.new_mode())
 	
@@ -317,11 +331,11 @@ func on_respawn():
 	set_mode(start_mode)
 	
 func unbind_keys():
-	Console.unbind_key(OS.find_scancode_from_string("n"))
+	Console.unbind_key(OS.find_keycode_from_string("n"))
 	Console.remove_command("noclip")
 
 func get_other_type(_other: Node):
-	var other = _other as CollisionObject
+	var other = _other as CollisionObject3D
 	if other:
 		var ls = [Globals.GROUPS.ENEMIES, Globals.GROUPS.FRIENDLY]
 		
@@ -341,12 +355,12 @@ func _on_other_lost(other: Node) -> void:
 	others_dict[type] -= 1
 	compass.remove_target(other)
 
-func _on_entered_env(area: Area) -> void:
+func _on_entered_env(area: Area3D) -> void:
 	if area.has_meta("ENV_TYPE"):
 		var env = area.get_meta("ENV_TYPE")
 		set_env(env)
 
-func _on_exited_env(area: Area) -> void:
+func _on_exited_env(area: Area3D) -> void:
 	if area.has_meta("ENV_TYPE"):
 		set_env(ENVIRONMENT.NORMAL)
 
@@ -391,11 +405,11 @@ func stop_drown():
 func is_fully_in_env(offset = 1.0):
 	return env_chk.is_fully_in_env(offset)
 
-func _on_WaterFX_Trig_entered(_area: Area) -> void:
+func _on_WaterFX_Trig_entered(_area: Area3D) -> void:
 	head_in_env = true
 	drown_timer.start(5.0)
 
-func _on_WaterFX_Trig_exited(_area: Area) -> void:
+func _on_WaterFX_Trig_exited(_area: Area3D) -> void:
 	head_in_env = false
 	stop_drown()
 	

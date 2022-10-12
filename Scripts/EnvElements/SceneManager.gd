@@ -1,17 +1,17 @@
 class_name SceneManager
-extends Spatial
+extends Node3D
 
 signal player_died
 
-export(String) var scene_name = ""
-export(NodePath) var player_spawn_ref
-export(NodePath) var world_env_ref
-export(NodePath) var sun_light_ref
-export(Array, String) var gi_probes_refs = []
+@export var scene_name: String = ""
+@export var player_spawn_ref: NodePath
+@export var world_env_ref: NodePath
+@export var sun_light_ref: NodePath
+@export var gi_probes_refs = [] # (Array, String)
 
-onready var player_spawn : Position3D = Utils.try_get_node(player_spawn_ref, self)
-onready var world_env : Environment = Utils.try_get_node(world_env_ref, self)
-onready var sun_light : DirectionalLight = Utils.try_get_node(sun_light_ref, self)
+@onready var player_spawn : Marker3D = Utils.try_get_node(player_spawn_ref, self)
+@onready var world_env : Environment = Utils.try_get_node(world_env_ref, self)
+@onready var sun_light : DirectionalLight3D = Utils.try_get_node(sun_light_ref, self)
 
 var gi_probes := []
 var global_audio_srcs : Dictionary = {}
@@ -26,10 +26,10 @@ func _ready() -> void:
 	for child in get_children():
 		if not(world_env) and child is WorldEnvironment:
 			world_env = child.environment
-		if not(sun_light) and child is DirectionalLight:
+		if not(sun_light) and child is DirectionalLight3D:
 			sun_light = child
-		if child is GIProbe:
-			Console.write_line("Detected GIProbe #%d (%s)" % [len(gi_probes), child.name])
+		if child is VoxelGI:
+			Console.write_line("Detected VoxelGI #%d (%s)" % [len(gi_probes), child.name])
 			gi_probes.append(child)
 		if child is AudioStreamPlayer:
 			Console.write_line("Detected global audio player #%d (%s)" % [len(global_audio_srcs), child.name])
@@ -37,8 +37,8 @@ func _ready() -> void:
 			
 	for gp_r in gi_probes_refs:
 		var gp = Utils.try_get_node(gp_r, self)
-		if gp and not(gp.parent == self) and gp is GIProbe:
-			Console.write_line("Added GIProbe #%d (%s)" % [len(gi_probes), gp.name])
+		if gp and not(gp.parent == self) and gp is VoxelGI:
+			Console.write_line("Added VoxelGI #%d (%s)" % [len(gi_probes), gp.name])
 			gi_probes.append(gp)
 			
 	if not world_env:
@@ -52,29 +52,29 @@ func _ready() -> void:
 		Console.write_line("Detected directional sun light")
 	
 	Console.add_command("toggle_sun", self, "toggle_sun")\
-	.set_description("toggles scene directional light")\
-	.register()
+	super.set_description("toggles scene directional light")\
+	super.register()
 	
 	Console.add_command("toggle_sun_shadow", self, "toggle_sun_shadow")\
-	.set_description("toggles scene directional light shadows")\
-	.register()
+	super.set_description("toggles scene directional light shadows")\
+	super.register()
 	
 	Console.add_command("toggle_gi_probes", self, "toggle_gi_probes")\
-	.set_description("toggles GIProbes")\
-	.register()
+	super.set_description("toggles GIProbes")\
+	super.register()
 	
 	Console.add_command("env_set_property", self, "env_set_property")\
-	.set_description("set value for world env property")\
-	.add_argument("prop", TYPE_STRING)\
-	.add_argument("value", TYPE_STRING)\
-	.register()
+	super.set_description("set value for world env property")\
+	super.add_argument("prop", TYPE_STRING)\
+	super.add_argument("value", TYPE_STRING)\
+	super.register()
 	
 	Globals.set_scene_manager(self)
 	
 	if not Globals.player:
-		yield(Globals, "player_set")
+		await Globals.player_set
 		
-	Globals.player.connect("killed", self, "on_player_dead")
+	Globals.player.connect("killed",Callable(self,"on_player_dead"))
 	spawn_player()
 	
 	Globals.player.tracker_save()
@@ -122,7 +122,7 @@ func env_set_property(prop, value):
 				val = int(value)
 			TYPE_BOOL:
 				val = true if (value.to_lower() == "true") else false
-			TYPE_REAL:
+			TYPE_FLOAT:
 				val = float(value)
 		
 		#Console.write_line("%s %s" % [value, val])

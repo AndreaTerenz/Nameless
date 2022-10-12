@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh"
+uid="uid://bdhc2aiafl5sm"
+path="res://.godot/imported/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh"
 
 [deps]
 
-files=[ "res://.import/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh" ]
+files=["res://.godot/imported/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh"]
 
 source_file="res://Assets/Models/story levels/part_0/props/cell_screen.obj"
-dest_files=[ "res://.import/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh", "res://.import/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh" ]
+dest_files=["res://.godot/imported/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh", "res://.godot/imported/cell_screen.obj-792ddb932ca79b95bf554d56de30fc9b.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

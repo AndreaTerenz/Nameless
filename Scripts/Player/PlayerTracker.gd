@@ -4,8 +4,8 @@ extends Node
 signal saved
 signal loaded
 
-export(bool) var save_on_ready = true
-export(bool) var debug_enabled = true
+@export var save_on_ready: bool = true
+@export var debug_enabled: bool = true
 
 var data := {}
 var player = null
@@ -22,13 +22,13 @@ var transf_data := {
 MISSING:
 	Inventory items
 	Selected weapon
-	Camera settings
+	Camera3D settings
 	Mover data (which one)
 	Mode data (which one)
 """
 
 func _ready() -> void:
-	yield(Globals, "player_set")
+	await Globals.player_set
 	player = Globals.player
 
 	if player and save_on_ready:

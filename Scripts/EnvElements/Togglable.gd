@@ -1,11 +1,15 @@
 class_name Togglable
-extends Spatial
+extends Node3D
 
 signal activated
 signal deactivated
 signal changed
 
-var active: bool = false setget set_active
+var active: bool = false :
+	get:
+		return active # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_active
 
 func set_active(value):
 	active = value

@@ -20,11 +20,15 @@ class InventoryEntry:
 	var item_scene: PackedScene = null
 	var id: int = -1
 	
-	var total_weight: float setget ,get_tot_weight
+	var total_weight: float :
+	get:
+		return total_weight # TODOConverter40 Copy here content of get_tot_weight 
+	set(mod_value):
+		mod_value  # TODOConverter40  Non existent set function
 	func get_tot_weight():
 		return weight * quantity
 	
-	func _init(n: String, t, q: int, w: float, u: bool = false, s: PackedScene = null, i: int = -1) -> void:
+	func _init(n: String,t,q: int,w: float,u: bool = false,s: PackedScene = null,i: int = -1):
 		name = n
 		type = t
 		quantity = q
@@ -40,8 +44,8 @@ class InventoryEntry:
 	func _to_string() -> String:
 		return "%s (%d)" % [name, quantity]
 		
-export(float, 150.0, 300, .5) var max_weight := 200.0
-export(bool) var allow_overweight = false
+@export var max_weight := 200.0 # (float, 150.0, 300, .5)
+@export var allow_overweight: bool = false
 
 var entries: Array = []
 var entry_listeners: Dictionary = {}
@@ -137,8 +141,8 @@ func request_total_wb():
 		Utils.log_line(self, "Requesting writeback for inventory entry [%s]" % e.name)
 		entry_listeners[e.name].write_to_inventory()
 	
-func entries_as_strings(type_filter = -1) -> PoolStringArray:
-	var output : PoolStringArray = []
+func entries_as_strings(type_filter = -1) -> PackedStringArray:
+	var output : PackedStringArray = []
 	
 	for e in entries:
 		var entry := e as InventoryEntry

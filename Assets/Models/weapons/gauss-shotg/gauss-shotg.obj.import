@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh"
+uid="uid://32pf3tpaa4k4"
+path="res://.godot/imported/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh"
 
 [deps]
 
-files=[ "res://.import/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh" ]
+files=["res://.godot/imported/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh"]
 
 source_file="res://Assets/Models/weapons/gauss-shotg/gauss-shotg.obj"
-dest_files=[ "res://.import/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh", "res://.import/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh" ]
+dest_files=["res://.godot/imported/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh", "res://.godot/imported/gauss-shotg.obj-c3152b9f8d1cd0cbbad8f9e5b3091e29.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

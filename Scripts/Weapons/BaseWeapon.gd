@@ -1,21 +1,29 @@
 class_name BaseWeapon
-extends Spatial
+extends Node3D
 
 signal attacked
 
-export(StreamTexture) var icon := preload("res://Assets/Sprites/UI/item_slots/empty_slot.png")
-export(bool) var aimable := true
-export(String) var entry_name = ""
+@export var icon: CompressedTexture2D := preload("res://Assets/Sprites/UI/item_slots/empty_slot.png")
+@export var aimable: bool := true
+@export var entry_name: String = ""
 
 var target_group := "Enemies"
-var enabled = false setget set_enabled
+var enabled = false :
+	get:
+		return enabled # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_enabled
 
-var player_inventory : Inventory setget set_inv
+var player_inventory : Inventory :
+	get:
+		return player_inventory # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_inv
 func set_inv(inv: Inventory):
 	player_inventory = inv
 	
-	inv.connect("new_entry", self, "_on_new_entry")
-	inv.connect("updated_entry", self, "_on_updated_entry")
+	inv.connect("new_entry",Callable(self,"_on_new_entry"))
+	inv.connect("updated_entry",Callable(self,"_on_updated_entry"))
 	inv.add_entry_listener(entry_name, self)
 	
 func _get_entry_name():

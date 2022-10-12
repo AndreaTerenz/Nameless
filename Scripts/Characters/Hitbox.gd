@@ -1,5 +1,5 @@
 class_name Hitbox
-extends Area
+extends Area3D
 
 signal killed
 signal no_change
@@ -10,11 +10,11 @@ signal healed(amnt)
 var last_change_from := Vector3.ZERO
 var max_health : float = 100
 var start_health : float = 100
-export var health : float = 100 
+@export var health : float = 100 
 
 func _ready() -> void:
-	connect("body_entered", self, "_on_collided")
-	connect("area_entered", self, "_on_area_collided")
+	connect("body_entered",Callable(self,"_on_collided"))
+	connect("area_entered",Callable(self,"_on_area_collided"))
 	
 func set_initial_hp(h):
 	set_health(h, Vector3.ZERO, true)
@@ -61,10 +61,10 @@ func _on_collided(body: Node):
 		var bullet = body as Bullet
 		decrease_hp(bullet.damage)
 		bullet.queue_free()
-	elif body is Area:
+	elif body is Area3D:
 		set_health(0)
 		
-func _on_area_collided(area: Area):
+func _on_area_collided(area: Area3D):
 	if area is KillZone:
 		set_health(0)
 	

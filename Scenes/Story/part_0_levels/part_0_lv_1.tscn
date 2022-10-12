@@ -6,26 +6,26 @@
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=4]
 [ext_resource path="res://Scripts/EnvElements/Interactable.gd" type="Script" id=5]
 [ext_resource path="res://Materials/tutorial_target_mat.tres" type="Material" id=6]
-[ext_resource path="res://Assets/Grids/grid_purple.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Grids/grid_purple.png" type="Texture2D" id=7]
 [ext_resource path="res://Materials/Shaders/disappearing_plat.gdshader" type="Shader" id=8]
-[ext_resource path="res://Assets/Grids/grid_norm.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Grids/grid_norm.png" type="Texture2D" id=9]
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=10]
 
 [sub_resource type="GDScript" id=24]
-script/source = "extends Spatial
+script/source = "extends Node3D
 
 signal done
 
 ### Automatic References Start ###
-onready var _animation_player: AnimationPlayer = $AnimationPlayer
-onready var _end_trigger: TriggerZone = $EndTrigger
+@onready var _animation_player: AnimationPlayer = $AnimationPlayer
+@onready var _end_trigger: TriggerZone = $EndTrigger
 ### Automatic References Stop ###
 
 var started_fall := false
 var reset_plats_on_died := true
 
 func _ready() -> void:
-	Globals.scene_mngr.connect(\"player_died\", self, \"player_dead\")
+	Globals.scene_mngr.connect(\"player_died\",Callable(self,\"player_dead\"))
 
 func player_dead():
 	if reset_plats_on_died:
@@ -59,11 +59,11 @@ func _on_EndTrigger_entered(zone, target) -> void:
 	emit_signal(\"done\")
 "
 
-[sub_resource type="ConcavePolygonShape" id=2]
-data = PoolVector3Array( -5.035, -0.2886, 1.3177, 5.035, -0.2886, -1.3177, -5.035, -0.2886, -1.3177, -5.035, -0.2886, 1.3177, 5.035, -0.2886, 1.3177, 5.035, -0.2886, -1.3177, -5.035, 1.4257, -0.9134, 5.035, 1.4256, 0.9134, -5.035, 1.4256, 0.9134, -5.035, 1.4257, -0.9134, 5.035, 1.4257, -0.9134, 5.035, 1.4256, 0.9134, 5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 0, -0.3866, -5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.0214, 1.3177, -5.035, 0, 1.3177, -5.035, 0.8892, 0.3866, 5.035, 0.8893, -0.3866, -5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 0.8893, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, -5.035, 0, 0.3866, 5.035, 0, 0.3866, 5.035, 0.8892, 0.3866, -5.035, 0.8892, 0.3866, -5.035, 0, 0.3866, -5.035, 0, 1.3177, 5.035, -0.2886, 1.3177, -5.035, -0.2886, 1.3177, 5.035, 0, -1.3177, -5.035, -0.2886, -1.3177, 5.035, -0.2886, -1.3177, 5.035, 0.8892, 0.3866, 5.035, 0, 1.3177, 5.035, 1.0214, 1.3177, 5.035, 1.0214, -1.3177, 5.035, 0, -1.3177, 5.035, 0.8893, -0.3866, 5.035, 1.4257, -0.9134, 5.035, 0.8893, -0.3866, 5.035, 1.4256, 0.9134, -5.035, 0.8893, -0.3866, -5.035, 0, -1.3177, -5.035, 1.0214, -1.3177, -5.035, 0, -0.3866, 5.035, 0, 0.3866, -5.035, 0, 0.3866, -5.035, 0, -0.3866, 5.035, 0, -0.3866, 5.035, 0, 0.3866, -5.035, 1.0214, 1.3177, -5.035, 1.2238, 0.9674, -5.035, 1.4256, 0.9134, -5.035, 1.4257, -0.9134, -5.035, 1.2239, -0.9674, -5.035, 1.0214, -1.3177, 5.035, 1.4256, 0.9134, 5.035, 1.2238, 0.9674, 5.035, 1.0214, 1.3177, 5.035, 1.0214, -1.3177, 5.035, 1.2239, -0.9674, 5.035, 1.4257, -0.9134, -5.035, 1.4257, -0.9134, 5.035, 1.0214, -1.3177, 5.035, 1.4257, -0.9134, -5.035, 1.4257, -0.9134, -5.035, 1.0214, -1.3177, 5.035, 1.0214, -1.3177, -5.035, 1.0214, 1.3177, 5.035, 1.4256, 0.9134, 5.035, 1.0214, 1.3177, -5.035, 1.0214, 1.3177, -5.035, 1.4256, 0.9134, 5.035, 1.4256, 0.9134, -5.035, 0.8892, 0.3866, -5.035, 1.4256, 0.9134, -5.035, 1.2238, 0.9674, -5.035, 1.2238, 0.9674, -5.035, 1.0214, 1.3177, -5.035, 0.8892, 0.3866, -5.035, 0.8892, 0.3866, -5.035, 0, 1.3177, -5.035, 0, 0.3866, 5.035, -0.2886, 1.3177, -5.035, 0, 1.3177, 5.035, 0, 1.3177, 5.035, 0, 1.3177, -5.035, 0, 1.3177, 5.035, 1.0214, 1.3177, 5.035, 1.0214, 1.3177, -5.035, 0, 1.3177, -5.035, 1.0214, 1.3177, -5.035, -0.2886, -1.3177, 5.035, 0, -1.3177, -5.035, 0, -1.3177, -5.035, 0, -1.3177, 5.035, 0, -1.3177, -5.035, 1.0214, -1.3177, -5.035, 1.0214, -1.3177, 5.035, 0, -1.3177, 5.035, 1.0214, -1.3177, 5.035, 0, 1.3177, 5.035, 0.8892, 0.3866, 5.035, 0, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 1.0214, 1.3177, 5.035, 1.2238, 0.9674, 5.035, 1.2239, -0.9674, 5.035, 1.0214, -1.3177, 5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 0, -1.3177, 5.035, 0, -0.3866, 5.035, 1.2238, 0.9674, 5.035, 1.4256, 0.9134, 5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 1.4256, 0.9134, 5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 1.4257, -0.9134, 5.035, 1.2239, -0.9674, -5.035, 0, -1.3177, -5.035, 0.8893, -0.3866, -5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.0214, -1.3177, -5.035, 1.2239, -0.9674, -5.035, 1.2239, -0.9674, -5.035, 1.4257, -0.9134, -5.035, 0.8893, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.4256, 0.9134, -5.035, 0.8892, 0.3866, -5.035, 1.4257, -0.9134, -5.035, 1.4256, 0.9134, -5.035, 0.8893, -0.3866 )
+[sub_resource type="ConcavePolygonShape3D" id=2]
+data = PackedVector3Array( -5.035, -0.2886, 1.3177, 5.035, -0.2886, -1.3177, -5.035, -0.2886, -1.3177, -5.035, -0.2886, 1.3177, 5.035, -0.2886, 1.3177, 5.035, -0.2886, -1.3177, -5.035, 1.4257, -0.9134, 5.035, 1.4256, 0.9134, -5.035, 1.4256, 0.9134, -5.035, 1.4257, -0.9134, 5.035, 1.4257, -0.9134, 5.035, 1.4256, 0.9134, 5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 0, -0.3866, -5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.0214, 1.3177, -5.035, 0, 1.3177, -5.035, 0.8892, 0.3866, 5.035, 0.8893, -0.3866, -5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 0.8893, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, -5.035, 0, 0.3866, 5.035, 0, 0.3866, 5.035, 0.8892, 0.3866, -5.035, 0.8892, 0.3866, -5.035, 0, 0.3866, -5.035, 0, 1.3177, 5.035, -0.2886, 1.3177, -5.035, -0.2886, 1.3177, 5.035, 0, -1.3177, -5.035, -0.2886, -1.3177, 5.035, -0.2886, -1.3177, 5.035, 0.8892, 0.3866, 5.035, 0, 1.3177, 5.035, 1.0214, 1.3177, 5.035, 1.0214, -1.3177, 5.035, 0, -1.3177, 5.035, 0.8893, -0.3866, 5.035, 1.4257, -0.9134, 5.035, 0.8893, -0.3866, 5.035, 1.4256, 0.9134, -5.035, 0.8893, -0.3866, -5.035, 0, -1.3177, -5.035, 1.0214, -1.3177, -5.035, 0, -0.3866, 5.035, 0, 0.3866, -5.035, 0, 0.3866, -5.035, 0, -0.3866, 5.035, 0, -0.3866, 5.035, 0, 0.3866, -5.035, 1.0214, 1.3177, -5.035, 1.2238, 0.9674, -5.035, 1.4256, 0.9134, -5.035, 1.4257, -0.9134, -5.035, 1.2239, -0.9674, -5.035, 1.0214, -1.3177, 5.035, 1.4256, 0.9134, 5.035, 1.2238, 0.9674, 5.035, 1.0214, 1.3177, 5.035, 1.0214, -1.3177, 5.035, 1.2239, -0.9674, 5.035, 1.4257, -0.9134, -5.035, 1.4257, -0.9134, 5.035, 1.0214, -1.3177, 5.035, 1.4257, -0.9134, -5.035, 1.4257, -0.9134, -5.035, 1.0214, -1.3177, 5.035, 1.0214, -1.3177, -5.035, 1.0214, 1.3177, 5.035, 1.4256, 0.9134, 5.035, 1.0214, 1.3177, -5.035, 1.0214, 1.3177, -5.035, 1.4256, 0.9134, 5.035, 1.4256, 0.9134, -5.035, 0.8892, 0.3866, -5.035, 1.4256, 0.9134, -5.035, 1.2238, 0.9674, -5.035, 1.2238, 0.9674, -5.035, 1.0214, 1.3177, -5.035, 0.8892, 0.3866, -5.035, 0.8892, 0.3866, -5.035, 0, 1.3177, -5.035, 0, 0.3866, 5.035, -0.2886, 1.3177, -5.035, 0, 1.3177, 5.035, 0, 1.3177, 5.035, 0, 1.3177, -5.035, 0, 1.3177, 5.035, 1.0214, 1.3177, 5.035, 1.0214, 1.3177, -5.035, 0, 1.3177, -5.035, 1.0214, 1.3177, -5.035, -0.2886, -1.3177, 5.035, 0, -1.3177, -5.035, 0, -1.3177, -5.035, 0, -1.3177, 5.035, 0, -1.3177, -5.035, 1.0214, -1.3177, -5.035, 1.0214, -1.3177, 5.035, 0, -1.3177, 5.035, 1.0214, -1.3177, 5.035, 0, 1.3177, 5.035, 0.8892, 0.3866, 5.035, 0, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 1.0214, 1.3177, 5.035, 1.2238, 0.9674, 5.035, 1.2239, -0.9674, 5.035, 1.0214, -1.3177, 5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 0, -1.3177, 5.035, 0, -0.3866, 5.035, 1.2238, 0.9674, 5.035, 1.4256, 0.9134, 5.035, 0.8892, 0.3866, 5.035, 0.8892, 0.3866, 5.035, 1.4256, 0.9134, 5.035, 0.8893, -0.3866, 5.035, 0.8893, -0.3866, 5.035, 1.4257, -0.9134, 5.035, 1.2239, -0.9674, -5.035, 0, -1.3177, -5.035, 0.8893, -0.3866, -5.035, 0, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.0214, -1.3177, -5.035, 1.2239, -0.9674, -5.035, 1.2239, -0.9674, -5.035, 1.4257, -0.9134, -5.035, 0.8893, -0.3866, -5.035, 0.8893, -0.3866, -5.035, 1.4256, 0.9134, -5.035, 0.8892, 0.3866, -5.035, 1.4257, -0.9134, -5.035, 1.4256, 0.9134, -5.035, 0.8893, -0.3866 )
 
 [sub_resource type="GDScript" id=23]
-script/source = "extends MeshInstance
+script/source = "extends MeshInstance3D
 
 
 # Declare member variables here. Examples:
@@ -107,7 +107,7 @@ shader_param/dissolve_txt = SubResource( 11 )
 shader_param/texture_albedo = ExtResource( 7 )
 shader_param/texture_normal = ExtResource( 9 )
 
-[sub_resource type="BoxShape" id=4]
+[sub_resource type="BoxShape3D" id=4]
 extents = Vector3( 0.862405, 0.145629, 1.31746 )
 
 [sub_resource type="ShaderMaterial" id=14]
@@ -190,19 +190,19 @@ shader_param/dissolve_txt = SubResource( 11 )
 shader_param/texture_albedo = ExtResource( 7 )
 shader_param/texture_normal = ExtResource( 9 )
 
-[sub_resource type="SphereShape" id=17]
+[sub_resource type="SphereShape3D" id=17]
 radius = 0.339
 
-[sub_resource type="CylinderShape" id=19]
+[sub_resource type="CylinderShape3D" id=19]
 height = 0.534212
 radius = 0.537856
 
-[sub_resource type="CylinderShape" id=20]
+[sub_resource type="CylinderShape3D" id=20]
 height = 0.203458
 radius = 0.415002
 
-[sub_resource type="ConcavePolygonShape" id=18]
-data = PoolVector3Array( -6.9037, 0, 2.0416, -9.0443, 0, 0, -6.9037, 0, 0, -6.9037, 0, 2.0416, -6.9037, -0.2886, 0, -6.9037, -0.2886, 2.0416, -6.9037, 0, 2.0416, -6.9037, 0, 0, -6.9037, -0.2886, 0, -9.0443, -0.2886, 0, -6.9037, -0.2886, 2.0416, -6.9037, -0.2886, 0, -6.9037, 0, 2.0416, -5.4401, 0, 4.677, -6.9037, 0, 4.677, -6.9037, 0, 2.0416, -5.4401, 0, 2.0416, -5.4401, 0, 4.677, -6.9037, -0.2886, 2.0416, -5.4401, 0, 2.0416, -6.9037, 0, 2.0416, -6.9037, -0.2886, 2.0416, -5.4401, -0.2886, 2.0416, -5.4401, 0, 2.0416, -6.9037, -0.2887, 4.677, -5.4401, -0.2886, 2.0416, -6.9037, -0.2886, 2.0416, -6.9037, -0.2887, 4.677, -5.4401, -0.2887, 4.677, -5.4401, -0.2886, 2.0416, -6.9037, 0, 4.677, -9.0443, -0.2887, 4.677, -9.0443, 0, 4.677, 4.6299, -0.2886, 2.0416, 6.9037, 0, 2.0416, 4.6299, 0, 2.0416, 4.6299, -0.2886, 2.0416, 6.9037, -0.2886, 2.0416, 6.9037, 0, 2.0416, 8.1973, -0.2887, 4.677, 4.6299, -0.2886, 2.0416, 4.6299, -0.2887, 4.677, 8.1973, -0.2887, 4.677, 6.9037, -0.2886, 2.0416, 4.6299, -0.2886, 2.0416, 8.1973, 0, 4.677, 7.8976, 0, 0, 10.2842, 0, 0, 8.1973, 0, 4.677, 6.9037, 0, 2.0416, 7.8976, 0, 0, 6.9037, -0.2886, 2.0416, 10.2842, -0.2886, 0, 7.8976, -0.2886, 0, 6.9037, -0.2886, 2.0416, 8.1973, -0.2887, 4.677, 10.2842, -0.2886, 0, 4.6299, -0.2887, 4.677, 8.1973, 0, 4.677, 8.1973, -0.2887, 4.677, 4.6299, -0.2887, 4.677, 4.6299, 0, 4.677, 8.1973, 0, 4.677, 6.9037, -0.2886, 2.0416, 7.8976, 0, 0, 6.9037, 0, 2.0416, 6.9037, -0.2886, 2.0416, 7.8976, -0.2886, 0, 7.8976, 0, 0, 8.1973, -0.2887, 4.677, 10.2842, 0, 0, 10.2842, -0.2886, 0, 8.1973, -0.2887, 4.677, 8.1973, 0, 4.677, 10.2842, 0, 0, 4.6299, 0, 4.677, 4.6299, -0.2886, 2.0416, 4.6299, 0, 2.0416, 4.6299, 0, 4.677, 4.6299, -0.2887, 4.677, 4.6299, -0.2886, 2.0416, -5.4401, 0, 4.677, -5.4401, -0.2886, 2.0416, -5.4401, -0.2887, 4.677, -5.4401, 0, 4.677, -5.4401, 0, 2.0416, -5.4401, -0.2886, 2.0416, 4.6299, 0, 4.677, 6.9037, 0, 2.0416, 8.1973, 0, 4.677, 4.6299, 0, 4.677, 4.6299, 0, 2.0416, 6.9037, 0, 2.0416, -9.0443, 0, 0, -6.9037, 0, -2.0416, -6.9037, 0, 0, -6.9037, 0, -2.0416, -6.9037, -0.2886, 0, -6.9037, 0, 0, -6.9037, 0, -2.0416, -6.9037, -0.2886, -2.0416, -6.9037, -0.2886, 0, -6.9037, -0.2886, -2.0416, -9.0443, -0.2886, 0, -6.9037, -0.2886, 0, -6.9037, 0, -2.0416, -5.4401, 0, -4.677, -5.4401, 0, -2.0416, -6.9037, 0, -2.0416, -6.9037, 0, -4.677, -5.4401, 0, -4.677, -6.9037, -0.2886, -2.0416, -5.4401, 0, -2.0416, -5.4401, -0.2886, -2.0416, -6.9037, -0.2886, -2.0416, -6.9037, 0, -2.0416, -5.4401, 0, -2.0416, -6.9037, -0.2887, -4.677, -5.4401, -0.2886, -2.0416, -5.4401, -0.2887, -4.677, -6.9037, -0.2887, -4.677, -6.9037, -0.2886, -2.0416, -5.4401, -0.2886, -2.0416, -6.9037, 0, -4.677, -5.4401, -0.2887, -4.677, -5.4401, 0, -4.677, 4.6299, -0.2886, -2.0416, 6.9037, 0, -2.0416, 6.9037, -0.2886, -2.0416, 4.6299, -0.2886, -2.0416, 4.6299, 0, -2.0416, 6.9037, 0, -2.0416, 8.1973, -0.2887, -4.677, 4.6299, -0.2886, -2.0416, 6.9037, -0.2886, -2.0416, 8.1973, -0.2887, -4.677, 4.6299, -0.2887, -4.677, 4.6299, -0.2886, -2.0416, 8.1973, 0, -4.677, 7.8976, 0, 0, 6.9037, 0, -2.0416, 8.1973, 0, -4.677, 10.2842, 0, 0, 7.8976, 0, 0, 6.9037, -0.2886, -2.0416, 10.2842, -0.2886, 0, 8.1973, -0.2887, -4.677, 6.9037, -0.2886, -2.0416, 7.8976, -0.2886, 0, 10.2842, -0.2886, 0, 4.6299, -0.2887, -4.677, 8.1973, 0, -4.677, 4.6299, 0, -4.677, 4.6299, -0.2887, -4.677, 8.1973, -0.2887, -4.677, 8.1973, 0, -4.677, 6.9037, -0.2886, -2.0416, 7.8976, 0, 0, 7.8976, -0.2886, 0, 6.9037, -0.2886, -2.0416, 6.9037, 0, -2.0416, 7.8976, 0, 0, 8.1973, -0.2887, -4.677, 10.2842, 0, 0, 8.1973, 0, -4.677, 8.1973, -0.2887, -4.677, 10.2842, -0.2886, 0, 10.2842, 0, 0, 4.6299, 0, -4.677, 4.6299, -0.2886, -2.0416, 4.6299, -0.2887, -4.677, 4.6299, 0, -4.677, 4.6299, 0, -2.0416, 4.6299, -0.2886, -2.0416, -5.4401, 0, -4.677, -5.4401, -0.2886, -2.0416, -5.4401, 0, -2.0416, -5.4401, 0, -4.677, -5.4401, -0.2887, -4.677, -5.4401, -0.2886, -2.0416, 4.6299, 0, -4.677, 6.9037, 0, -2.0416, 4.6299, 0, -2.0416, 4.6299, 0, -4.677, 8.1973, 0, -4.677, 6.9037, 0, -2.0416, -9.0443, 0, 0, -6.9037, 0, 2.0416, -9.0443, 0, 4.677, -9.0443, 0, 4.677, -6.9037, 0, 2.0416, -6.9037, 0, 4.677, -6.9037, -0.2887, 4.677, -6.9037, -0.2886, 2.0416, -9.0443, -0.2887, 4.677, -9.0443, -0.2887, 4.677, -6.9037, -0.2886, 2.0416, -9.0443, -0.2886, 0, -9.0443, -0.2887, 4.677, -6.9037, 0, 4.677, -6.9037, -0.2887, 4.677, -6.9037, -0.2887, 4.677, -6.9037, 0, 4.677, -5.4401, -0.2887, 4.677, -5.4401, -0.2887, 4.677, -6.9037, 0, 4.677, -5.4401, 0, 4.677, -6.9037, 0, -4.677, -6.9037, 0, -2.0416, -9.0443, 0, -4.677, -9.0443, 0, -4.677, -6.9037, 0, -2.0416, -9.0443, 0, 0, -9.0443, -0.2886, 0, -6.9037, -0.2886, -2.0416, -9.0443, -0.2887, -4.677, -9.0443, -0.2887, -4.677, -6.9037, -0.2886, -2.0416, -6.9037, -0.2887, -4.677, -5.4401, -0.2887, -4.677, -6.9037, 0, -4.677, -6.9037, -0.2887, -4.677, -6.9037, -0.2887, -4.677, -6.9037, 0, -4.677, -9.0443, -0.2887, -4.677, -9.0443, -0.2887, -4.677, -6.9037, 0, -4.677, -9.0443, 0, -4.677 )
+[sub_resource type="ConcavePolygonShape3D" id=18]
+data = PackedVector3Array( -6.9037, 0, 2.0416, -9.0443, 0, 0, -6.9037, 0, 0, -6.9037, 0, 2.0416, -6.9037, -0.2886, 0, -6.9037, -0.2886, 2.0416, -6.9037, 0, 2.0416, -6.9037, 0, 0, -6.9037, -0.2886, 0, -9.0443, -0.2886, 0, -6.9037, -0.2886, 2.0416, -6.9037, -0.2886, 0, -6.9037, 0, 2.0416, -5.4401, 0, 4.677, -6.9037, 0, 4.677, -6.9037, 0, 2.0416, -5.4401, 0, 2.0416, -5.4401, 0, 4.677, -6.9037, -0.2886, 2.0416, -5.4401, 0, 2.0416, -6.9037, 0, 2.0416, -6.9037, -0.2886, 2.0416, -5.4401, -0.2886, 2.0416, -5.4401, 0, 2.0416, -6.9037, -0.2887, 4.677, -5.4401, -0.2886, 2.0416, -6.9037, -0.2886, 2.0416, -6.9037, -0.2887, 4.677, -5.4401, -0.2887, 4.677, -5.4401, -0.2886, 2.0416, -6.9037, 0, 4.677, -9.0443, -0.2887, 4.677, -9.0443, 0, 4.677, 4.6299, -0.2886, 2.0416, 6.9037, 0, 2.0416, 4.6299, 0, 2.0416, 4.6299, -0.2886, 2.0416, 6.9037, -0.2886, 2.0416, 6.9037, 0, 2.0416, 8.1973, -0.2887, 4.677, 4.6299, -0.2886, 2.0416, 4.6299, -0.2887, 4.677, 8.1973, -0.2887, 4.677, 6.9037, -0.2886, 2.0416, 4.6299, -0.2886, 2.0416, 8.1973, 0, 4.677, 7.8976, 0, 0, 10.2842, 0, 0, 8.1973, 0, 4.677, 6.9037, 0, 2.0416, 7.8976, 0, 0, 6.9037, -0.2886, 2.0416, 10.2842, -0.2886, 0, 7.8976, -0.2886, 0, 6.9037, -0.2886, 2.0416, 8.1973, -0.2887, 4.677, 10.2842, -0.2886, 0, 4.6299, -0.2887, 4.677, 8.1973, 0, 4.677, 8.1973, -0.2887, 4.677, 4.6299, -0.2887, 4.677, 4.6299, 0, 4.677, 8.1973, 0, 4.677, 6.9037, -0.2886, 2.0416, 7.8976, 0, 0, 6.9037, 0, 2.0416, 6.9037, -0.2886, 2.0416, 7.8976, -0.2886, 0, 7.8976, 0, 0, 8.1973, -0.2887, 4.677, 10.2842, 0, 0, 10.2842, -0.2886, 0, 8.1973, -0.2887, 4.677, 8.1973, 0, 4.677, 10.2842, 0, 0, 4.6299, 0, 4.677, 4.6299, -0.2886, 2.0416, 4.6299, 0, 2.0416, 4.6299, 0, 4.677, 4.6299, -0.2887, 4.677, 4.6299, -0.2886, 2.0416, -5.4401, 0, 4.677, -5.4401, -0.2886, 2.0416, -5.4401, -0.2887, 4.677, -5.4401, 0, 4.677, -5.4401, 0, 2.0416, -5.4401, -0.2886, 2.0416, 4.6299, 0, 4.677, 6.9037, 0, 2.0416, 8.1973, 0, 4.677, 4.6299, 0, 4.677, 4.6299, 0, 2.0416, 6.9037, 0, 2.0416, -9.0443, 0, 0, -6.9037, 0, -2.0416, -6.9037, 0, 0, -6.9037, 0, -2.0416, -6.9037, -0.2886, 0, -6.9037, 0, 0, -6.9037, 0, -2.0416, -6.9037, -0.2886, -2.0416, -6.9037, -0.2886, 0, -6.9037, -0.2886, -2.0416, -9.0443, -0.2886, 0, -6.9037, -0.2886, 0, -6.9037, 0, -2.0416, -5.4401, 0, -4.677, -5.4401, 0, -2.0416, -6.9037, 0, -2.0416, -6.9037, 0, -4.677, -5.4401, 0, -4.677, -6.9037, -0.2886, -2.0416, -5.4401, 0, -2.0416, -5.4401, -0.2886, -2.0416, -6.9037, -0.2886, -2.0416, -6.9037, 0, -2.0416, -5.4401, 0, -2.0416, -6.9037, -0.2887, -4.677, -5.4401, -0.2886, -2.0416, -5.4401, -0.2887, -4.677, -6.9037, -0.2887, -4.677, -6.9037, -0.2886, -2.0416, -5.4401, -0.2886, -2.0416, -6.9037, 0, -4.677, -5.4401, -0.2887, -4.677, -5.4401, 0, -4.677, 4.6299, -0.2886, -2.0416, 6.9037, 0, -2.0416, 6.9037, -0.2886, -2.0416, 4.6299, -0.2886, -2.0416, 4.6299, 0, -2.0416, 6.9037, 0, -2.0416, 8.1973, -0.2887, -4.677, 4.6299, -0.2886, -2.0416, 6.9037, -0.2886, -2.0416, 8.1973, -0.2887, -4.677, 4.6299, -0.2887, -4.677, 4.6299, -0.2886, -2.0416, 8.1973, 0, -4.677, 7.8976, 0, 0, 6.9037, 0, -2.0416, 8.1973, 0, -4.677, 10.2842, 0, 0, 7.8976, 0, 0, 6.9037, -0.2886, -2.0416, 10.2842, -0.2886, 0, 8.1973, -0.2887, -4.677, 6.9037, -0.2886, -2.0416, 7.8976, -0.2886, 0, 10.2842, -0.2886, 0, 4.6299, -0.2887, -4.677, 8.1973, 0, -4.677, 4.6299, 0, -4.677, 4.6299, -0.2887, -4.677, 8.1973, -0.2887, -4.677, 8.1973, 0, -4.677, 6.9037, -0.2886, -2.0416, 7.8976, 0, 0, 7.8976, -0.2886, 0, 6.9037, -0.2886, -2.0416, 6.9037, 0, -2.0416, 7.8976, 0, 0, 8.1973, -0.2887, -4.677, 10.2842, 0, 0, 8.1973, 0, -4.677, 8.1973, -0.2887, -4.677, 10.2842, -0.2886, 0, 10.2842, 0, 0, 4.6299, 0, -4.677, 4.6299, -0.2886, -2.0416, 4.6299, -0.2887, -4.677, 4.6299, 0, -4.677, 4.6299, 0, -2.0416, 4.6299, -0.2886, -2.0416, -5.4401, 0, -4.677, -5.4401, -0.2886, -2.0416, -5.4401, 0, -2.0416, -5.4401, 0, -4.677, -5.4401, -0.2887, -4.677, -5.4401, -0.2886, -2.0416, 4.6299, 0, -4.677, 6.9037, 0, -2.0416, 4.6299, 0, -2.0416, 4.6299, 0, -4.677, 8.1973, 0, -4.677, 6.9037, 0, -2.0416, -9.0443, 0, 0, -6.9037, 0, 2.0416, -9.0443, 0, 4.677, -9.0443, 0, 4.677, -6.9037, 0, 2.0416, -6.9037, 0, 4.677, -6.9037, -0.2887, 4.677, -6.9037, -0.2886, 2.0416, -9.0443, -0.2887, 4.677, -9.0443, -0.2887, 4.677, -6.9037, -0.2886, 2.0416, -9.0443, -0.2886, 0, -9.0443, -0.2887, 4.677, -6.9037, 0, 4.677, -6.9037, -0.2887, 4.677, -6.9037, -0.2887, 4.677, -6.9037, 0, 4.677, -5.4401, -0.2887, 4.677, -5.4401, -0.2887, 4.677, -6.9037, 0, 4.677, -5.4401, 0, 4.677, -6.9037, 0, -4.677, -6.9037, 0, -2.0416, -9.0443, 0, -4.677, -9.0443, 0, -4.677, -6.9037, 0, -2.0416, -9.0443, 0, 0, -9.0443, -0.2886, 0, -6.9037, -0.2886, -2.0416, -9.0443, -0.2887, -4.677, -9.0443, -0.2887, -4.677, -6.9037, -0.2886, -2.0416, -6.9037, -0.2887, -4.677, -5.4401, -0.2887, -4.677, -6.9037, 0, -4.677, -6.9037, -0.2887, -4.677, -6.9037, -0.2887, -4.677, -6.9037, 0, -4.677, -9.0443, -0.2887, -4.677, -9.0443, -0.2887, -4.677, -6.9037, 0, -4.677, -9.0443, 0, -4.677 )
 
 [sub_resource type="Animation" id=22]
 length = 0.001
@@ -213,8 +213,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 1.0 ]
 }
@@ -225,8 +225,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 1.0 ]
 }
@@ -237,8 +237,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 1.0 ]
 }
@@ -249,8 +249,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 1.0 ]
 }
@@ -261,8 +261,8 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 1.0 ]
 }
@@ -273,8 +273,8 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector3( 0.864915, 0.864915, 0.864915 ) ]
 }
@@ -285,68 +285,68 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 2.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody:scale")
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody3D:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody:scale")
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody3D:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody:scale")
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody3D:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody:scale")
+tracks/10/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody3D:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody:scale")
+tracks/11/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody3D:scale")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ) ]
 }
@@ -361,8 +361,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.9, 2.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 1.9, 2.9 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -373,8 +373,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.4, 2.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 1.4, 2.4 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -385,8 +385,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.9, 1.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.9, 1.9 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -397,8 +397,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4, 1.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.4, 1.4 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -409,68 +409,68 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.9 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody:scale")
+tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody3D:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.4 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody:scale")
+tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody3D:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.9 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody:scale")
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody3D:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 1.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.4 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody:scale")
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody3D:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 1.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.9 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody:scale")
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody3D:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 2.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 2.4 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
@@ -485,8 +485,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.9 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
 }
@@ -497,8 +497,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4, 1.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.4, 1.4 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -509,8 +509,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.9, 1.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.9, 1.9 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -521,8 +521,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1.4, 2.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 1.4, 2.4 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
@@ -533,68 +533,68 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 1.9, 2.9 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 1.9, 2.9 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody:scale")
+tracks/5/path = NodePath("MainFloor/Sprint/Sprint005/StaticBody3D:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 2.4, 2.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 2.4, 2.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody:scale")
+tracks/6/path = NodePath("MainFloor/Sprint/Sprint004/StaticBody3D:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 1.9, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 1.9, 2 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody:scale")
+tracks/7/path = NodePath("MainFloor/Sprint/Sprint003/StaticBody3D:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 1.4, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 1.4, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody:scale")
+tracks/8/path = NodePath("MainFloor/Sprint/Sprint002/StaticBody3D:scale")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0.9, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody:scale")
+tracks/9/path = NodePath("MainFloor/Sprint/Sprint001/StaticBody3D:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0.4, 0.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
 }
@@ -608,8 +608,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0.864915, 0.864915, 0.864915 ), Vector3( 0, 0, 0 ) ]
 }
@@ -620,8 +620,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ 2.0, 0.0 ]
 }
@@ -632,8 +632,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0.5 ),
+"transitions": PackedFloat32Array( 1 ),
 "values": [ {
 "args": [  ],
 "method": "queue_free"
@@ -651,69 +651,69 @@ material/0 = ExtResource( 2 )
 use_in_baked_light = true
 material/0 = ExtResource( 4 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/Crouch" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/Crouch" index="0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="MainFloor/Crouch/StaticBody" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainFloor/Crouch/StaticBody3D" index="0"]
 shape = SubResource( 2 )
 
 [node name="Sprint" parent="MainFloor" index="1"]
-transform = Transform( 1.08172, 0, 0, 0, 1, 0, 0, 0, 1, -0.405101, -1.67191e-05, -3.35929 )
+transform = Transform3D( 1.08172, 0, 0, 0, 1, 0, 0, 0, 1, -0.405101, -1.67191e-05, -3.35929 )
 script = SubResource( 23 )
 
 [node name="Sprint001" parent="MainFloor/Sprint" index="0"]
 material/0 = SubResource( 13 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint001" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/Sprint/Sprint001" index="0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="MainFloor/Sprint/Sprint001/StaticBody" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainFloor/Sprint/Sprint001/StaticBody3D" index="0"]
 shape = SubResource( 4 )
 
 [node name="Sprint002" parent="MainFloor/Sprint" index="1"]
 material/0 = SubResource( 14 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint002" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/Sprint/Sprint002" index="0"]
 
-[node name="CollisionShape2" type="CollisionShape" parent="MainFloor/Sprint/Sprint002/StaticBody" index="0"]
+[node name="CollisionShape2" type="CollisionShape3D" parent="MainFloor/Sprint/Sprint002/StaticBody3D" index="0"]
 shape = SubResource( 4 )
 
 [node name="Sprint003" parent="MainFloor/Sprint" index="2"]
 material/0 = SubResource( 15 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint003" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/Sprint/Sprint003" index="0"]
 
-[node name="CollisionShape3" type="CollisionShape" parent="MainFloor/Sprint/Sprint003/StaticBody" index="0"]
+[node name="CollisionShape3" type="CollisionShape3D" parent="MainFloor/Sprint/Sprint003/StaticBody3D" index="0"]
 shape = SubResource( 4 )
 
 [node name="Sprint004" parent="MainFloor/Sprint" index="3"]
 material/0 = SubResource( 16 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint004" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/Sprint/Sprint004" index="0"]
 
-[node name="CollisionShape4" type="CollisionShape" parent="MainFloor/Sprint/Sprint004/StaticBody" index="0"]
+[node name="CollisionShape4" type="CollisionShape3D" parent="MainFloor/Sprint/Sprint004/StaticBody3D" index="0"]
 shape = SubResource( 4 )
 
 [node name="Sprint005" parent="MainFloor/Sprint" index="4"]
 material/0 = SubResource( 12 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/Sprint/Sprint005" index="0"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/Sprint/Sprint005" index="0"]
 
-[node name="CollisionShape5" type="CollisionShape" parent="MainFloor/Sprint/Sprint005/StaticBody" index="0"]
+[node name="CollisionShape5" type="CollisionShape3D" parent="MainFloor/Sprint/Sprint005/StaticBody3D" index="0"]
 shape = SubResource( 4 )
 
 [node name="StartDissolve" parent="MainFloor/Sprint" index="5" instance=ExtResource( 10 )]
-transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.10563, 0.502766, 0 )
+transform = Transform3D( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.10563, 0.502766, 0 )
 debug_shape_path = null
 
 [node name="Dissolve_save1" parent="MainFloor/Sprint" index="6" instance=ExtResource( 10 )]
-transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.9438, 0.502766, 0 )
+transform = Transform3D( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, 4.9438, 0.502766, 0 )
 save_mode = 1
 
 [node name="Dissolve_save2" parent="MainFloor/Sprint" index="7" instance=ExtResource( 10 )]
-transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.99193, 0.503, 0 )
+transform = Transform3D( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.99193, 0.503, 0 )
 save_mode = 1
 
 [node name="StartDissolve2" parent="MainFloor/Sprint" index="8" instance=ExtResource( 10 )]
-transform = Transform( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.106, 0.503, 0 )
+transform = Transform3D( 0.255541, 0, 0, 0, 1, 0, 0, 0, 1.45183, -4.106, 0.503, 0 )
 debug_shape_path = null
 
 [node name="TargetBase" parent="MainFloor" index="2"]
@@ -728,26 +728,26 @@ material/0 = ExtResource( 6 )
 layers = 3
 shadow_enabled = true
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/TargetBase/Target" index="1"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/TargetBase/Target" index="1"]
 script = ExtResource( 5 )
 interact_txt = "Take"
 
-[node name="CollisionShape" type="CollisionShape" parent="MainFloor/TargetBase/Target/StaticBody" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainFloor/TargetBase/Target/StaticBody3D" index="0"]
 shape = SubResource( 17 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor/TargetBase" index="1"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor/TargetBase" index="1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="MainFloor/TargetBase/StaticBody" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.266685, 0 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainFloor/TargetBase/StaticBody3D" index="0"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.266685, 0 )
 shape = SubResource( 19 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="MainFloor/TargetBase/StaticBody" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44132, 0 )
+[node name="CollisionShape2" type="CollisionShape3D" parent="MainFloor/TargetBase/StaticBody3D" index="1"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44132, 0 )
 shape = SubResource( 20 )
 
-[node name="StaticBody" type="StaticBody" parent="MainFloor" index="3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MainFloor" index="3"]
 
-[node name="CollisionShape" type="CollisionShape" parent="MainFloor/StaticBody" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainFloor/StaticBody3D" index="0"]
 shape = SubResource( 18 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
@@ -757,11 +757,11 @@ anims/falling_plats_reverse = SubResource( 25 )
 anims/target_taken = SubResource( 26 )
 
 [node name="EndTrigger" parent="." index="2" instance=ExtResource( 10 )]
-transform = Transform( 0.340318, 0, 0, 0, 1.3213, 0, 0, 0, 2.0209, -9.7036, 0.578387, 0 )
+transform = Transform3D( 0.340318, 0, 0, 0, 1.3213, 0, 0, 0, 2.0209, -9.7036, 0.578387, 0 )
 start_active = false
 debug_shape_path = null
 
 [connection signal="target_entered" from="MainFloor/Sprint/StartDissolve" to="." method="_on_StartDissolve_entered"]
 [connection signal="target_entered" from="MainFloor/Sprint/StartDissolve2" to="." method="_on_StartDissolve2_entered"]
-[connection signal="interacted_with" from="MainFloor/TargetBase/Target/StaticBody" to="." method="_on_Target_interacted_with"]
+[connection signal="interacted_with" from="MainFloor/TargetBase/Target/StaticBody3D" to="." method="_on_Target_interacted_with"]
 [connection signal="target_entered" from="EndTrigger" to="." method="_on_EndTrigger_entered"]

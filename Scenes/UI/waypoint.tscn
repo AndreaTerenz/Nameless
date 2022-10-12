@@ -13,22 +13,22 @@ enum MARKER_MODE {
 	ONSCREEN
 }
 
-onready var camera = get_viewport().get_camera()
-onready var parent = get_parent()
-onready var canvas = $CanvasLayer
-onready var main_ui = get_node(\"%MainUI\")
-onready var marker_ui = get_node(\"%MarkerUI\")
+@onready var camera = get_viewport().get_camera_3d()
+@onready var parent = get_parent()
+@onready var canvas = $CanvasLayer
+@onready var main_ui = get_node(\"%MainUI\")
+@onready var marker_ui = get_node(\"%MarkerUI\")
 
-export(Color) var mod_color = Color.white
-export(int) var layer = -1
-export(MARKER_MODE) var marker_mode = MARKER_MODE.ALWAYS
+@export var mod_color: Color = Color.WHITE
+@export var layer: int = -1
+@export var marker_mode: MARKER_MODE = MARKER_MODE.ALWAYS
 
-export(NodePath) var main_content_ref
-export(NodePath) var marker_content_ref
+@export var main_content_ref: NodePath
+@export var marker_content_ref: NodePath
 
 func _ready() -> void:
-	if not parent is Spatial:
-		push_error(\"The waypoint's parent node must inherit from Spatial.\")
+	if not parent is Node3D:
+		push_error(\"The waypoint's parent node must inherit from Node3D.\")
 	else:
 		self.modulate = mod_color
 		self.marker_ui.visible = (marker_mode != MARKER_MODE.NEVER)
@@ -42,12 +42,12 @@ func get_content(ref: NodePath, dest: Control):
 	var cont = Utils.try_get_node(ref, self) as Control
 	if cont:
 		Utils.transfer_node(cont, dest)
-		cont.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+		cont.set_anchors_and_offsets_preset(Control.PRESET_WIDE)
 
 func _process(_delta):
 	if not camera.current:
 		# If the camera we have isn't the current one, get the current camera.
-		camera = get_viewport().get_camera()
+		camera = get_viewport().get_camera_3d()
 	var parent_translation = parent.global_translation
 	var camera_transform = camera.global_transform
 	var camera_translation = camera_transform.origin
@@ -58,20 +58,20 @@ func _process(_delta):
 
 	# Fade the waypoint when the camera gets close.
 	var distance = camera_translation.distance_to(parent_translation)
-	modulate.a = clamp(range_lerp(distance, 0, 2, 0, 1), 0, 1 )
+	modulate.a = clamp(remap(distance, 0, 2, 0, 1), 0, 1 )
 
 	var unprojected_position = camera.unproject_position(parent_translation)
-	# `get_size_override()` will return a valid size only if the stretch mode is `2d`.
+	# `get_size_2d_override()` will return a valid size only if the stretch mode is `2d`.
 	# Otherwise, the viewport size is used directly.
 	var viewport_base_size = (
-			get_viewport().get_size_override() if get_viewport().get_size_override() > Vector2(0, 0)
+			get_viewport().get_size_2d_override() if get_viewport().get_size_2d_override() > Vector2(0, 0)
 			else get_viewport().size
 	)
 
 	var sticky = (marker_mode in [MARKER_MODE.ALWAYS, MARKER_MODE.OFFSCREEN])
 	if not sticky:
 		# For non-sticky waypoints, we don't need to clamp and calculate
-		# the position if the waypoint goes off screen.
+		# the position if the waypoint goes unchecked screen.
 		canvas.offset = unprojected_position
 		canvas.visible = not is_behind
 		return
@@ -90,12 +90,12 @@ func _process(_delta):
 	# up or down to see something behind them. Instead, here we approximate
 	# the correct position using difference of the X axis Euler angles
 	# (up/down rotation) and the ratio of that with the camera's FOV.
-	# This will be slightly off from the theoretical \"ideal\" position.
+	# This will be slightly unchecked from the theoretical \"ideal\" position.
 	if is_behind or unprojected_position.x < MARGIN or \\
 			unprojected_position.x > viewport_base_size.x - MARGIN:
 		var look = camera_transform.looking_at(parent_translation, Vector3.UP)
 		var diff = angle_diff(look.basis.get_euler().x, camera_transform.basis.get_euler().x)
-		unprojected_position.y = viewport_base_size.y * (0.5 + (diff / deg2rad(camera.fov)))
+		unprojected_position.y = viewport_base_size.y * (0.5 + (diff / deg_to_rad(camera.fov)))
 
 	canvas.offset = Vector2(
 			clamp(unprojected_position.x, MARGIN, viewport_base_size.x - MARGIN),
@@ -145,10 +145,10 @@ layer = -1
 
 [node name="MainUI" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true
-margin_left = 2.0
-margin_top = -34.0
-margin_right = 2.0
-margin_bottom = -34.0
+offset_left = 2.0
+offset_top = -34.0
+offset_right = 2.0
+offset_bottom = -34.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -159,11 +159,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -971.0
-margin_top = -556.0
-margin_right = -949.0
-margin_bottom = -534.0
-rect_pivot_offset = Vector2( 11, 11 )
+offset_left = -971.0
+offset_top = -556.0
+offset_right = -949.0
+offset_bottom = -534.0
+pivot_offset = Vector2( 11, 11 )
 __meta__ = {
 "_edit_group_": true
 }

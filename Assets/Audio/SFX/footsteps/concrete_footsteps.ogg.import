@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/concrete_footsteps.ogg-49669f60e8cfc63a6d2d9026a6c6734b.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cerynx48hsmj2"
+path="res://.godot/imported/concrete_footsteps.ogg-49669f60e8cfc63a6d2d9026a6c6734b.oggvorbisstr"
 
 [deps]
 
 source_file="res://Assets/Audio/SFX/footsteps/concrete_footsteps.ogg"
-dest_files=[ "res://.import/concrete_footsteps.ogg-49669f60e8cfc63a6d2d9026a6c6734b.oggstr" ]
+dest_files=["res://.godot/imported/concrete_footsteps.ogg-49669f60e8cfc63a6d2d9026a6c6734b.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

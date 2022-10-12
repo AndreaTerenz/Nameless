@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=2]
 
 [sub_resource type="GDScript" id=11]
-script/source = "extends Spatial
+script/source = "extends Node3D
 
-export(bool) var active := false
+@export var active: bool := false
 
-onready var mesh := $MeshInstance
+@onready var mesh := $MeshInstance3D
 
 var o := 0.0
 var mat : ShaderMaterial
@@ -13,13 +13,13 @@ var in_scene := true
 var p
 
 func _ready() -> void:
-	mat = mesh.get_surface_material(0)
+	mat = mesh.get_surface_override_material(0)
 	in_scene = get_tree().current_scene is SceneManager
 	
 	if not in_scene:
 		o = 1.0
 	else:
-		yield(Globals, \"player_set\")
+		await Globals.player_set
 		p = Globals.player
 		
 		if active:
@@ -40,12 +40,12 @@ func _process(delta: float) -> void:
 	
 func set_mat_offset(v : float):
 	if active:
-		mat.set_shader_param(\"offset\", v)
+		mat.set_shader_parameter(\"offset\", v)
 "
 
 [sub_resource type="CapsuleMesh" id=6]
 radius = 1.2
-mid_height = 2.8
+height = 2.8
 
 [sub_resource type="Shader" id=2]
 code = "shader_type spatial;
@@ -54,9 +54,9 @@ render_mode unshaded,shadows_disabled,ambient_light_disabled,cull_front;
 uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
 
-uniform sampler2D tint : hint_white;
-uniform sampler2D noiseTxt : hint_white;
-uniform sampler2D turbNoiseTxt : hint_white;
+uniform sampler2D tint : hint_default_white;
+uniform sampler2D noiseTxt : hint_default_white;
+uniform sampler2D turbNoiseTxt : hint_default_white;
 uniform float speed : hint_range(0.0, 1.0, 0.01) = .3;
 uniform float offset : hint_range(0.0, .99, 0.01) = 0.;
 uniform float brightness : hint_range(0.1, 20., 0.01) = 10.;
@@ -91,10 +91,10 @@ seamless = true
 noise = SubResource( 4 )
 
 [sub_resource type="Gradient" id=9]
-offsets = PoolRealArray( 0.158974, 0.364103, 0.569231, 0.733333, 0.912821 )
-colors = PoolColorArray( 0.179688, 0.00140381, 0.00140381, 1, 0.408203, 0.175422, 0.0135536, 1, 0.818359, 0.604179, 0, 1, 1, 0.914062, 0, 1, 1, 0.98674, 0.845703, 1 )
+offsets = PackedFloat32Array( 0.158974, 0.364103, 0.569231, 0.733333, 0.912821 )
+colors = PackedColorArray( 0.179688, 0.00140381, 0.00140381, 1, 0.408203, 0.175422, 0.0135536, 1, 0.818359, 0.604179, 0, 1, 1, 0.914062, 0, 1, 1, 0.98674, 0.845703, 1 )
 
-[sub_resource type="GradientTexture" id=10]
+[sub_resource type="GradientTexture2D" id=10]
 gradient = SubResource( 9 )
 
 [sub_resource type="OpenSimplexNoise" id=7]
@@ -114,11 +114,11 @@ shader_param/tint = SubResource( 10 )
 shader_param/noiseTxt = SubResource( 5 )
 shader_param/turbNoiseTxt = SubResource( 8 )
 
-[node name="SpawnFX" type="Spatial"]
+[node name="SpawnFX" type="Node3D"]
 script = SubResource( 11 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 cast_shadow = 0
 mesh = SubResource( 6 )
 material/0 = SubResource( 3 )

@@ -3,22 +3,22 @@
 [ext_resource path="res://Assets/Audio/SFX/explosion MC.ogg" type="AudioStream" id=1]
 
 [sub_resource type="GDScript" id=22]
-script/source = "extends Spatial
+script/source = "extends Node3D
 
-export(float, .1, 100.0, .1) var max_dist := 10.0
-export(float, .01, 1.0, .01) var min_force_ratio := .5
-export(float, 1.0, 100.0, .05) var max_force := 5.0
-export(float, .5, 50.0, .1) var light_intensity := 24.0
-export(float, 1.0, 100.0, .01) var max_damage := 30.0
-export(AudioStream) var boom_sound
-export(Color) var flash_tint = Color(1, 0.996078, 0.376471)
+@export var max_dist := 10.0 # (float, .1, 100.0, .1)
+@export var min_force_ratio := .5 # (float, .01, 1.0, .01)
+@export var max_force := 5.0 # (float, 1.0, 100.0, .05)
+@export var light_intensity := 24.0 # (float, .5, 50.0, .1)
+@export var max_damage := 30.0 # (float, 1.0, 100.0, .01)
+@export var boom_sound: AudioStream
+@export var flash_tint: Color = Color(1, 0.996078, 0.376471)
 
-var ray := RayCast.new()
+var ray := RayCast3D.new()
 var tween := Tween.new()
 
-onready var particles := $Particles
-onready var light := $OmniLight
-onready var boom := $Boom
+@onready var particles := $GPUParticles3D
+@onready var light := $OmniLight3D
+@onready var boom := $Boom
 
 func _ready() -> void:
 	add_child(tween)
@@ -78,20 +78,20 @@ func detonate():
 			ray.force_raycast_update()
 			
 			if true or ray.get_collider() == Globals.player:
-				var dmg = range_lerp(dist, 0, max_dist, max_damage, 0)
+				var dmg = remap(dist, 0, max_dist, max_damage, 0)
 				dmg = floor(dmg)
 				
 				Globals.player.hitbox.decrease_hp(dmg)
 "
 
 [sub_resource type="Gradient" id=28]
-offsets = PoolRealArray( 0, 0.0869565, 0.148551, 0.224638, 0.351449, 0.557971, 0.836957, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.517578, 0.150236, 0.0303268, 1, 1, 0.501961, 0.0823529, 1, 1, 0.996078, 0.376471, 1, 0.55, 0.2717, 0.044, 1, 0.31, 0.09145, 0.0186, 1, 0.0945143, 0.0274345, 0.00553794, 1, 0, 0, 0, 1 )
+offsets = PackedFloat32Array( 0, 0.0869565, 0.148551, 0.224638, 0.351449, 0.557971, 0.836957, 1 )
+colors = PackedColorArray( 0, 0, 0, 1, 0.517578, 0.150236, 0.0303268, 1, 1, 0.501961, 0.0823529, 1, 1, 0.996078, 0.376471, 1, 0.55, 0.2717, 0.044, 1, 0.31, 0.09145, 0.0186, 1, 0.0945143, 0.0274345, 0.00553794, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=29]
+[sub_resource type="GradientTexture2D" id=29]
 gradient = SubResource( 28 )
 
-[sub_resource type="ParticlesMaterial" id=27]
+[sub_resource type="ParticleProcessMaterial" id=27]
 resource_local_to_scene = true
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -101,7 +101,7 @@ gravity = Vector3( 0, 0, 0 )
 initial_velocity = 8.58
 color_ramp = SubResource( 29 )
 
-[sub_resource type="SpatialMaterial" id=30]
+[sub_resource type="StandardMaterial3D" id=30]
 vertex_color_use_as_albedo = true
 params_blend_mode = 1
 albedo_color = Color( 1, 0.501961, 0.0823529, 1 )
@@ -115,12 +115,12 @@ height = 4.0
 radius = 0.2
 height = 0.4
 
-[sub_resource type="SpatialMaterial" id=32]
+[sub_resource type="StandardMaterial3D" id=32]
 flags_unshaded = true
 albedo_color = Color( 1, 0, 0, 1 )
 
-[node name="Explosion" type="Spatial"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+[node name="Explosion" type="Node3D"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 script = SubResource( 22 )
 __meta__ = {
 "_edit_group_": true
@@ -129,7 +129,7 @@ max_dist = 20.0
 min_force_ratio = 0.15
 boom_sound = ExtResource( 1 )
 
-[node name="Particles" type="Particles" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 visible = false
 emitting = false
 amount = 70
@@ -139,7 +139,7 @@ explosiveness = 0.55
 process_material = SubResource( 27 )
 draw_pass_1 = SubResource( 26 )
 
-[node name="OmniLight" type="OmniLight" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
 visible = false
 light_color = Color( 1, 0.996078, 0.376471, 1 )
 light_energy = 24.0
@@ -150,7 +150,7 @@ omni_attenuation = 0.420449
 [node name="Boom" type="AudioStreamPlayer3D" parent="."]
 unit_size = 4.7
 
-[node name="Debug" type="MeshInstance" parent="."]
+[node name="Debug" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource( 31 )
 material/0 = SubResource( 32 )

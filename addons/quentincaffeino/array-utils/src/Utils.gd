@@ -1,5 +1,5 @@
 
-extends Reference
+extends RefCounted
 
 
 # @param    Variant  value
@@ -17,7 +17,7 @@ static func to_array(value):
 # @param    Variant  value
 # @returns  bool
 static func is_array(value):
-	return typeof(value) >= TYPE_ARRAY and typeof(value) <= TYPE_COLOR_ARRAY
+	return typeof(value) >= TYPE_ARRAY and typeof(value) <= TYPE_PACKED_COLOR_ARRAY
 
 
 # @param    Variant  value
@@ -43,7 +43,7 @@ static func to_dict(value):
 # @param    int        depth
 # @returns  Variant[]
 static func flatten(in_array, out_array = [], depth = -1):
-	assert(typeof(in_array) == TYPE_ARRAY, "qc/array-utils: Utils: in_array must be an array")
+	assert(typeof(in_array) == TYPE_ARRAY) #,"qc/array-utils: Utils: in_array must be an array")
 
 	for i in in_array.size():
 		if is_array(in_array[i]) and depth > 0:

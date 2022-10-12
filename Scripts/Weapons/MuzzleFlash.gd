@@ -1,17 +1,17 @@
 class_name MuzzleFlash
-extends MeshInstance
+extends MeshInstance3D
 
-export(float) var visible_time = .1
+@export var visible_time: float = .1
 
 var timer := Timer.new()
 
 func _ready() -> void:
 	visible = false
-	cast_shadow = GeometryInstance.SHADOW_CASTING_SETTING_OFF
+	cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	randomize()
 	
 	add_child(timer)
-	timer.connect("timeout", self, "_on_timeout")
+	timer.connect("timeout",Callable(self,"_on_timeout"))
 	timer.one_shot = true
 
 func show():
@@ -25,4 +25,4 @@ func _on_timeout() -> void:
 	rotation *= 0
 
 func scramble():
-	rotate_x(rand_range(-PI/4, PI/4))
+	rotate_x(randf_range(-PI/4, PI/4))

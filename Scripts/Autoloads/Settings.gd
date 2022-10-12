@@ -17,7 +17,7 @@ class SettingsEdit extends TempEdit:
 	var section : String
 	var key : String
 	
-	func _init(s: String, k: String).(Settings.get_value(s, k)) -> void:
+	func _init(s: String,k: String,Settings.get_value(s, k)):
 		section = s
 		key = k
 		
@@ -183,18 +183,18 @@ func apply_setting(section: String, key: String, value):
 		match key:
 			MASTER_VOL:
 				var idx = AudioServer.get_bus_index("Master")
-				var db = linear2db(clamp(value, 0.0, 1.0))
+				var db = linear_to_db(clamp(value, 0.0, 1.0))
 				AudioServer.set_bus_volume_db(idx, db)
 			MASTER_VOL_MUTED:
 				# value == true --> audio MUTED
 				# value == false --> audio ENABLED
 				value = bool(value)
 				var idx = AudioServer.get_bus_index("Master")
-				var db = linear2db(0.0)
+				var db = linear_to_db(0.0)
 				
 				if not value:
 					var volume = get_value(AUDIO, MASTER_VOL)
-					db = linear2db(clamp(volume, 0.0, 1.0))
+					db = linear_to_db(clamp(volume, 0.0, 1.0))
 				
 				AudioServer.set_bus_volume_db(idx, db)
 		

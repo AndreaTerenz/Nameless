@@ -1,7 +1,7 @@
 extends TriggerZone
 class_name LooKTrigger
 
-export(bool) var include_player = true
+@export var include_player: bool = true
 
 func get_targets() -> Array:
 	# Enables detecting other objects

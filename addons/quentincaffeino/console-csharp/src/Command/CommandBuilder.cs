@@ -1,6 +1,6 @@
 using Godot;
 
-public class CommandBuilder : Godot.Object
+public partial class CommandBuilder : Godot.Object
 {
     private Godot.Object _commandObject;
 

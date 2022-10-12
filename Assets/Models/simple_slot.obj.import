@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh"
+uid="uid://d4mrovxx2ogwa"
+path="res://.godot/imported/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh"
 
 [deps]
 
-files=[ "res://.import/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh" ]
+files=["res://.godot/imported/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh"]
 
 source_file="res://Assets/Models/simple_slot.obj"
-dest_files=[ "res://.import/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh", "res://.import/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh" ]
+dest_files=["res://.godot/imported/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh", "res://.godot/imported/simple_slot.obj-05ec4182c7b33517774857cab4eb878a.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

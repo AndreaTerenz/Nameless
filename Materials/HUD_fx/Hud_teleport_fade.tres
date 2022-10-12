@@ -9,9 +9,9 @@ render_mode blend_mix;
 uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
 
-uniform sampler2D tint : hint_white;
-uniform sampler2D noiseTxt : hint_white;
-uniform sampler2D turbNoiseTxt : hint_white;
+uniform sampler2D tint : hint_default_white;
+uniform sampler2D noiseTxt : hint_default_white;
+uniform sampler2D turbNoiseTxt : hint_default_white;
 uniform float speed : hint_range(0.0, 1.0, 0.01) = .3;
 uniform float offset : hint_range(0.0, .99, 0.01) = 0.;
 uniform float brightness : hint_range(0.1, 20., 0.01) = 10.;
@@ -46,10 +46,10 @@ seamless = true
 noise = SubResource( 64 )
 
 [sub_resource type="Gradient" id=61]
-offsets = PoolRealArray( 0.158974, 0.364103, 0.569231, 0.733333, 0.912821 )
-colors = PoolColorArray( 0.179688, 0.00140381, 0.00140381, 1, 0.408203, 0.175422, 0.0135536, 1, 0.818359, 0.604179, 0, 1, 1, 0.914062, 0, 1, 1, 0.98674, 0.845703, 1 )
+offsets = PackedFloat32Array( 0.158974, 0.364103, 0.569231, 0.733333, 0.912821 )
+colors = PackedColorArray( 0.179688, 0.00140381, 0.00140381, 1, 0.408203, 0.175422, 0.0135536, 1, 0.818359, 0.604179, 0, 1, 1, 0.914062, 0, 1, 1, 0.98674, 0.845703, 1 )
 
-[sub_resource type="GradientTexture" id=62]
+[sub_resource type="GradientTexture2D" id=62]
 gradient = SubResource( 61 )
 
 [sub_resource type="OpenSimplexNoise" id=66]

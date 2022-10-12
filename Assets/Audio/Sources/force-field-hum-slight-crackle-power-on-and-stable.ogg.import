@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/force-field-hum-slight-crackle-power-on-and-stable.ogg-674ee93a1f4231eca14ccb639d927796.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cduoo77upfybp"
+path="res://.godot/imported/force-field-hum-slight-crackle-power-on-and-stable.ogg-674ee93a1f4231eca14ccb639d927796.oggvorbisstr"
 
 [deps]
 
 source_file="res://Assets/Audio/Sources/force-field-hum-slight-crackle-power-on-and-stable.ogg"
-dest_files=[ "res://.import/force-field-hum-slight-crackle-power-on-and-stable.ogg-674ee93a1f4231eca14ccb639d927796.oggstr" ]
+dest_files=["res://.godot/imported/force-field-hum-slight-crackle-power-on-and-stable.ogg-674ee93a1f4231eca14ccb639d927796.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

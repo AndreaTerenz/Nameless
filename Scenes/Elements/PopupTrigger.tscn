@@ -1,17 +1,17 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Textures/Zones/popupz_tex.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/Zones/popupz_tex.png" type="Texture2D" id=2]
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends BaseZone
 
-export(String, MULTILINE) var message
-export(float) var duration = 1.0
-export(bool) var timer_only = false
+@export var message # (String, MULTILINE)
+@export var duration: float = 1.0
+@export var timer_only: bool = false
 
 func _ready():
-	oneshot = true
+	one_shot = true
 
 func group():
 	return Globals.TRGGR_ZN_GRP
@@ -21,7 +21,7 @@ func _on_entered():
 		Globals.player.hud.new_popup(message, duration, timer_only)
 "
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 flags_transparent = true
 flags_unshaded = true
 flags_world_triplanar = true
@@ -39,5 +39,5 @@ message = ""
 duration = 1.0
 timer_only = false
 
-[node name="MeshInstance" parent="." index="1"]
+[node name="MeshInstance3D" parent="." index="1"]
 material/0 = SubResource( 1 )

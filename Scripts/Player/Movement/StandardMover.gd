@@ -16,7 +16,7 @@ func _compute(delta: float):
 	set_direction()
 	
 	var target_vel = direction * current_speed
-	h_velocity = h_velocity.linear_interpolate(target_vel, h_acceleration * delta)
+	h_velocity = h_velocity.lerp(target_vel, h_acceleration * delta)
 	
 	check_sprinting()
 	check_crouch()
@@ -24,7 +24,7 @@ func _compute(delta: float):
 	
 	set_gravity_vec(delta)
 	
-	return gravity_vec + h_velocity*Vector3(1,0,1)
+	return gravity_direction + h_velocity*Vector3(1,0,1)
 	
 func set_direction():
 	var prsd : Dictionary = {
@@ -33,7 +33,7 @@ func set_direction():
 		"l" : Input.is_action_pressed("move_l"),
 		"r" : Input.is_action_pressed("move_r"),
 	}
-	# if I'm pressing at least one key and I'm on the floor
+	# if I'm pressing at least one key and I'm checked the floor
 	# then reset the direction vector
 	if prsd.values().find(true) != -1 or player.is_on_floor():
 		direction *= 0.0
@@ -56,18 +56,18 @@ func set_gravity_vec(delta):
 	
 	if not(player.is_on_floor()):
 		if not(bonked_head) and player.roof_chk.is_colliding():
-			gravity_vec *= 0.0
+			gravity_direction *= 0.0
 			bonked_head = true
 		h_acceleration *= player.air_acc_factor
 		var grav_delta : Vector3 = Vector3.DOWN * player.gravity_strength * delta
-		gravity_vec += grav_delta
+		gravity_direction += grav_delta
 	else:
 		bonked_head = false
-		gravity_vec = -player.get_floor_normal() * player.gravity_strength
+		gravity_direction = -player.get_floor_normal() * player.gravity_strength
 		
 	if Input.is_action_just_pressed("jump") and can_jump():
 			direction *= 0.0
-			gravity_vec = Vector3.UP * player.jump_strength
+			gravity_direction = Vector3.UP * player.jump_strength
 
 func can_jump():
 	return player.touching_floor() and crouch_state == CROUCH_STATE.INACTIVE
@@ -123,7 +123,7 @@ func _to_string() -> String:
 	return "STANDARD"
 
 func stop():
-	.stop()
+	super.stop()
 	
 	sprinting = false
 	crouch_state = CROUCH_STATE.RELEASED

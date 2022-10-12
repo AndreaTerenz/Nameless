@@ -1,10 +1,10 @@
 class_name GameUI
 extends Control
 
-export(float, 0.0, 3.5, .05) var max_blur = 2.2
-export(float, .1, 2.5, .01) var fade_in_len = .5
-export(float, .01, .5, .005) var fade_out_len = .1
-export(String) var action = ""
+@export var max_blur = 2.2 # (float, 0.0, 3.5, .05)
+@export var fade_in_len = .5 # (float, .1, 2.5, .01)
+@export var fade_out_len = .1 # (float, .01, .5, .005)
+@export var action: String = ""
 
 var tween : Tween = null
 var text_rect : TextureRect = null
@@ -12,15 +12,15 @@ var bg_scn : PackedScene = preload("res://Scenes/UI/GameUI_BG.tscn")
 var fading_in := false
 
 func _ready() -> void:
-	Console.connect("toggled", self, "_on_console_toggle")
+	Console.connect("toggled",Callable(self,"_on_console_toggle"))
 	set_paused(false)
 	
 	tween = Tween.new()
 	add_child(tween)
 	
-	tween.connect("tween_all_completed", self, "_on_tween_done")
+	tween.connect("tween_all_completed",Callable(self,"_on_tween_done"))
 	
-	text_rect = bg_scn.instance()
+	text_rect = bg_scn.instantiate()
 	add_child(text_rect)
 	move_child(text_rect, 0)
 	

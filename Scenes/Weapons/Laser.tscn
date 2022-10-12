@@ -2,9 +2,9 @@
 
 [ext_resource path="res://Assets/Models/weapons/laser/laser.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Scripts/Weapons/RayGun.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Sprites/UI/crosshairs/railgun_ch.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/UI/crosshairs/railgun_ch.png" type="Texture2D" id=3]
 
-[node name="Laser" type="MeshInstance"]
+[node name="Laser" type="MeshInstance3D"]
 portal_mode = 2
 layers = 2
 cast_shadow = 0
@@ -13,5 +13,5 @@ script = ExtResource( 2 )
 aimable = false
 crosshair_text = ExtResource( 3 )
 
-[node name="Position3D" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6244, 0, 0 )
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6244, 0, 0 )

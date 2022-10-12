@@ -1,8 +1,8 @@
 class_name DoorSide
-extends Spatial
+extends Node3D
 
-export(Vector3) var dir = Vector3.LEFT
-export(NodePath) var parent_door_ref
+@export var dir: Vector3 = Vector3.LEFT
+@export var parent_door_ref: NodePath
 
 var parent_door : BaseDoor = null
 var amount: float = 0.0
@@ -13,13 +13,17 @@ var tween_ease
 var base_pos: Vector3
 var open_pos: Vector3
 var current_trgt_pos: Vector3
-var open: bool = false setget set_open
+var open: bool = false :
+	get:
+		return open # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_open
 
 var tween := Tween.new()
 
 func _ready() -> void:	
 	add_child(tween)
-	tween.connect("tween_all_completed", self, "_tween_done")
+	tween.connect("tween_all_completed",Callable(self,"_tween_done"))
 	
 	var p = get_parent()
 	
@@ -34,11 +38,11 @@ func _ready() -> void:
 		tween_trns = parent_door.transition_type
 		tween_ease = parent_door.ease_type
 		
-		parent_door.connect("start_opening", self, "_on_open")
-		parent_door.connect("start_closing", self, "_on_close")
+		parent_door.connect("start_opening",Callable(self,"_on_open"))
+		parent_door.connect("start_closing",Callable(self,"_on_close"))
 		
-		base_pos = translation
-		current_trgt_pos = translation
+		base_pos = position
+		current_trgt_pos = position
 		
 		mov_delta = dir.normalized() * amount
 		open_pos = base_pos + mov_delta
@@ -55,7 +59,7 @@ func set_open(value):
 
 func open_close_fx():
 	tween.stop_all()
-	tween.interpolate_property(self, "translation", \
+	tween.interpolate_property(self, "position", \
 		null, current_trgt_pos, tween_time, \
 		tween_trns, tween_ease)
 	tween.start()
@@ -67,7 +71,7 @@ func _on_open(imm):
 	set_open(true)
 	
 	if imm:
-		translation = current_trgt_pos
+		position = current_trgt_pos
 	else:
 		open_close_fx()
 	
@@ -75,6 +79,6 @@ func _on_close(imm):
 	set_open(false)
 	
 	if imm:
-		translation = current_trgt_pos
+		position = current_trgt_pos
 	else:
 		open_close_fx()

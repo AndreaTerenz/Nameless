@@ -1,11 +1,11 @@
 [gd_scene load_steps=34 format=2]
 
-[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_unchecked.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_checked.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="FontFile" id=1]
+[ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_unchecked.png" type="Texture2D" id=2]
+[ext_resource path="res://Assets/Sprites/UI/checkboxes/radio_checked.png" type="Texture2D" id=3]
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=4]
 
-[sub_resource type="DynamicFont" id=582]
+[sub_resource type="FontFile" id=582]
 size = 30
 use_filter = true
 font_data = ExtResource( 1 )
@@ -34,8 +34,8 @@ shadow_size = 10
 [sub_resource type="GDScript" id=60]
 script/source = "extends PanelContainer
 
-onready var apply_btn : Button = $VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn
-onready var tab_cont : TabContainer = $VBoxContainer/TabContainer
+@onready var apply_btn : Button = $VBoxContainer/PanelContainer/HBoxContainer/ApplySettsBtn
+@onready var tab_cont : TabContainer = $VBoxContainer/TabContainer
 
 func _ready() -> void:
 	visible = false
@@ -52,21 +52,21 @@ func _on_cancel_edits() -> void:
 	tab_cont.current_tab = 0
 "
 
-[sub_resource type="DynamicFont" id=55]
+[sub_resource type="FontFile" id=55]
 size = 40
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFontData" id=589]
+[sub_resource type="FontFile" id=589]
 font_path = "res://Assets/Fonts/Default Font.ttf"
 
-[sub_resource type="DynamicFont" id=581]
+[sub_resource type="FontFile" id=581]
 size = 40
 use_mipmaps = true
 use_filter = true
 font_data = SubResource( 589 )
 
-[sub_resource type="DynamicFont" id=313]
+[sub_resource type="FontFile" id=313]
 size = 25
 use_filter = true
 font_data = ExtResource( 1 )
@@ -132,25 +132,25 @@ script/source = "extends SettingsTab
 [sub_resource type="GDScript" id=475]
 script/source = "extends HSlider
 
-export(float) var equivalent_min = .5
-export(float) var equivalent_max = 3.0
+@export var equivalent_min: float = .5
+@export var equivalent_max: float = 3.0
 
 var edit : Settings.SettingsEdit
 
 func _ready() -> void:
 	edit = Settings.SettingsEdit.new(Settings.CONTROLS, Settings.MOUSE_SENS)
-	value = range_lerp(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
+	value = remap(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
 
 func _on_drag_ended(value_changed: bool) -> void:
 	if value_changed:
-		edit.current_value = range_lerp(value, min_value, max_value, equivalent_min, equivalent_max)
+		edit.current_value = remap(value, min_value, max_value, equivalent_min, equivalent_max)
 
 func _on_apply_settings() -> void:
 	edit.apply()
 
 func _on_cancel_edits() -> void:
 	edit.reset()
-	value = range_lerp(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
+	value = remap(edit.current_value, equivalent_min, equivalent_max, min_value, max_value)
 "
 
 [sub_resource type="GDScript" id=420]
@@ -205,7 +205,7 @@ border_blend = true
 [sub_resource type="GDScript" id=587]
 script/source = "extends VBoxContainer
 
-export(PackedScene) var input_bind_scn = preload(\"res://Scenes/UI/InputBind.tscn\")
+@export var input_bind_scn: PackedScene = preload(\"res://Scenes/UI/InputBind.tscn\")
 
 var kids := []
 
@@ -230,13 +230,13 @@ func _ready() -> void:
 		actions.merge({\"quentincaffeino_console_toggle\": \"open dev console\"})
 	
 	for a in actions.keys():
-		var bind = input_bind_scn.instance()
+		var bind = input_bind_scn.instantiate()
 		bind.action_name = a
 		bind.display_name = actions[a]
 		bind.size_flags_horizontal = SIZE_EXPAND_FILL
-		bind.connect(\"bind_edit_start\", self, \"_on_edit_started\")
-		bind.connect(\"bind_edit_done\", self, \"_on_edit_cancelled\")
-		bind.connect(\"bind_edit_cancel\", self, \"_on_edit_done\")
+		bind.connect(\"bind_edit_start\",Callable(self,\"_on_edit_started\"))
+		bind.connect(\"bind_edit_done\",Callable(self,\"_on_edit_cancelled\"))
+		bind.connect(\"bind_edit_cancel\",Callable(self,\"_on_edit_done\"))
 		
 		kids.append(bind)
 		add_child(bind)
@@ -309,7 +309,7 @@ func _ready() -> void:
 		var tmp = Settings.split_resolution_str(res)
 		var w = float(tmp[0])
 		var h = float(tmp[1])
-		var icon_txt : Texture = null
+		var icon_txt : Texture2D = null
 		
 		if abs(w/h - 16.0/9.0) <= abs(w/h - 4.0/3.0):
 			icon_txt = RATIO_16_9_ICON
@@ -387,8 +387,8 @@ script/source = "extends SettingsTab
 [sub_resource type="GDScript" id=584]
 script/source = "extends HSlider
 
-export(NodePath) var par_tab_ref
-export(NodePath) var toggle_ref
+@export var par_tab_ref: NodePath
+@export var toggle_ref: NodePath
 
 var edit : Settings.SettingsEdit
 var toggle : CheckButton
@@ -397,17 +397,17 @@ var parent_tab : SettingsTab
 func _ready() -> void:
 	parent_tab = get_node(par_tab_ref) as SettingsTab
 	if parent_tab:
-		parent_tab.connect(\"apply\", self, \"_on_apply_settings\")
-		parent_tab.connect(\"cancel\", self, \"_on_cancel_edits\")
+		parent_tab.connect(\"apply\",Callable(self,\"_on_apply_settings\"))
+		parent_tab.connect(\"cancel\",Callable(self,\"_on_cancel_edits\"))
 		
 	toggle = get_node(toggle_ref) as CheckButton
 	if toggle:
-		toggle.connect(\"pressed\", self, \"_on_toggle_pressed\")
+		toggle.connect(\"pressed\",Callable(self,\"_on_toggle_pressed\"))
 	
 	edit = Settings.SettingsEdit.new(_setting_section(), _setting_name())
 	value = edit.current_value
 	
-	connect(\"drag_ended\", self, \"_on_drag_ended\")
+	connect(\"drag_ended\",Callable(self,\"_on_drag_ended\"))
 
 func _on_apply_settings() -> void:
 	edit.apply()
@@ -469,7 +469,7 @@ script/source = "extends Button
 signal apply_settings
 
 func _ready() -> void:
-	Settings.connect(\"changed_setting\", self, \"on_setting_changed\")
+	Settings.connect(\"changed_setting\",Callable(self,\"on_setting_changed\"))
 
 
 func _on_pressed() -> void:
@@ -494,23 +494,23 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -558.0
-margin_top = -433.0
-margin_right = 558.0
-margin_bottom = 433.0
+offset_left = -558.0
+offset_top = -433.0
+offset_right = 558.0
+offset_bottom = 433.0
 theme = SubResource( 583 )
 custom_styles/panel = SubResource( 10 )
 script = SubResource( 60 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 1112.0
-margin_bottom = 862.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 1112.0
+offset_bottom = 862.0
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
-margin_right = 1108.0
-margin_bottom = 44.0
+offset_right = 1108.0
+offset_bottom = 44.0
 custom_fonts/font = SubResource( 55 )
 text = "Settings"
 align = 1
@@ -520,22 +520,22 @@ __meta__ = {
 }
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
-margin_top = 52.0
-margin_right = 1108.0
-margin_bottom = 750.0
+offset_top = 52.0
+offset_right = 1108.0
+offset_bottom = 750.0
 size_flags_vertical = 3
 theme = SubResource( 314 )
-tab_align = 0
+tab_alignment = 0
 use_hidden_tabs_for_min_size = true
 
-[node name="Controls" type="Tabs" parent="VBoxContainer/TabContainer"]
+[node name="Controls" type="TabBar" parent="VBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 60.0
-margin_top = 57.0
-margin_right = -60.0
-margin_bottom = -4.0
+offset_left = 60.0
+offset_top = 57.0
+offset_right = -60.0
+offset_bottom = -4.0
 script = SubResource( 438 )
 apply_btn_path = NodePath("../../PanelContainer/HBoxContainer/ApplySettsBtn")
 cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
@@ -543,30 +543,30 @@ cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Controls"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 21.0
-margin_bottom = -21.0
+offset_top = 21.0
+offset_bottom = -21.0
 custom_constants/separation = 150
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Controls/VBoxContainer"]
-margin_top = 172.0
-margin_right = 988.0
-margin_bottom = 222.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 172.0
+offset_right = 988.0
+offset_bottom = 222.0
+minimum_size = Vector2( 0, 50 )
 custom_constants/separation = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer"]
-margin_top = 3.0
-margin_right = 494.0
-margin_bottom = 47.0
+offset_top = 3.0
+offset_right = 494.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 text = "Mouse Sensitivity"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer"]
-margin_left = 494.0
-margin_right = 988.0
-margin_bottom = 50.0
+offset_left = 494.0
+offset_right = 988.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 min_value = 1.0
@@ -578,100 +578,100 @@ ticks_on_borders = true
 script = SubResource( 475 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Controls/VBoxContainer"]
-margin_top = 372.0
-margin_right = 988.0
-margin_bottom = 422.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 372.0
+offset_right = 988.0
+offset_bottom = 422.0
+minimum_size = Vector2( 0, 50 )
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2"]
-margin_top = 3.0
-margin_right = 490.0
-margin_bottom = 47.0
+offset_top = 3.0
+offset_right = 490.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 text = "Invert Y axis"
 
 [node name="CheckBox" type="CheckBox" parent="VBoxContainer/TabContainer/Controls/VBoxContainer/HBoxContainer2"]
-margin_left = 498.0
-margin_right = 988.0
-margin_bottom = 50.0
+offset_left = 498.0
+offset_right = 988.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 script = SubResource( 420 )
 
-[node name="Binds" type="Tabs" parent="VBoxContainer/TabContainer"]
+[node name="Binds" type="TabBar" parent="VBoxContainer/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 60.0
-margin_top = 57.0
-margin_right = -60.0
-margin_bottom = -4.0
+offset_left = 60.0
+offset_top = 57.0
+offset_right = -60.0
+offset_bottom = -4.0
 script = SubResource( 590 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Binds"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 21.0
-margin_bottom = -21.0
+offset_top = 21.0
+offset_bottom = -21.0
 custom_constants/separation = 35
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer"]
-margin_right = 988.0
-margin_bottom = 45.0
+offset_right = 988.0
+offset_bottom = 45.0
 alignment = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/HBoxContainer"]
-margin_left = 562.0
-margin_right = 704.0
-margin_bottom = 44.0
+offset_left = 562.0
+offset_right = 704.0
+offset_bottom = 44.0
 text = "Keyboard"
 
 [node name="CheckButton" type="CheckButton" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/HBoxContainer"]
-margin_left = 712.0
-margin_right = 804.0
-margin_bottom = 45.0
+offset_left = 712.0
+offset_right = 804.0
+offset_bottom = 45.0
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/HBoxContainer"]
-margin_left = 812.0
-margin_right = 988.0
-margin_bottom = 44.0
+offset_left = 812.0
+offset_right = 988.0
+offset_bottom = 44.0
 text = "controller"
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer"]
-margin_top = 80.0
-margin_right = 988.0
-margin_bottom = 595.0
+offset_top = 80.0
+offset_right = 988.0
+offset_bottom = 595.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 586 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/PanelContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 984.0
-margin_bottom = 511.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 984.0
+offset_bottom = 511.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 588 )
+custom_styles/panel = SubResource( 588 )
 
 [node name="BindsCont" type="VBoxContainer" parent="VBoxContainer/TabContainer/Binds/VBoxContainer/PanelContainer/ScrollContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 975.0
-margin_bottom = 502.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 975.0
+offset_bottom = 502.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
 script = SubResource( 587 )
 
-[node name="Graphics" type="Tabs" parent="VBoxContainer/TabContainer"]
+[node name="Graphics" type="TabBar" parent="VBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 60.0
-margin_top = 57.0
-margin_right = -60.0
-margin_bottom = -4.0
+offset_left = 60.0
+offset_top = 57.0
+offset_right = -60.0
+offset_bottom = -4.0
 script = SubResource( 456 )
 apply_btn_path = NodePath("../../PanelContainer/HBoxContainer/ApplySettsBtn")
 cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
@@ -685,84 +685,84 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
-margin_top = 78.0
-margin_right = 988.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 78.0
+offset_right = 988.0
+offset_bottom = 128.0
+minimum_size = Vector2( 0, 50 )
 size_flags_vertical = 6
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer"]
-margin_top = 3.0
-margin_right = 630.0
-margin_bottom = 47.0
+offset_top = 3.0
+offset_right = 630.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 text = "Use vsync"
 
 [node name="VsyncBtn" type="CheckBox" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer"]
-margin_left = 638.0
-margin_right = 988.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 350, 0 )
+offset_left = 638.0
+offset_right = 988.0
+offset_bottom = 50.0
+minimum_size = Vector2( 350, 0 )
 flat = true
 align = 1
 script = SubResource( 225 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
-margin_top = 293.0
-margin_right = 988.0
-margin_bottom = 343.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 293.0
+offset_right = 988.0
+offset_bottom = 343.0
+minimum_size = Vector2( 0, 50 )
 size_flags_vertical = 6
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2"]
-margin_top = 3.0
-margin_right = 630.0
-margin_bottom = 47.0
+offset_top = 3.0
+offset_right = 630.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 text = "Resolution"
 
 [node name="ResolutionsList" type="OptionButton" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer2"]
-margin_left = 638.0
-margin_right = 988.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 350, 50 )
+offset_left = 638.0
+offset_right = 988.0
+offset_bottom = 50.0
+minimum_size = Vector2( 350, 50 )
 align = 1
 script = SubResource( 295 )
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer"]
-margin_top = 508.0
-margin_right = 988.0
-margin_bottom = 558.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 508.0
+offset_right = 988.0
+offset_bottom = 558.0
+minimum_size = Vector2( 0, 50 )
 size_flags_vertical = 6
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
-margin_top = 3.0
-margin_right = 630.0
-margin_bottom = 47.0
+offset_top = 3.0
+offset_right = 630.0
+offset_bottom = 47.0
 size_flags_horizontal = 3
 text = "Window mode"
 
 [node name="WinModeList" type="OptionButton" parent="VBoxContainer/TabContainer/Graphics/VBoxContainer/HBoxContainer6"]
-margin_left = 638.0
-margin_right = 988.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 350, 50 )
+offset_left = 638.0
+offset_right = 988.0
+offset_bottom = 50.0
+minimum_size = Vector2( 350, 50 )
 text = "fullscreen"
 align = 1
 items = [ "fullscreen", null, false, 3, null ]
 selected = 0
 script = SubResource( 368 )
 
-[node name="Audio" type="Tabs" parent="VBoxContainer/TabContainer"]
+[node name="Audio" type="TabBar" parent="VBoxContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 60.0
-margin_top = 57.0
-margin_right = -60.0
-margin_bottom = -4.0
+offset_left = 60.0
+offset_top = 57.0
+offset_right = -60.0
+offset_bottom = -4.0
 script = SubResource( 457 )
 apply_btn_path = NodePath("../../PanelContainer/HBoxContainer/ApplySettsBtn")
 cancel_btn_path = NodePath("../../PanelContainer/HBoxContainer/CancelSettsBtn")
@@ -773,17 +773,17 @@ anchor_bottom = 1.0
 columns = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_top = 81.0
-margin_right = 440.0
-margin_bottom = 125.0
+offset_top = 81.0
+offset_right = 440.0
+offset_bottom = 125.0
 size_flags_vertical = 6
 text = "Master Volume"
 
 [node name="MasterVol_Slider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_left = 448.0
-margin_top = 86.0
-margin_right = 888.0
-margin_bottom = 121.0
+offset_left = 448.0
+offset_top = 86.0
+offset_right = 888.0
+offset_bottom = 121.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 max_value = 1.0
@@ -794,10 +794,10 @@ par_tab_ref = NodePath("../..")
 toggle_ref = NodePath("../MuteMaster_Btn")
 
 [node name="MuteMaster_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_left = 896.0
-margin_top = 81.0
-margin_right = 988.0
-margin_bottom = 126.0
+offset_left = 896.0
+offset_top = 81.0
+offset_right = 988.0
+offset_bottom = 126.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -806,18 +806,18 @@ flat = true
 script = SubResource( 585 )
 
 [node name="Label2" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_top = 296.0
-margin_right = 440.0
-margin_bottom = 340.0
+offset_top = 296.0
+offset_right = 440.0
+offset_bottom = 340.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "SFX Volume"
 
 [node name="SfxVol_Slider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_left = 448.0
-margin_top = 301.0
-margin_right = 888.0
-margin_bottom = 336.0
+offset_left = 448.0
+offset_top = 301.0
+offset_right = 888.0
+offset_bottom = 336.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 max_value = 1.0
@@ -825,10 +825,10 @@ step = 0.005
 value = 1.0
 
 [node name="MuteSfx_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_left = 896.0
-margin_top = 296.0
-margin_right = 988.0
-margin_bottom = 341.0
+offset_left = 896.0
+offset_top = 296.0
+offset_right = 988.0
+offset_bottom = 341.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -836,18 +836,18 @@ pressed = true
 flat = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_top = 511.0
-margin_right = 440.0
-margin_bottom = 555.0
+offset_top = 511.0
+offset_right = 440.0
+offset_bottom = 555.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Music Volume"
 
 [node name="MusicVol_Slider" type="HSlider" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_left = 448.0
-margin_top = 516.0
-margin_right = 888.0
-margin_bottom = 551.0
+offset_left = 448.0
+offset_top = 516.0
+offset_right = 888.0
+offset_bottom = 551.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 max_value = 1.0
@@ -855,10 +855,10 @@ step = 0.005
 value = 1.0
 
 [node name="MuteMusic_Btn" type="CheckButton" parent="VBoxContainer/TabContainer/Audio/GridContainer"]
-margin_left = 896.0
-margin_top = 511.0
-margin_right = 988.0
-margin_bottom = 556.0
+offset_left = 896.0
+offset_top = 511.0
+offset_right = 988.0
+offset_bottom = 556.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 6
@@ -866,33 +866,33 @@ pressed = true
 flat = true
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-margin_top = 758.0
-margin_right = 1108.0
-margin_bottom = 858.0
-rect_min_size = Vector2( 0, 100 )
+offset_top = 758.0
+offset_right = 1108.0
+offset_bottom = 858.0
+minimum_size = Vector2( 0, 100 )
 custom_styles/panel = SubResource( 57 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
-margin_left = 12.0
-margin_right = 1096.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 80 )
+offset_left = 12.0
+offset_right = 1096.0
+offset_bottom = 100.0
+minimum_size = Vector2( 0, 80 )
 custom_constants/separation = 55
 alignment = 1
 
 [node name="ResetSettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_top = 33.0
-margin_right = 324.0
-margin_bottom = 66.0
+offset_top = 33.0
+offset_right = 324.0
+offset_bottom = 66.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 text = "Defaults"
 
 [node name="ScaleOnHover2" type="Control" parent="VBoxContainer/PanelContainer/HBoxContainer/ResetSettsBtn"]
 show_behind_parent = true
-margin_left = 379.0
-margin_right = 379.0
+offset_left = 379.0
+offset_right = 379.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -901,10 +901,10 @@ target_node_path = NodePath("..")
 
 [node name="ApplySettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 379.0
-margin_top = 33.0
-margin_right = 704.0
-margin_bottom = 66.0
+offset_left = 379.0
+offset_top = 33.0
+offset_right = 704.0
+offset_bottom = 66.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 text = "Apply"
@@ -920,10 +920,10 @@ target_node_path = NodePath("..")
 
 [node name="CancelSettsBtn" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 759.0
-margin_top = 33.0
-margin_right = 1084.0
-margin_bottom = 66.0
+offset_left = 759.0
+offset_top = 33.0
+offset_right = 1084.0
+offset_bottom = 66.0
 size_flags_horizontal = 7
 size_flags_vertical = 4
 text = "Cancel"

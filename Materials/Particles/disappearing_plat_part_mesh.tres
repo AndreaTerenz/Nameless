@@ -1,6 +1,6 @@
 [gd_resource type="SphereMesh" load_steps=2 format=2]
 
-[sub_resource type="SpatialMaterial" id=15]
+[sub_resource type="StandardMaterial3D" id=15]
 flags_transparent = true
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true

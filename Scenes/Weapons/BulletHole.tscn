@@ -1,28 +1,28 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Assets/Sprites/BulletHole.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Sprites/SmokePuff.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/BulletHole.png" type="Texture2D" id=1]
+[ext_resource path="res://Assets/Sprites/SmokePuff.png" type="Texture2D" id=2]
 
 [sub_resource type="QuadMesh" id=12]
 size = Vector2( 0.2, 0.2 )
 
-[sub_resource type="SpatialMaterial" id=11]
+[sub_resource type="StandardMaterial3D" id=11]
 resource_local_to_scene = true
 flags_transparent = true
 albedo_texture = ExtResource( 1 )
 
 [sub_resource type="GDScript" id=4]
-script/source = "extends MeshInstance
+script/source = "extends MeshInstance3D
 
-export(float, .1, 10.0, .1) var fade_wait = 1.0
-export(float) var fade_length = 0.2
+@export var fade_wait = 1.0 # (float, .1, 10.0, .1)
+@export var fade_length: float = 0.2
 
-onready var timer := $Timer
-onready var tween := $Tween
-onready var particles := $Particles
+@onready var timer := $Timer
+@onready var tween := $Tween
+@onready var particles := $GPUParticles3D
 
 func _on_timeout() -> void:
-	var mat : SpatialMaterial = get_active_material(0)
+	var mat : StandardMaterial3D = get_active_material(0)
 	tween.interpolate_property(mat, \"albedo_color\", mat.albedo_color, Color(0, 0, 0, 0), fade_length)
 	tween.start()
 
@@ -40,13 +40,13 @@ func setup(position: Vector3, normal: Vector3):
 "
 
 [sub_resource type="Gradient" id=9]
-offsets = PoolRealArray( 0.580952, 0.866667 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.466667 )
+offsets = PackedFloat32Array( 0.580952, 0.866667 )
+colors = PackedColorArray( 1, 1, 1, 1, 1, 1, 1, 0.466667 )
 
-[sub_resource type="GradientTexture" id=10]
+[sub_resource type="GradientTexture2D" id=10]
 gradient = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticleProcessMaterial" id=7]
 lifetime_randomness = 0.1
 spread = 90.0
 gravity = Vector3( 0, 0, 0 )
@@ -56,7 +56,7 @@ angle = 434.3
 angle_random = 1.0
 color_ramp = SubResource( 10 )
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="StandardMaterial3D" id=8]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -70,7 +70,7 @@ albedo_texture = ExtResource( 2 )
 material = SubResource( 8 )
 size = Vector2( 0.1, 0.1 )
 
-[node name="MeshInstance" type="MeshInstance"]
+[node name="MeshInstance3D" type="MeshInstance3D"]
 cast_shadow = 0
 mesh = SubResource( 12 )
 material/0 = SubResource( 11 )
@@ -82,8 +82,8 @@ one_shot = true
 
 [node name="Tween" type="Tween" parent="."]
 
-[node name="Particles" type="Particles" parent="."]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 emitting = false
 amount = 60
 lifetime = 0.1

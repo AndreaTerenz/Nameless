@@ -1,17 +1,17 @@
 class_name InventoryPickup
 extends BasePickup
 
-export(String) var item_name = "Std Bullet"
-export(int, 1, 100) var amount = 20
-export(float, 0.0, 100.0, .1) var weight_each = 0.0
+@export var item_name: String = "Std Bullet"
+@export var amount = 20 # (int, 1, 100)
+@export var weight_each = 0.0 # (float, 0.0, 100.0, .1)
 
 func _ready() -> void:
-	._ready()
+	super._ready()
 	interact_txt = "Pick up %s" % [item_name]
 
 func _on_interact(sender: Node = null):
 	if inventory_has_space():
-		remove()
+		remove_at()
 			
 		return _get_entry()
 		

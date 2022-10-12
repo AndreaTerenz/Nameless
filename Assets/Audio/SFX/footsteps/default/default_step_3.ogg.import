@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/default_step_3.ogg-fec356fbfb9a85f8c7ea3d82d0d05da2.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bknirqf0is46a"
+path="res://.godot/imported/default_step_3.ogg-fec356fbfb9a85f8c7ea3d82d0d05da2.oggvorbisstr"
 
 [deps]
 
 source_file="res://Assets/Audio/SFX/footsteps/default/default_step_3.ogg"
-dest_files=[ "res://.import/default_step_3.ogg-fec356fbfb9a85f8c7ea3d82d0d05da2.oggstr" ]
+dest_files=["res://.godot/imported/default_step_3.ogg-fec356fbfb9a85f8c7ea3d82d0d05da2.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

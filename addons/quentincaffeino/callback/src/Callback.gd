@@ -6,10 +6,10 @@ extends "./AbstractCallback.gd"
 var _name
 
 
-# @param  Reference   target
+# @param  RefCounted   target
 # @param  String      name
 # @param  Utils.Type  type
-func _init(target, name, type = Utils.Type.UNKNOWN).(target, type if type != Utils.Type.UNKNOWN else Utils.get_type(target, name)):
+func _init(target,name,type = Utils.Type.UNKNOWN,target,type if type != Utils.Type.UNKNOWN else Utils.get_type(target, name)):
 	self._name = name
 
 

@@ -7,12 +7,12 @@ top_radius = 0.572
 bottom_radius = 0.895
 height = 4.648
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="StandardMaterial3D" id=1]
 resource_name = "None"
 metallic = 0.8
 
-[node name="Arm" type="MeshInstance"]
-transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+[node name="Arm" type="MeshInstance3D"]
+transform = Transform3D( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
 portal_mode = 2
 layers = 2
 cast_shadow = 0

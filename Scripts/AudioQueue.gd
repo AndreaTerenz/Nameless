@@ -8,7 +8,7 @@ signal queue_emptied
 var queue := []
 
 func _ready() -> void:
-	self.connect("finished", self, "_on_done")
+	self.connect("finished",Callable(self,"_on_done"))
 
 func enqueue(sample: AudioStream):
 	queue.append(sample)

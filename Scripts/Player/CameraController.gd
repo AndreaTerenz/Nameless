@@ -1,5 +1,5 @@
 class_name CameraController
-extends Camera
+extends Camera3D
 
 var std_fov := 65.0
 var sprint_fov := 85.0
@@ -9,8 +9,8 @@ var zoomed := false
 var sprinting := false
 var target_fov := std_fov
 
-onready var gun_viewport = $ViewportContainer
-onready var tween := $Tween
+@onready var gun_viewport = $SubViewportContainer
+@onready var tween := $Tween
 
 func toggle_sprint_fov(sprnt: bool):
 	if not zoomed:

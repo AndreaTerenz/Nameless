@@ -9,51 +9,51 @@ func _ready() -> void:
 func get_layer_bit(name: String):
 	return layers.find(name)
 	
-func get_layer_bit_in_object(obj: CollisionObject, name: String) -> bool:
-	return obj.get_collision_layer_bit(get_layer_bit(name))
+func get_layer_bit_in_object(obj: CollisionObject3D, name: String) -> bool:
+	return obj.get_collision_layer_value(get_layer_bit(name))
 	
-func get_mask_bit_in_object(obj: Spatial, name: String) -> bool:
-	if obj is CollisionObject or obj is RayCast:
-		return obj.get_collision_mask_bit(get_layer_bit(name))
+func get_mask_bit_in_object(obj: Node3D, name: String) -> bool:
+	if obj is CollisionObject3D or obj is RayCast3D:
+		return obj.get_collision_mask_value(get_layer_bit(name))
 	return false
 	
-func set_layer_bit_in_object(obj: CollisionObject, name: String, value := true):
+func set_layer_bit_in_object(obj: CollisionObject3D, name: String, value := true):
 	var bit = get_layer_bit(name)
-	obj.set_collision_layer_bit(bit, value)
+	obj.set_collision_layer_value(bit, value)
 	
-func set_mask_bit_in_object(obj: Spatial, name: String, value := true):
-	if obj is CollisionObject or obj is RayCast:
+func set_mask_bit_in_object(obj: Node3D, name: String, value := true):
+	if obj is CollisionObject3D or obj is RayCast3D:
 		var bit = get_layer_bit(name)
-		obj.set_collision_mask_bit(bit, value)
+		obj.set_collision_mask_value(bit, value)
 	
-func set_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray, value := true):
+func set_layer_bits_in_object(obj: CollisionObject3D, names: PackedStringArray, value := true):
 	for n in names:
 		set_layer_bit_in_object(obj, n, value)
 		
-func set_mask_bits_in_object(obj: Spatial, names: PoolStringArray, value := true):
-	if obj is CollisionObject or obj is RayCast:
+func set_mask_bits_in_object(obj: Node3D, names: PackedStringArray, value := true):
+	if obj is CollisionObject3D or obj is RayCast3D:
 		for n in names:
 			set_mask_bit_in_object(obj, n, value)
 	
-func toggle_layer_bit_in_object(obj: CollisionObject, name: String):
+func toggle_layer_bit_in_object(obj: CollisionObject3D, name: String):
 	var current = get_layer_bit_in_object(obj, name)
 	set_layer_bit_in_object(obj, name, not current)
 	
-func toggle_mask_bit_in_object(obj: Spatial, name: String):
-	if obj is CollisionObject or obj is RayCast:
+func toggle_mask_bit_in_object(obj: Node3D, name: String):
+	if obj is CollisionObject3D or obj is RayCast3D:
 		var current = get_mask_bit_in_object(obj, name)
 		set_mask_bit_in_object(obj, name, not current)
 	
-func toggle_layer_bits_in_object(obj: CollisionObject, names: PoolStringArray):
+func toggle_layer_bits_in_object(obj: CollisionObject3D, names: PackedStringArray):
 	for n in names:
 		toggle_layer_bit_in_object(obj, n)
 		
-func toggle_mask_bits_in_object(obj: Spatial, names: PoolStringArray):
-	if obj is CollisionObject or obj is RayCast:
+func toggle_mask_bits_in_object(obj: Node3D, names: PackedStringArray):
+	if obj is CollisionObject3D or obj is RayCast3D:
 		for n in names:
 			toggle_mask_bit_in_object(obj, n)
 			
-static func toggle_area(a: Area, stat: bool):
+static func toggle_area(a: Area3D, stat: bool):
 	a.set_deferred("monitorable", stat)
 	a.set_deferred("monitoring", stat)
 
@@ -72,55 +72,55 @@ static func vec3_remove_axis(v: Vector3, axis : int = Vector3.AXIS_Y) -> Vector2
 	return Vector2.ZERO
 	
 static func vec3_deg2rad(v: Vector3):
-	return Vector3(deg2rad(v.x), deg2rad(v.y), deg2rad(v.z))
+	return Vector3(deg_to_rad(v.x), deg_to_rad(v.y), deg_to_rad(v.z))
 	
 static func vec2_deg2rad(v: Vector2):
-	return Vector2(deg2rad(v.x), deg2rad(v.y))
+	return Vector2(deg_to_rad(v.x), deg_to_rad(v.y))
 	
 static func vec3_rad2deg(v: Vector3):
-	return Vector3(rad2deg(v.x), rad2deg(v.y), rad2deg(v.z))
+	return Vector3(rad_to_deg(v.x), rad_to_deg(v.y), rad_to_deg(v.z))
 	
 static func vec2_rad2deg(v: Vector2):
-	return Vector2(rad2deg(v.x), rad2deg(v.y))
+	return Vector2(rad_to_deg(v.x), rad_to_deg(v.y))
 	
 static func mirror_vec2(origin: Node2D, to_mirror: Vector2):
 	var tm_local = origin.to_local(to_mirror)
 	return origin.to_global(-tm_local)
 	
-static func mirror_vec3(origin: Spatial, to_mirror: Vector3):
+static func mirror_vec3(origin: Node3D, to_mirror: Vector3):
 	var tm_local = origin.to_local(to_mirror)
 	return origin.to_global(-tm_local)
 	
 static func round_vec2(v : Vector2, digits : int = 3):
-	return Vector2(stepify(v.x, pow(10, -digits)), stepify(v.y, pow(10, -digits)))
+	return Vector2(snapped(v.x, pow(10, -digits)), snapped(v.y, pow(10, -digits)))
 	
 static func round_vec3(v : Vector3, digits : int = 3):
 	return Vector3( \
-		stepify(v.x, pow(10, -digits)), \
-		stepify(v.y, pow(10, -digits)), \
-		stepify(v.z, pow(10, -digits)))
+		snapped(v.x, pow(10, -digits)), \
+		snapped(v.y, pow(10, -digits)), \
+		snapped(v.z, pow(10, -digits)))
 
 func root_origin() -> Vector3:
 	var root = get_tree().current_scene
 	
-	if root is Spatial:
+	if root is Node3D:
 		return root.global_transform.origin
 	
 	return Vector3.ZERO
 	
-func get_global_rotation(obj: Spatial):
+func get_global_rotation(obj: Node3D):
 	return obj.global_transform.basis
 	
-func get_global_pos(obj: Spatial, relative_to_root := true) -> Vector3:
+func get_global_pos(obj: Node3D, relative_to_root := true) -> Vector3:
 	return obj.global_transform.origin - (root_origin() * float(relative_to_root))
 	
-func set_global_pos(obj: Spatial, origin: Vector3, relative_to_root := true):
+func set_global_pos(obj: Node3D, origin: Vector3, relative_to_root := true):
 	obj.global_transform.origin = origin + (root_origin() * float(relative_to_root))
 	
-static func copy_global_pos(source: Spatial, dest: Spatial):
+static func copy_global_pos(source: Node3D, dest: Node3D):
 	dest.global_transform.origin = source.global_transform.origin
 	
-static func get_dir_vector(obj: Spatial, axis := Vector3.AXIS_Z) -> Vector3:
+static func get_dir_vector(obj: Node3D, axis := Vector3.AXIS_Z) -> Vector3:
 	match axis:
 		Vector3.AXIS_X: return obj.global_transform.basis.x
 		Vector3.AXIS_Y: return obj.global_transform.basis.y
@@ -128,7 +128,7 @@ static func get_dir_vector(obj: Spatial, axis := Vector3.AXIS_Z) -> Vector3:
 		
 	return Vector3.ZERO
 	
-static func local_direction(obj: Spatial, direction : Vector3) -> Vector3:
+static func local_direction(obj: Node3D, direction : Vector3) -> Vector3:
 	match direction:
 		Vector3.BACK: return -obj.global_transform.basis.z
 		Vector3.FORWARD: return obj.global_transform.basis.z
@@ -141,7 +141,7 @@ static func local_direction(obj: Spatial, direction : Vector3) -> Vector3:
 		
 	return Vector3.ZERO
 
-static func lerp_rot_towards(obj: Spatial, target: Spatial, amount: float = 1.0) -> Quat:
+static func lerp_rot_towards(obj: Node3D, target: Node3D, amount: float = 1.0) -> Quaternion:
 	var target_pos = Utils.get_global_pos(target)
 	var obj_global_tr = obj.global_transform
 	
@@ -149,10 +149,10 @@ static func lerp_rot_towards(obj: Spatial, target: Spatial, amount: float = 1.0)
 	
 	return Utils.transform2quat(obj_global_tr).slerp(Utils.transform2quat(wtransform), amount)
 	
-static func transform2quat(tr: Transform) -> Quat:
-	return Quat(tr.basis)
+static func transform2quat(tr: Transform3D) -> Quaternion:
+	return Quaternion(tr.basis)
 	
-static func rotate_with_mouse(event: InputEventMouseMotion, node: Spatial, x_rot_node : Spatial, sensitivity := .1 , hrl_up := 80.0, hrl_down := -1, invert_y := false):
+static func rotate_with_mouse(event: InputEventMouseMotion, node: Node3D, x_rot_node : Node3D, sensitivity := .1 , hrl_up := 80.0, hrl_down := -1, invert_y := false):
 	var event_rel : Vector2 = Utils.vec2_deg2rad(-event.relative * sensitivity)
 	var y_rot = event_rel.x
 
@@ -161,7 +161,7 @@ static func rotate_with_mouse(event: InputEventMouseMotion, node: Spatial, x_rot
 
 	if hrl_down < 0:
 		hrl_down = hrl_up
-	x_rot_node.rotation.x = clamp(x_rot_node.rotation.x, -deg2rad(hrl_down), deg2rad(hrl_up))
+	x_rot_node.rotation.x = clamp(x_rot_node.rotation.x, -deg_to_rad(hrl_down), deg_to_rad(hrl_up))
 	
 static func delete_children(node):
 	for n in node.get_children():
@@ -181,11 +181,11 @@ static func log_line(obj: Node, msg: String):
 	var time_str = "%02d:%02d:%02d" % [time.hour, time.minute, time.second]
 	Console.write_line("@%s [%s]: %s" % [time_str, obj.name, msg])
 
-static func list_files_in_directory(path, extensions = [], include_hidden = false) -> PoolStringArray:
-	var files : PoolStringArray = []
+static func list_files_in_directory(path, extensions = [], include_hidden = false) -> PackedStringArray:
+	var files : PackedStringArray = []
 	var dir = Directory.new()
 	dir.open(path)
-	dir.list_dir_begin()
+	dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 
 	var done = false
 	while not done:
@@ -202,7 +202,7 @@ static func list_files_in_directory(path, extensions = [], include_hidden = fals
 
 	return files
 	
-static func spatial_to_local(s: Spatial, orig: Spatial) -> Vector3:
+static func spatial_to_local(s: Node3D, orig: Node3D) -> Vector3:
 	return orig.to_local(Utils.get_global_pos(s))
 	
 static func vec2_to_list(v: Vector2) -> Array:
@@ -249,7 +249,7 @@ static func engine_description() -> String:
 		[eng_info.major, eng_info.minor, eng_info.patch, eng_info.status]
 
 static func try_get_node(node_name: String, from: Node, default = null):
-	if from.find_node(node_name):
+	if from.find_child(node_name):
 		return from.get_node(node_name)
 		
 	return default
@@ -258,7 +258,7 @@ static func control_center_pivot(ctrl: Control):
 	control_set_relative_pivot(ctrl, Vector2.ONE * 0.5)
 
 static func control_set_relative_pivot(ctrl: Control, pivot_rel: Vector2):
-	ctrl.rect_pivot_offset = ctrl.rect_size * pivot_rel
+	ctrl.pivot_offset = ctrl.size * pivot_rel
 
 static func is_debug():
 	return OS.has_feature("debug")

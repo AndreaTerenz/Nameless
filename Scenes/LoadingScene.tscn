@@ -1,19 +1,19 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
-[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="FontFile" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
-var loader : ResourceInteractiveLoader = null
+var loader : ResourceLoader = null
 
-onready var prog_bar := $VBoxContainer/ProgressBar
+@onready var prog_bar := $VBoxContainer/ProgressBar
 
 func _ready() -> void:
 	prog_bar.value = 0
 	if Globals.scene_to_load != \"\":
-		loader = ResourceLoader.load_interactive(Globals.scene_to_load)
+		loader = ResourceLoader.load_threaded_request(Globals.scene_to_load)
 		Globals.scene_to_load = \"\"
 	
 func _process(delta: float) -> void:
@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 		OK:
 			update_progress()
 		ERR_FILE_EOF:
-			get_tree().change_scene_to(loader.get_resource())
+			get_tree().change_scene_to_packed(loader.get_resource())
 			loader = null
 		
 func update_progress():
@@ -31,7 +31,7 @@ func update_progress():
 	prog_bar.value = progress * 100
 "
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 40
 use_filter = true
 font_data = ExtResource( 2 )
@@ -81,10 +81,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -247.5
-margin_top = -89.5
-margin_right = 247.5
-margin_bottom = 89.5
+offset_left = -247.5
+offset_top = -89.5
+offset_right = 247.5
+offset_bottom = 89.5
 custom_constants/separation = 57
 alignment = 1
 __meta__ = {
@@ -92,10 +92,10 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_left = 191.0
-margin_top = 21.0
-margin_right = 303.0
-margin_bottom = 81.0
+offset_left = 191.0
+offset_top = 21.0
+offset_right = 303.0
+offset_bottom = 81.0
 size_flags_horizontal = 4
 custom_fonts/font = SubResource( 4 )
 text = "Loading"
@@ -106,12 +106,12 @@ __meta__ = {
 }
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer"]
-margin_top = 138.0
-margin_right = 495.0
-margin_bottom = 158.0
-rect_min_size = Vector2( 0, 20 )
+offset_top = 138.0
+offset_right = 495.0
+offset_bottom = 158.0
+minimum_size = Vector2( 0, 20 )
 size_flags_vertical = 1
 custom_styles/fg = SubResource( 5 )
-custom_styles/bg = SubResource( 3 )
+custom_styles/panel = SubResource( 3 )
 value = 50.0
 percent_visible = false

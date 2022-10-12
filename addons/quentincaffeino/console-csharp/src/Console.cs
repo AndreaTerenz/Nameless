@@ -1,6 +1,6 @@
 using Godot;
 
-public class Console : Node
+public partial class Console : Node
 {
     CanvasLayer _console;
 

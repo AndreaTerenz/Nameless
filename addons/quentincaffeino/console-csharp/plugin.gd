@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 const DefaultActions = preload("../console/DefaultActions.gd")
@@ -44,7 +44,7 @@ func _enter_tree():
 			})
 
 	var result = ProjectSettings.save()
-	assert(result == OK, "Failed to save project settings")
+	assert(result == OK) #,"Failed to save project settings")
 
 
 func _exit_tree():

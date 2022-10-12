@@ -1,7 +1,7 @@
 class_name AmmoPickup
 extends InventoryPickup
 
-export(PackedScene) var bullet_scn = preload("res://Scenes/Weapons/Bullet.tscn")
+@export var bullet_scn: PackedScene = preload("res://Scenes/Weapons/Bullet.tscn")
 
 func _get_entry():
 	return Inventory.InventoryEntry.new(

@@ -5,9 +5,21 @@ const NO_ERROR = -100
 const MF_INVALID_INCOMPLETE = 100
 const MF_SCENE_FILE_NOT_FOUND = 101
 
-var scene_file : String setget ,get_scene_file
-var display_name : String setget ,get_display_name
-var description : String setget ,get_description
+var scene_file : String :
+	get:
+		return scene_file # TODOConverter40 Copy here content of get_scene_file 
+	set(mod_value):
+		mod_value  # TODOConverter40  Non existent set function
+var display_name : String :
+	get:
+		return display_name # TODOConverter40 Copy here content of get_display_name 
+	set(mod_value):
+		mod_value  # TODOConverter40  Non existent set function
+var description : String :
+	get:
+		return description # TODOConverter40 Copy here content of get_description 
+	set(mod_value):
+		mod_value  # TODOConverter40  Non existent set function
 var scene_file_found := true
 
 var load_error = NO_ERROR

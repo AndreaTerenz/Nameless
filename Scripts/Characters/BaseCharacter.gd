@@ -1,8 +1,8 @@
 class_name BaseCharacter
-extends CollisionObject
+extends CollisionObject3D
 
-export(Globals.GROUPS) var npc_type = Globals.GROUPS.NEUTRAL
-export(NodePath) var hitbox_path = ""
+@export var npc_type = Globals.GROUPS.NEUTRAL # (Globals.GROUPS)
+@export var hitbox_path: NodePath = ""
 
 var hitbox : Hitbox = null
 
@@ -15,15 +15,15 @@ func _ready() -> void:
 	else:
 		hitbox = get_node(hitbox_path) as Hitbox
 		
-	hitbox.connect("hit", self, "_on_hitbox_hit")
-	hitbox.connect("killed", self, "_on_hitbox_failed")
+	hitbox.connect("hit",Callable(self,"_on_hitbox_hit"))
+	hitbox.connect("killed",Callable(self,"_on_hitbox_failed"))
 	
 	hitbox.collision_layer = 0
 	collision_layer = 0
 	
 	var layer : int = Globals.get_layer_bit(Globals.group_layers[npc_type])
-	hitbox.set_collision_layer_bit(layer, true)
-	set_collision_layer_bit(layer, true)
+	hitbox.set_collision_layer_value(layer, true)
+	set_collision_layer_value(layer, true)
 	
 
 func _on_hitbox_hit(damage):

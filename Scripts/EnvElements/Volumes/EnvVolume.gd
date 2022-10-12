@@ -1,7 +1,7 @@
 class_name EnvVolume
-extends Area
+extends Area3D
 
-export(Player.ENVIRONMENT) var env_type = Player.ENVIRONMENT.WATER 
+@export var env_type = Player.ENVIRONMENT.WATER  # (Player.ENVIRONMENT)
 
 func _ready() -> void:
 	set_meta("ENV_TYPE", env_type)

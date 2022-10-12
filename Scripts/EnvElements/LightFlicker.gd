@@ -1,10 +1,10 @@
-extends Light
+extends Light3D
 
-export var enabled := true
-export var max_char: int = 3
-export var length: int = 12
-export(float, 0.0, 0.99, 0.01) var frequency = .8
-export(String) var sequence_str = ""
+@export var enabled := true
+@export var max_char: int = 3
+@export var length: int = 12
+@export var frequency = .8 # (float, 0.0, 0.99, 0.01)
+@export var sequence_str: String = ""
 
 var base_energy = 0.0
 var offset = 0.0

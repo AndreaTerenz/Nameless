@@ -1,4 +1,4 @@
-extends Area
+extends Area3D
 
 signal pickup_data(data)
 signal interact_data(data)
@@ -64,5 +64,5 @@ func _on_prop_released(obj, was_launched) -> void:
 	monitoring = true
 
 
-func diocane(area: Area) -> void:
+func diocane(area: Area3D) -> void:
 	print("diocane " + area.name)

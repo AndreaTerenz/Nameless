@@ -7,7 +7,7 @@ var direction: Vector3 = Vector3.ZERO
 var h_velocity: Vector3 = Vector3.ZERO
 var h_acceleration: float = 0.0
 var velocity: Vector3 = Vector3.ZERO
-var gravity_vec: Vector3 = Vector3.ZERO
+var gravity_direction: Vector3 = Vector3.ZERO
 
 var read_prev_mover := true
 
@@ -22,7 +22,7 @@ func setup(pl) -> void:
 		h_velocity = mov.h_velocity
 		h_acceleration = mov.h_acceleration
 		velocity = mov.velocity
-		gravity_vec = mov.gravity_vec
+		gravity_direction = mov.gravity_direction
 	else:
 		current_speed = player.h_speed
 		
@@ -47,4 +47,4 @@ func stop():
 	h_velocity *= 0.0
 	h_acceleration *= 0.0
 	velocity *= 0.0
-	gravity_vec *= 0.0
+	gravity_direction *= 0.0

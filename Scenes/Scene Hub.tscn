@@ -1,18 +1,18 @@
 [gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Scripts/UI/ScaleOnHover.gd" type="Script" id=1]
-[ext_resource path="res://base font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://base font.tres" type="FontFile" id=2]
+[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="FontFile" id=3]
 [ext_resource path="res://Scenes/Story/Backdrops/part_0_backdrop.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Materials/Shaders/blur.shader" type="Shader" id=7]
+[ext_resource path="res://Materials/Shaders/blur.gdshader" type="Shader" id=7]
 [ext_resource path="res://Scenes/UI/SettingsPanel.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Assets/Fonts/AldoApache/AldotheApache.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://Assets/Fonts/AldoApache/AldotheApache.ttf" type="FontFile" id=13]
 
-[sub_resource type="DynamicFontData" id=1074]
+[sub_resource type="FontFile" id=1074]
 override_oversampling = 2.0
 font_path = "res://Assets/Fonts/Default Font.ttf"
 
-[sub_resource type="DynamicFont" id=315]
+[sub_resource type="FontFile" id=315]
 size = 30
 use_mipmaps = true
 use_filter = true
@@ -26,11 +26,11 @@ script/source = "extends Control
 
 signal hide_visible_panels
 
-onready var main_pan = get_node(\"%MainPanel\")
-onready var scene_hub_pan = get_node(\"%SceneHubPanel\")
-onready var saves_pan = get_node(\"%SavesPanel\")
-onready var settings_pan = get_node(\"%SettingsPanel\")
-onready var about_pan = get_node(\"%AboutPanel\")
+@onready var main_pan = get_node(\"%MainPanel\")
+@onready var scene_hub_pan = get_node(\"%SceneHubPanel\")
+@onready var saves_pan = get_node(\"%SavesPanel\")
+@onready var settings_pan = get_node(\"%SettingsPanel\")
+@onready var about_pan = get_node(\"%AboutPanel\")
 
 var current_panel : PanelContainer = null
 
@@ -79,14 +79,14 @@ shader = ExtResource( 7 )
 shader_param/amount = 2.0
 
 [sub_resource type="Gradient" id=62]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0, 0, 0, 1 )
+offsets = PackedFloat32Array( 0 )
+colors = PackedColorArray( 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=63]
+[sub_resource type="GradientTexture2D" id=63]
 gradient = SubResource( 62 )
 width = 200
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="FontFile" id=13]
 size = 250
 use_filter = true
 font_data = ExtResource( 13 )
@@ -122,10 +122,10 @@ enum SCENE_LIST {
 	DEMOS
 }
 
-export(String, DIR) var story_dir = \"res://Scenes/Story\"
-export(String, DIR) var levels_dir = \"res://Scenes/Levels\"
-export(String, DIR) var demos_dir = \"res://Scenes/Misc tests\"
-export(SCENE_LIST) var default_list = SCENE_LIST.STORY
+@export var story_dir = \"res://Scenes/Story\" # (String, DIR)
+@export var levels_dir = \"res://Scenes/Levels\" # (String, DIR)
+@export var demos_dir = \"res://Scenes/Misc tests\" # (String, DIR)
+@export var default_list: SCENE_LIST = SCENE_LIST.STORY
 
 var files := []
 var selected : MapFile = null
@@ -136,11 +136,11 @@ var dirs_dict := {
 }
 var current_dir
 
-onready var map_error_popup := $Control/AcceptDialog
-onready var search_bar := $VBoxContainer/SearchBar
-onready var list : ItemList = $VBoxContainer/ScrollContainer/ItemList
-onready var dir_list_btn : OptionButton = $VBoxContainer/HBoxContainer/OptionButton
-onready var start_btn := $VBoxContainer/HBoxContainer/StartBtn
+@onready var map_error_popup := $Control/AcceptDialog
+@onready var search_bar := $VBoxContainer/SearchBar
+@onready var list : ItemList = $VBoxContainer/ScrollContainer/ItemList
+@onready var dir_list_btn : OptionButton = $VBoxContainer/HBoxContainer/OptionButton
+@onready var start_btn := $VBoxContainer/HBoxContainer/StartBtn
 
 func _ready() -> void:
 	visible = false
@@ -206,7 +206,7 @@ func set_list(filter = \"\", notify_not_found := false):
 		if Args.find_option(Args.DEL_FAULTY_MAPS):
 			for fm in faulty_maps:
 				var dir = Directory.new()
-				dir.remove(fm)
+				dir.remove_at(fm)
 
 func _on_hide_visible_panels() -> void:
 	visible = false
@@ -233,12 +233,12 @@ func _on_search_text_changed(new_text: String) -> void:
 	set_list(new_text)
 "
 
-[sub_resource type="DynamicFont" id=386]
+[sub_resource type="FontFile" id=386]
 size = 20
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=351]
+[sub_resource type="FontFile" id=351]
 size = 20
 use_filter = true
 font_data = ExtResource( 3 )
@@ -260,11 +260,11 @@ func _on_category_selected(index: int) -> void:
 "
 
 [sub_resource type="GDScript" id=422]
-script/source = "extends WindowDialog
+script/source = "extends Window
 
-var missing_scenes : PoolStringArray = []
+var missing_scenes : PackedStringArray = []
 
-onready var list := $VBoxContainer/ScrollContainer/ItemList
+@onready var list := $VBoxContainer/ScrollContainer/ItemList
 
 func _on_about_to_show() -> void:
 	list.clear()
@@ -281,14 +281,14 @@ content_margin_bottom = 10.0
 [sub_resource type="GDScript" id=1073]
 script/source = "extends PanelContainer
 
-export(String, DIR) var target_dir = Globals.SAVES_DIR
+@export var target_dir = Globals.SAVES_DIR # (String, DIR)
 
 var scenes := []
 var selected := -1
 var current_dir = target_dir
 var refresh_asap := false
 
-onready var list : ItemList = $VBoxContainer/ScrollContainer/ItemList
+@onready var list : ItemList = $VBoxContainer/ScrollContainer/ItemList
 
 func _ready() -> void:
 	visible = false
@@ -296,7 +296,7 @@ func _ready() -> void:
 	set_list(\"\", true)
 	
 func _notification(what: int) -> void:
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN and refresh_asap:
+	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN and refresh_asap:
 		set_list()
 		refresh_asap = false
 		
@@ -330,7 +330,7 @@ func set_list(filter = \"\", notify_not_found := false):
 		
 		list.add_item(list_name)
 		list.set_item_tooltip(list.get_item_count()-1, \\
-				\"Saved at %s on %s\" % [data[\"now_time\"], data[\"now_date\"]])
+				\"Saved at %s checked %s\" % [data[\"now_time\"], data[\"now_date\"]])
 			
 		scenes.append(data)
 	
@@ -366,10 +366,10 @@ func _on_DeleteSave_pressed() -> void:
 		var path = scenes[selected].path
 		
 		var dir = Directory.new()
-		if dir.remove(path) == 0:
+		if dir.remove_at(path) == 0:
 			Console.write_line(\"Deleted savefile at '%s'\" % path)
 			
-			scenes.remove(selected)
+			scenes.remove_at(selected)
 			list.remove_item(selected)
 			
 			selected = -1
@@ -412,7 +412,7 @@ func _on_hide_visible_panels() -> void:
 	visible = false
 "
 
-[sub_resource type="DynamicFont" id=55]
+[sub_resource type="FontFile" id=55]
 size = 79
 use_filter = true
 font_data = ExtResource( 3 )
@@ -423,7 +423,7 @@ content_margin_right = 20.0
 content_margin_top = 20.0
 content_margin_bottom = 40.0
 
-[sub_resource type="DynamicFont" id=1075]
+[sub_resource type="FontFile" id=1075]
 size = 24
 use_mipmaps = true
 use_filter = true
@@ -438,7 +438,7 @@ script/source = "extends RichTextLabel
 
 
 func _ready() -> void:
-	connect(\"meta_clicked\", self, \"meta_pressed\")
+	connect(\"meta_clicked\",Callable(self,\"meta_pressed\"))
 
 func meta_pressed(meta):
 	OS.shell_open(meta)
@@ -483,7 +483,7 @@ func _ready() -> void:
 [sub_resource type="StyleBoxFlat" id=1077]
 bg_color = Color( 0.266667, 0.286275, 0.431373, 0 )
 
-[sub_resource type="DynamicFont" id=1081]
+[sub_resource type="FontFile" id=1081]
 size = 20
 use_mipmaps = true
 use_filter = true
@@ -492,8 +492,8 @@ font_data = ExtResource( 3 )
 [sub_resource type="GDScript" id=1082]
 script/source = "extends LinkButton
 
-onready var label = $RichTextLabel
-onready var fb_dialog : WindowDialog = get_node(\"%FeedbackDialog\")
+@onready var label = $RichTextLabel
+@onready var fb_dialog : Window = get_node(\"%FeedbackDialog\")
 
 var body := \"\"
 
@@ -501,7 +501,7 @@ func _pressed() -> void:
 	var id = OS.get_unique_id()
 	
 	fb_dialog.popup_centered()
-	yield(fb_dialog, \"popup_hide\")
+	await fb_dialog.popup_hide
 	
 	if not fb_dialog.canceled:
 		var subject = (\"Nameless dev feedback (%s)\" % id).replace(\" \", \"%20\")
@@ -559,9 +559,9 @@ func add_line(key, value):
 
 func sanitize_str_for_url(s):
 	return s\\
-		.replace(\"\\n\", \"%0A\")\\
-		.replace(\" \", \"%20\")\\
-		.replace(\"#\", \"%23\")
+		super.replace(\"\\n\", \"%0A\")\\
+		super.replace(\" \", \"%20\")\\
+		super.replace(\"#\", \"%23\")
 
 func generate_body(extra_feedback := \"\", include_info := true):
 	
@@ -571,13 +571,13 @@ func generate_body(extra_feedback := \"\", include_info := true):
 		add_header(\"Game\")
 		add_line(\"Version\", Globals.get_version(\"#%s [alpha]\"))
 		add_line(\"Running standalone\", OS.has_feature(\"standalone\"))
-		add_line(\"Uptime (milliseconds)\", OS.get_ticks_msec())
+		add_line(\"Uptime (milliseconds)\", Time.get_ticks_msec())
 		
 		add_header(\"Time\")
 		add_line(\"Date and time (local)\", datetime_to_string(OS.get_datetime()))
 		add_line(\"Timezone\", OS.get_time_zone_info())
 		add_line(\"System time (milliseconds)\", OS.get_system_time_msecs())
-		add_line(\"UNIX time\", OS.get_unix_time())
+		add_line(\"UNIX time\", Time.get_unix_time_from_system())
 
 		add_header(\"System\")
 		add_line(\"OS name\", OS.get_name())
@@ -594,14 +594,14 @@ func generate_body(extra_feedback := \"\", include_info := true):
 
 		add_header(\"Hardware\")
 		add_line(\"Processor count\", OS.get_processor_count())
-		add_line(\"Video adapter name\", VisualServer.get_video_adapter_name())
-		add_line(\"Video adapter vendor\", VisualServer.get_video_adapter_vendor())
+		add_line(\"Video adapter name\", RenderingServer.get_video_adapter_name())
+		add_line(\"Video adapter vendor\", RenderingServer.get_video_adapter_vendor())
 
 		add_header(\"Video\")
-		var video_drivers = PoolStringArray()
+		var video_drivers = PackedStringArray()
 		for i in OS.get_video_driver_count():
 			video_drivers.push_back(OS.get_video_driver_name(i))
-		add_line(\"Available drivers\", video_drivers.join(\", \"))
+		add_line(\"Available drivers\", \", \".join(video_drivers))
 		add_line(\"Current driver\", OS.get_video_driver_name(OS.get_current_video_driver()))
 
 		add_header(\"Display\")
@@ -610,7 +610,7 @@ func generate_body(extra_feedback := \"\", include_info := true):
 		add_line(\"Refresh rate\", OS.get_screen_refresh_rate())
 		add_line(\"Startup screen position\", OS.get_screen_position())
 		add_line(\"Startup screen size\", OS.get_screen_size())
-		add_line(\"Safe area rectangle\", OS.get_window_safe_area())
+		add_line(\"Safe area rectangle\", DisplayServer.get_display_safe_area())
 		add_line(\"Screen orientation\", [
 			\"Landscape\",
 			\"Portrait\",
@@ -628,10 +628,10 @@ func generate_body(extra_feedback := \"\", include_info := true):
 		add_line(\"Virtual keyboard height\", OS.get_virtual_keyboard_height())
 		
 		add_header(\"Audio\")
-		var audio_drivers = PoolStringArray()
+		var audio_drivers = PackedStringArray()
 		for i in OS.get_audio_driver_count():
 			audio_drivers.push_back(OS.get_audio_driver_name(i))
-		add_line(\"Available drivers\", audio_drivers.join(\", \"))
+		add_line(\"Available drivers\", \", \".join(audio_drivers))
 
 	add_header(\"Extra feedback\")
 	body += extra_feedback + \"\\n\"
@@ -647,19 +647,19 @@ border_width_right = 20
 shader = ExtResource( 7 )
 shader_param/amount = 1.2
 
-[sub_resource type="DynamicFont" id=54]
+[sub_resource type="FontFile" id=54]
 size = 24
 use_filter = true
 font_data = ExtResource( 3 )
 
 [sub_resource type="GDScript" id=1084]
-script/source = "extends WindowDialog
+script/source = "extends Window
 
 ### Automatic References Start ###
-onready var _cancel_btn: Button = $MarginContainer/VBoxContainer/HBoxContainer/CancelBtn
-onready var _check_box: CheckBox = $MarginContainer/VBoxContainer/CheckBox
-onready var _send_btn: Button = $MarginContainer/VBoxContainer/HBoxContainer/SendBtn
-onready var _text_edit: TextEdit = $MarginContainer/VBoxContainer/TextEdit
+@onready var _cancel_btn: Button = $MarginContainer/VBoxContainer/HBoxContainer/CancelBtn
+@onready var _check_box: CheckBox = $MarginContainer/VBoxContainer/CheckBox
+@onready var _send_btn: Button = $MarginContainer/VBoxContainer/HBoxContainer/SendBtn
+@onready var _text_edit: TextEdit = $MarginContainer/VBoxContainer/TextEdit
 ### Automatic References Stop ###
 
 var canceled := false
@@ -677,7 +677,7 @@ func _on_CancelBtn_pressed() -> void:
 
 func _on_about_to_show() -> void:
 	canceled = false
-	_check_box.pressed = true
+	_check_box.button_pressed = true
 	_text_edit.text = \"\"
 "
 
@@ -691,8 +691,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5, 2 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
@@ -703,20 +703,20 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath(".:rect_position")
+tracks/2/path = NodePath(".:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5, 2 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 931, -258 ), Vector2( 931, -258 ), Vector2( 931, 0 ) ]
 }
@@ -727,8 +727,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.5, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0.5, 2 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ 0, 6 ]
 }
@@ -739,8 +739,8 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.5, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0.5, 2 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ 0, 6 ]
 }
@@ -754,20 +754,20 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:rect_position")
+tracks/1/path = NodePath(".:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 1347, -166 ) ]
 }
@@ -778,8 +778,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ) ]
 }
@@ -790,8 +790,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 6 ]
 }
@@ -802,8 +802,8 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 6 ]
 }
@@ -811,8 +811,8 @@ tracks/4/keys = {
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-focus_neighbour_right = NodePath("MainPanel/MarginContainer/VBoxContainer/NewBtn")
-focus_neighbour_bottom = NodePath("MainPanel/MarginContainer/VBoxContainer/NewBtn")
+focus_neighbor_right = NodePath("MainPanel/MarginContainer/VBoxContainer/NewBtn")
+focus_neighbor_bottom = NodePath("MainPanel/MarginContainer/VBoxContainer/NewBtn")
 focus_next = NodePath("MainPanel/MarginContainer/VBoxContainer/NewBtn")
 focus_mode = 2
 theme = SubResource( 316 )
@@ -835,20 +835,20 @@ expand = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 1347.0
-margin_top = -166.0
-margin_right = 2327.0
-margin_bottom = 118.0
-custom_constants/margin_right = 50
-custom_constants/margin_top = 50
+offset_left = 1347.0
+offset_top = -166.0
+offset_right = 2327.0
+offset_bottom = 118.0
+custom_constants/offset_right = 50
+custom_constants/offset_top = 50
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Label" type="Label" parent="MarginContainer"]
-margin_top = 63.0
-margin_right = 930.0
-margin_bottom = 271.0
+offset_top = 63.0
+offset_right = 930.0
+offset_bottom = 271.0
 custom_colors/font_color_shadow = Color( 0.152941, 0.152941, 0.152941, 1 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
@@ -866,87 +866,87 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -279.0
-margin_top = -221.0
-margin_right = 283.0
-margin_bottom = 233.0
+offset_left = -279.0
+offset_top = -221.0
+offset_right = 283.0
+offset_bottom = 233.0
 custom_styles/panel = SubResource( 56 )
 script = SubResource( 84 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SceneHubPanel"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 552.0
-margin_bottom = 444.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 552.0
+offset_bottom = 444.0
 custom_constants/separation = 18
 
 [node name="SearchBar" type="LineEdit" parent="SceneHubPanel/VBoxContainer"]
-margin_right = 542.0
-margin_bottom = 52.0
+offset_right = 542.0
+offset_bottom = 52.0
 custom_fonts/font = SubResource( 386 )
 clear_button_enabled = true
 placeholder_text = "Enter scene name..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SceneHubPanel/VBoxContainer"]
-margin_top = 70.0
-margin_right = 542.0
-margin_bottom = 384.0
-rect_min_size = Vector2( 320, 210 )
+offset_top = 70.0
+offset_right = 542.0
+offset_bottom = 384.0
+minimum_size = Vector2( 320, 210 )
 size_flags_vertical = 3
 
 [node name="ItemList" type="ItemList" parent="SceneHubPanel/VBoxContainer/ScrollContainer"]
-margin_right = 542.0
-margin_bottom = 314.0
+offset_right = 542.0
+offset_bottom = 314.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/vseparation = 20
+custom_constants/v_separation = 20
 custom_fonts/font = ExtResource( 2 )
 items = [ "a", null, false, "b", null, true, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false, "Item 9", null, false, "Item 10", null, false, "Item 11", null, false, "Item 12", null, false, "Item 13", null, false, "Item 14", null, false, "Item 15", null, false, "Item 16", null, false ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SceneHubPanel/VBoxContainer"]
-margin_top = 402.0
-margin_right = 542.0
-margin_bottom = 434.0
+offset_top = 402.0
+offset_right = 542.0
+offset_bottom = 434.0
 alignment = 1
 
 [node name="OptionButton" type="OptionButton" parent="SceneHubPanel/VBoxContainer/HBoxContainer"]
-margin_top = 4.0
-margin_right = 267.0
-margin_bottom = 28.0
+offset_top = 4.0
+offset_right = 267.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 351 )
 
 [node name="StartBtn" type="Button" parent="SceneHubPanel/VBoxContainer/HBoxContainer"]
-margin_left = 458.0
-margin_top = -1.0
-margin_right = 542.0
-margin_bottom = 31.5
-rect_min_size = Vector2( 70, 0 )
+offset_left = 458.0
+offset_top = -1.0
+offset_right = 542.0
+offset_bottom = 31.5
+minimum_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
 size_flags_vertical = 6
 text = " start "
 script = SubResource( 1038 )
 
 [node name="Control" type="Control" parent="SceneHubPanel"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 552.0
-margin_bottom = 444.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 552.0
+offset_bottom = 444.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AcceptDialog" type="WindowDialog" parent="SceneHubPanel/Control"]
+[node name="AcceptDialog" type="Window" parent="SceneHubPanel/Control"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -277.0
-margin_top = -130.0
-margin_right = 277.0
-margin_bottom = 130.0
+offset_left = -277.0
+offset_top = -130.0
+offset_right = 277.0
+offset_bottom = 130.0
 window_title = "Error"
 script = SubResource( 422 )
 __meta__ = {
@@ -956,7 +956,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="SceneHubPanel/Control/AcceptDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 5.0
+offset_top = 5.0
 custom_constants/separation = 11
 alignment = 1
 __meta__ = {
@@ -964,23 +964,23 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="SceneHubPanel/Control/AcceptDialog/VBoxContainer"]
-margin_right = 554.0
-margin_bottom = 45.0
+offset_right = 554.0
+offset_bottom = 45.0
 text = "Unable to load the following maps:"
 align = 1
 valign = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SceneHubPanel/Control/AcceptDialog/VBoxContainer"]
-margin_top = 56.0
-margin_right = 554.0
-margin_bottom = 255.0
+offset_top = 56.0
+offset_right = 554.0
+offset_bottom = 255.0
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 421 )
+custom_styles/panel = SubResource( 421 )
 
 [node name="ItemList" type="ItemList" parent="SceneHubPanel/Control/AcceptDialog/VBoxContainer/ScrollContainer"]
-margin_left = 10.0
-margin_right = 544.0
-margin_bottom = 189.0
+offset_left = 10.0
+offset_right = 544.0
+offset_bottom = 189.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -991,93 +991,93 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -279.0
-margin_top = -221.0
-margin_right = 283.0
-margin_bottom = 233.0
+offset_left = -279.0
+offset_top = -221.0
+offset_right = 283.0
+offset_bottom = 233.0
 custom_styles/panel = SubResource( 56 )
 script = SubResource( 1073 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SavesPanel"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 552.0
-margin_bottom = 444.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 552.0
+offset_bottom = 444.0
 custom_constants/separation = 18
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SavesPanel/VBoxContainer"]
-margin_right = 542.0
-margin_bottom = 384.0
-rect_min_size = Vector2( 320, 210 )
+offset_right = 542.0
+offset_bottom = 384.0
+minimum_size = Vector2( 320, 210 )
 size_flags_vertical = 3
 
 [node name="ItemList" type="ItemList" parent="SavesPanel/VBoxContainer/ScrollContainer"]
-margin_right = 542.0
-margin_bottom = 384.0
+offset_right = 542.0
+offset_bottom = 384.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/vseparation = 20
+custom_constants/v_separation = 20
 custom_fonts/font = ExtResource( 2 )
 items = [ "a", null, false, "b", null, true, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false, "Item 8", null, false, "Item 9", null, false, "Item 10", null, false, "Item 11", null, false, "Item 12", null, false, "Item 13", null, false, "Item 14", null, false, "Item 15", null, false, "Item 16", null, false ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SavesPanel/VBoxContainer"]
-margin_top = 402.0
-margin_right = 542.0
-margin_bottom = 434.0
+offset_top = 402.0
+offset_right = 542.0
+offset_bottom = 434.0
 custom_constants/separation = 33
 alignment = 1
 
 [node name="StartSaveBtn" type="Button" parent="SavesPanel/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 80.0
-margin_bottom = 32.5
-rect_min_size = Vector2( 80, 0 )
+offset_right = 80.0
+offset_bottom = 32.5
+minimum_size = Vector2( 80, 0 )
 text = "Start"
 
 [node name="DeleteSaveBtn" type="Button" parent="SavesPanel/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 113.0
-margin_right = 193.0
-margin_bottom = 32.5
-rect_min_size = Vector2( 80, 0 )
+offset_left = 113.0
+offset_right = 193.0
+offset_bottom = 32.5
+minimum_size = Vector2( 80, 0 )
 text = "Delete"
 
 [node name="ReloadSavesBtn" type="Button" parent="SavesPanel/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 226.0
-margin_right = 319.5
-margin_bottom = 32.5
-rect_min_size = Vector2( 80, 0 )
+offset_left = 226.0
+offset_right = 319.5
+offset_bottom = 32.5
+minimum_size = Vector2( 80, 0 )
 text = "Refresh"
 
 [node name="OpenSavesDirBtn" type="Button" parent="SavesPanel/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 446.0
-margin_right = 542.0
-margin_bottom = 32.5
-rect_min_size = Vector2( 80, 0 )
+offset_left = 446.0
+offset_right = 542.0
+offset_bottom = 32.5
+minimum_size = Vector2( 80, 0 )
 size_flags_horizontal = 10
 text = "open dir"
 
 [node name="Control" type="Control" parent="SavesPanel"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 552.0
-margin_bottom = 444.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 552.0
+offset_bottom = 444.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AcceptDialog" type="WindowDialog" parent="SavesPanel/Control"]
+[node name="AcceptDialog" type="Window" parent="SavesPanel/Control"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -277.0
-margin_top = -130.0
-margin_right = 277.0
-margin_bottom = 130.0
+offset_left = -277.0
+offset_top = -130.0
+offset_right = 277.0
+offset_bottom = 130.0
 window_title = "Error"
 script = SubResource( 422 )
 __meta__ = {
@@ -1087,7 +1087,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="SavesPanel/Control/AcceptDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 5.0
+offset_top = 5.0
 custom_constants/separation = 11
 alignment = 1
 __meta__ = {
@@ -1095,23 +1095,23 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="SavesPanel/Control/AcceptDialog/VBoxContainer"]
-margin_right = 554.0
-margin_bottom = 33.0
+offset_right = 554.0
+offset_bottom = 33.0
 text = "Unable to load the following maps:"
 align = 1
 valign = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SavesPanel/Control/AcceptDialog/VBoxContainer"]
-margin_top = 44.0
-margin_right = 554.0
-margin_bottom = 255.0
+offset_top = 44.0
+offset_right = 554.0
+offset_bottom = 255.0
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 421 )
+custom_styles/panel = SubResource( 421 )
 
 [node name="ItemList" type="ItemList" parent="SavesPanel/Control/AcceptDialog/VBoxContainer/ScrollContainer"]
-margin_left = 10.0
-margin_right = 544.0
-margin_bottom = 201.0
+offset_left = 10.0
+offset_right = 544.0
+offset_bottom = 201.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -1121,24 +1121,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -476.0
-margin_top = -286.0
-margin_right = 394.0
-margin_bottom = 287.0
+offset_left = -476.0
+offset_top = -286.0
+offset_right = 394.0
+offset_bottom = 287.0
 custom_styles/panel = SubResource( 10 )
 script = SubResource( 85 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AboutPanel"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 866.0
-margin_bottom = 579.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 866.0
+offset_bottom = 579.0
 grow_vertical = 2
 alignment = 1
 
 [node name="Label2" type="Label" parent="AboutPanel/VBoxContainer"]
-margin_right = 862.0
-margin_bottom = 146.0
+offset_right = 862.0
+offset_bottom = 146.0
 size_flags_vertical = 1
 custom_fonts/font = SubResource( 55 )
 custom_styles/normal = SubResource( 1078 )
@@ -1150,9 +1150,9 @@ __meta__ = {
 }
 
 [node name="RichTextLabel" type="Label" parent="AboutPanel/VBoxContainer"]
-margin_top = 154.0
-margin_right = 862.0
-margin_bottom = 323.5
+offset_top = 154.0
+offset_right = 862.0
+offset_bottom = 323.5
 size_flags_vertical = 1
 custom_styles/normal = SubResource( 1078 )
 text = "This is a mess of game mechanic tests and prototype levels. Ideally, it's the beginning of an FPS game. In practice, who knows if anything will ever come of this."
@@ -1161,88 +1161,88 @@ valign = 1
 autowrap = true
 
 [node name="MarginContainer" type="MarginContainer" parent="AboutPanel/VBoxContainer"]
-margin_top = 331.0
-margin_right = 862.0
-margin_bottom = 527.779
-rect_min_size = Vector2( 0, 196.779 )
+offset_top = 331.0
+offset_right = 862.0
+offset_bottom = 527.779
+minimum_size = Vector2( 0, 196.779 )
 size_flags_vertical = 3
-custom_constants/margin_right = 15
-custom_constants/margin_left = 15
+custom_constants/offset_right = 15
+custom_constants/offset_left = 15
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="AboutPanel/VBoxContainer/MarginContainer"]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 847.0
-margin_bottom = 181.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 847.0
+offset_bottom = 181.0
 size_flags_vertical = 4
 custom_constants/separation = 38
 alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer"]
-margin_right = 444.045
-margin_bottom = 166.0
-rect_min_size = Vector2( 444.045, 0 )
+offset_right = 444.045
+offset_bottom = 166.0
+minimum_size = Vector2( 444.045, 0 )
 theme = SubResource( 1076 )
-custom_constants/hseparation = 76
+custom_constants/h_separation = 76
 columns = 2
 
 [node name="Label" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
-margin_right = 156.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
+offset_right = 156.0
+offset_bottom = 50.0
+minimum_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.639216, 0.639216, 0.639216, 1 )
 text = "Author"
 
 [node name="Label3" type="RichTextLabel" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
-margin_left = 232.0
-margin_right = 444.0
-margin_bottom = 50.0
+offset_left = 232.0
+offset_right = 444.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 bbcode_enabled = true
-bbcode_text = "[right][url=https://github.com/AndreaTerenz]AndreaTerenz[/url][/right]"
+text = "[right][url=https://github.com/AndreaTerenz]AndreaTerenz[/url][/right]"
 text = "AndreaTerenz"
 script = SubResource( 1079 )
 
 [node name="Label4" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
-margin_top = 58.0
-margin_right = 156.0
-margin_bottom = 108.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 58.0
+offset_right = 156.0
+offset_bottom = 108.0
+minimum_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.639216, 0.639216, 0.639216, 1 )
 text = "Game Version"
 
 [node name="GameVersion" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
-margin_left = 232.0
-margin_top = 58.0
-margin_right = 444.0
-margin_bottom = 108.0
-rect_min_size = Vector2( 0, 50 )
+offset_left = 232.0
+offset_top = 58.0
+offset_right = 444.0
+offset_bottom = 108.0
+minimum_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 text = "peepee.poopoo [alpha]"
 align = 2
 script = SubResource( 1080 )
 
 [node name="Label2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
-margin_top = 116.0
-margin_right = 156.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 0, 50 )
+offset_top = 116.0
+offset_right = 156.0
+offset_bottom = 166.0
+minimum_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.639216, 0.639216, 0.639216, 1 )
 text = "engine version"
 
 [node name="Engine Version2" type="Label" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
-margin_left = 232.0
-margin_top = 116.0
-margin_right = 444.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 0, 50 )
+offset_left = 232.0
+offset_top = 116.0
+offset_right = 444.0
+offset_bottom = 166.0
+minimum_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 text = "Godot 3.5 rc8"
 align = 2
@@ -1252,26 +1252,26 @@ __meta__ = {
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer"]
-margin_left = 482.0
-margin_right = 832.0
-margin_bottom = 166.0
+offset_left = 482.0
+offset_right = 832.0
+offset_bottom = 166.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1077 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="AboutPanel/VBoxContainer/MarginContainer/HBoxContainer/PanelContainer"]
-margin_right = 350.0
-margin_bottom = 166.0
+offset_right = 350.0
+offset_bottom = 166.0
 bbcode_enabled = true
-bbcode_text = "[url=https://godotengine.org/][img=350x166]res://Assets/godot logos/logo_large_monochrome_dark.svg[/img][/url]"
+text = "[url=https://godotengine.org/][img=350x166]res://Assets/godot logos/logo_large_monochrome_dark.svg[/img][/url]"
 scroll_active = false
 script = SubResource( 1079 )
 
 [node name="FeedbackBtn" type="LinkButton" parent="AboutPanel/VBoxContainer"]
-margin_left = 374.0
-margin_top = 535.0
-margin_right = 488.0
-margin_bottom = 575.0
-rect_min_size = Vector2( 0, 40 )
+offset_left = 374.0
+offset_top = 535.0
+offset_right = 488.0
+offset_bottom = 575.0
+minimum_size = Vector2( 0, 40 )
 size_flags_horizontal = 4
 custom_fonts/font = SubResource( 1081 )
 text = "Send Feedback"
@@ -1284,7 +1284,7 @@ visible = false
 [node name="MainPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 anchor_bottom = 1.0
-margin_right = 309.0
+offset_right = 309.0
 custom_styles/panel = SubResource( 931 )
 __meta__ = {
 "_edit_group_": true
@@ -1293,23 +1293,23 @@ __meta__ = {
 [node name="ColorRect2" type="TextureRect" parent="MainPanel"]
 modulate = Color( 0.486275, 0.486275, 0.486275, 1 )
 material = SubResource( 61 )
-margin_right = 289.0
-margin_bottom = 1080.0
+offset_right = 289.0
+offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = SubResource( 63 )
 expand = true
 
 [node name="MarginContainer" type="MarginContainer" parent="MainPanel"]
-margin_right = 289.0
-margin_bottom = 1080.0
-custom_constants/margin_right = 25
-custom_constants/margin_left = 25
+offset_right = 289.0
+offset_bottom = 1080.0
+custom_constants/offset_right = 25
+custom_constants/offset_left = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/MarginContainer"]
-margin_left = 25.0
-margin_right = 264.0
-margin_bottom = 1080.0
+offset_left = 25.0
+offset_right = 264.0
+offset_bottom = 1080.0
 custom_constants/separation = 32
 alignment = 1
 __meta__ = {
@@ -1317,37 +1317,37 @@ __meta__ = {
 }
 
 [node name="NewBtn" type="Button" parent="MainPanel/MarginContainer/VBoxContainer"]
-margin_top = 396.0
-margin_right = 239.0
-margin_bottom = 428.5
-focus_neighbour_top = NodePath("../QuitBtn")
+offset_top = 396.0
+offset_right = 239.0
+offset_bottom = 428.5
+focus_neighbor_top = NodePath("../QuitBtn")
 focus_next = NodePath("../SettingsBtn")
 focus_previous = NodePath("../QuitBtn")
 text = "New"
 script = ExtResource( 1 )
 
 [node name="LoadBtn" type="Button" parent="MainPanel/MarginContainer/VBoxContainer"]
-margin_top = 460.0
-margin_right = 239.0
-margin_bottom = 492.5
-focus_neighbour_top = NodePath("../QuitBtn")
+offset_top = 460.0
+offset_right = 239.0
+offset_bottom = 492.5
+focus_neighbor_top = NodePath("../QuitBtn")
 focus_next = NodePath("../SettingsBtn")
 focus_previous = NodePath("../QuitBtn")
 text = "Load"
 script = ExtResource( 1 )
 
 [node name="SettingsBtn" type="Button" parent="MainPanel/MarginContainer/VBoxContainer"]
-margin_top = 524.0
-margin_right = 239.0
-margin_bottom = 556.5
+offset_top = 524.0
+offset_right = 239.0
+offset_bottom = 556.5
 focus_previous = NodePath("../NewBtn")
 text = "Settings"
 script = ExtResource( 1 )
 
 [node name="AboutBtn" type="Button" parent="MainPanel/MarginContainer/VBoxContainer"]
-margin_top = 588.0
-margin_right = 239.0
-margin_bottom = 620.5
+offset_top = 588.0
+offset_right = 239.0
+offset_bottom = 620.5
 focus_next = NodePath("../QuitBtn")
 text = "About"
 script = ExtResource( 1 )
@@ -1356,10 +1356,10 @@ __meta__ = {
 }
 
 [node name="QuitBtn" type="Button" parent="MainPanel/MarginContainer/VBoxContainer"]
-margin_top = 652.0
-margin_right = 239.0
-margin_bottom = 684.5
-focus_neighbour_bottom = NodePath("../NewBtn")
+offset_top = 652.0
+offset_right = 239.0
+offset_bottom = 684.5
+focus_neighbor_bottom = NodePath("../NewBtn")
 focus_next = NodePath("../NewBtn")
 focus_previous = NodePath("../AboutBtn")
 text = "Quit"
@@ -1371,9 +1371,9 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 15.0
-margin_top = -85.0
-margin_right = 302.0
+offset_left = 15.0
+offset_top = -85.0
+offset_right = 302.0
 grow_vertical = 0
 custom_constants/separation = 9
 __meta__ = {
@@ -1381,9 +1381,9 @@ __meta__ = {
 }
 
 [node name="GameVersion" type="Label" parent="VBoxContainer"]
-margin_top = 5.0
-margin_right = 287.0
-margin_bottom = 32.0
+offset_top = 5.0
+offset_right = 287.0
+offset_bottom = 32.0
 size_flags_vertical = 6
 custom_colors/font_color = Color( 0.507834, 0.507834, 0.507834, 1 )
 custom_fonts/font = SubResource( 54 )
@@ -1395,9 +1395,9 @@ __meta__ = {
 }
 
 [node name="Engine Version" type="Label" parent="VBoxContainer"]
-margin_top = 52.0
-margin_right = 287.0
-margin_bottom = 79.0
+offset_top = 52.0
+offset_right = 287.0
+offset_bottom = 79.0
 size_flags_vertical = 6
 custom_colors/font_color = Color( 0.507834, 0.507834, 0.507834, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
@@ -1409,71 +1409,71 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FeedbackDialog" type="WindowDialog" parent="."]
+[node name="FeedbackDialog" type="Window" parent="."]
 unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -262.0
-margin_top = -206.5
-margin_right = 262.0
-margin_bottom = 206.5
+offset_left = -262.0
+offset_top = -206.5
+offset_right = 262.0
+offset_bottom = 206.5
 window_title = "send feedback"
 script = SubResource( 1084 )
 
 [node name="MarginContainer" type="MarginContainer" parent="FeedbackDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
+custom_constants/offset_right = 10
+custom_constants/offset_top = 10
+custom_constants/offset_left = 10
+custom_constants/offset_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="FeedbackDialog/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 514.0
-margin_bottom = 403.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 514.0
+offset_bottom = 403.0
 
 [node name="CheckBox" type="CheckBox" parent="FeedbackDialog/MarginContainer/VBoxContainer"]
-margin_right = 504.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 0, 60 )
+offset_right = 504.0
+offset_bottom = 60.0
+minimum_size = Vector2( 0, 60 )
 pressed = true
 text = "include debug info about your system"
 
 [node name="TextEdit" type="TextEdit" parent="FeedbackDialog/MarginContainer/VBoxContainer"]
-margin_top = 68.0
-margin_right = 504.0
-margin_bottom = 325.0
+offset_top = 68.0
+offset_right = 504.0
+offset_bottom = 325.0
 size_flags_vertical = 3
 wrap_enabled = true
 caret_blink = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="FeedbackDialog/MarginContainer/VBoxContainer"]
-margin_top = 333.0
-margin_right = 504.0
-margin_bottom = 393.0
-rect_min_size = Vector2( 0, 60 )
+offset_top = 333.0
+offset_right = 504.0
+offset_bottom = 393.0
+minimum_size = Vector2( 0, 60 )
 custom_constants/separation = 42
 alignment = 1
 
 [node name="CancelBtn" type="Button" parent="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 141.0
-margin_top = 13.0
-margin_right = 231.0
-margin_bottom = 45.5
-rect_min_size = Vector2( 90, 0 )
+offset_left = 141.0
+offset_top = 13.0
+offset_right = 231.0
+offset_bottom = 45.5
+minimum_size = Vector2( 90, 0 )
 size_flags_vertical = 4
 text = "cancel"
 
 [node name="SendBtn" type="Button" parent="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 273.0
-margin_top = 13.0
-margin_right = 363.0
-margin_bottom = 45.5
-rect_min_size = Vector2( 90, 0 )
+offset_left = 273.0
+offset_top = 13.0
+offset_right = 363.0
+offset_bottom = 45.5
+minimum_size = Vector2( 90, 0 )
 size_flags_vertical = 4
 text = "send"
 
@@ -1496,19 +1496,19 @@ anims/RESET = SubResource( 1003 )
 [connection signal="item_selected" from="SceneHubPanel/VBoxContainer/HBoxContainer/OptionButton" to="SceneHubPanel" method="_on_directory_selected"]
 [connection signal="item_selected" from="SceneHubPanel/VBoxContainer/HBoxContainer/OptionButton" to="SceneHubPanel/VBoxContainer/HBoxContainer/StartBtn" method="_on_category_selected"]
 [connection signal="pressed" from="SceneHubPanel/VBoxContainer/HBoxContainer/StartBtn" to="SceneHubPanel" method="_on_StartBtn_pressed"]
-[connection signal="about_to_show" from="SceneHubPanel/Control/AcceptDialog" to="SceneHubPanel/Control/AcceptDialog" method="_on_about_to_show"]
+[connection signal="about_to_popup" from="SceneHubPanel/Control/AcceptDialog" to="SceneHubPanel/Control/AcceptDialog" method="_on_about_to_show"]
 [connection signal="item_activated" from="SavesPanel/VBoxContainer/ScrollContainer/ItemList" to="SavesPanel" method="_on_item_activated"]
 [connection signal="item_selected" from="SavesPanel/VBoxContainer/ScrollContainer/ItemList" to="SavesPanel" method="_on_item_selected"]
 [connection signal="pressed" from="SavesPanel/VBoxContainer/HBoxContainer/StartSaveBtn" to="SavesPanel" method="_on_StartSave_pressed"]
 [connection signal="pressed" from="SavesPanel/VBoxContainer/HBoxContainer/DeleteSaveBtn" to="SavesPanel" method="_on_DeleteSave_pressed"]
 [connection signal="pressed" from="SavesPanel/VBoxContainer/HBoxContainer/ReloadSavesBtn" to="SavesPanel" method="_on_ReloadSaves_pressed"]
 [connection signal="pressed" from="SavesPanel/VBoxContainer/HBoxContainer/OpenSavesDirBtn" to="SavesPanel" method="_on_OpenSavesDir_pressed"]
-[connection signal="about_to_show" from="SavesPanel/Control/AcceptDialog" to="SavesPanel/Control/AcceptDialog" method="_on_about_to_show"]
+[connection signal="about_to_popup" from="SavesPanel/Control/AcceptDialog" to="SavesPanel/Control/AcceptDialog" method="_on_about_to_show"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/NewBtn" to="." method="_on_NewBtn_pressed"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/LoadBtn" to="." method="_on_LoadBtn_pressed"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/QuitBtn" to="." method="_on_QuitBtn_pressed"]
-[connection signal="about_to_show" from="FeedbackDialog" to="FeedbackDialog" method="_on_about_to_show"]
+[connection signal="about_to_popup" from="FeedbackDialog" to="FeedbackDialog" method="_on_about_to_show"]
 [connection signal="pressed" from="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer/CancelBtn" to="FeedbackDialog" method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="FeedbackDialog/MarginContainer/VBoxContainer/HBoxContainer/SendBtn" to="FeedbackDialog" method="_on_SendBtn_pressed"]

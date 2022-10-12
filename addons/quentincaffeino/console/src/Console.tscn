@@ -9,7 +9,7 @@ script/source = "extends ColorRect
 
 
 func _ready() -> void:
-	Console.connect(\"toggled\", self, \"_on_console_toggle\")
+	Console.connect(\"toggled\",Callable(self,\"_on_console_toggle\"))
 
 func _on_console_toggle(t):
 	visible = t
@@ -25,8 +25,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.25 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "values": [ {
 "args": [  ],
 "method": "clear"
@@ -42,14 +42,14 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.25 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="Console" type="CanvasLayer"]
-pause_mode = 2
+process_mode = 2
 layer = 128
 script = ExtResource( 1 )
 
@@ -66,8 +66,8 @@ __meta__ = {
 self_modulate = Color( 1, 1, 1, 0.8 )
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = 229.0
-margin_right = -230.0
+offset_left = 229.0
+offset_right = -230.0
 mouse_filter = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ConsoleBox"]
@@ -82,12 +82,12 @@ __meta__ = {
 }
 
 [node name="ConsoleText" type="RichTextLabel" parent="ConsoleBox/Container"]
-margin_right = 1461.0
-margin_bottom = 501.0
-focus_neighbour_left = NodePath("../LineEdit")
-focus_neighbour_top = NodePath("../LineEdit")
-focus_neighbour_right = NodePath("../LineEdit")
-focus_neighbour_bottom = NodePath("../LineEdit")
+offset_right = 1461.0
+offset_bottom = 501.0
+focus_neighbor_left = NodePath("../LineEdit")
+focus_neighbor_top = NodePath("../LineEdit")
+focus_neighbor_right = NodePath("../LineEdit")
+focus_neighbor_bottom = NodePath("../LineEdit")
 focus_next = NodePath("../LineEdit")
 focus_previous = NodePath("../LineEdit")
 size_flags_horizontal = 3
@@ -97,13 +97,13 @@ custom_constants/line_separation = 4
 bbcode_enabled = true
 
 [node name="ConsoleLine" type="LineEdit" parent="ConsoleBox/Container"]
-margin_top = 509.0
-margin_right = 1461.0
-margin_bottom = 540.0
-focus_neighbour_left = NodePath(".")
-focus_neighbour_top = NodePath(".")
-focus_neighbour_right = NodePath(".")
-focus_neighbour_bottom = NodePath(".")
+offset_top = 509.0
+offset_right = 1461.0
+offset_bottom = 540.0
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
 focus_next = NodePath(".")
 focus_previous = NodePath(".")
 size_flags_horizontal = 3

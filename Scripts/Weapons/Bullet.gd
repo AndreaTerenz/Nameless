@@ -1,48 +1,48 @@
 class_name Bullet
-extends RigidBody
+extends RigidBody3D
 
-export(PackedScene) var hitmark_scn = preload("res://Scenes/Weapons/BulletHole.tscn")
+@export var hitmark_scn: PackedScene = preload("res://Scenes/Weapons/BulletHole.tscn")
 
-export(float, 150.0, 1000.0, 10.0) var speed = 150.0
-export(float, 10.0, 150.0, 0.5) var max_dist = 10.0
-export(float) var damage = 10.0
+@export var speed = 150.0 # (float, 150.0, 1000.0, 10.0)
+@export var max_dist = 10.0 # (float, 10.0, 150.0, 0.5)
+@export var damage: float = 10.0
 
 var start : Vector3
 var coll_point = null
 var coll_normal = null
 var target_group := "Enemies"
 
-var phys_state : PhysicsDirectBodyState = null
+var phys_state : PhysicsDirectBodyState3D = null
 
-onready var coll_shape = $CollisionShape
+@onready var coll_shape = $CollisionShape3D
 
 func _ready():
-	set_as_toplevel(true)
+	set_as_top_level(true)
 	contact_monitor = true
-	contacts_reported = 512
+	max_contacts_reported = 512
 	mass = 1
 	gravity_scale = 0
 	
-	connect("body_entered", self, "_on_collision")
+	connect("body_entered",Callable(self,"_on_collision"))
 
 	start = global_transform.origin
 	
 	if Globals.player:
-		var aim_ray : RayCast = Globals.player.aim_ray
+		var aim_ray : RayCast3D = Globals.player.aim_ray
 		
 		if aim_ray.is_colliding():
 			coll_point = aim_ray.get_collision_point()
 			coll_normal = aim_ray.get_collision_normal()
 			look_at(coll_point, Vector3.UP)
 	
-	apply_impulse(Vector3.ZERO, -transform.basis.z * speed)
+	apply_impulse(-transform.basis.z * speed, Vector3.ZERO)
 
 func _physics_process(_delta: float) -> void:
 	if is_too_far():
 		delete()
 		
 func is_too_far() -> bool:
-	return translation.distance_to(start) >= max_dist
+	return position.distance_to(start) >= max_dist
 
 func _on_delete():
 	pass
@@ -51,7 +51,7 @@ func delete():
 	_on_delete()
 	queue_free()
 
-func _integrate_forces(state: PhysicsDirectBodyState) -> void:
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if not coll_point:
 		if state.get_contact_count() > 0:
 			phys_state = state
@@ -59,7 +59,7 @@ func _integrate_forces(state: PhysicsDirectBodyState) -> void:
 			phys_state = null
 
 func _on_collision(body: Node):
-	var hitmark : MeshInstance = hitmark_scn.instance()
+	var hitmark : MeshInstance3D = hitmark_scn.instantiate()
 	body.add_child(hitmark)
 	
 	var p := Vector3.ZERO

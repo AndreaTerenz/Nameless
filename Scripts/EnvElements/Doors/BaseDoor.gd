@@ -36,15 +36,15 @@ signal opened
 signal start_closing(immediate)
 signal closed
 
-export(bool) var start_open := false
+@export var start_open: bool := false
 
-export(float, .01, 30.0, .01) var time = 1.0
-export(float, .2, 10.45, .05) var amount = 1.0
-export(TWEEN_TRANSITION) var transition_type = TWEEN_TRANSITION.LINEAR
-export(TWEEN_EASE) var ease_type = TWEEN_EASE.OUT
-export(AudioStreamOGGVorbis) var slide_sfx = \
+@export var time = 1.0 # (float, .01, 30.0, .01)
+@export var amount = 1.0 # (float, .2, 10.45, .05)
+@export var transition_type: TWEEN_TRANSITION = TWEEN_TRANSITION.LINEAR
+@export var ease_type: TWEEN_EASE = TWEEN_EASE.OUT
+@export var slide_sfx: AudioStreamOggVorbis = \
 	preload("res://Assets/Audio/SFX/door/door_slide2.ogg")
-export(float, -80.0, 80.0, .001) var slide_sfx_db = 6.0
+@export var slide_sfx_db = 6.0 # (float, -80.0, 80.0, .001)
 
 var timer := Timer.new()
 var audio_player : AudioStreamPlayer3D = null
@@ -66,7 +66,7 @@ func _ready() -> void:
 		audio_player.pitch_scale = orig_len / time
 		
 	add_child(timer)
-	timer.connect("timeout", self, "timer_done")
+	timer.connect("timeout",Callable(self,"timer_done"))
 	
 	if start_open:
 		open(true)

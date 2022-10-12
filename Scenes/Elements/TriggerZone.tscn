@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/EnvElements/TriggerZone.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Textures/Zones/trigger_tex.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/Zones/trigger_tex.png" type="Texture2D" id=2]
 
-[sub_resource type="BoxShape" id=34]
+[sub_resource type="BoxShape3D" id=34]
 
-[sub_resource type="CubeMesh" id=35]
+[sub_resource type="BoxMesh" id=35]
 
-[sub_resource type="SpatialMaterial" id=36]
+[sub_resource type="StandardMaterial3D" id=36]
 flags_transparent = true
 flags_unshaded = true
 flags_world_triplanar = true
@@ -19,13 +19,13 @@ uv1_scale = Vector3( 0.5, 0.5, 0.5 )
 uv1_offset = Vector3( 0.5, 0.5, 0.5 )
 uv1_triplanar = true
 
-[node name="Trigger" type="Area"]
+[node name="Trigger" type="Area3D"]
 script = ExtResource( 1 )
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource( 34 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 portal_mode = 3
 cast_shadow = 0
 mesh = SubResource( 35 )

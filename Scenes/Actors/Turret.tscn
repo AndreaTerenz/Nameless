@@ -7,11 +7,11 @@
 [sub_resource type="GDScript" id=41]
 script/source = "extends BaseCharacter
 
-export(float) var min_dist = 20.0
-export(NodePath) var gun_pivot_ref
+@export var min_dist: float = 20.0
+@export var gun_pivot_ref: NodePath
 
-onready var gun_pivot := get_node(\"%GunPivot\") as Spatial
-onready var seek_ray := get_node(\"%SeekRay\") as RayCast
+@onready var gun_pivot := get_node(\"%GunPivot\") as Node3D
+@onready var seek_ray := get_node(\"%SeekRay\") as RayCast3D
 
 var is_visible := false
 
@@ -35,22 +35,22 @@ func player_in_range():
 	return dist <= min_dist
 "
 
-[sub_resource type="CapsuleShape" id=40]
+[sub_resource type="CapsuleShape3D" id=40]
 radius = 1.75482
 height = 2.7235
 
 [sub_resource type="CylinderMesh" id=36]
 height = 3.69
 
-[sub_resource type="ConvexPolygonShape" id=39]
-points = PoolVector3Array( 0.965325, 1.77078, 0.256739, -0.975504, -1.77952, -0.216193, -0.915485, -1.75565, -0.400471, -0.975504, 1.77952, -0.216193, -0.261981, -1.76838, 0.964009, 0.630069, -1.75812, -0.776215, 0.21107, 1.78187, -0.976791, -0.496182, 1.7633, 0.867066, 0.580107, -1.74879, 0.813306, -0.400471, -1.75565, -0.915485, 0.256917, 1.7707, 0.965281, 0.965325, -1.77078, 0.256739, -0.870768, -1.75984, 0.489998, 0.91456, 1.76427, -0.402424, -0.633432, 1.75244, -0.773719, -0.976791, 1.78187, 0.21107, 0.964054, -1.76846, -0.261804, 0.21107, -1.78187, -0.976791, 0.813306, 1.74879, 0.580107, -0.216193, 1.77952, -0.975504, 0.630069, 1.75812, -0.776215, 0.256917, -1.7707, 0.965281, -0.776215, 1.75812, 0.630069, -0.636045, -1.75971, 0.771508, -0.976791, -1.78187, 0.21107, -0.261981, 1.76838, 0.964009, -0.773719, -1.75244, -0.633432, -0.868353, 1.75495, -0.494033, 0.869397, -1.76802, 0.492288, 0.580107, 1.74879, 0.813306, 0.771508, -1.75971, -0.636045, -0.216193, -1.77952, -0.975504, 0.964054, 1.76846, -0.261804, 0.396147, 1.75959, -0.917533, -0.917607, 1.75973, 0.395991, 0.489998, -1.75984, -0.870768, 0.771508, 1.75971, -0.636045, -0.633432, -1.75244, -0.773719, -0.493893, 1.75512, -0.868436, 0.3981, 1.76821, 0.916608, 0.866982, -1.76313, -0.496323, -0.402424, -1.76427, 0.91456, 0.916682, 1.76835, 0.397943, 0.813306, -1.74879, 0.580107, -0.636045, 1.75971, 0.771508, -0.773719, 1.75244, -0.633432, -0.776215, -1.75812, 0.630069, 0.3981, -1.76821, 0.916608, -0.917607, -1.75973, 0.395991, 0.396147, -1.75959, -0.917533, -0.915485, 1.75565, -0.400471, -0.400471, 1.75565, -0.915485, -0.496182, -1.7633, 0.867066, 0.866982, 1.76313, -0.496323, -0.870768, 1.75984, 0.489998, 0.489998, 1.75984, -0.870768, -0.493893, -1.75512, -0.868436, -0.868353, -1.75495, -0.494033, 0.916682, -1.76835, 0.397943, 0.91456, -1.76427, -0.402424, -0.402424, 1.76427, 0.91456, 0.869397, 1.76802, 0.492288 )
+[sub_resource type="ConvexPolygonShape3D" id=39]
+points = PackedVector3Array( 0.965325, 1.77078, 0.256739, -0.975504, -1.77952, -0.216193, -0.915485, -1.75565, -0.400471, -0.975504, 1.77952, -0.216193, -0.261981, -1.76838, 0.964009, 0.630069, -1.75812, -0.776215, 0.21107, 1.78187, -0.976791, -0.496182, 1.7633, 0.867066, 0.580107, -1.74879, 0.813306, -0.400471, -1.75565, -0.915485, 0.256917, 1.7707, 0.965281, 0.965325, -1.77078, 0.256739, -0.870768, -1.75984, 0.489998, 0.91456, 1.76427, -0.402424, -0.633432, 1.75244, -0.773719, -0.976791, 1.78187, 0.21107, 0.964054, -1.76846, -0.261804, 0.21107, -1.78187, -0.976791, 0.813306, 1.74879, 0.580107, -0.216193, 1.77952, -0.975504, 0.630069, 1.75812, -0.776215, 0.256917, -1.7707, 0.965281, -0.776215, 1.75812, 0.630069, -0.636045, -1.75971, 0.771508, -0.976791, -1.78187, 0.21107, -0.261981, 1.76838, 0.964009, -0.773719, -1.75244, -0.633432, -0.868353, 1.75495, -0.494033, 0.869397, -1.76802, 0.492288, 0.580107, 1.74879, 0.813306, 0.771508, -1.75971, -0.636045, -0.216193, -1.77952, -0.975504, 0.964054, 1.76846, -0.261804, 0.396147, 1.75959, -0.917533, -0.917607, 1.75973, 0.395991, 0.489998, -1.75984, -0.870768, 0.771508, 1.75971, -0.636045, -0.633432, -1.75244, -0.773719, -0.493893, 1.75512, -0.868436, 0.3981, 1.76821, 0.916608, 0.866982, -1.76313, -0.496323, -0.402424, -1.76427, 0.91456, 0.916682, 1.76835, 0.397943, 0.813306, -1.74879, 0.580107, -0.636045, 1.75971, 0.771508, -0.773719, 1.75244, -0.633432, -0.776215, -1.75812, 0.630069, 0.3981, -1.76821, 0.916608, -0.917607, -1.75973, 0.395991, 0.396147, -1.75959, -0.917533, -0.915485, 1.75565, -0.400471, -0.400471, 1.75565, -0.915485, -0.496182, -1.7633, 0.867066, 0.866982, 1.76313, -0.496323, -0.870768, 1.75984, 0.489998, 0.489998, 1.75984, -0.870768, -0.493893, -1.75512, -0.868436, -0.868353, -1.75495, -0.494033, 0.916682, -1.76835, 0.397943, 0.91456, -1.76427, -0.402424, -0.402424, 1.76427, 0.91456, 0.869397, 1.76802, 0.492288 )
 
 [sub_resource type="CylinderMesh" id=37]
 top_radius = 0.607
 bottom_radius = 0.16
 height = 3.144
 
-[sub_resource type="CapsuleShape" id=42]
+[sub_resource type="CapsuleShape3D" id=42]
 radius = 0.690158
 height = 2.34437
 
@@ -58,7 +58,7 @@ height = 2.34437
 script/source = "extends State
 
 func _enter(_msg := {}) -> void:
-	target = (target as Spatial)
+	target = (target as Node3D)
 
 func _update(_delta: float) -> void:
 	pass
@@ -72,7 +72,7 @@ func check_next():
 script/source = "extends State
 
 func _enter(_msg := {}) -> void:
-	target = (target as Spatial)
+	target = (target as Node3D)
 
 func _update(_delta: float) -> void:
 	target.rotate_y(_delta)
@@ -99,7 +99,7 @@ func check_next():
 		state_machine.transition_to(\"Seek\")
 "
 
-[node name="Turret" type="StaticBody"]
+[node name="Turret" type="StaticBody3D"]
 collision_layer = 256
 script = SubResource( 41 )
 __meta__ = {
@@ -109,48 +109,48 @@ npc_type = 0
 hitbox_path = NodePath("Hitbox")
 gun_pivot_ref = NodePath("GunPivot")
 
-[node name="Hitbox" type="Area" parent="."]
-transform = Transform( 7.54979e-08, -8.75443e-08, 1, 1.74846e-07, 1, 8.75443e-08, -1, 1.74846e-07, 7.54979e-08, 0, 0, 0 )
+[node name="Hitbox" type="Area3D" parent="."]
+transform = Transform3D( 7.54979e-08, -8.75443e-08, 1, 1.74846e-07, 1, 8.75443e-08, -1, 1.74846e-07, 7.54979e-08, 0, 0, 0 )
 collision_layer = 32
 script = ExtResource( 1 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Hitbox"]
-transform = Transform( 1, 0, -4.44089e-16, 4.55191e-15, -4.37722e-08, 1, 2.13163e-14, -1, -4.37722e-08, 0, 0, 0 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D( 1, 0, -4.44089e-16, 4.55191e-15, -4.37722e-08, 1, 2.13163e-14, -1, -4.37722e-08, 0, 0, 0 )
 shape = SubResource( 40 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, -7.10543e-15, -5.55112e-17, 1, 0, -0.268947, 0 )
+[node name="MeshInstance2" type="MeshInstance3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, -7.10543e-15, -5.55112e-17, 1, 0, -0.268947, 0 )
 mesh = SubResource( 36 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, -7.10543e-15, -5.55112e-17, 1, 0, -0.268947, 0 )
+[node name="CollisionShape2" type="CollisionShape3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, -7.10543e-15, -5.55112e-17, 1, 0, -0.268947, 0 )
 shape = SubResource( 39 )
 
-[node name="GunPivot" type="Spatial" parent="."]
+[node name="GunPivot" type="Node3D" parent="."]
 unique_name_in_owner = true
-transform = Transform( -1, -9.50351e-14, -1.49012e-07, -8.43769e-14, 1, -5.96046e-08, 1.49012e-07, -5.96046e-08, -1, -2.30479e-13, 2.20244, -1.47306e-07 )
+transform = Transform3D( -1, -9.50351e-14, -1.49012e-07, -8.43769e-14, 1, -5.96046e-08, 1.49012e-07, -5.96046e-08, -1, -2.30479e-13, 2.20244, -1.47306e-07 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="StaticBody" type="StaticBody" parent="GunPivot"]
-transform = Transform( -1, 4.44089e-16, -2.98023e-07, 0, 1, -8.99281e-15, 2.98023e-07, -3.10862e-15, -1, 0, 0, 0 )
+[node name="StaticBody3D" type="StaticBody3D" parent="GunPivot"]
+transform = Transform3D( -1, 4.44089e-16, -2.98023e-07, 0, 1, -8.99281e-15, 2.98023e-07, -3.10862e-15, -1, 0, 0, 0 )
 
-[node name="SeekRay" type="RayCast" parent="GunPivot/StaticBody"]
+[node name="SeekRay" type="RayCast3D" parent="GunPivot/StaticBody3D"]
 unique_name_in_owner = true
-transform = Transform( -1, 4.44093e-16, 2.98023e-07, -8.47033e-22, 1, -1.06581e-14, -2.98023e-07, -3.55271e-15, -1, -1.28465e-07, 0, 0.431058 )
+transform = Transform3D( -1, 4.44093e-16, 2.98023e-07, -8.47033e-22, 1, -1.06581e-14, -2.98023e-07, -3.55271e-15, -1, -1.28465e-07, 0, 0.431058 )
 enabled = true
 cast_to = Vector3( 0, 0, -10 )
 collision_mask = 805
 
-[node name="Gun" type="MeshInstance" parent="GunPivot/StaticBody"]
-transform = Transform( 1, 0, 3.55271e-15, -1.77636e-15, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 2 )
+[node name="Gun" type="MeshInstance3D" parent="GunPivot/StaticBody3D"]
+transform = Transform3D( 1, 0, 3.55271e-15, -1.77636e-15, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 2 )
 mesh = SubResource( 37 )
 skeleton = NodePath("")
 material/0 = ExtResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape" parent="GunPivot/StaticBody"]
-transform = Transform( 1, 8.88178e-16, 0, -1.77636e-15, 1, -7.10543e-15, 0, 1.06581e-14, 1, 0, 0, 2 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GunPivot/StaticBody3D"]
+transform = Transform3D( 1, 8.88178e-16, 0, -1.77636e-15, 1, -7.10543e-15, 0, 1.06581e-14, 1, 0, 0, 2 )
 shape = SubResource( 42 )
 
 [node name="StateMachine" type="Node" parent="."]

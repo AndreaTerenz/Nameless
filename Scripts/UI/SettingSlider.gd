@@ -6,7 +6,7 @@ func _ready() -> void:
 	edit = Settings.SettingsEdit.new(Settings.AUDIO, Settings.MASTER_VOL)
 	value = edit.current_value
 	
-	connect("drag_ended", self, "_on_drag_ended")
+	connect("drag_ended",Callable(self,"_on_drag_ended"))
 
 func _on_apply_settings() -> void:
 	edit.apply()

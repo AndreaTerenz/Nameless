@@ -5,12 +5,12 @@ script/source = "extends ColorRect
 
 signal fade_done
 
-export var start_color := Color(\"#00000000\")
-export var end_color := Color(\"#00000000\")
-export var delay := 0.1
-export var fade_len := 0.1
-export var autostart := true
-export var lock_player := false
+@export var start_color := Color(\"#00000000\")
+@export var end_color := Color(\"#00000000\")
+@export var delay := 0.1
+@export var fade_len := 0.1
+@export var autostart := true
+@export var lock_player := false
 
 func _ready() -> void:
 	color = start_color
@@ -24,14 +24,14 @@ func lerp_color(reverse := false, custom_delay := -1.0):
 	var tween := create_tween()
 	
 	if not Globals.player:
-		yield(Globals, \"player_set\")
+		await Globals.player_set
 	
 	tween.tween_property(self, \"color\", to, fade_len).set_delay(d)
 	
 	if lock_player:
 		Globals.player.mode = Player.MODE.CINEMATIC
 	
-	yield(tween, \"finished\")
+	await tween.finished
 	
 	Globals.player.mode = Player.MODE.GAME
 	

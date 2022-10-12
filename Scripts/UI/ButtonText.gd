@@ -1,9 +1,17 @@
-tool
+@tool
 extends TextureRect
 
-export(String) var action = "" setget set_action
-export(String) var key_override = "" setget set_override
-export(float, .1, 2.0, .05) var scaling = .6 setget set_scaling
+@export var action: String = "" :
+	get:
+		return action # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_action
+@export var key_override: String = "" :
+	get:
+		return key_override # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_override
+@export var scaling = .6 setget set_scaling # (float, .1, 2.0, .05)
 
 func set_scaling(newVal):
 	scaling = newVal
@@ -61,7 +69,7 @@ func get_action_btn(action_name, theme := Globals.UI_BTN_THEME, idx := 0) -> Ima
 		if proj_act_list:
 			action_list = proj_act_list.events
 	else:
-		action_list = InputMap.get_action_list(action_name)
+		action_list = InputMap.action_get_events(action_name)
 	
 	if len(action_list) > 0:
 		if not(idx in range(0, len(action_list))):
@@ -73,11 +81,11 @@ func get_action_btn(action_name, theme := Globals.UI_BTN_THEME, idx := 0) -> Ima
 			var btn := "Simple"
 			
 			match target_action.button_index:
-				BUTTON_LEFT:
+				MOUSE_BUTTON_LEFT:
 					btn = "Left"
-				BUTTON_RIGHT:
+				MOUSE_BUTTON_RIGHT:
 					btn = "Right"
-				BUTTON_MIDDLE:
+				MOUSE_BUTTON_MIDDLE:
 					btn = "Middle"
 					
 			return get_mouse_btn_texture(btn, theme)

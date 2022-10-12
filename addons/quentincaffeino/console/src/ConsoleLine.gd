@@ -26,7 +26,7 @@ func _ready():
 	# Console keyboard control
 	self.set_process_input(true)
 
-	self.connect('text_entered', self, 'execute')
+	self.connect('text_submitted',Callable(self,'execute'))
 
 
 # @param  InputEvent
@@ -60,7 +60,7 @@ func _input(e):
 			self._current_command = self._tmp_user_entered_command
 			self._tmp_user_entered_command = null
 
-	# Autocomplete on TAB
+	# Autocomplete checked TAB
 	if Input.is_action_just_pressed(DefaultActions.CONSOLE_AUTOCOMPLETE):
 		if self._autocomplete_triggered_timer and self._autocomplete_triggered_timer.get_time_left() > 0:
 			self._autocomplete_triggered_timer = null
@@ -91,7 +91,7 @@ func set_text(text, move_caret_to_end = true):
 	self.grab_focus()
 
 	if move_caret_to_end:
-		self.caret_position = text.length()
+		self.caret_column = text.length()
 
 
 # @param    String  input
@@ -99,7 +99,7 @@ func set_text(text, move_caret_to_end = true):
 func execute(input):
 	Console.write_line('[color=#999999]$[/color] ' + input)
 
-	# @var  PoolStringArray
+	# @var  PackedStringArray
 	var rawCommands = RegExLib.split(RECOMMANDS_SEPARATOR, input)
 
 	# @var  Dictionary[]
@@ -107,7 +107,7 @@ func execute(input):
 
 	for parsedCommand in parsedCommands:
 		# @var  Command/Command|null
-		var command = Console.get_command(parsedCommand.name)
+		var command = Console.is_command_or_control_pressed(parsedCommand.name)
 
 		if command:
 			Console.Log.debug('Executing `' + parsedCommand.command + '`.')
@@ -121,7 +121,7 @@ func execute(input):
 	self.clear()
 
 
-# @param    PoolStringArray  rawCommands
+# @param    PackedStringArray  rawCommands
 # @returns  Array
 func _parse_commands(rawCommands):
 	var resultCommands = []
@@ -137,7 +137,7 @@ func _parse_commands(rawCommands):
 # @returns  Dictionary
 func _parse_command(rawCommand):
 	var name = null
-	var arguments = PoolStringArray([])
+	var arguments = PackedStringArray([])
 
 	var beginning = 0  # int
 	var openQuote  # String|null
@@ -165,7 +165,7 @@ func _parse_command(rawCommand):
 			beginning = i + 1
 
 		# Save separated argument
-		if subString != null and typeof(subString) == TYPE_STRING and !subString.empty():
+		if subString != null and typeof(subString) == TYPE_STRING and !subString.is_empty():
 			if !name:
 				name = subString
 			else:

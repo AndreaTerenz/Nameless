@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/269520__mrauralization__van-sliding-door-open.wav-2a7beeb83908a2412e3c48098fff4312.sample"
+type="AudioStreamWAV"
+uid="uid://brrj0b83bl65d"
+path="res://.godot/imported/269520__mrauralization__van-sliding-door-open.wav-2a7beeb83908a2412e3c48098fff4312.sample"
 
 [deps]
 
 source_file="res://Assets/Audio/Sources/269520__mrauralization__van-sliding-door-open.wav"
-dest_files=[ "res://.import/269520__mrauralization__van-sliding-door-open.wav-2a7beeb83908a2412e3c48098fff4312.sample" ]
+dest_files=["res://.godot/imported/269520__mrauralization__van-sliding-door-open.wav-2a7beeb83908a2412e3c48098fff4312.sample"]
 
 [params]
 

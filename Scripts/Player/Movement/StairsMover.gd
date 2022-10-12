@@ -6,7 +6,7 @@ var ladders := []
 func _compute(_delta: float):
 	var dir : Vector3 = Vector3.ZERO
 	var hrl = player.head_rot_limit
-	var r = clamp(player.head.rotation.x + deg2rad(12.0), -hrl, hrl)
+	var r = clamp(player.head.rotation.x + deg_to_rad(12.0), -hrl, hrl)
 	var mult : float = player.h_speed * sign(r)
 	
 	if player.inventory.is_overweight():
@@ -21,7 +21,7 @@ func _compute(_delta: float):
 	
 	return dir * mult
 	
-func add_ladder(l: Spatial):
+func add_ladder(l: Node3D):
 	ladders.append(l)
 	
 	if len(ladders) == 1:
@@ -34,7 +34,7 @@ func remove_ladder(l):
 	ladders.erase(l)
 	
 func new_mode():
-	if player.mode == player.MODE.STAIRS and (ladders.empty() or player.leaving_stairs):
+	if player.mode == player.MODE.STAIRS and (ladders.is_empty() or player.leaving_stairs):
 		return player.MODE.GAME
 			
 	return player.mode

@@ -1,20 +1,21 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh"
+uid="uid://bxra682s6m0rf"
+path="res://.godot/imported/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh"
 
 [deps]
 
-files=[ "res://.import/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh" ]
+files=["res://.godot/imported/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh"]
 
 source_file="res://Assets/Models/pickups/HP/H_pickup.obj"
-dest_files=[ "res://.import/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh", "res://.import/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh" ]
+dest_files=["res://.godot/imported/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh", "res://.godot/imported/H_pickup.obj-927c73e49565ae6597e3ebe67d88fdc8.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,20 +1,20 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/gauss-shotg/gauss-shotg.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Sprites/crosshair2.svg" type="Texture" id=2]
+[ext_resource path="res://Assets/Sprites/crosshair2.svg" type="Texture2D" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends BulletGun
 
-onready var a_text = $AmmoTxt
-onready var t_text = $TotTxt
+@onready var a_text = $AmmoTxt
+@onready var t_text = $TotTxt
 
 func _ui():
 	a_text.text = \"%02d\" % ammo_count
 	t_text.text = \"%02d\" % reserve_ammo
 "
 
-[node name="GaussShotgun" type="MeshInstance"]
+[node name="GaussShotgun" type="MeshInstance3D"]
 portal_mode = 2
 layers = 2
 cast_shadow = 0
@@ -26,11 +26,11 @@ muzze_path = NodePath("Muzzle")
 crosshair_text = ExtResource( 2 )
 fire_rate = 8
 
-[node name="Muzzle" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.56948, 1.91206, 0 )
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.56948, 1.91206, 0 )
 
 [node name="AmmoTxt" type="Label3D" parent="."]
-transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -1.2629, 2.922, 5.5203e-08 )
+transform = Transform3D( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -1.2629, 2.922, 5.5203e-08 )
 layers = 2
 cast_shadow = 0
 pixel_size = 0.025
@@ -38,7 +38,7 @@ alpha_cut = 1
 text = "00"
 
 [node name="TotTxt" type="Label3D" parent="."]
-transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -1.82492, 2.922, 7.97698e-08 )
+transform = Transform3D( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -1.82492, 2.922, 7.97698e-08 )
 layers = 2
 cast_shadow = 0
 pixel_size = 0.015

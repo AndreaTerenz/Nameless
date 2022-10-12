@@ -1,5 +1,5 @@
 class_name BaseZone
-extends Area
+extends Area3D
 
 enum TARGET_STATE {
 	NEVER_IN,
@@ -13,17 +13,25 @@ signal state_changed(zone)
 signal deactivated(zone)
 signal reactivated(zone)
 
-export(bool) var oneshot = true
-export(bool) var start_active = true
-export(bool) var show = false
-export(int, LAYERS_3D_PHYSICS) var mask = 1
+@export var one_shot: bool = true
+@export var start_active: bool = true
+@export var show: bool = false
+@export var mask = 1 # (int, LAYERS_3D_PHYSICS)
 
-onready var debug_shape : MeshInstance = $MeshInstance
+@onready var debug_shape : MeshInstance3D = $MeshInstance3D
 
-var active := true setget set_active
+var active := true :
+	get:
+		return active # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_active
 var contains_player := false
 var zone_id := -1
-var show_debug_shape : bool setget show_shape
+var show_debug_shape : bool :
+	get:
+		return show_debug_shape # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of show_shape
 var state = TARGET_STATE.NEVER_IN
 
 func _ready() -> void:
@@ -32,14 +40,14 @@ func _ready() -> void:
 	else:
 		Console.Log.warn("TRIGGER '%s' HAS NO DEBUG SHAPE" % get_path())
 		
-	set_collision_layer_bit(6, true)
+	set_collision_layer_value(6, true)
 	collision_mask = mask
 
-# Already connected in Area
-	connect("body_entered", self, "_on_body_entered")
-	connect("body_exited", self, "_on_body_exited")
-	connect("area_entered", self, "_on_area_entered")
-	connect("area_exited", self, "_on_area_exited")
+# Already connected in Area3D
+	connect("body_entered",Callable(self,"_on_body_entered"))
+	connect("body_exited",Callable(self,"_on_body_exited"))
+	connect("area_entered",Callable(self,"_on_area_entered"))
+	connect("area_exited",Callable(self,"_on_area_exited"))
 	
 	_set_id()
 	
@@ -81,10 +89,10 @@ func set_active(value):
 		#Console.write_line("Deactivated zone: %s" % [get_path()])
 	
 func _on_body_entered(body: Node):
-	if body in get_targets() and (not oneshot or state == TARGET_STATE.NEVER_IN):
+	if body in get_targets() and (not one_shot or state == TARGET_STATE.NEVER_IN):
 		#Console.write(body)
-		if oneshot:
-			# If the target was detected and this is a oneshot zone,
+		if one_shot:
+			# If the target was detected and this is a one_shot zone,
 			# disable all collision detection
 			set_active(false)
 			
@@ -110,8 +118,8 @@ func set_state(value):
 	state = value
 	emit_signal("state_changed", self)
 	
-func _on_area_entered(area: Area):
+func _on_area_entered(area: Area3D):
 	_on_body_entered(area)
 
-func _on_area_exited(area: Area):
+func _on_area_exited(area: Area3D):
 	_on_body_exited(area)

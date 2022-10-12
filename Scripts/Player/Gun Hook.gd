@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 enum GUN_STATE {
 	ACTIVE,
@@ -9,22 +9,30 @@ enum GUN_STATE {
 signal weapon_switched(i)
 signal hook_ready(h)
 
-export(NodePath) var anim_player_node
-export(PoolStringArray) var weapons_scenes
-export(int) var slots = 6
-export(bool) var switching_enabled = true
+@export var anim_player_node: NodePath
+@export var weapons_scenes: PackedStringArray
+@export var slots: int = 6
+@export var switching_enabled: bool = true
 
 var weapons: Array = []
-var hidden: bool = false setget set_hidden
+var hidden: bool = false :
+	get:
+		return hidden # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_hidden
 var keep_hidden_state := false
 var current_weapon := 0
 var can_hide := true
 
 var player_hud : Control
-var gun_stat setget set_gun_state
+var gun_stat :
+	get:
+		return gun_stat # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_gun_state
 
-onready var anim_player := get_node(anim_player_node) as AnimationPlayer
-onready var gun : BaseWeapon = null
+@onready var anim_player := get_node(anim_player_node) as AnimationPlayer
+@onready var gun : BaseWeapon = null
 
 func _ready() -> void:
 	slots = min(len(weapons_scenes), slots)
@@ -39,10 +47,10 @@ func _ready() -> void:
 			ev.scancode = KEY_0 + num
 			InputMap.action_add_event(act_name, ev)
 	
-	yield(Globals, "player_set")
+	await Globals.player_set
 	
 	for s in range(0, slots):
-		var g : BaseWeapon = load(weapons_scenes[s]).instance()
+		var g : BaseWeapon = load(weapons_scenes[s]).instantiate()
 		g.player_inventory = Globals.player.inventory
 		weapons.append(g)
 		
@@ -53,7 +61,7 @@ func _ready() -> void:
 	emit_signal("hook_ready", self)
 	
 func set_crosshair():
-	var cross : Texture = null
+	var cross : Texture2D = null
 	if gun is BaseGun:
 		cross = gun.crosshair_text
 		

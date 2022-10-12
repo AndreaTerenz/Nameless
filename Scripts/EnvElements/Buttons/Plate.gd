@@ -1,18 +1,18 @@
 class_name Plate
-extends Area
+extends Area3D
 
 signal pressed
 signal released
 signal changed(new_state)
 
-export(bool) var reversable = true
+@export var reversable: bool = true
 
 var is_up := true
 var bodies := []
 
 func _ready() -> void:
-	connect("body_entered", self, "_on_body_entered")
-	connect("body_exited", self, "_on_body_exited")
+	connect("body_entered",Callable(self,"_on_body_entered"))
+	connect("body_exited",Callable(self,"_on_body_exited"))
 
 func check_body(body: Node):
 	return body == Globals.player or body is Prop

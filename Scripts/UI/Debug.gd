@@ -1,18 +1,18 @@
 extends Control
 
-export(NodePath) var player_path
+@export var player_path: NodePath
 
 var player: Player
 var mover: PlayerMover = null
 
-onready var sprintLbl = $"MarginContainer/VBoxContainer/Sprint Lbl"
-onready var crouchLbl = $"MarginContainer/VBoxContainer/Crouch Lbl"
-onready var stairsLbl = $"MarginContainer/VBoxContainer/Stairs Lbl"
-onready var floorLbl = $"MarginContainer/VBoxContainer/Floor Lbl"
-onready var velocityLbl = $"MarginContainer/VBoxContainer2/Velocity Lbl"
-onready var dirLbl = $"MarginContainer/VBoxContainer2/Direction Lbl"
-onready var fpsLbl = $"MarginContainer/VBoxContainer2/FPS Lbl"
-onready var fovLbl = $"MarginContainer/VBoxContainer2/FOV Lbl"
+@onready var sprintLbl = $"MarginContainer/VBoxContainer/Sprint Lbl"
+@onready var crouchLbl = $"MarginContainer/VBoxContainer/Crouch Lbl"
+@onready var stairsLbl = $"MarginContainer/VBoxContainer/Stairs Lbl"
+@onready var floorLbl = $"MarginContainer/VBoxContainer/Floor Lbl"
+@onready var velocityLbl = $"MarginContainer/VBoxContainer2/Velocity Lbl"
+@onready var dirLbl = $"MarginContainer/VBoxContainer2/Direction Lbl"
+@onready var fpsLbl = $"MarginContainer/VBoxContainer2/FPS Lbl"
+@onready var fovLbl = $"MarginContainer/VBoxContainer2/FOV Lbl"
 
 func _ready() -> void:
 	player = get_node(player_path) as Player
@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	printVector3(velocityLbl, "Velocity", mover.velocity)
 	printVector3(dirLbl, "Direction", mover.direction)
 	
-	var vsync_stat = "on" if OS.vsync_enabled else "off"
+	var vsync_stat = "checked" if OS.vsync_enabled else "unchecked"
 	
 	fpsLbl.text = "FPS: %s [vsync %s]" % [str(Engine.get_frames_per_second()), vsync_stat]
 	fovLbl.text = "FOV: %.3f" % player.camera.fov

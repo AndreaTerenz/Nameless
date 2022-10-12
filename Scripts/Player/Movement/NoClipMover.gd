@@ -8,7 +8,7 @@ var crouch_released: bool = false
 
 func setup(pl):
 	read_prev_mover = false
-	.setup(pl)
+	super.setup(pl)
 
 func _compute(_delta: float):
 	set_direction()

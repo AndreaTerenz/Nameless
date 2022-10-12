@@ -1,15 +1,19 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Textures/Missing.jpg" type="Texture" id=1]
+[ext_resource path="res://Assets/Textures/Missing.jpg" type="Texture2D" id=1]
 
 [sub_resource type="GDScript" id=4]
-script/source = "extends StaticBody
+script/source = "extends StaticBody3D
 
-export(bool) var show = false
+@export var show: bool = false
 
-onready var debug_shape := $DebugMesh
+@onready var debug_shape := $DebugMesh
 
-var show_debug_shape : bool setget show_shape
+var show_debug_shape : bool :
+	get:
+		return show_debug_shape # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of show_shape
 
 func _ready() -> void:
 	if debug_shape:
@@ -22,11 +26,11 @@ func show_shape(val):
 	debug_shape.visible = val
 "
 
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="BoxShape3D" id=1]
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="BoxMesh" id=2]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="StandardMaterial3D" id=3]
 flags_transparent = true
 flags_unshaded = true
 flags_world_triplanar = true
@@ -37,13 +41,13 @@ albedo_texture = ExtResource( 1 )
 uv1_scale = Vector3( 0.5, 0.5, 0.5 )
 uv1_triplanar = true
 
-[node name="Wall" type="StaticBody"]
+[node name="Wall" type="StaticBody3D"]
 script = SubResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource( 1 )
 
-[node name="DebugMesh" type="MeshInstance" parent="."]
+[node name="DebugMesh" type="MeshInstance3D" parent="."]
 cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )

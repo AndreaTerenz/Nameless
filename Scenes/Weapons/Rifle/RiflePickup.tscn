@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Models/weapons/pickups/rifle_ammo.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Assets/Models/weapons/pickups/Textures/Rifle_ammo_albedo.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Models/weapons/pickups/Textures/Rifle_ammo_albedo.png" type="Texture2D" id=2]
 [ext_resource path="res://Scripts/EnvElements/Pickups/AmmoPickup.gd" type="Script" id=3]
 [ext_resource path="res://Materials/Shaders/glow.gdshader" type="Shader" id=4]
 
-[sub_resource type="SphereShape" id=17]
+[sub_resource type="SphereShape3D" id=17]
 radius = 0.5
 
 [sub_resource type="ShaderMaterial" id=18]
@@ -16,7 +16,7 @@ shader_param/color_coef = 0.1
 shader_param/depth_coef = 2.0
 shader_param/cutoff = 0.01
 
-[sub_resource type="SpatialMaterial" id=16]
+[sub_resource type="StandardMaterial3D" id=16]
 flags_unshaded = true
 flags_do_not_receive_shadows = true
 albedo_color = Color( 0.92549, 0.172549, 0.137255, 1 )
@@ -27,14 +27,14 @@ resource_name = "Idle"
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("CollisionShape/MeshInstance2:material_overlay:shader_param/depth_coef")
+tracks/0/path = NodePath("CollisionShape3D/MeshInstance2:material_overlay:shader_param/depth_coef")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 1, 2 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 2.0, 8.0, 2.0 ]
 }
@@ -42,30 +42,30 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=19]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("CollisionShape/MeshInstance2:material_overlay:shader_param/depth_coef")
+tracks/0/path = NodePath("CollisionShape3D/MeshInstance2:material_overlay:shader_param/depth_coef")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ 2.0 ]
 }
 
-[node name="RifleAmmo" type="StaticBody"]
+[node name="RifleAmmo" type="StaticBody3D"]
 collision_layer = 8
 collision_mask = 8
 script = ExtResource( 3 )
 item_name = "Rifle Bullet"
 weight_each = 1.0
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource( 17 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="CollisionShape"]
-transform = Transform( -4.37114e-09, 8.47032e-23, -0.0999999, 0, 0.1, 8.47033e-23, 0.1, 3.7025e-30, -4.37114e-09, 0, 0, 0 )
+[node name="MeshInstance2" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D( -4.37114e-09, 8.47032e-23, -0.0999999, 0, 0.1, 8.47033e-23, 0.1, 3.7025e-30, -4.37114e-09, 0, 0, 0 )
 material_overlay = SubResource( 18 )
 cast_shadow = 0
 mesh = ExtResource( 1 )

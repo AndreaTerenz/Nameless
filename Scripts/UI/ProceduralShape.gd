@@ -1,15 +1,35 @@
-tool
+@tool
 extends Control
 
 #class_name ProceduralShape
 
-export(Color) var fill := Color.white setget set_fill
-export(Color) var stroke := Color.black setget set_stroke
-export(float, 0.0, 100.0, .1) var stroke_weight := 4.0 setget set_stroke_weight
+@export var fill: Color := Color.WHITE :
+	get:
+		return fill # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_fill
+@export var stroke: Color := Color.BLACK :
+	get:
+		return stroke # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_stroke
+@export var stroke_weight := 4.0 setget set_stroke_weight # (float, 0.0, 100.0, .1)
 
-export(bool) var stroke_on_top = true setget set_stroke_on_top
-export(bool) var pivot_centered := true setget set_centered
-export(bool) var keep_size := false setget set_keep_size
+@export var stroke_on_top: bool = true :
+	get:
+		return stroke_on_top # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_stroke_on_top
+@export var pivot_centered: bool := true :
+	get:
+		return pivot_centered # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_centered
+@export var keep_size: bool := false :
+	get:
+		return keep_size # TODOConverter40 Non existent get function 
+	set(mod_value):
+		mod_value  # TODOConverter40 Copy here content of set_keep_size
 
 func set_stroke(value):
 	stroke = value
@@ -37,12 +57,12 @@ func set_keep_size(value):
 
 func _draw() -> void:
 	if not keep_size:
-		rect_size = get_rect_size()
-		rect_min_size = rect_size
+		size = get_rect_size()
+		minimum_size = size
 	
-	rect_pivot_offset = rect_size/2.0 if pivot_centered else Vector2.ZERO
+	pivot_offset = size/2.0 if pivot_centered else Vector2.ZERO
 		
-	var center := rect_size/2.0
+	var center := size/2.0
 	draw_set_transform(center, 0.0, Vector2.ONE)
 	
 	_on_draw()

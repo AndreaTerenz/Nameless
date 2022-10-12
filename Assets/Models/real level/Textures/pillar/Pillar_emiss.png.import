@@ -1,37 +1,36 @@
 [remap]
 
 importer="texture"
-type="StreamTexture"
-path.s3tc="res://.import/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.s3tc.stex"
-path.etc2="res://.import/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.etc2.stex"
+type="CompressedTexture2D"
+uid="uid://4y3n1qqprr1c"
+path.s3tc="res://.godot/imported/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.s3tc.ctex"
+path.etc2="res://.godot/imported/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.etc2.ctex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": ["s3tc", "etc2"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/real level/Textures/pillar/Pillar_emiss.png"
-dest_files=[ "res://.import/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.s3tc.stex", "res://.import/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.etc2.stex" ]
+dest_files=["res://.godot/imported/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.s3tc.ctex", "res://.godot/imported/Pillar_emiss.png-25978ab91b4355b92731b927fc5f84eb.etc2.ctex"]
 
 [params]
 
 compress/mode=2
 compress/lossy_quality=0.7
-compress/hdr_mode=0
+compress/hdr_compression=1
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
-flags/filter=false
-flags/mipmaps=true
-flags/anisotropic=true
-flags/srgb=1
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
 process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=false
-svg/scale=1.0
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1

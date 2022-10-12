@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/dirt_0.ogg-c62bf1e989d02d8e232203a801ef2de4.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://btxxfoyejoulg"
+path="res://.godot/imported/dirt_0.ogg-c62bf1e989d02d8e232203a801ef2de4.oggvorbisstr"
 
 [deps]
 
 source_file="res://Assets/Audio/SFX/footsteps/dirt/dirt_0.ogg"
-dest_files=[ "res://.import/dirt_0.ogg-c62bf1e989d02d8e232203a801ef2de4.oggstr" ]
+dest_files=["res://.godot/imported/dirt_0.ogg-c62bf1e989d02d8e232203a801ef2de4.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

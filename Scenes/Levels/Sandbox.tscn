@@ -13,45 +13,45 @@
 [ext_resource path="res://Materials/Grids/grid_yellow.tres" type="Material" id=11]
 [ext_resource path="res://Scripts/EnvElements/Buttons/TimerButton.gd" type="Script" id=12]
 [ext_resource path="res://Scripts/EnvElements/Pickups/HealthPickup.gd" type="Script" id=14]
-[ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Grids/grid_orange.png" type="Texture2D" id=15]
 [ext_resource path="res://Scripts/EnvElements/Ladder.gd" type="Script" id=16]
-[ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture" id=17]
+[ext_resource path="res://Materials/Sprites/Untitled.png" type="Texture2D" id=17]
 [ext_resource path="res://Scenes/Elements/TriggerZone.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Elements/KillZone.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scripts/EnvElements/SceneManager.gd" type="Script" id=20]
 
-[sub_resource type="CubeMesh" id=36]
+[sub_resource type="BoxMesh" id=36]
 
-[sub_resource type="BoxShape" id=37]
+[sub_resource type="BoxShape3D" id=37]
 
 [sub_resource type="GDScript" id=54]
 script/source = "extends BaseDoor
 
-func _on_Button_switched(on) -> void:
+func _on_Button_switched(checked) -> void:
 	switch()
 "
 
-[sub_resource type="BoxShape" id=39]
+[sub_resource type="BoxShape3D" id=39]
 
-[sub_resource type="CubeMesh" id=40]
+[sub_resource type="BoxMesh" id=40]
 
 [sub_resource type="GDScript" id=42]
-script/source = "extends MeshInstance
+script/source = "extends MeshInstance3D
 
-var mat: SpatialMaterial = get_active_material(0)
+var mat: StandardMaterial3D = get_active_material(0)
 
 func _on_pressed() -> void:
-	mat.emission = Color.white
+	mat.emission = Color.WHITE
 	
 func _on_released() -> void:
-	mat.emission = Color.black
+	mat.emission = Color.BLACK
 "
 
 [sub_resource type="GDScript" id=47]
 script/source = "extends BaseDoor
 
 
-func _on_Button2_switched(on) -> void:
+func _on_Button2_switched(checked) -> void:
 	if state in [STATE.OPEN, STATE.CLOSE]:
 		switch()
 "
@@ -59,23 +59,23 @@ func _on_Button2_switched(on) -> void:
 [sub_resource type="GDScript" id=48]
 script/source = "extends SwitchButton
 
-onready var mesh := $MeshInstance
+@onready var mesh := $MeshInstance3D
 
-var mat: SpatialMaterial = null
+var mat: StandardMaterial3D = null
 
 func _ready():
-	mat = mesh.get_active_material(0) as SpatialMaterial
+	mat = mesh.get_active_material(0) as StandardMaterial3D
 
 func _on_pressed() -> void:
-	mat.emission = Color.white
+	mat.emission = Color.WHITE
 	
 func _on_released() -> void:
-	mat.emission = Color.black
+	mat.emission = Color.BLACK
 "
 
-[sub_resource type="CubeMesh" id=11]
+[sub_resource type="BoxMesh" id=11]
 
-[sub_resource type="SpatialMaterial" id=41]
+[sub_resource type="StandardMaterial3D" id=41]
 flags_world_triplanar = true
 albedo_texture = ExtResource( 15 )
 emission_enabled = true
@@ -98,21 +98,21 @@ func _on_btn_released() -> void:
 [sub_resource type="GDScript" id=46]
 script/source = "extends PushButton
 
-onready var mesh := $MeshInstance
+@onready var mesh := $MeshInstance3D
 
-var mat: SpatialMaterial = null
+var mat: StandardMaterial3D = null
 
 func _ready():
-	mat = mesh.get_active_material(0) as SpatialMaterial
+	mat = mesh.get_active_material(0) as StandardMaterial3D
 
 func _on_pressed() -> void:
-	mat.emission = Color.white
+	mat.emission = Color.WHITE
 	
 func _on_released() -> void:
-	mat.emission = Color.black
+	mat.emission = Color.BLACK
 "
 
-[sub_resource type="SpatialMaterial" id=13]
+[sub_resource type="StandardMaterial3D" id=13]
 flags_world_triplanar = true
 albedo_texture = ExtResource( 15 )
 emission_enabled = true
@@ -122,52 +122,52 @@ emission_operator = 0
 emission_on_uv2 = false
 uv1_triplanar = true
 
-[sub_resource type="BoxShape" id=49]
+[sub_resource type="BoxShape3D" id=49]
 extents = Vector3( 3.04537, 1, 1 )
 
-[sub_resource type="CubeMesh" id=50]
+[sub_resource type="BoxMesh" id=50]
 
 [sub_resource type="GDScript" id=16]
-script/source = "extends KinematicBody
+script/source = "extends CharacterBody3D
 
 
 func _physics_process(delta: float) -> void:
-	translation.y += 2.0 * delta
+	position.y += 2.0 * delta
 "
 
-[sub_resource type="BoxShape" id=14]
+[sub_resource type="BoxShape3D" id=14]
 
-[sub_resource type="CubeMesh" id=15]
+[sub_resource type="BoxMesh" id=15]
 
 [sub_resource type="GDScript" id=17]
-script/source = "extends KinematicBody
+script/source = "extends CharacterBody3D
 
 
 func _physics_process(delta: float) -> void:
-	translation.x += 2.0 * delta
+	position.x += 2.0 * delta
 "
 
 [sub_resource type="Curve3D" id=20]
 _data = {
-"points": PoolVector3Array( 4.02281, 0.417346, -1.9404, -4.02281, -0.417346, 1.9404, -4.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -12.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -20.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -28.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -36.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -44.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -52.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -60.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -68.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -76.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -84.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -92.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -100.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -108.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, 35.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, -28.1044, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -108.355, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -12.3548, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -4.3548, 2.31156, -36.1044, 0, 1, -4, 0, -1, 4, -4.3548, 2.31156, -28.1044, 0, 0, 0, 0, 0, 0, -4.3548, 2.31156, 43.8956 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+"points": PackedVector3Array( 4.02281, 0.417346, -1.9404, -4.02281, -0.417346, 1.9404, -4.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -12.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -20.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -28.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -36.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -44.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -52.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -60.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -68.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -76.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -84.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -92.3548, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -100.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -108.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, 43.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, 35.8956, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, -28.1044, 0, 0, 0, 0, 0, 0, -116.355, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -108.355, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -12.3548, 2.31156, -36.1044, 0, 0, 0, 0, 0, 0, -4.3548, 2.31156, -36.1044, 0, 1, -4, 0, -1, 4, -4.3548, 2.31156, -28.1044, 0, 0, 0, 0, 0, 0, -4.3548, 2.31156, 43.8956 ),
+"tilts": PackedFloat32Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
 }
 
 [sub_resource type="GDScript" id=19]
-script/source = "extends KinematicBody
+script/source = "extends CharacterBody3D
 
 
 func _physics_process(delta: float) -> void:
 	get_parent().offset += 4.0 * delta
 "
 
-[sub_resource type="CubeMesh" id=24]
+[sub_resource type="BoxMesh" id=24]
 size = Vector3( 2.2, 0.177, 2.2 )
 
 [sub_resource type="PlaneMesh" id=21]
 
 [sub_resource type="ViewportTexture" id=27]
-viewport_path = NodePath("Env/Monitor test/MeshInstance/Viewport")
+viewport_path = NodePath("Env/Monitor test/MeshInstance3D/SubViewport")
 
 [sub_resource type="ShaderMaterial" id=26]
 resource_local_to_scene = true
@@ -186,20 +186,20 @@ shader_param/min_thickness = 0.3
 shader_param/base_texture = SubResource( 27 )
 shader_param/overlay_texture = ExtResource( 17 )
 
-[sub_resource type="CubeMesh" id=52]
+[sub_resource type="BoxMesh" id=52]
 
-[sub_resource type="ConvexPolygonShape" id=53]
-points = PoolVector3Array( -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1 )
+[sub_resource type="ConvexPolygonShape3D" id=53]
+points = PackedVector3Array( -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1 )
 
-[node name="Spatial" type="Spatial"]
+[node name="Node3D" type="Node3D"]
 script = ExtResource( 20 )
 scene_name = "Sandbox"
 
-[node name="Env" type="Spatial" parent="."]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.663, 0 )
+[node name="Env" type="Node3D" parent="."]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.663, 0 )
 
-[node name="SpotLight" type="SpotLight" parent="Env"]
-transform = Transform( 0.931482, 0.0630023, -0.358291, 0.363788, -0.161318, 0.917407, -2.98023e-08, -0.98489, -0.173184, 12.3959, 7.77218, -11.303 )
+[node name="SpotLight3D" type="SpotLight3D" parent="Env"]
+transform = Transform3D( 0.931482, 0.0630023, -0.358291, 0.363788, -0.161318, 0.917407, -2.98023e-08, -0.98489, -0.173184, 12.3959, 7.77218, -11.303 )
 layers = 3
 light_energy = 5.754
 shadow_enabled = true
@@ -209,79 +209,79 @@ script = ExtResource( 5 )
 frequency = 0.91
 sequence_str = "00001200302123000123"
 
-[node name="CSGCombiner" type="CSGCombiner" parent="Env"]
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Env"]
 use_collision = true
 collision_layer = 4
 collision_mask = 17
 
-[node name="Ground" type="CSGBox" parent="Env/CSGCombiner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.127975, 0.208619, -0.347298 )
+[node name="Ground" type="CSGBox3D" parent="Env/CSGCombiner3D"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.127975, 0.208619, -0.347298 )
 use_in_baked_light = true
 width = 91.7349
 height = 0.918695
 depth = 62.4852
 material = ExtResource( 2 )
 
-[node name="CSGBox4" type="CSGBox" parent="Env/CSGCombiner"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, -4.08562e-14, -1, 0, -4.37114e-08, -16.1926, 8.30382, 12.2483 )
+[node name="CSGBox4" type="CSGBox3D" parent="Env/CSGCombiner3D"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, -4.08562e-14, -1, 0, -4.37114e-08, -16.1926, 8.30382, 12.2483 )
 width = 14.9422
 depth = 10.1186
 material = ExtResource( 3 )
 
-[node name="CSGCylinder" type="CSGCylinder" parent="Env/CSGCombiner/CSGBox4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30345, 0, -1.90735e-06 )
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Env/CSGCombiner3D/CSGBox4"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.30345, 0, -1.90735e-06 )
 operation = 2
 radius = 2.64544
 height = 6.14175
 sides = 16
 material = ExtResource( 3 )
 
-[node name="Ramps" type="CSGCombiner" parent="Env/CSGCombiner"]
+[node name="Ramps" type="CSGCombiner3D" parent="Env/CSGCombiner3D"]
 
-[node name="Ramp" type="CSGBox" parent="Env/CSGCombiner/Ramps"]
-transform = Transform( 1, -3.55271e-15, 0, 0, 0.913375, 0.407119, 0, -0.407119, 0.913375, -0.149619, 1.80764, 11.8123 )
+[node name="Ramp" type="CSGBox3D" parent="Env/CSGCombiner3D/Ramps"]
+transform = Transform3D( 1, -3.55271e-15, 0, 0, 0.913375, 0.407119, 0, -0.407119, 0.913375, -0.149619, 1.80764, 11.8123 )
 use_in_baked_light = true
 width = 7.60502
 height = 1.42642
 depth = 19.6382
 material = ExtResource( 3 )
 
-[node name="Ramp5" type="CSGBox" parent="Env/CSGCombiner/Ramps"]
-transform = Transform( 1, 0, 0, 0, 0.987623, 0.156848, 0, -0.156848, 0.987623, -8.14962, 1.50005, 11.8611 )
+[node name="Ramp5" type="CSGBox3D" parent="Env/CSGCombiner3D/Ramps"]
+transform = Transform3D( 1, 0, 0, 0, 0.987623, 0.156848, 0, -0.156848, 0.987623, -8.14962, 1.50005, 11.8611 )
 use_in_baked_light = true
 width = 7.60502
 height = 1.42642
 depth = 19.6382
 material = ExtResource( 3 )
 
-[node name="Ramp2" type="CSGBox" parent="Env/CSGCombiner/Ramps"]
-transform = Transform( 1, 0, 0, 0, 0.776882, 0.629646, 0, -0.629646, 0.776882, 7.85038, 1.80764, 11.8123 )
+[node name="Ramp2" type="CSGBox3D" parent="Env/CSGCombiner3D/Ramps"]
+transform = Transform3D( 1, 0, 0, 0, 0.776882, 0.629646, 0, -0.629646, 0.776882, 7.85038, 1.80764, 11.8123 )
 use_in_baked_light = true
 width = 7.60502
 height = 1.42642
 depth = 19.6382
 material = ExtResource( 3 )
 
-[node name="Ramp3" type="CSGBox" parent="Env/CSGCombiner/Ramps"]
-transform = Transform( 1, 0, 0, 0, 0.587447, 0.809263, 0, -0.809263, 0.587447, 15.8504, 1.80764, 11.8123 )
+[node name="Ramp3" type="CSGBox3D" parent="Env/CSGCombiner3D/Ramps"]
+transform = Transform3D( 1, 0, 0, 0, 0.587447, 0.809263, 0, -0.809263, 0.587447, 15.8504, 1.80764, 11.8123 )
 use_in_baked_light = true
 width = 7.60502
 height = 1.42642
 depth = 19.6382
 material = ExtResource( 3 )
 
-[node name="Ramp4" type="CSGBox" parent="Env/CSGCombiner/Ramps"]
-transform = Transform( 1, 0, 0, 0, 0.357977, 0.93373, 0, -0.93373, 0.357977, 23.8504, 1.80764, 11.8123 )
+[node name="Ramp4" type="CSGBox3D" parent="Env/CSGCombiner3D/Ramps"]
+transform = Transform3D( 1, 0, 0, 0, 0.357977, 0.93373, 0, -0.93373, 0.357977, 23.8504, 1.80764, 11.8123 )
 use_in_baked_light = true
 width = 7.60502
 height = 1.42642
 depth = 19.6382
 material = ExtResource( 3 )
 
-[node name="Doors" type="CSGCombiner" parent="Env/CSGCombiner"]
+[node name="Doors" type="CSGCombiner3D" parent="Env/CSGCombiner3D"]
 
-[node name="Door 1" type="CSGBox" parent="Env/CSGCombiner/Doors"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -37.1186, 4.10402, -11.1072 )
+[node name="Door 1" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -37.1186, 4.10402, -11.1072 )
 use_in_baked_light = true
 width = 8.22187
 height = 8.52282
@@ -290,50 +290,50 @@ script = ExtResource( 9 )
 amount = 0.9
 trigger_path = NodePath("Trigger")
 
-[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 1"]
-transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors/Door 1"]
+transform = Transform3D( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
 operation = 2
 material = ExtResource( 3 )
 
-[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 1/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+[node name="Left Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 1/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 1/CSGBox/Left Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 1/CSGBox3D/Left Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 1/CSGBox/Left Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 1/CSGBox3D/Left Side"]
 shape = SubResource( 37 )
 
-[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 1/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+[node name="Right Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 1/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 1/CSGBox/Right Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 1/CSGBox3D/Right Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 1/CSGBox/Right Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 1/CSGBox3D/Right Side"]
 shape = SubResource( 37 )
 
-[node name="Trigger" parent="Env/CSGCombiner/Doors/Door 1" instance=ExtResource( 18 )]
-transform = Transform( -1.08376e-07, 0, -2.67057, 0, 3.04592, 0, 2.47936, 0, -1.16734e-07, 0, -0.50343, 0 )
-oneshot = false
+[node name="Trigger" parent="Env/CSGCombiner3D/Doors/Door 1" instance=ExtResource( 18 )]
+transform = Transform3D( -1.08376e-07, 0, -2.67057, 0, 3.04592, 0, 2.47936, 0, -1.16734e-07, 0, -0.50343, 0 )
+one_shot = false
 
-[node name="Door 2" type="CSGBox" parent="Env/CSGCombiner/Doors"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -0.692628 )
+[node name="Door 2" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -0.692628 )
 use_in_baked_light = true
 width = 8.22187
 height = 8.52282
@@ -342,46 +342,46 @@ script = SubResource( 54 )
 time = 0.2
 amount = 0.9
 
-[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 2"]
-transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors/Door 2"]
+transform = Transform3D( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
 operation = 2
 material = ExtResource( 3 )
 
-[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 2/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+[node name="Left Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 2/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 2/CSGBox/Left Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 2/CSGBox3D/Left Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 2/CSGBox/Left Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 2/CSGBox3D/Left Side"]
 shape = SubResource( 37 )
 
-[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 2/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+[node name="Right Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 2/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 2/CSGBox/Right Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 2/CSGBox3D/Right Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 2/CSGBox/Right Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 2/CSGBox3D/Right Side"]
 shape = SubResource( 37 )
 
-[node name="Button" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 2"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.71602, -0.57968, 0.320402 )
+[node name="Button" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 2"]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.71602, -0.57968, 0.320402 )
 collision_layer = 9
 script = ExtResource( 12 )
 __meta__ = {
@@ -390,17 +390,17 @@ __meta__ = {
 toggle_path = NodePath("..")
 timer_length = 2.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 2/Button"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 2/Button"]
 shape = SubResource( 39 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 2/Button"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 2/Button"]
 use_in_baked_light = true
 mesh = SubResource( 40 )
 material/0 = ExtResource( 11 )
 script = SubResource( 42 )
 
-[node name="Door 3" type="CSGBox" parent="Env/CSGCombiner/Doors"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -22.2639 )
+[node name="Door 3" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -26.6217, 4.10402, -22.2639 )
 use_in_baked_light = true
 width = 8.22187
 height = 8.52282
@@ -409,62 +409,62 @@ script = SubResource( 47 )
 time = 0.2
 amount = 0.9
 
-[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 3"]
-transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors/Door 3"]
+transform = Transform3D( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
 operation = 2
 material = ExtResource( 3 )
 
-[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 3/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+[node name="Left Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 3/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 3/CSGBox/Left Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 3/CSGBox3D/Left Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 3/CSGBox/Left Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 3/CSGBox3D/Left Side"]
 shape = SubResource( 37 )
 
-[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 3/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+[node name="Right Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 3/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 3/CSGBox/Right Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 3/CSGBox3D/Right Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 3/CSGBox/Right Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 3/CSGBox3D/Right Side"]
 shape = SubResource( 37 )
 
-[node name="Button2" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 3"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.9374, -0.57968, 0.3204 )
+[node name="Button2" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 3"]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.9374, -0.57968, 0.3204 )
 collision_layer = 9
 script = SubResource( 48 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 3/Button2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 3/Button2"]
 shape = SubResource( 39 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 3/Button2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 3/Button2"]
 use_in_baked_light = true
 mesh = SubResource( 11 )
 material/0 = SubResource( 41 )
 
-[node name="Door 4" type="CSGBox" parent="Env/CSGCombiner/Doors"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -34.8245, 4.10402, 13.079 )
+[node name="Door 4" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -34.8245, 4.10402, 13.079 )
 use_in_baked_light = true
 width = 8.22187
 height = 8.52282
@@ -473,141 +473,141 @@ script = SubResource( 45 )
 time = 0.2
 amount = 0.9
 
-[node name="CSGBox" type="CSGBox" parent="Env/CSGCombiner/Doors/Door 4"]
-transform = Transform( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Env/CSGCombiner3D/Doors/Door 4"]
+transform = Transform3D( 2.35, 0, 0, 0, 2.997, 0, 1.19209e-07, 0, 1, 0, -0.503432, 0 )
 operation = 2
 material = ExtResource( 3 )
 
-[node name="Left Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 4/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
+[node name="Left Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 4/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, -0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 4/CSGBox/Left Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 4/CSGBox3D/Left Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 4/CSGBox/Left Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 4/CSGBox3D/Left Side"]
 shape = SubResource( 37 )
 
-[node name="Right Side" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 4/CSGBox"]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
+[node name="Right Side" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 4/CSGBox3D"]
+transform = Transform3D( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.258, 0.5, 0, 0 )
 collision_layer = 4
 script = ExtResource( 10 )
 dir = Vector3( 1, 0, 0 )
 parent_door_ref = NodePath("../..")
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 4/CSGBox/Right Side"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 4/CSGBox3D/Right Side"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0, 0 )
 use_in_baked_light = true
 mesh = SubResource( 36 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 4/CSGBox/Right Side"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 4/CSGBox3D/Right Side"]
 shape = SubResource( 37 )
 
-[node name="Button3" type="StaticBody" parent="Env/CSGCombiner/Doors/Door 4"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7.079, -0.10402, -0.175499 )
+[node name="Button3" type="StaticBody3D" parent="Env/CSGCombiner3D/Doors/Door 4"]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7.079, -0.10402, -0.175499 )
 collision_layer = 9
 script = SubResource( 46 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/CSGCombiner/Doors/Door 4/Button3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CSGCombiner3D/Doors/Door 4/Button3"]
 shape = SubResource( 39 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/CSGCombiner/Doors/Door 4/Button3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CSGCombiner3D/Doors/Door 4/Button3"]
 use_in_baked_light = true
 mesh = SubResource( 40 )
 material/0 = SubResource( 13 )
 
-[node name="Stairs" type="CSGCombiner" parent="Env/CSGCombiner"]
+[node name="Stairs" type="CSGCombiner3D" parent="Env/CSGCombiner3D"]
 
-[node name="CSGBox5" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.04876, 13, -11.303 )
+[node name="CSGBox5" type="CSGBox3D" parent="Env/CSGCombiner3D/Stairs"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.04876, 13, -11.303 )
 use_in_baked_light = true
 width = 24.2303
 depth = 26.9968
 material = ExtResource( 3 )
 
-[node name="CSGBox7" type="CSGBox" parent="Env/CSGCombiner/Stairs/CSGBox5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96824, -0.000100136, 8.44036 )
+[node name="CSGBox7" type="CSGBox3D" parent="Env/CSGCombiner3D/Stairs/CSGBox5"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96824, -0.000100136, 8.44036 )
 operation = 2
 width = 4.93698
 height = 9.18817
 depth = 3.85287
 material = ExtResource( 3 )
 
-[node name="Stair 1" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.612, 20.0144, -10.7808 )
+[node name="Stair 1" type="CSGBox3D" parent="Env/CSGCombiner3D/Stairs"]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.612, 20.0144, -10.7808 )
 use_in_baked_light = true
 width = 7.81403
 height = 0.706869
 depth = 6.26062
 material = ExtResource( 3 )
 
-[node name="Stair 2" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.612, 35.3319, -21.6766 )
+[node name="Stair 2" type="CSGBox3D" parent="Env/CSGCombiner3D/Stairs"]
+transform = Transform3D( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.612, 35.3319, -21.6766 )
 use_in_baked_light = true
 width = 7.81403
 height = 0.706869
 depth = 6.26062
 material = ExtResource( 3 )
 
-[node name="Stair 3" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 10.2379, -2.86264 )
+[node name="Stair 3" type="CSGBox3D" parent="Env/CSGCombiner3D/Stairs"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.612, 10.2379, -2.86264 )
 use_in_baked_light = true
 width = 2.74093
 height = 21.2704
 depth = 2.97328
 material = ExtResource( 3 )
 
-[node name="Area" type="Area" parent="Env/CSGCombiner/Stairs/Stair 3"]
+[node name="Area3D" type="Area3D" parent="Env/CSGCombiner3D/Stairs/Stair 3"]
 collision_layer = 2
 script = ExtResource( 16 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 3/Area"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
+[node name="CollisionShape2" type="CollisionShape3D" parent="Env/CSGCombiner3D/Stairs/Stair 3/Area3D"]
+transform = Transform3D( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
 shape = SubResource( 49 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 3/Area"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 8.88178e-16, 0, 1.248, -1.441, 0.373, 2.38419e-07 )
+[node name="MeshInstance2" type="MeshInstance3D" parent="Env/CSGCombiner3D/Stairs/Stair 3/Area3D"]
+transform = Transform3D( 0.1, 0, 0, 0, 10, 0, 8.88178e-16, 0, 1.248, -1.441, 0.373, 2.38419e-07 )
 use_in_baked_light = true
 mesh = SubResource( 50 )
 skeleton = NodePath("../../../../..")
 material/0 = ExtResource( 4 )
 
-[node name="Stair 4" type="CSGBox" parent="Env/CSGCombiner/Stairs"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.612, 25.1935, -18.4216 )
+[node name="Stair 4" type="CSGBox3D" parent="Env/CSGCombiner3D/Stairs"]
+transform = Transform3D( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.612, 25.1935, -18.4216 )
 use_in_baked_light = true
 width = 2.74093
 height = 21.2704
 depth = 2.97328
 material = ExtResource( 3 )
 
-[node name="Area" type="Area" parent="Env/CSGCombiner/Stairs/Stair 4"]
+[node name="Area3D" type="Area3D" parent="Env/CSGCombiner3D/Stairs/Stair 4"]
 collision_layer = 2
 script = ExtResource( 16 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="Env/CSGCombiner/Stairs/Stair 4/Area"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
+[node name="CollisionShape2" type="CollisionShape3D" parent="Env/CSGCombiner3D/Stairs/Stair 4/Area3D"]
+transform = Transform3D( 0.1, 0, 0, 0, 10, 0, 0, 0, 1.248, -1.88466, 0.373, 0 )
 shape = SubResource( 49 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="Env/CSGCombiner/Stairs/Stair 4/Area"]
-transform = Transform( 0.1, 0, 0, 0, 10, 0, 8.88178e-16, 0, 1.248, -1.441, 0.373, 2.38419e-07 )
+[node name="MeshInstance2" type="MeshInstance3D" parent="Env/CSGCombiner3D/Stairs/Stair 4/Area3D"]
+transform = Transform3D( 0.1, 0, 0, 0, 10, 0, 8.88178e-16, 0, 1.248, -1.441, 0.373, 2.38419e-07 )
 use_in_baked_light = true
 mesh = SubResource( 50 )
 skeleton = NodePath("../../../../..")
 material/0 = ExtResource( 4 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="Env"]
-transform = Transform( 0.215082, -0.726957, 0.65213, 0.226222, 0.686682, 0.690863, -0.950033, -0.0010654, 0.312147, 0, 6.64957, 0 )
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D( 0.215082, -0.726957, 0.65213, 0.226222, 0.686682, 0.690863, -0.950033, -0.0010654, 0.312147, 0, 6.64957, 0 )
 layers = 3
 light_energy = 0.576
 light_cull_mask = 4293918723
@@ -617,70 +617,70 @@ directional_shadow_blend_splits = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
 environment = ExtResource( 6 )
 
-[node name="KinematicBody" type="KinematicBody" parent="Env"]
-transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, 2.27374e-13, -4.67179, -37.4996 )
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Env"]
+transform = Transform3D( 5, 0, 0, 0, 1, 0, 0, 0, 5, 2.27374e-13, -4.67179, -37.4996 )
 script = SubResource( 16 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/KinematicBody"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/CharacterBody3D"]
 shape = SubResource( 14 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/KinematicBody"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/CharacterBody3D"]
 mesh = SubResource( 15 )
 
-[node name="KinematicBody2" type="KinematicBody" parent="Env"]
-transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, -14.0139, -4.67179, -37.4996 )
+[node name="KinematicBody2" type="CharacterBody3D" parent="Env"]
+transform = Transform3D( 5, 0, 0, 0, 1, 0, 0, 0, 5, -14.0139, -4.67179, -37.4996 )
 script = SubResource( 17 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/KinematicBody2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/KinematicBody2"]
 shape = SubResource( 14 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/KinematicBody2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/KinematicBody2"]
 mesh = SubResource( 15 )
 
-[node name="Path" type="Path" parent="Env"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3548, 0, -3.89563 )
+[node name="Path3D" type="Path3D" parent="Env"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3548, 0, -3.89563 )
 curve = SubResource( 20 )
 
-[node name="PathFollow" type="PathFollow" parent="Env/Path"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.999999, -4.3548, 2.31156, 43.8956 )
+[node name="PathFollow3D" type="PathFollow3D" parent="Env/Path3D"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 0.999999, -4.3548, 2.31156, 43.8956 )
 rotation_mode = 0
 
-[node name="KinematicBody3" type="KinematicBody" parent="Env/Path/PathFollow"]
-transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0 )
+[node name="KinematicBody3" type="CharacterBody3D" parent="Env/Path3D/PathFollow3D"]
+transform = Transform3D( 5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0 )
 script = SubResource( 19 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/Path/PathFollow/KinematicBody3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/Path3D/PathFollow3D/KinematicBody3"]
 shape = SubResource( 14 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/Path/PathFollow/KinematicBody3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/Path3D/PathFollow3D/KinematicBody3"]
 mesh = SubResource( 15 )
 
-[node name="Monitor test" type="MeshInstance" parent="Env"]
-transform = Transform( 0.499259, -0.866452, 3.78738e-08, 0, -4.37114e-08, -1, 0.866452, 0.499259, -2.18233e-08, 0.136747, 4.04849, -10.2305 )
+[node name="Monitor test" type="MeshInstance3D" parent="Env"]
+transform = Transform3D( 0.499259, -0.866452, 3.78738e-08, 0, -4.37114e-08, -1, 0.866452, 0.499259, -2.18233e-08, 0.136747, 4.04849, -10.2305 )
 mesh = SubResource( 24 )
-skeleton = NodePath("MeshInstance")
+skeleton = NodePath("MeshInstance3D")
 material/0 = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="MeshInstance" type="MeshInstance" parent="Env/Monitor test"]
-transform = Transform( 0.939159, 8.9407e-08, -7.10543e-15, 0, 1, -2.65943e-09, -3.55271e-15, -2.65945e-09, 0.939159, 1.90735e-06, 0.0916204, 0 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Env/Monitor test"]
+transform = Transform3D( 0.939159, 8.9407e-08, -7.10543e-15, 0, 1, -2.65943e-09, -3.55271e-15, -2.65945e-09, 0.939159, 1.90735e-06, 0.0916204, 0 )
 cast_shadow = 0
 mesh = SubResource( 21 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 26 )
 
-[node name="Viewport" type="Viewport" parent="Env/Monitor test/MeshInstance"]
+[node name="SubViewport" type="SubViewport" parent="Env/Monitor test/MeshInstance3D"]
 size = Vector2( 1000, 1000 )
 msaa = 3
 fxaa = true
@@ -688,36 +688,36 @@ debanding = true
 render_target_v_flip = true
 shadow_atlas_size = 4096
 
-[node name="Camera" type="Camera" parent="Env/Monitor test/MeshInstance/Viewport"]
-transform = Transform( 0.812409, -0.338294, 0.474919, 0, 0.81449, 0.580177, -0.583088, -0.471341, 0.6617, 9.78, 10.058, 31.867 )
+[node name="Camera3D" type="Camera3D" parent="Env/Monitor test/MeshInstance3D/SubViewport"]
+transform = Transform3D( 0.812409, -0.338294, 0.474919, 0, 0.81449, 0.580177, -0.583088, -0.471341, 0.6617, 9.78, 10.058, 31.867 )
 cull_mask = 1048573
 environment = ExtResource( 6 )
 fov = 79.0
 
 [node name="KillZone" parent="Env" instance=ExtResource( 19 )]
-transform = Transform( 285.212, 0, -1.81899e-12, 0, 1, 0, 1.81899e-12, 0, 285.212, 0, -22.1031, 0 )
+transform = Transform3D( 285.212, 0, -1.81899e-12, 0, 1, 0, 1.81899e-12, 0, 285.212, 0, -22.1031, 0 )
 
-[node name="Interactable" type="StaticBody" parent="Env"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.0422, 2.865, -11.6948 )
+[node name="Interactable" type="StaticBody3D" parent="Env"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.0422, 2.865, -11.6948 )
 script = ExtResource( 14 )
 
-[node name="HP" type="MeshInstance" parent="Env/Interactable"]
+[node name="HP" type="MeshInstance3D" parent="Env/Interactable"]
 mesh = SubResource( 52 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Env/Interactable"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Env/Interactable"]
 shape = SubResource( 53 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( -0.524209, 0, -0.85159, 0, 1, 0, 0.85159, 0, -0.524209, 15.8515, 2.95987, -1.4542 )
+transform = Transform3D( -0.524209, 0, -0.85159, 0, 1, 0, 0.85159, 0, -0.524209, 15.8515, 2.95987, -1.4542 )
 collision_layer = 3
 speed_sprint_mult = 1.7
 std_fov = 70.0
 sprint_fov = 90.0
 zoom_fov = 30.0
 
-[connection signal="switched" from="Env/CSGCombiner/Doors/Door 2/Button" to="Env/CSGCombiner/Doors/Door 2" method="_on_Button_switched"]
-[connection signal="switched" from="Env/CSGCombiner/Doors/Door 3/Button2" to="Env/CSGCombiner/Doors/Door 3" method="_on_Button2_switched"]
-[connection signal="pressed" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_pressed"]
-[connection signal="released" from="Env/CSGCombiner/Doors/Door 4/Button3" to="Env/CSGCombiner/Doors/Door 4" method="_on_btn_released"]
+[connection signal="switched" from="Env/CSGCombiner3D/Doors/Door 2/Button" to="Env/CSGCombiner3D/Doors/Door 2" method="_on_Button_switched"]
+[connection signal="switched" from="Env/CSGCombiner3D/Doors/Door 3/Button2" to="Env/CSGCombiner3D/Doors/Door 3" method="_on_Button2_switched"]
+[connection signal="pressed" from="Env/CSGCombiner3D/Doors/Door 4/Button3" to="Env/CSGCombiner3D/Doors/Door 4" method="_on_btn_pressed"]
+[connection signal="released" from="Env/CSGCombiner3D/Doors/Door 4/Button3" to="Env/CSGCombiner3D/Doors/Door 4" method="_on_btn_released"]

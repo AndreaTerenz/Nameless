@@ -6,17 +6,17 @@ extends Node
 # Emitted when transitioning to a new state.
 signal transitioned(state_name)
 
-# Path to the initial active state. We export it to be able to pick the initial state in the inspector.
-export(NodePath) var initial_state := NodePath()
-export(NodePath) var state_target_ref := NodePath()
+# Path3D to the initial active state. We export it to be able to pick the initial state in the inspector.
+@export var initial_state: NodePath := NodePath()
+@export var state_target_ref: NodePath := NodePath()
 
 # The current active state. At the start of the game, we get the `initial_state`.
-onready var state: State = null
+@onready var state: State = null
 var state_target : Node
 var child_states := []
 
 func _ready() -> void:
-	yield(owner, "ready")
+	await owner.ready
 
 	state_target = Utils.try_get_node(state_target_ref, get_tree().root, get_parent())
 	
