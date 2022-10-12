@@ -1,7 +1,7 @@
 0b7126e0c6e86d3ec295a72f5aa6e0bd
-::res://::1665591120
+::res://::1665611769
 base font.tres::FontFile::-1::1665591063::0::1::::<><>::res://Assets/Fonts/Default Font.ttf
-default_bus_layout.tres::AudioBusLayout::9155581917450401775::1665591123::0::1::::<><>::
+default_bus_layout.tres::AudioBusLayout::9155581917450401775::1665601815::0::1::::<><>::
 default_env.tres::Environment::-1::1665591063::0::1::::<><>::
 export_presets.cfg::TextFile::-1::1665131438::0::1::::<><>::
 icon.png::CompressedTexture2D::2051967643017706532::1663871008::1665591120::1::::<><>::
@@ -12,7 +12,7 @@ sky.tres::Sky::-1::1665591063::0::1::::<><>::
 theme.tres::Theme::-1::1665591063::0::1::::<><>::res://base font.tres<>res://Assets/Fonts/Default Font.ttf<>res://Assets/Sprites/UI/checkboxes/unchecked.png<>res://Assets/Sprites/UI/checkboxes/checked.png<>res://Assets/Sprites/UI/checkboxes/radio_checked.png<>res://Assets/Sprites/UI/checkboxes/radio_unchecked.png<>res://Assets/Sprites/UI/slider/grabber.png<>res://Assets/Sprites/UI/slider/grabber_highlight.png<>res://Assets/Sprites/UI/slider/tick.png<>res://Assets/Sprites/UI/checkbtns/check_off.png<>res://Assets/Sprites/UI/checkbtns/check_on.png<>res://Assets/Sprites/UI/slider/grabber_off.png
 WaterMonke.png::CompressedTexture2D::5469243653169178158::1663871008::1665591121::1::::<><>::
 ::res://addons/::1664229017
-::res://addons/argparse/::1663878048
+::res://addons/argparse/::1665591120
 ArgParse.gd::GDScript::-1::1665591064::0::1::::ArgParse<>Node<>::
 icon.png::CompressedTexture2D::7237362792857385872::1663871008::1665591120::1::::<><>::
 icon.svg::CompressedTexture2D::2164275039075979539::1663870530::1665591120::1::::<><>::
@@ -59,7 +59,7 @@ plugin.gd::GDScript::-1::1665591064::0::1::::<>EditorPlugin<>::
 ::res://addons/quentincaffeino/console/assets/fonts/source-code-pro/::1663870530
 LICENSE.md::TextFile::-1::1663870530::0::1::::<><>::
 README.md::TextFile::-1::1663870530::0::1::::<><>::
-::res://addons/quentincaffeino/console/assets/fonts/source-code-pro/OTF/::1665591093
+::res://addons/quentincaffeino/console/assets/fonts/source-code-pro/OTF/::1665591120
 SourceCodePro-Black.otf::FontFile::391070992238374523::1663870530::1665591120::1::::<><>::
 SourceCodePro-BlackIt.otf::FontFile::1536590714831586266::1663870530::1665591120::1::::<><>::
 SourceCodePro-Bold.otf::FontFile::715530540874473264::1663870530::1665591120::1::::<><>::
@@ -189,7 +189,7 @@ RegExLib.gd::GDScript::-1::1665591064::0::1::::<>RefCounted<>::
 ::res://Assets/::1663870530
 ::res://Assets/Audio/::1665591091
 hum_loop.ogg::AudioStreamOggVorbis::3747854428381759624::1664924621::1665591091::1::::<><>::
-::res://Assets/Audio/SFX/::1665591091
+::res://Assets/Audio/SFX/::1665591120
 Electric hum.mp3::AudioStreamMP3::210994197893588989::1663870529::1665591120::1::::<><>::
 explosion MC.ogg::AudioStreamOggVorbis::8340745433087874397::1663870529::1665591091::1::::<><>::
 ::res://Assets/Audio/SFX/Ambient/::1665591092
@@ -220,7 +220,7 @@ dirt_3.ogg::AudioStreamOggVorbis::465652135845890267::1664985381::1665591091::1:
 ::res://Assets/Audio/SFX/story/part 0/::1665591091
 elevator_run.ogg::AudioStreamOggVorbis::1487193525936347366::1665051675::1665591091::1::::<><>::
 elevator_start.ogg::AudioStreamOggVorbis::2741389570653713887::1665051666::1665591091::1::::<><>::
-::res://Assets/Audio/Sources/::1665591091
+::res://Assets/Audio/Sources/::1665591123
 269520__mrauralization__van-sliding-door-open.wav::AudioStreamWAV::3615316649917081635::1664966361::1665591123::1::::<><>::
 force-field-hum-slight-crackle-power-on-and-stable.ogg::AudioStreamOggVorbis::5025572223504817577::1665051273::1665591091::1::::<><>::
 mixkit-industrial-hum-loop-2139.wav::AudioStreamWAV::4651467385123083877::1663870529::1665591123::1::::<><>::
@@ -230,7 +230,7 @@ Default Font.ttf::FontFile::6712811064168929243::1664229222::1665591093::1::::<>
 Monocraft.otf::FontFile::359953472982250693::1663870529::1665591093::1::::<><>::
 ::res://Assets/Fonts/AldoApache/::1665591093
 AldotheApache.ttf::FontFile::6242471633091069602::1663870529::1665591093::1::::<><>::
-::res://Assets/Fonts/Prompt/::1665591093
+::res://Assets/Fonts/Prompt/::1665591120
 Prompt-Black.ttf::FontFile::7632522815018744967::1663870529::1665591093::1::::<><>::
 Prompt-BlackItalic.ttf::FontFile::6326573999218637684::1663870529::1665591120::1::::<><>::
 Prompt-Bold.ttf::FontFile::6583580993380588296::1663870529::1665591093::1::::<><>::
@@ -249,7 +249,7 @@ Prompt-SemiBold.ttf::FontFile::1240429808007787264::1663870529::1665591120::1:::
 Prompt-SemiBoldItalic.ttf::FontFile::8934902509650227782::1663870529::1665591120::1::::<><>::
 Prompt-Thin.ttf::FontFile::5576037341729671704::1663870529::1665591093::1::::<><>::
 Prompt-ThinItalic.ttf::FontFile::3139140344217311425::1663870529::1665591093::1::::<><>::
-::res://Assets/Fonts/Rubik/::1665591093
+::res://Assets/Fonts/Rubik/::1665591120
 Rubik-Black.ttf::FontFile::7741963485867491601::1663870529::1665591093::1::::<><>::
 Rubik-Bold.ttf::FontFile::5990804892733968903::1663870529::1665591093::1::::<><>::
 Rubik-BoldItalic.ttf::FontFile::8520164559276772102::1663870529::1665591120::1::::<><>::
@@ -259,7 +259,7 @@ Rubik-LightItalic.ttf::FontFile::795858784326047141::1663870529::1665591093::1::
 Rubik-Medium.ttf::FontFile::3967759263555644803::1663870529::1665591120::1::::<><>::
 Rubik-Regular.ttf::FontFile::2717752354468217672::1663870529::1665591120::1::::<><>::
 Rubik-SemiBold.ttf::FontFile::6029737530987476351::1663870529::1665591120::1::::<><>::
-::res://Assets/godot logos/::1663878057
+::res://Assets/godot logos/::1665591121
 icon_color.svg::CompressedTexture2D::1817793580928953700::1663870530::1665591121::1::::<><>::
 icon_monochrome_dark.svg::CompressedTexture2D::5486110768663594487::1663870530::1665591121::1::::<><>::
 logo_large_monochrome_dark.svg::CompressedTexture2D::2637300498478380667::1663870530::1665591121::1::::<><>::
@@ -267,7 +267,7 @@ logo_small_color_dark.svg::CompressedTexture2D::3740492041457484550::1663870530:
 logo_small_monochrome_dark.svg::CompressedTexture2D::1694837676556197340::1663870530::1665591121::1::::<><>::
 logo_vertical_color_dark.svg::CompressedTexture2D::7532503714417509305::1663870530::1665591121::1::::<><>::
 logo_vertical_monochrome_dark.svg::CompressedTexture2D::1505206065250260680::1663870530::1665591121::1::::<><>::
-::res://Assets/Grids/::1663878255
+::res://Assets/Grids/::1665591121
 grid_dark.png::CompressedTexture2D::7666900708359726259::1663870740::1665591121::1::::<><>::
 grid_green.png::CompressedTexture2D::7126109107013273317::1663870740::1665591121::1::::<><>::
 grid_light.png::CompressedTexture2D::7778890462825590297::1663870740::1665591121::1::::<><>::
@@ -280,30 +280,30 @@ hollow_dome.obj::Mesh::5926034847598133660::1663870529::1665591092::1::::<><>::
 hud_visor.obj::Mesh::1050363692616300038::1663870529::1665591092::1::::<><>::
 simple_slot.obj::Mesh::9220569379225166404::1663870529::1665591092::1::::<><>::
 ::res://Assets/Models/pickups/::1663870529
-::res://Assets/Models/pickups/HP/::1665591092
+::res://Assets/Models/pickups/HP/::1665591121
 Health_diff.png::CompressedTexture2D::259430235578449781::1663870740::1665591121::1::::<><>::
 Health_UV.png::CompressedTexture2D::282043507184951807::1663870739::1665591121::1::::<><>::
 H_pickup.obj::Mesh::4035915644637953019::1663870529::1665591092::1::::<><>::
 ::res://Assets/Models/real level/::1665591093
 real_level.glb::PackedScene::6264576722602870530::1663870529::1665591093::1::::<><>::
 ::res://Assets/Models/real level/Textures/::1663870529
-::res://Assets/Models/real level/Textures/bridge/::1663878046
+::res://Assets/Models/real level/Textures/bridge/::1665591121
 bridge_diff.png::CompressedTexture2D::426115465336412628::1663870740::1665591121::1::::<><>::
 bridge_rough.png::CompressedTexture2D::4174501063522629715::1663870740::1665591121::1::::<><>::
 bridge_uv.png::CompressedTexture2D::4353191982452238816::1663870740::1665591121::1::::<><>::
-::res://Assets/Models/real level/Textures/building/::1663878045
+::res://Assets/Models/real level/Textures/building/::1665591122
 Building_diff.png::CompressedTexture2D::5773294534876121144::1663870738::1665591121::1::::<><>::
 Building_rough.png::CompressedTexture2D::5654397265846544256::1663870739::1665591122::1::::<><>::
 Building_spec.png::CompressedTexture2D::1993432154949012640::1663870739::1665591121::1::::<><>::
 Building_UV.png::CompressedTexture2D::7002648206459495783::1663870739::1665591121::1::::<><>::
-::res://Assets/Models/real level/Textures/pillar/::1663878041
+::res://Assets/Models/real level/Textures/pillar/::1665591121
 Pillar_bump.png::CompressedTexture2D::5169985182045706748::1663870738::1665591121::1::::<><>::
 Pillar_diff.png::CompressedTexture2D::8142095051747124529::1663870740::1665591121::1::::<><>::
 Pillar_emiss.png::CompressedTexture2D::2086746213790273330::1663870740::1665591121::1::::<><>::
 Pillar_metal.png::CompressedTexture2D::4919900165017985960::1663870740::1665591121::1::::<><>::
 Pillar_normal.png::CompressedTexture2D::8948576262645843430::1663870737::1665591121::1::::<><>::
 Pillar_UV.png::CompressedTexture2D::8078988538543958409::1663870739::1665591121::1::::<><>::
-::res://Assets/Models/real level/Textures/roof/::1663878038
+::res://Assets/Models/real level/Textures/roof/::1665591121
 Roof_diff.png::CompressedTexture2D::8996145301278138943::1663870739::1665591121::1::::<><>::
 Roof_rough.png::CompressedTexture2D::6930182359554554225::1663870735::1665591121::1::::<><>::
 Roof_UV.png::CompressedTexture2D::2311827643161712306::1663870739::1665591121::1::::<><>::
@@ -336,7 +336,7 @@ laser.obj::Mesh::8111229531541433295::1663870530::1665591092::1::::<><>::
 ::res://Assets/Models/weapons/pickups/::1665591092
 gun_ammo.obj::Mesh::3764355809467640217::1663870530::1665591092::1::::<><>::
 rifle_ammo.obj::Mesh::3280241579374444649::1663870530::1665591092::1::::<><>::
-::res://Assets/Models/weapons/pickups/Textures/::1663878125
+::res://Assets/Models/weapons/pickups/Textures/::1665591122
 Gun_ammo_albedo.png::CompressedTexture2D::678978822568323712::1663870739::1665591121::1::::<><>::
 Gun_ammo_uv.png::CompressedTexture2D::7907624652426165839::1663870686::1665591122::1::::<><>::
 Rifle_ammo_albedo.png::CompressedTexture2D::4380489715004359700::1663870685::1665591121::1::::<><>::
@@ -344,32 +344,32 @@ Rifle_ammo_uv.png::CompressedTexture2D::1911046738957157968::1663870739::1665591
 ::res://Assets/Models/weapons/rifle/::1665591092
 rifle.obj::Mesh::8895539213676160288::1663870530::1665591092::1::::<><>::
 rifle_Cube002.mesh::ArrayMesh::-1::1663870530::0::1::::<><>::
-::res://Assets/Models/weapons/rocket/::1665591092
+::res://Assets/Models/weapons/rocket/::1665591122
 flameMask.png::CompressedTexture2D::5458873720614566756::1663870739::1665591121::1::::<><>::
 rocket.obj::Mesh::8774488482936279272::1663870530::1665591092::1::::<><>::
 rocketAlbedo.png::CompressedTexture2D::5963922693553438607::1663870685::1665591121::1::::<><>::
 rocketUV.png::CompressedTexture2D::4175200699141288978::1663870737::1665591122::1::::<><>::
 rocket_trail.obj::Mesh::2538835460260829153::1663870530::1665591092::1::::<><>::
-::res://Assets/Skyboxes/::1664229017
+::res://Assets/Skyboxes/::1665591121
 iceflats.tga::CompressedTexture2D::6728816110925501872::1663870530::1665591121::1::::<><>::
 panorama_image.png::CompressedTexture2D::4369964162755823516::1663870737::1665591120::1::::<><>::
 zVWY4OL.jpeg::CompressedTexture2D::530774684272704845::1663870530::1665591120::1::::<><>::
-::res://Assets/Sprites/::1664229017
+::res://Assets/Sprites/::1665591121
 BulletHole.png::CompressedTexture2D::707993831936581441::1663870736::1665591121::1::::<><>::
 compass.svg::CompressedTexture2D::3035866919869981279::1663870530::1665591121::1::::<><>::
 compass_center.svg::CompressedTexture2D::7808023677236828457::1663870530::1665591121::1::::<><>::
 crosshair2.svg::CompressedTexture2D::832311165006359534::1663870530::1665591121::1::::<><>::
 crosshair.svg::CompressedTexture2D::3948264106679329972::1663870530::1665591121::1::::<><>::
 SmokePuff.png::CompressedTexture2D::7296874708880047071::1663870733::1665591121::1::::<><>::
-::res://Assets/Sprites/Debug/::1663878126
+::res://Assets/Sprites/Debug/::1665591121
 killZone.svg::CompressedTexture2D::1524766616804403164::1663870530::1665591121::1::::<><>::
 triggerZone.svg::CompressedTexture2D::5888063608187721450::1663870530::1665591121::1::::<><>::
-::res://Assets/Sprites/Icons/::1663878130
+::res://Assets/Sprites/Icons/::1665591120
 abort_x.png::CompressedTexture2D::2875525806904171446::1663870740::1665591120::1::::<><>::
 edit_pencil.png::CompressedTexture2D::3540129780086511091::1663870740::1665591120::1::::<><>::
 pencil-fill.svg::CompressedTexture2D::4640750857041521640::1663870530::1665591120::1::::<><>::
 reset.png::CompressedTexture2D::8066241100140563076::1663870740::1665591120::1::::<><>::
-::res://Assets/Sprites/UI/::1664229017
+::res://Assets/Sprites/UI/::1665591121
 cursor.png::CompressedTexture2D::6005194407160032494::1663870740::1665591120::1::::<><>::
 dmg_dir.png::CompressedTexture2D::709818462778717977::1663870740::1665591120::1::::<><>::
 InvProgBar_fill.svg::CompressedTexture2D::1168461281066628762::1663870530::1665591120::1::::<><>::
@@ -382,60 +382,60 @@ screen_ratio_169_icon.png::CompressedTexture2D::93227034193439469::1663870740::1
 UI elements.svg::CompressedTexture2D::3038018851206744439::1664229017::1665591120::1::::<><>::
 UI icons.svg::CompressedTexture2D::2944191095576621906::1663870530::1665591120::1::::<><>::
 weapon_slot.png::CompressedTexture2D::4216004920355399585::1663870740::1665591121::1::::<><>::
-::res://Assets/Sprites/UI/checkboxes/::1663878130
+::res://Assets/Sprites/UI/checkboxes/::1665591120
 checked.png::CompressedTexture2D::2270289043449125642::1663870741::1665591120::1::::<><>::
 radio_checked.png::CompressedTexture2D::1628349308564108297::1663870740::1665591120::1::::<><>::
 radio_unchecked.png::CompressedTexture2D::7802403875452459187::1663870740::1665591120::1::::<><>::
 unchecked.png::CompressedTexture2D::2013735701649122140::1663870741::1665591120::1::::<><>::
-::res://Assets/Sprites/UI/checkbtns/::1663878059
+::res://Assets/Sprites/UI/checkbtns/::1665591120
 check_off.png::CompressedTexture2D::5494016398393165026::1663870740::1665591120::1::::<><>::
 check_on.png::CompressedTexture2D::6124629521832792607::1663870740::1665591120::1::::<><>::
-::res://Assets/Sprites/UI/crosshairs/::1663878059
+::res://Assets/Sprites/UI/crosshairs/::1665591120
 gun_ch.png::CompressedTexture2D::8768462596845258978::1663870740::1665591120::1::::<><>::
 railgun_ch.png::CompressedTexture2D::1216212483264131621::1663870740::1665591120::1::::<><>::
 rifle_ch.png::CompressedTexture2D::491404699261721923::1663870740::1665591120::1::::<><>::
-::res://Assets/Sprites/UI/item_slots/::1663878059
+::res://Assets/Sprites/UI/item_slots/::1665591121
 empty_slot.png::CompressedTexture2D::5620086794987748313::1663870740::1665591121::1::::<><>::
 gun_item_slot.png::CompressedTexture2D::7854230578155794499::1663870740::1665591121::1::::<><>::
 rifle_item_slot.png::CompressedTexture2D::5152220416682054083::1663870740::1665591121::1::::<><>::
-::res://Assets/Sprites/UI/slider/::1663878058
+::res://Assets/Sprites/UI/slider/::1665591120
 grabber.png::CompressedTexture2D::4587378974452099238::1663870740::1665591120::1::::<><>::
 grabber_highlight.png::CompressedTexture2D::1749920841892851252::1663870740::1665591120::1::::<><>::
 grabber_off.png::CompressedTexture2D::331101136956634560::1663870740::1665591120::1::::<><>::
 tick.png::CompressedTexture2D::4043663663423682816::1663870741::1665591120::1::::<><>::
-::res://Assets/Textures/::1663878014
+::res://Assets/Textures/::1665591121
 funy.png::CompressedTexture2D::6803988610721490276::1663870985::1665591121::1::::<><>::
 metal_norm.jpg::CompressedTexture2D::4096698498533892891::1663870530::1665591121::1::::<><>::
 Missing.jpg::CompressedTexture2D::5469174186764693324::1663870530::1665591121::1::::<><>::
-::res://Assets/Textures/Alarm glass/::1663878185
+::res://Assets/Textures/Alarm glass/::1665591123
 dirty_glass_43_92_ao.jpg::CompressedTexture2D::5991976003210568364::1663870530::1665591122::1::::<><>::
 dirty_glass_43_92_diffuse.jpg::CompressedTexture2D::8804149736283925550::1663870530::1665591123::1::::<><>::
 dirty_glass_43_92_emissive.jpg::CompressedTexture2D::1854928480471522621::1663870530::1665591123::1::::<><>::
 dirty_glass_43_92_metallic.jpg::CompressedTexture2D::6925123884837324999::1663870530::1665591123::1::::<><>::
 dirty_glass_43_92_normal.jpg::CompressedTexture2D::1103113645670437464::1663870530::1665591123::1::::<><>::
 dirty_glass_43_92_refraction.jpg::CompressedTexture2D::905802300393555589::1663870530::1665591123::1::::<><>::
-::res://Assets/Textures/BoS/::1663878076
+::res://Assets/Textures/BoS/::1665591122
 BoS diff.png::CompressedTexture2D::6130666451435520760::1663870719::1665591121::1::::<><>::
 BoS norm.png::CompressedTexture2D::8544753529816395066::1663870719::1665591122::1::::<><>::
-::res://Assets/Textures/Concrete Floor/::1663878163
+::res://Assets/Textures/Concrete Floor/::1665591122
 concrete_floor_02_arm_2k.exr::CompressedTexture2D::3682753128191880826::1663870723::1665591122::1::::<><>::
 concrete_floor_02_diff_2k.exr::CompressedTexture2D::2701495076516856871::1663870999::1665591122::1::::<><>::
 concrete_floor_02_nor_gl_2k.exr::CompressedTexture2D::2353163744818940700::1663870983::1665591122::1::::<><>::
 concrete_floor_02_rough_2k.exr::CompressedTexture2D::8397049838376974430::1663870983::1665591122::1::::<><>::
-::res://Assets/Textures/Plaster/::1663878166
+::res://Assets/Textures/Plaster/::1665591122
 white_plaster_02_arm_2k.exr::CompressedTexture2D::1696787127112653698::1663870985::1665591122::1::::<><>::
 white_plaster_02_diff_2k.exr::CompressedTexture2D::6690075669147354809::1663870995::1665591122::1::::<><>::
 white_plaster_02_nor_gl_2k.exr::CompressedTexture2D::1524584473571465217::1663870984::1665591122::1::::<><>::
 ::res://Assets/Textures/Rooms/::1663870530
-::res://Assets/Textures/Rooms/part 0/::1663878025
+::res://Assets/Textures/Rooms/part 0/::1665591121
 observation_room_cm.png::CompressedTexture2D::1656887289661155284::1663870985::1665591121::1::::<><>::
 observation_room_mask.png::CompressedTexture2D::4374424759014046537::1663870998::1665591121::1::::<><>::
-::res://Assets/Textures/Rusty Metal/::1663878169
+::res://Assets/Textures/Rusty Metal/::1665591122
 rusty_metal_02_arm_2k.exr::CompressedTexture2D::2498800592291316421::1663870971::1665591122::1::::<><>::
 rusty_metal_02_diff_2k.exr::CompressedTexture2D::6741867639175065778::1663870986::1665591122::1::::<><>::
 rusty_metal_02_nor_gl_2k.exr::CompressedTexture2D::7980399149785728071::1663870907::1665591122::1::::<><>::
 rusty_metal_02_rough_2k.exr::CompressedTexture2D::2814463744058104859::1663870995::1665591122::1::::<><>::
-::res://Assets/Textures/Zones/::1663878015
+::res://Assets/Textures/Zones/::1665591121
 killz_tex.png::CompressedTexture2D::8073480972359443608::1663870986::1665591121::1::::<><>::
 lookat_tex.png::CompressedTexture2D::1489127229870352625::1663870986::1665591121::1::::<><>::
 popupz_tex.png::CompressedTexture2D::8166505724390288502::1663870986::1665591121::1::::<><>::
@@ -443,7 +443,7 @@ trigger_tex.png::CompressedTexture2D::7424356655053617188::1663870985::166559112
 zones.svg::CompressedTexture2D::95892008293571930::1663870530::1665591121::1::::<><>::
 ::res://Assets/UI Buttons/::1663870530
 ::res://Assets/UI Buttons/Keyboard/::1663870530
-::res://Assets/UI Buttons/Keyboard/Dark/::1664489298
+::res://Assets/UI Buttons/Keyboard/Dark/::1665591121
 0_Key_Dark.png::CompressedTexture2D::2541349534718874284::1663870989::1665591121::1::::<><>::
 1_Key_Dark.png::CompressedTexture2D::1610372597240300931::1663870997::1665591121::1::::<><>::
 2_Key_Dark.png::CompressedTexture2D::2700643780869231989::1663870993::1665591121::1::::<><>::
@@ -537,7 +537,7 @@ W_Key_Dark.png::CompressedTexture2D::72102360584051546::1663871004::1665591120::
 X_Key_Dark.png::CompressedTexture2D::5345443325445731936::1663871004::1665591120::1::::<><>::
 Y_Key_Dark.png::CompressedTexture2D::3081086785104385976::1663871005::1665591120::1::::<><>::
 Z_Key_Dark.png::CompressedTexture2D::3997551798446388977::1663871005::1665591120::1::::<><>::
-::res://Assets/UI Buttons/Keyboard/Light/::1663878028
+::res://Assets/UI Buttons/Keyboard/Light/::1665591120
 0_Key_Light.png::CompressedTexture2D::8105327964977972002::1663871002::1665591120::1::::<><>::
 1_Key_Light.png::CompressedTexture2D::7284497532094900747::1663871004::1665591120::1::::<><>::
 2_Key_Light.png::CompressedTexture2D::3991332442988382120::1663871003::1665591120::1::::<><>::
@@ -631,12 +631,12 @@ X_Key_Light.png::CompressedTexture2D::2779807785812040360::1663871002::166559112
 Y_Key_Light.png::CompressedTexture2D::7055930286019264982::1663871004::1665591120::1::::<><>::
 Z_Key_Light.png::CompressedTexture2D::4824881931392919363::1663871004::1665591120::1::::<><>::
 ::res://Assets/UI Buttons/Mouse/::1663870530
-::res://Assets/UI Buttons/Mouse/Dark/::1664976848
+::res://Assets/UI Buttons/Mouse/Dark/::1665591120
 Mouse_Left_Key_Dark.png::CompressedTexture2D::7383156957413385033::1663871002::1665591120::1::::<><>::
 Mouse_Middle_Key_Dark.png::CompressedTexture2D::6370152819301321057::1663871002::1665591120::1::::<><>::
 Mouse_Right_Key_Dark.png::CompressedTexture2D::2774085010751847206::1663871002::1665591120::1::::<><>::
 Mouse_Simple_Key_Dark.png::CompressedTexture2D::9217022997703515525::1663871002::1665591120::1::::<><>::
-::res://Assets/UI Buttons/Mouse/Light/::1664976892
+::res://Assets/UI Buttons/Mouse/Light/::1665591120
 Mouse_Left_Key_Light.png::CompressedTexture2D::9041887807029897277::1663871007::1665591120::1::::<><>::
 Mouse_Middle_Key_Light.png::CompressedTexture2D::8798442840350503832::1663871008::1665591120::1::::<><>::
 Mouse_Right_Key_Light.png::CompressedTexture2D::2719517479679392949::1663871008::1665591120::1::::<><>::
@@ -663,7 +663,7 @@ wall_noise.tres::FastNoiseLite::-1::1665591063::0::1::::<><>::
 ::res://Materials/Particles/::1664924073
 disappearing_plat_part.tres::ParticleProcessMaterial::-1::1665591063::0::1::::<><>::
 disappearing_plat_part_mesh.tres::SphereMesh::-1::1665591063::0::1::::<><>::
-::res://Materials/Shaders/::1665591063
+::res://Materials/Shaders/::1665591120
 barrier_aberration.gdshader::Shader::-1::1663870530::0::1::::<><>::
 blur.gdshader::Shader::-1::1665591063::0::1::::<><>::
 Cobblestone.gdshader::Shader::-1::1663870530::0::1::::<><>::
@@ -678,7 +678,7 @@ monitor.gdshader::Shader::-1::1663870530::0::1::::<><>::
 vignette.gdshader::Shader::-1::1665591063::0::1::::<><>::
 vignette.png::CompressedTexture2D::9010419868269237086::1663871008::1665591120::1::::<><>::
 water.gdshader::Shader::-1::1663870530::0::1::::<><>::
-::res://Materials/Sprites/::1663878027
+::res://Materials/Sprites/::1665591121
 Untitled.png::CompressedTexture2D::836725156796062218::1663871007::1665591121::1::::<><>::
 ::res://Scenes/::1665094702
 LoadingScene.tscn::PackedScene::-1::1665591063::0::1::::<><>::res://theme.tres<>res://Assets/Fonts/Default Font.ttf
@@ -716,7 +716,7 @@ part_0_backdrop.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Mo
 ::res://Scenes/Story/part_0_levels/::1664924234
 part_0_lv_0.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/story levels/part_0/levels/part_0_lv_0.escn<>res://Assets/Grids/grid_purple.png<>res://Materials/Grids/grid_light.tres<>res://Materials/Grids/grid_dark.tres<>res://Scripts/EnvElements/Interactable.gd<>res://Assets/Grids/grid_norm.png<>res://Scenes/Elements/TriggerZone.tscn<>res://Materials/GPUParticles3D/disappearing_plat_part.tres<>res://Materials/GPUParticles3D/disappearing_plat_part_mesh.tres<>res://Materials/Shaders/disappearing_plat.gdshader<>res://Materials/tutorial_target_mat.tres
 part_0_lv_1.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/story levels/part_0/levels/part_0_lv_1.escn<>res://Materials/Grids/grid_light.tres<>res://Materials/Grids/grid_dark.tres<>res://Materials/Grids/grid_yellow.tres<>res://Scripts/EnvElements/Interactable.gd<>res://Materials/tutorial_target_mat.tres<>res://Assets/Grids/grid_purple.png<>res://Materials/Shaders/disappearing_plat.gdshader<>res://Assets/Grids/grid_norm.png<>res://Scenes/Elements/TriggerZone.tscn
-::res://Scenes/UI/::1664976850
+::res://Scenes/UI/::1665591120
 ButtonText.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scripts/UI/ButtonText.gd
 DeathScreen.tscn::PackedScene::-1::1665591064::0::1::::<><>::
 FullScreen_Fx.tscn::PackedScene::-1::1665591064::0::1::::<><>::

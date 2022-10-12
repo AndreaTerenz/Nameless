@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://bwgsk282on7ro"]
 
-[ext_resource path="res://WaterMonke.png" type="Texture2D" id=1]
-[ext_resource path="res://Assets/Fonts/Default Font.ttf" type="FontFile" id=2]
+[ext_resource type="Texture2D" uid="uid://cj6lv5l5l7vi1" path="res://WaterMonke.png" id="1"]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id="1"]
 script/source = "extends ColorRect
 
 var loader : ResourceLoader = null
@@ -35,133 +34,147 @@ func _on_animation_finished(anim_name: String) -> void:
 			$Label.visible = true
 "
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id="6"]
 resource_name = "LogoAnim"
 length = 2.5
 tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Control/TextureRect:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0, 0.8, 1.7, 2.5 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("Control/TextureRect:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0, 0.8, 1.7, 2.5 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("Control/TextureRect:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0, 0.8, 1.7, 2.5 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("Control/TextureRect:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"points": PackedFloat32Array( 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0, 0.8, 1.7, 2.5 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id="7"]
 length = 0.001
 tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Control/TextureRect:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("Control/TextureRect:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("Control/TextureRect:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("Control/TextureRect:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"points": PackedFloat32Array( 0, -0.25, 0, 0.25, 0 ),
-"times": PackedFloat32Array( 0 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 
-[sub_resource type="FontFile" id=5]
-size = 50
-use_filter = true
-font_data = ExtResource( 2 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3jsb4"]
+_data = {
+"LogoAnim": SubResource("6"),
+"RESET": SubResource("7")
+}
 
 [node name="Control" type="ColorRect"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
-script = SubResource( 1 )
+color = Color(0, 0, 0, 1)
+script = SubResource("1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/LogoAnim = SubResource( 6 )
-anims/RESET = SubResource( 7 )
+libraries = {
+"": SubResource("AnimationLibrary_3jsb4")
+}
 
 [node name="Label" type="Label" parent="."]
 visible = false
+layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -105.0
 offset_right = 210.0
-custom_fonts/font = SubResource( 5 )
 text = "Loading..."
-align = 2
 
 [node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 626.0
 offset_top = 205.0
 offset_right = -626.0
 offset_bottom = -205.0
-pivot_offset = Vector2( 210, 212 )
-texture = ExtResource( 1 )
-expand = true
+pivot_offset = Vector2(210, 212)
+texture = ExtResource("1")
 stretch_mode = 6
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
