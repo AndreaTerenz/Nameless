@@ -17,12 +17,13 @@ class SettingsEdit extends TempEdit:
 	var section : String
 	var key : String
 	
-	func _init(s: String,k: String,Settings.get_value(s, k)):
+	func _init(s: String,k: String):
+		super(load("res://Scripts/Autoloads/Settings.gd").get_value(s, k))
 		section = s
 		key = k
 		
 	func _on_apply():
-		Settings.set_value(section, key, current_value)
+		load("res://Scripts/Autoloads/Settings.gd").set_value(section, key, current_value)
 
 var config := ConfigFile.new()
 var target_file := ""
@@ -163,7 +164,8 @@ func apply_setting(section: String, key: String, value):
 					
 					Globals.set_resolution()
 					
-					if w != OS.get_screen_size().x and h != OS.get_screen_size().y:
+					var scrn_size = DisplayServer.screen_get_size()
+					if w != scrn_size.x and h != scrn_size.y:
 						Globals.set_resolution(w, h)
 						"""
 						var window_size := OS.get_screen_size()

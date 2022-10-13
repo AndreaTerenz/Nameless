@@ -1,7 +1,7 @@
 0b7126e0c6e86d3ec295a72f5aa6e0bd
-::res://::1665611769
+::res://::1665651667
 base font.tres::FontFile::-1::1665591063::0::1::::<><>::res://Assets/Fonts/Default Font.ttf
-default_bus_layout.tres::AudioBusLayout::9155581917450401775::1665601815::0::1::::<><>::
+default_bus_layout.tres::AudioBusLayout::9155581917450401775::1665650286::0::1::::<><>::
 default_env.tres::Environment::-1::1665591063::0::1::::<><>::
 export_presets.cfg::TextFile::-1::1665131438::0::1::::<><>::
 icon.png::CompressedTexture2D::2051967643017706532::1663871008::1665591120::1::::<><>::
@@ -9,7 +9,7 @@ icon.svg::CompressedTexture2D::8108076838294149990::1663870530::1665591120::1:::
 README.md::TextFile::-1::1663870530::0::1::::<><>::
 settings.cfg::TextFile::-1::1665129767::0::1::::<><>::
 sky.tres::Sky::-1::1665591063::0::1::::<><>::
-theme.tres::Theme::-1::1665591063::0::1::::<><>::res://base font.tres<>res://Assets/Fonts/Default Font.ttf<>res://Assets/Sprites/UI/checkboxes/unchecked.png<>res://Assets/Sprites/UI/checkboxes/checked.png<>res://Assets/Sprites/UI/checkboxes/radio_checked.png<>res://Assets/Sprites/UI/checkboxes/radio_unchecked.png<>res://Assets/Sprites/UI/slider/grabber.png<>res://Assets/Sprites/UI/slider/grabber_highlight.png<>res://Assets/Sprites/UI/slider/tick.png<>res://Assets/Sprites/UI/checkbtns/check_off.png<>res://Assets/Sprites/UI/checkbtns/check_on.png<>res://Assets/Sprites/UI/slider/grabber_off.png
+theme.tres::Theme::2657720426265245341::1665650665::0::1::::<><>::res://base font.tres<>uid://c2v0aug0wigd4<>uid://3xp6ykup20qq<>uid://7l0lgfhcma8i<>uid://xg1w7sl0hkfp<>uid://djfspmm23ei0b<>uid://b6mfpxqgygxgo<>uid://y6w68lk04bbw<>uid://bxu1sxrmvknsi<>uid://ckjlwanif388m<>uid://cti20u63ijdpn<>uid://eyngmtwe7h0s
 WaterMonke.png::CompressedTexture2D::5469243653169178158::1663871008::1665591121::1::::<><>::
 ::res://addons/::1664229017
 ::res://addons/argparse/::1665591120
@@ -74,8 +74,8 @@ SourceCodePro-MediumIt.otf::FontFile::992067945430801275::1663870530::1665591093
 SourceCodePro-Regular.otf::FontFile::2934163845927396503::1663870530::1665591093::1::::<><>::
 SourceCodePro-Semibold.otf::FontFile::6268239111883743590::1663870530::1665591093::1::::<><>::
 SourceCodePro-SemiboldIt.otf::FontFile::7817264159723223015::1663870530::1665591093::1::::<><>::
-::res://addons/quentincaffeino/console/assets/themes/::1665129655
-Console.tres::Theme::-1::1665129655::0::1::::<><>::res://addons/quentincaffeino/console/assets/fonts/source-code-pro/OTF/SourceCodePro-Regular.otf
+::res://addons/quentincaffeino/console/assets/themes/::1665650666
+Console.tres::Theme::2572395894404140104::1665650666::0::1::::<><>::uid://bh2liq3lgvwct
 ::res://addons/quentincaffeino/console/docs/::1663870530
 Type.md::TextFile::-1::1663870530::0::1::::<><>::
 ::res://addons/quentincaffeino/console/docs/generated/::1663870530
@@ -680,11 +680,11 @@ vignette.png::CompressedTexture2D::9010419868269237086::1663871008::1665591120::
 water.gdshader::Shader::-1::1663870530::0::1::::<><>::
 ::res://Materials/Sprites/::1665591121
 Untitled.png::CompressedTexture2D::836725156796062218::1663871007::1665591121::1::::<><>::
-::res://Scenes/::1665094702
+::res://Scenes/::1665651509
 LoadingScene.tscn::PackedScene::-1::1665591063::0::1::::<><>::res://theme.tres<>res://Assets/Fonts/Default Font.ttf
 Player.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scripts/Player/Player.gd<>res://Scripts/Player/CameraController.gd<>res://Scenes/UI/Inventory UI.tscn<>res://Scenes/UI/Hud.tscn<>res://Scripts/Player/Gun Hook.gd<>res://Scripts/Characters/Hitbox.gd<>res://Scripts/Player/InteractCheck.gd<>res://Scenes/UI/Pause menu.tscn<>res://Scripts/Player/Inventory.gd<>res://Envs/Night_Env.tres<>res://Scenes/UI/ButtonText.tscn<>res://Assets/Models/hollow_dome.obj<>res://Scenes/Elements/SpawnFX.tscn<>res://Scripts/Player/PlayerTracker.gd<>res://base font.tres<>res://Scripts/AudioQueue.gd<>res://Assets/Models/hud_visor.obj<>res://Materials/Shaders/in_water.gdshader
 Scene Hub.tscn::PackedScene::-1::1665591063::0::1::::<><>::res://Scripts/UI/ScaleOnHover.gd<>res://base font.tres<>res://Assets/Fonts/Default Font.ttf<>res://Scenes/Story/Backdrops/part_0_backdrop.tscn<>res://Materials/Shaders/blur.gdshader<>res://Scenes/UI/SettingsPanel.tscn<>res://Assets/Fonts/AldoApache/AldotheApache.ttf
-SplashScrn.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://WaterMonke.png<>res://Assets/Fonts/Default Font.ttf
+SplashScrn.tscn::PackedScene::3944073744418030776::1665651509::0::1::::<><>::uid://cj6lv5l5l7vi1
 ::res://Scenes/Actors/::1663870530
 Turret.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scripts/Characters/Hitbox.gd<>res://Scripts/FSM/StateMachine.gd<>res://Materials/Grids/grid_red.tres
 ::res://Scenes/Elements/::1665070436
@@ -746,15 +746,15 @@ Rifle.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/weapo
 RiflePickup.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/weapons/pickups/rifle_ammo.obj<>res://Assets/Models/weapons/pickups/Textures/Rifle_ammo_albedo.png<>res://Scripts/EnvElements/Pickups/AmmoPickup.gd<>res://Materials/Shaders/glow.gdshader
 ::res://Scripts/::1663870530
 AudioQueue.gd::GDScript::-1::1665591065::0::1::::AudioQueuePlayer<>AudioStreamPlayer<>::
-::res://Scripts/Autoloads/::1665130329
+::res://Scripts/Autoloads/::1665651506
 Args.gd::GDScript::-1::1665591065::0::1::::<>Node<>::
-Globals.gd::GDScript::-1::1665591065::0::1::::<><>::
+Globals.gd::GDScript::-1::1665651506::0::1::::<>Node<>::
 KeyBindsManager.gd::GDScript::-1::1665591065::0::1::::KeyBindsManager<>Node<>::
 MapFile.gd::GDScript::-1::1665591065::0::1::::MapFile<>ConfigFile<>::
-Settings.gd::GDScript::-1::1665591065::0::1::::<><>::
+Settings.gd::GDScript::-1::1665651483::0::1::::<>Node<>::
 SurfacesManager.gd::GDScript::-1::1665591065::0::1::::<>Node<>::
 TempEdit.gd::GDScript::-1::1665591065::0::1::::TempEdit<>Object<>::
-Utils.gd::GDScript::-1::1665591065::0::1::::<>Node<>::
+Utils.gd::GDScript::-1::1665650971::0::1::::<>Node<>::
 ::res://Scripts/Characters/::1663870530
 BaseCharacter.gd::GDScript::-1::1665591065::0::1::::BaseCharacter<>CollisionObject3D<>::
 Hitbox.gd::GDScript::-1::1665591065::0::1::::Hitbox<>Area3D<>::

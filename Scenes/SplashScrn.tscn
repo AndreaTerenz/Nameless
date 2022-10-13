@@ -5,9 +5,8 @@
 [sub_resource type="GDScript" id="1"]
 script/source = "extends ColorRect
 
-var loader : ResourceLoader = null
-
 @onready var anim := $AnimationPlayer
+@onready var label := $Label
 
 @export var hub_path := \"res://Scenes/Scene Hub.tscn\"
 
@@ -18,20 +17,20 @@ func _ready() -> void:
 		anim.play(\"LogoAnim\")
 	
 func _process(delta: float) -> void:
-	if loader:
-		var stat = loader.poll()
+	if label.visible:
+		var stat = ResourceLoader.load_threaded_get_status(hub_path)
 		
 		match stat:
-			ERR_FILE_EOF:
-				get_tree().change_scene_to_packed(loader.get_resource())
-				loader = null
+			ResourceLoader.THREAD_LOAD_LOADED:
+				var scn : PackedScene = ResourceLoader.load_threaded_get(hub_path)
+				get_tree().change_scene_to_packed(scn)
 
 
 func _on_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		\"LogoAnim\":
-			loader = ResourceLoader.load_threaded_request(hub_path)
-			$Label.visible = true
+			ResourceLoader.load_threaded_request(hub_path)
+			label.visible = true
 "
 
 [sub_resource type="Animation" id="6"]
@@ -139,6 +138,8 @@ _data = {
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = SubResource("1")
 
@@ -155,6 +156,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -105.0
 offset_right = 210.0
+grow_vertical = 0
 text = "Loading..."
 
 [node name="Control" type="Control" parent="."]
@@ -162,6 +164,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
 modulate = Color(1, 1, 1, 0)
@@ -173,6 +177,8 @@ offset_left = 626.0
 offset_top = 205.0
 offset_right = -626.0
 offset_bottom = -205.0
+grow_horizontal = 2
+grow_vertical = 2
 pivot_offset = Vector2(210, 212)
 texture = ExtResource("1")
 stretch_mode = 6

@@ -66,13 +66,13 @@ var group_layers : Dictionary = {
 var scene_to_load := ""
 var in_game := true
 
-var player : Player = null
-var scene_mngr : SceneManager = null
-var player_set := false
+var player = null
+var scene_mngr = null
+var is_player_set := false
 var scn_mngr_set := false
 
-var inventory : Inventory = null
-var current_ui : GameUI = null
+var inventory = null
+var current_ui = null
 
 var last_quicksave := ""
 
@@ -89,53 +89,53 @@ func _ready() -> void:
 	Console.connect("toggled",Callable(self,"_on_console_toggled"))
 	
 	Console.add_command("toggle_triggers", self, "toggle_triggers")\
-	super.set_description("toggles triggers visibility")\
-	super.register()
+		.set_description("toggles triggers visibility")\
+		.register()
 	
 	Console.add_command("toggle_killzones", self, "toggle_killzones")\
-	super.set_description("toggles killzones visibility")\
-	super.register()
+		.set_description("toggles killzones visibility")\
+		.register()
 	
 	Console.add_command("toggle_walls", self, "toggle_walls")\
-	super.set_description("toggles walls visibility")\
-	super.register()
+		.set_description("toggles walls visibility")\
+		.register()
 	
 	Console.add_command("debug_draw", self, "debug_draw")\
-	super.set_description("sets debug draw mode (0 to disable)")\
-	super.add_argument("mode", TYPE_INT)\
-	super.register()
+		.set_description("sets debug draw mode (0 to disable)")\
+		.add_argument("mode", TYPE_INT)\
+		.register()
 	
 	Console.add_command("player_info", self, "get_player_info")\
-	super.set_description("show info about player")\
-	super.add_argument("mode", TYPE_STRING)\
-	super.register()
+		.set_description("show info about player")\
+		.add_argument("mode", TYPE_STRING)\
+		.register()
 	
 	Console.add_command("restart_scene", self, "restart_scene")\
-	super.set_description("reload current scene")\
-	super.register()
+		.set_description("reload current scene")\
+		.register()
 	
 	Console.add_command("toggle_vsync", self, "toggle_vsync")\
-	super.set_description("toggle vsync")\
-	super.register()
+		.set_description("toggle vsync")\
+		.register()
 	
 	Console.add_command("get_vsync", self, "get_vsync")\
-	super.set_description("show vsync status")\
-	super.register()
+		.set_description("show vsync status")\
+		.register()
 	
 	Console.add_command("set_windowed", self, "set_window_mode")\
-	super.set_description("Toggle fullscreen (0) or windowed (1)")\
-	super.add_argument("mode", TYPE_INT)\
-	super.register()
+		.set_description("Toggle fullscreen (0) or windowed (1)")\
+		.add_argument("mode", TYPE_INT)\
+		.register()
 	
 	Console.add_command("set_resolution", self, "set_resolution")\
-	super.set_description("[WIP] Set window resolution (0 0 to use the current screen's)")\
-	super.add_argument("width", TYPE_INT)\
-	super.add_argument("height", TYPE_INT)\
-	super.register()
+		.set_description("[WIP] Set window resolution (0 0 to use the current screen's)")\
+		.add_argument("width", TYPE_INT)\
+		.add_argument("height", TYPE_INT)\
+		.register()
 	
 	Console.add_command("save_scene", self, "save_scene")\
-	super.set_description("save state of current scene")\
-	super.register()
+		.set_description("save state of current scene")\
+		.register()
 	
 #	Console.add_command("set_gravity", self, "set_gravity")\
 #	super.set_description("Set world gravity value (0 for default)")\
@@ -214,7 +214,7 @@ func get_player_info(mode: String):
 					Console.write_line("Friendlies: %d" % (player.others_dict[GROUPS.FRIENDLY]))
 					Console.write_line("Neutrals: %d" % (player.others_dict[GROUPS.NEUTRAL]))
 				"inventory":
-					var inv : Inventory = player.inventory
+					var inv = player.inventory
 					if len(inv.entries) > 0:
 						for e in inv.entries:
 							Console.write_line("%d %s [%d]" % [e.quantity, e.name, e.total_weight])
@@ -240,13 +240,13 @@ func set_window_mode(mode: int):
 	
 func set_fullscreen(full: bool):
 	if full:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-else:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	#OS.window_resizable = not full
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		#OS.window_resizable = not full
 	
 func set_resolution(w := 0, h := 0):
-	var native := OS.get_screen_size()
+	var native := DisplayServer.screen_get_size()
 	
 	if (w == 0):
 		w = native.x
@@ -291,10 +291,10 @@ func get_mask_bit_in_object(obj: CollisionObject3D, name: String):
 
 func set_player(p):
 	player = p
-	player_set = (p != null)
+	is_player_set = (p != null)
 	inventory = p.inventory if (p != null) else null
 	
-	if player_set:
+	if is_player_set:
 		emit_signal("player_set", player)
 
 func set_scene_manager(sm):
@@ -305,7 +305,7 @@ func set_scene_manager(sm):
 		emit_signal("scene_manager_set", scene_mngr)
 	
 func connect_to_player_set(obj: Node, method: String):
-	if not player_set:
+	if not is_player_set:
 		connect("player_set",Callable(obj,method))
 	else:
 		obj.call(method, player)
@@ -321,7 +321,8 @@ func toggle_pause() -> void:
 	
 func set_paused(stat: bool):
 	get_tree().paused = stat
-	RenderingServer.set_shader_time_scale(0.0 if get_tree().paused else 1.0)
+	# FIXME
+#	RenderingServer.set_shader_time_scale(0.0 if get_tree().paused else 1.0)
 	set_mouse_mode()
 	
 	if stat:
@@ -375,11 +376,11 @@ func load_hub():
 func load_quicksave():
 	load_scene("%s/%s.tscn" % [SAVES_DIR, last_quicksave], true, true)
 
-func save_scene(save_name := get_save_name()) -> int:
+func save_scene(save_name : String = get_save_name()) -> int:
 	var packed_scene = PackedScene.new()
 	packed_scene.pack(get_tree().current_scene)
 	
-	var err = ResourceSaver.save("%s/%s.tscn" % [Globals.SAVES_DIR, save_name], packed_scene)
+	var err = ResourceSaver.save(packed_scene, "%s/%s.tscn" % [SAVES_DIR, save_name])
 	
 	Console.write_line(err)
 	return err
@@ -388,8 +389,8 @@ func quicksave():
 	var next_save = get_save_name(true)
 
 	if last_quicksave != "":
-		var d := Directory.new()
-		var p1 := "%s/%s.tscn" % [Globals.SAVES_DIR, last_quicksave]
+		var p1 := "%s/%s.tscn" % [SAVES_DIR, last_quicksave]
+		var d := DirAccess.open(p1)
 		print("Delete result: %d" % d.remove_at(p1))
 	
 	save_scene(next_save)
@@ -429,7 +430,7 @@ static func unpack_save_name(sn : String) -> Dictionary:
 
 func get_version(format : String = "%s") -> String:
 	var output := []
-	OS.execute("git", PackedStringArray(["log", "--format=%h", "-n", "1"]), true, output)
+	OS.execute("git", PackedStringArray(["log", "--format=%h", "-n", "1"]), output, true)
 	if output.is_empty() or output[0].is_empty():
 		push_error("Failed to fetch version. Make sure you have git installed and project is inside valid git directory.")
 		return ""

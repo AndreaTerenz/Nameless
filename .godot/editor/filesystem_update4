@@ -2,3 +2,4 @@ res://default_bus_layout.tres
 res://Scenes/SplashScrn.tscn
 res://theme.tres
 res://addons/quentincaffeino/console/assets/themes/Console.tres
+res://Scripts/Autoloads/Globals.gd
