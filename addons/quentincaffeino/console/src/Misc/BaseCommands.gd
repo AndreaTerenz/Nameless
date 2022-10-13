@@ -11,59 +11,59 @@ func _init(console):
 	self._console = console
 
 	self._console.add_command('echo', self._console, 'write')\
-		super.set_description('Prints a string.')\
-		super.add_argument('text', TYPE_STRING)\
-		super.register()
+			.set_description('Prints a string.')\
+			.add_argument('text', TYPE_STRING)\
+			.register()
 
 	self._console.add_command('history', self._console.History, 'print_all')\
-		super.set_description('Print all previous commands used during the session.')\
-		super.register()
+			.set_description('Print all previous commands used during the session.')\
+			.register()
 
 	self._console.add_command('commands', self, '_list_commands')\
-		super.set_description('Lists all available commands.')\
-		super.register()
+			.set_description('Lists all available commands.')\
+			.register()
 
 	self._console.add_command('help', self, '_help')\
-		super.set_description('Outputs usage instructions.')\
-		super.add_argument('command', TYPE_STRING)\
-		super.register()
+			.set_description('Outputs usage instructions.')\
+			.add_argument('command', TYPE_STRING)\
+			.register()
 
 	self._console.add_command('quit', self, '_quit')\
-		super.set_description('Exit application.')\
-		super.register()
+			.set_description('Exit application.')\
+			.register()
 
 	self._console.add_command('clear', self._console)\
-		super.set_description('Clear the terminal.')\
-		super.register()
+		.set_description('Clear the terminal.')\
+		.register()
 
 	self._console.add_command('version', self, '_version')\
-		super.set_description('Shows engine version.')\
-		super.register()
+		.set_description('Shows engine version.')\
+		.register()
 
 	self._console.add_command('fps_max', Engine, 'set_target_fps')\
-		super.set_description('The maximal framerate at which the application can run.')\
-		super.add_argument('fps', self._console.IntRangeType.new(10, 1000))\
-		super.register()
+		.set_description('The maximal framerate at which the application can run.')\
+		.add_argument('fps', self._console.IntRangeType.new(10, 1000))\
+		.register()
 
 	self._console.add_command('bind', self, '_bind')\
-		super.set_description('Bind command to keyboard key')\
-		super.add_argument('key', TYPE_STRING)\
-		super.add_argument('cmd', TYPE_STRING)\
-		super.register()
+		.set_description('Bind command to keyboard key')\
+		.add_argument('key', TYPE_STRING)\
+		.add_argument('cmd', TYPE_STRING)\
+		.register()
 
 	self._console.add_command('unbind', self, '_unbind')\
-		super.set_description('Remove currently bound command from keyboard key')\
-		super.add_argument('key', TYPE_STRING)\
-		super.register()
+		.set_description('Remove currently bound command from keyboard key')\
+		.add_argument('key', TYPE_STRING)\
+		.register()
 
 	self._console.add_command('binding', self, '_binding')\
-		super.set_description('Prints the command that is currently bound to a key')\
-		super.add_argument('key', TYPE_STRING)\
-		super.register()
+		.set_description('Prints the command that is currently bound to a key')\
+		.add_argument('key', TYPE_STRING)\
+		.register()
 
 	self._console.add_command('bindings', self, '_bindings')\
-		super.set_description('List key-command binding pairs')\
-		super.register()
+		.set_description('List key-command binding pairs')\
+		.register()
 
 
 # Display help message or display description for the command.

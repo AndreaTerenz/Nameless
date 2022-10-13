@@ -309,7 +309,7 @@ window/size/fullscreen=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/argparse/plugin.cfg", "res://addons/debug_draw_3d/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg")
+enabled=PackedStringArray("res://addons/argparse/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg")
 
 [gui]
 

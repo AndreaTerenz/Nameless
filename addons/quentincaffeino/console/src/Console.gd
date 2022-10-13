@@ -153,7 +153,7 @@ func bind_key_command(key_code, command):
 	else:
 		var key = OS.get_keycode_string(key_code)
 		self.Log.warn("Key %s (%d) is already bound to command '%s' - Ignoring" % \
-			 [key, key_code, bindings[key_code]])
+			[key, key_code, bindings[key_code]])
 			
 	return bindings[key_code] == command
 
@@ -164,7 +164,7 @@ func unbind_key(key_code):
 	
 	if not bindings.erase(key_code):
 		self.Log.warn("No binding found for key %s (%d) - Ignoring" % \
-			 [key, key_code])
+			[key, key_code])
 
 func is_key_bound(key):
 	var code = OS.find_keycode_from_string(key)
@@ -203,7 +203,7 @@ func remove_command(name):
 func write(message):
 	message = str(message)
 	if self.Text:
-		self.Text.append_bbcode(message)
+		self.Text.append_text(message)
 	print(self._erase_bb_tags_regex.sub(message, '', true))
 
 # @param    String  message

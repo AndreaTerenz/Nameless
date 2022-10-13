@@ -1,7 +1,7 @@
 
 extends "Utils.gd"
 
-const Iterator = preload("res://addons/quentincaffeino/iterator/src/Iterator.gd")
+var Iterator = load("res://addons/quentincaffeino/iterator/src/Iterator.gd")
 
 
 # @var  Dictionary
@@ -13,9 +13,7 @@ var _iterationCurrent = 0
 # @var  int
 var length :
 	get:
-		return length # TODOConverter40 Copy here content of length
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of _set_readonly
+		return self._collection.size()
 
 
 # @param  Variant  collection
@@ -292,11 +290,6 @@ func current():
 # @returns  Variant
 func get_collection():
 	return self._collection
-
-
-# @returns  int
-func length():
-	return self._collection.size()
 
 
 # @returns  int

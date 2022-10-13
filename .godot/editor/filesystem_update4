@@ -2,4 +2,5 @@ res://default_bus_layout.tres
 res://Scenes/SplashScrn.tscn
 res://theme.tres
 res://addons/quentincaffeino/console/assets/themes/Console.tres
-res://Scripts/Autoloads/Globals.gd
+res://addons/quentincaffeino/console/src/Type/Vector3Type.gd
+res://addons/quentincaffeino/console/src/Console.gd

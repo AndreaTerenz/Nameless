@@ -1,7 +1,7 @@
 
 extends RefCounted
 
-const CallbackBuilder = preload("res://addons/quentincaffeino/callback/src/CallbackBuilder.gd")
+var CallbackBuilder = load("res://addons/quentincaffeino/callback/src/CallbackBuilder.gd")
 
 
 # @var  Callback
@@ -16,9 +16,7 @@ var _iteration_current_index = 0
 # @var  int
 var length :
 	get:
-		return length # TODOConverter40 Copy here content of length
-	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of _set_readonly
+		return self._object_get_length_cb.call()
 
 
 # @param  RefCounted  target
@@ -27,11 +25,6 @@ var length :
 func _init(target,get_value_field = "get",get_length_field = "size"):
 	_object_get_value_cb = CallbackBuilder.new(target).set_name(get_value_field).build()
 	_object_get_length_cb = CallbackBuilder.new(target).set_name(get_length_field).build()
-
-
-# @returns  int
-func length():
-	return self._object_get_length_cb.call()
 
 
 # @param    int  index
