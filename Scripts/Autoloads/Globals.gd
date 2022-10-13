@@ -252,8 +252,8 @@ func set_resolution(w := 0, h := 0):
 		w = native.x
 	if (h == 0):
 		h = native.y
-		
-	OS.window_size = Vector2(w, h)
+	
+	DisplayServer.window_set_size(Vector2(w, h))
 	
 func set_gravity(_value: float):
 	"""

@@ -1,7 +1,7 @@
 0b7126e0c6e86d3ec295a72f5aa6e0bd
-::res://::1665659439
+::res://::1665659442
 base font.tres::FontFile::-1::1665591063::0::1::::<><>::res://Assets/Fonts/Default Font.ttf
-default_bus_layout.tres::AudioBusLayout::9155581917450401775::1665651668::0::1::::<><>::
+default_bus_layout.tres::AudioBusLayout::9155581917450401775::1665659441::0::1::::<><>::
 default_env.tres::Environment::-1::1665591063::0::1::::<><>::
 export_presets.cfg::TextFile::-1::1665131438::0::1::::<><>::
 icon.png::CompressedTexture2D::2051967643017706532::1663871008::1665591120::1::::<><>::
@@ -9,7 +9,7 @@ icon.svg::CompressedTexture2D::8108076838294149990::1663870530::1665591120::1:::
 README.md::TextFile::-1::1663870530::0::1::::<><>::
 settings.cfg::TextFile::-1::1665129767::0::1::::<><>::
 sky.tres::Sky::-1::1665591063::0::1::::<><>::
-theme.tres::Theme::2657720426265245341::1665651672::0::1::::<><>::res://base font.tres<>uid://c2v0aug0wigd4<>uid://3xp6ykup20qq<>uid://7l0lgfhcma8i<>uid://xg1w7sl0hkfp<>uid://djfspmm23ei0b<>uid://b6mfpxqgygxgo<>uid://y6w68lk04bbw<>uid://bxu1sxrmvknsi<>uid://ckjlwanif388m<>uid://cti20u63ijdpn<>uid://eyngmtwe7h0s
+theme.tres::Theme::2657720426265245341::1665659442::0::1::::<><>::res://base font.tres<>uid://c2v0aug0wigd4<>uid://3xp6ykup20qq<>uid://7l0lgfhcma8i<>uid://xg1w7sl0hkfp<>uid://djfspmm23ei0b<>uid://b6mfpxqgygxgo<>uid://y6w68lk04bbw<>uid://bxu1sxrmvknsi<>uid://ckjlwanif388m<>uid://cti20u63ijdpn<>uid://eyngmtwe7h0s
 WaterMonke.png::CompressedTexture2D::5469243653169178158::1663871008::1665591121::1::::<><>::
 ::res://addons/::1665659300
 ::res://addons/argparse/::1665591120
@@ -65,8 +65,8 @@ SourceCodePro-MediumIt.otf::FontFile::992067945430801275::1663870530::1665591093
 SourceCodePro-Regular.otf::FontFile::2934163845927396503::1663870530::1665591093::1::::<><>::
 SourceCodePro-Semibold.otf::FontFile::6268239111883743590::1663870530::1665591093::1::::<><>::
 SourceCodePro-SemiboldIt.otf::FontFile::7817264159723223015::1663870530::1665591093::1::::<><>::
-::res://addons/quentincaffeino/console/assets/themes/::1665651672
-Console.tres::Theme::2572395894404140104::1665651672::0::1::::<><>::uid://bh2liq3lgvwct
+::res://addons/quentincaffeino/console/assets/themes/::1665659442
+Console.tres::Theme::2572395894404140104::1665659442::0::1::::<><>::uid://bh2liq3lgvwct
 ::res://addons/quentincaffeino/console/docs/::1663870530
 Type.md::TextFile::-1::1663870530::0::1::::<><>::
 ::res://addons/quentincaffeino/console/docs/generated/::1663870530
@@ -114,8 +114,8 @@ TypeFactory.md::TextFile::-1::1663870530::0::1::::<><>::
 Utils.md::TextFile::-1::1663870530::0::1::::<><>::
 Vector2Type.md::TextFile::-1::1663870530::0::1::::<><>::
 Vector3Type.md::TextFile::-1::1663870530::0::1::::<><>::
-::res://addons/quentincaffeino/console/src/::1665652090
-Console.gd::GDScript::-1::1665652090::0::1::::<>CanvasLayer<>::
+::res://addons/quentincaffeino/console/src/::1665659582
+Console.gd::GDScript::-1::1665659582::0::1::::<>CanvasLayer<>::
 Console.tscn::PackedScene::-1::1665591065::0::1::::<><>::res://addons/quentincaffeino/console/src/Console.gd<>res://addons/quentincaffeino/console/src/ConsoleLine.gd<>res://addons/quentincaffeino/console/assets/themes/Console.tres
 ConsoleLine.gd::GDScript::-1::1665591065::0::1::::<>LineEdit<>::
 ::res://addons/quentincaffeino/console/src/Argument/::1663870530
@@ -133,7 +133,7 @@ History.gd::GDScript::-1::1665591065::0::1::::<><>::
 Logger.gd::GDScript::-1::1665591065::0::1::::<>RefCounted<>::
 Result.gd::GDScript::-1::1665591065::0::1::::<>RefCounted<>::
 Trie.gd::GDScript::-1::1665591065::0::1::::<>RefCounted<>::
-::res://addons/quentincaffeino/console/src/Type/::1665659414
+::res://addons/quentincaffeino/console/src/Type/::1665659460
 AnyType.gd::GDScript::-1::1665659343::0::1::::<>RefCounted<>::
 BaseRangeType.gd::GDScript::-1::1665652252::0::1::::<>RefCounted<>::
 BaseRegexCheckedType.gd::GDScript::-1::1665652263::0::1::::<>RefCounted<>::
@@ -147,7 +147,7 @@ IntType.gd::GDScript::-1::1665659369::0::1::::<>RefCounted<>::
 StringType.gd::GDScript::-1::1665659383::0::1::::<>RefCounted<>::
 TypeFactory.gd::GDScript::-1::1665591065::0::1::::<>RefCounted<>::
 Vector2Type.gd::GDScript::-1::1665659407::0::1::::<>RefCounted<>::
-Vector3Type.gd::GDScript::-1::1665659414::0::1::::<>RefCounted<>::
+Vector3Type.gd::GDScript::-1::1665659460::0::1::::<>RefCounted<>::
 ::res://addons/quentincaffeino/console/tests/::1663870530
 tests.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://addons/gut/plugin_control.gd
 ::res://addons/quentincaffeino/console/tests/unit/::1663870530
@@ -259,10 +259,10 @@ logo_small_monochrome_dark.svg::CompressedTexture2D::1694837676556197340::166387
 logo_vertical_color_dark.svg::CompressedTexture2D::7532503714417509305::1663870530::1665591121::1::::<><>::
 logo_vertical_monochrome_dark.svg::CompressedTexture2D::1505206065250260680::1663870530::1665591121::1::::<><>::
 ::res://Assets/Grids/::1665591121
-grid_dark.png::CompressedTexture2D::7666900708359726259::1663870740::1665591121::1::::<><>::
+grid_dark.png::CompressedTexture2D::7666900708359726259::1663870740::1665660023::1::::<><>::
 grid_green.png::CompressedTexture2D::7126109107013273317::1663870740::1665591121::1::::<><>::
-grid_light.png::CompressedTexture2D::7778890462825590297::1663870740::1665591121::1::::<><>::
-grid_norm.png::CompressedTexture2D::6411209695786408037::1663870730::1665591121::1::::<><>::
+grid_light.png::CompressedTexture2D::7778890462825590297::1663870740::1665660023::1::::<><>::
+grid_norm.png::CompressedTexture2D::6411209695786408037::1663870730::1665660023::1::::<><>::
 grid_orange.png::CompressedTexture2D::7139477882564035288::1663870740::1665591121::1::::<><>::
 grid_purple.png::CompressedTexture2D::94051651665406098::1663870740::1665591121::1::::<><>::
 grid_red.png::CompressedTexture2D::7305187835475532352::1663870740::1665591121::1::::<><>::
@@ -671,11 +671,11 @@ vignette.png::CompressedTexture2D::9010419868269237086::1663871008::1665591120::
 water.gdshader::Shader::-1::1663870530::0::1::::<><>::
 ::res://Materials/Sprites/::1665591121
 Untitled.png::CompressedTexture2D::836725156796062218::1663871007::1665591121::1::::<><>::
-::res://Scenes/::1665659427
+::res://Scenes/::1665660021
 LoadingScene.tscn::PackedScene::-1::1665591063::0::1::::<><>::res://theme.tres<>res://Assets/Fonts/Default Font.ttf
 Player.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scripts/Player/Player.gd<>res://Scripts/Player/CameraController.gd<>res://Scenes/UI/Inventory UI.tscn<>res://Scenes/UI/Hud.tscn<>res://Scripts/Player/Gun Hook.gd<>res://Scripts/Characters/Hitbox.gd<>res://Scripts/Player/InteractCheck.gd<>res://Scenes/UI/Pause menu.tscn<>res://Scripts/Player/Inventory.gd<>res://Envs/Night_Env.tres<>res://Scenes/UI/ButtonText.tscn<>res://Assets/Models/hollow_dome.obj<>res://Scenes/Elements/SpawnFX.tscn<>res://Scripts/Player/PlayerTracker.gd<>res://base font.tres<>res://Scripts/AudioQueue.gd<>res://Assets/Models/hud_visor.obj<>res://Materials/Shaders/in_water.gdshader
 Scene Hub.tscn::PackedScene::-1::1665591063::0::1::::<><>::res://Scripts/UI/ScaleOnHover.gd<>res://base font.tres<>res://Assets/Fonts/Default Font.ttf<>res://Scenes/Story/Backdrops/part_0_backdrop.tscn<>res://Materials/Shaders/blur.gdshader<>res://Scenes/UI/SettingsPanel.tscn<>res://Assets/Fonts/AldoApache/AldotheApache.ttf
-SplashScrn.tscn::PackedScene::3944073744418030776::1665659427::0::1::::<><>::uid://cj6lv5l5l7vi1
+SplashScrn.tscn::PackedScene::3944073744418030776::1665660021::0::1::::<><>::uid://cj6lv5l5l7vi1
 ::res://Scenes/Actors/::1663870530
 Turret.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scripts/Characters/Hitbox.gd<>res://Scripts/FSM/StateMachine.gd<>res://Materials/Grids/grid_red.tres
 ::res://Scenes/Elements/::1665070436
@@ -707,7 +707,7 @@ part_0_backdrop.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Mo
 ::res://Scenes/Story/part_0_levels/::1664924234
 part_0_lv_0.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/story levels/part_0/levels/part_0_lv_0.escn<>res://Assets/Grids/grid_purple.png<>res://Materials/Grids/grid_light.tres<>res://Materials/Grids/grid_dark.tres<>res://Scripts/EnvElements/Interactable.gd<>res://Assets/Grids/grid_norm.png<>res://Scenes/Elements/TriggerZone.tscn<>res://Materials/GPUParticles3D/disappearing_plat_part.tres<>res://Materials/GPUParticles3D/disappearing_plat_part_mesh.tres<>res://Materials/Shaders/disappearing_plat.gdshader<>res://Materials/tutorial_target_mat.tres
 part_0_lv_1.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/story levels/part_0/levels/part_0_lv_1.escn<>res://Materials/Grids/grid_light.tres<>res://Materials/Grids/grid_dark.tres<>res://Materials/Grids/grid_yellow.tres<>res://Scripts/EnvElements/Interactable.gd<>res://Materials/tutorial_target_mat.tres<>res://Assets/Grids/grid_purple.png<>res://Materials/Shaders/disappearing_plat.gdshader<>res://Assets/Grids/grid_norm.png<>res://Scenes/Elements/TriggerZone.tscn
-::res://Scenes/UI/::1665591120
+::res://Scenes/UI/::1665660021
 ButtonText.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scripts/UI/ButtonText.gd
 DeathScreen.tscn::PackedScene::-1::1665591064::0::1::::<><>::
 FullScreen_Fx.tscn::PackedScene::-1::1665591064::0::1::::<><>::
@@ -716,7 +716,7 @@ Hud.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Sprites/UI/cro
 InputBind.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scenes/UI/ButtonText.tscn<>res://Assets/Sprites/Icons/edit_pencil.png<>res://Assets/Sprites/Icons/reset.png<>res://Assets/Sprites/Icons/abort_x.png<>res://Assets/Fonts/Default Font.ttf
 Inventory UI.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Scenes/UI/ButtonText.tscn<>res://Assets/Sprites/UI/InvProgBar_over.svg<>res://Assets/Fonts/Prompt/Prompt-SemiBold.ttf<>res://Assets/Sprites/UI/InvProgBar_under.svg<>res://Assets/Sprites/UI/InvProgBar_fill.svg<>res://Assets/Fonts/Default Font.ttf
 Pause menu.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://theme.tres<>res://Scripts/UI/ScaleOnHover.gd
-SettingsPanel.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Fonts/Default Font.ttf<>res://Assets/Sprites/UI/checkboxes/radio_unchecked.png<>res://Assets/Sprites/UI/checkboxes/radio_checked.png<>res://Scripts/UI/ScaleOnHover.gd
+SettingsPanel.tscn::PackedScene::6748587942424186943::1665660021::0::1::::<><>::uid://c2v0aug0wigd4<>uid://djfspmm23ei0b<>uid://xg1w7sl0hkfp<>res://Scripts/UI/ScaleOnHover.gd
 waypoint.svg::CompressedTexture2D::7190683502417896525::1663870530::1665591120::1::::<><>::
 waypoint.tscn::PackedScene::-1::1665591064::0::1::::<><>::
 Weapon Slot.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Sprites/UI/item_slots/empty_slot.png<>res://Assets/Sprites/UI/weapon_slot.png
@@ -737,12 +737,12 @@ Rifle.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/weapo
 RiflePickup.tscn::PackedScene::-1::1665591064::0::1::::<><>::res://Assets/Models/weapons/pickups/rifle_ammo.obj<>res://Assets/Models/weapons/pickups/Textures/Rifle_ammo_albedo.png<>res://Scripts/EnvElements/Pickups/AmmoPickup.gd<>res://Materials/Shaders/glow.gdshader
 ::res://Scripts/::1663870530
 AudioQueue.gd::GDScript::-1::1665591065::0::1::::AudioQueuePlayer<>AudioStreamPlayer<>::
-::res://Scripts/Autoloads/::1665651694
+::res://Scripts/Autoloads/::1665659682
 Args.gd::GDScript::-1::1665591065::0::1::::<>Node<>::
-Globals.gd::GDScript::-1::1665651694::0::1::::<>Node<>::
+Globals.gd::GDScript::-1::1665659682::0::1::::<>Node<>::
 KeyBindsManager.gd::GDScript::-1::1665591065::0::1::::KeyBindsManager<>Node<>::
 MapFile.gd::GDScript::-1::1665591065::0::1::::MapFile<>ConfigFile<>::
-Settings.gd::GDScript::-1::1665651483::0::1::::<>Node<>::
+Settings.gd::GDScript::-1::1665659658::0::1::::<>Node<>::
 SurfacesManager.gd::GDScript::-1::1665591065::0::1::::<>Node<>::
 TempEdit.gd::GDScript::-1::1665591065::0::1::::TempEdit<>Object<>::
 Utils.gd::GDScript::-1::1665650971::0::1::::<>Node<>::
@@ -797,14 +797,14 @@ PlayerMover.gd::GDScript::-1::1665591065::0::1::::PlayerMover<>Node<>::
 StairsMover.gd::GDScript::-1::1665591065::0::1::::StairsMover<>PlayerMover<>::
 StandardMover.gd::GDScript::-1::1665591065::0::1::::StandardMover<>PlayerMover<>::
 WaterMover.gd::GDScript::-1::1665591065::0::1::::WaterMover<>PlayerMover<>::
-::res://Scripts/UI/::1664976869
-ButtonText.gd::GDScript::-1::1665591065::0::1::::<><>::
+::res://Scripts/UI/::1665659890
+ButtonText.gd::GDScript::-1::1665659890::0::1::::<>TextureRect<>::
 Debug.gd::GDScript::-1::1665591065::0::1::::<>Control<>::
 GameUI.gd::GDScript::-1::1665591065::0::1::::GameUI<>Control<>::
 ProceduralCircle.gd::GDScript::-1::1665591065::0::1::::<><>::
 ProceduralRect.gd::GDScript::-1::1665591065::0::1::::<><>::
 ProceduralShape.gd::GDScript::-1::1665591065::0::1::::<><>::
-ScaleOnHover.gd::GDScript::-1::1665591065::0::1::::ScaleOnHover<>Control<>::
+ScaleOnHover.gd::GDScript::-1::1665659822::0::1::::ScaleOnHover<>Control<>::
 SettingSlider.gd::GDScript::-1::1665591065::0::1::::<>HSlider<>::
 SettingsTab.gd::GDScript::-1::1665591065::0::1::::SettingsTab<>TabBar<>::
 ::res://Scripts/Weapons/::1663879121

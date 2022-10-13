@@ -5,7 +5,6 @@ extends Control
 @export var target_node_path: NodePath = ""
 
 var target : Control = self
-var tween : Tween
 var base_scale : Vector2
 
 func _ready() -> void:
@@ -18,17 +17,15 @@ func _ready() -> void:
 	
 	base_scale = target.scale
 	
-	tween = Tween.new()
-	add_child(tween)
-	
 func _on_enter() -> void:
-	tween.interpolate_property(target, "scale",
-		target.scale, base_scale * scaleFactor, .1,
-		Tween.TRANS_QUART, Tween.EASE_OUT)
-	tween.start()
+	tween_scale()
 
 func _on_exit() -> void:
-	tween.interpolate_property(target, "scale",
-		target.scale, base_scale, .1,
-		Tween.TRANS_QUART, Tween.EASE_OUT)
-	tween.start()
+	tween_scale(1.0)
+		
+func tween_scale(factor := scaleFactor):
+	create_tween()\
+		.set_ease(Tween.EASE_OUT)\
+		.set_trans(Tween.TRANS_QUART)\
+		.tween_property(target, "scale", base_scale * factor, .1)
+	

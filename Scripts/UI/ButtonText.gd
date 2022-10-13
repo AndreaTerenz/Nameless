@@ -5,25 +5,18 @@ extends TextureRect
 	get:
 		return action # TODOConverter40 Non existent get function 
 	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_action
+		action = mod_value
+		_update_image()
 @export var key_override: String = "" :
 	get:
 		return key_override # TODOConverter40 Non existent get function 
 	set(mod_value):
-		mod_value  # TODOConverter40 Copy here content of set_override
-@export var scaling = .6 setget set_scaling # (float, .1, 2.0, .05)
-
-func set_scaling(newVal):
-	scaling = newVal
-	_update_image()
-	
-func set_override(newVal):
-	key_override = newVal
-	_update_image()
-	
-func set_action(newVal):
-	action = newVal
-	_update_image()
+		key_override = mod_value
+		_update_image()
+@export var scaling : float = .6 :
+	set(mod_value):
+		scaling = mod_value
+		_update_image()
 
 func _ready() -> void:
 	_update_image()

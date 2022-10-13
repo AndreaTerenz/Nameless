@@ -150,7 +150,8 @@ func apply_setting(section: String, key: String, value):
 	elif section == GRAPHICS:
 		match key:
 			USE_VSYNC:
-				OS.vsync_enabled = bool(value)
+				var vsync_mode = DisplayServer.VSYNC_ENABLED if bool(value) else DisplayServer.VSYNC_DISABLED
+				DisplayServer.window_set_vsync_mode(vsync_mode)
 			RESOLUTION: 
 				#OBVIOUSLY MAKE SURE TO BRIEFLY RESET TO THE NATIVE RESOLUTION EVERY TIME
 				#Globals.set_resolution()

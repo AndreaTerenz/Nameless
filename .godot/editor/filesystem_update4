@@ -4,3 +4,9 @@ res://theme.tres
 res://addons/quentincaffeino/console/assets/themes/Console.tres
 res://addons/quentincaffeino/console/src/Type/Vector3Type.gd
 res://addons/quentincaffeino/console/src/Console.gd
+res://Scripts/Autoloads/Settings.gd
+res://Scripts/Autoloads/Globals.gd
+res://Scripts/UI/ScaleOnHover.gd
+res://Scripts/UI/ButtonText.gd
+res://Scenes/UI/SettingsPanel.tscn
+res://Scenes/Scene Hub.tscn
